@@ -4,42 +4,13 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import Level;
 import Profile;
 import Board;
 import Player;
 import Tile;
 
 public class FileManager {
-
-    static class Level {
-        final Board boardData;
-        final int gameTurnData;
-        final String[] silkBagData;
-        final Player[] playerData;
-
-        public Level(Board tempBoard, int gameTurn, String[] tempSilkBag, Player[] players) {
-            boardData = tempBoard;
-            gameTurnData = gameTurn;
-            silkBagData = tempSilkBag;
-            playerData = players;
-        }
-
-        public Board getBoardData() {
-            return boardData;
-        }
-
-        public int getGameTurnData() {
-            return gameTurnData;
-        }
-
-        public Player[] getPlayerData() {
-            return playerData;
-        }
-
-        public String[] getSilkBagData() {
-            return silkBagData;
-        }
-    }
 
     public static Level loadSaveLevel(Scanner in) {
 
@@ -69,8 +40,9 @@ public class FileManager {
             String stringTile = in.next();
             String[] sta = stringToStringArray(stringTile);
 
-            Tile tempTile = new Tile(sta[0],sta[1],sta[2],sta[3],sta[4]);
-            tempBoard.insert(tempTile);
+            Tile tempTile = new Tile(sta[2],sta[3],sta[4]);
+            tempBoard.insertTile(sta[0],sta[1], tempTile);
+            // [tile,tile,tile,tile]
         }
 
         //  Creates Player Objects
@@ -101,9 +73,9 @@ public class FileManager {
         for (int i = 0; i < numOfFixedTiles - 1; i++) {
             String stringTile = in.next();
             String[] sta = stringToStringArray(stringTile);
-
-            Tile fixedTile = new Tile(sta[0],sta[1],sta[2],sta[3], true);
-            tempBoard.insert(fixedTile);
+            // change parama of insert tiles to int
+            Tile fixedTile = new Tile(sta[2],sta[3], true);
+            tempBoard.insertTile(sta[0],sta[1], fixedTile);
         }
 
         Player[] players = new Player[4];
@@ -120,7 +92,6 @@ public class FileManager {
     }
 
     public static Profile loadProfile(Scanner in) {
-        String profileID = in.next();
         String profileName = in.next();
         String profileWinCount = in.next();
 
