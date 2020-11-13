@@ -10,10 +10,11 @@ public class Profile {
     private int profileID;
     private static AtomicInteger profIDCounter = new AtomicInteger(0);
     private String profileName;
-    private int[] profileWinCount;
+    private int profileWinCount;
 
     public Profile(String profileName) {
         this.profileID = profIDCounter.incrementAndGet();
         this.profileName = profileName;
+        this.profileWinCount = 0;
     }
 }
