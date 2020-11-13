@@ -7,7 +7,6 @@ import java.util.Scanner;
 import Profile;
 import Board;
 import Player;
-import SilkBag;
 import Tile;
 
 public class FileManager {
