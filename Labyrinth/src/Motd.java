@@ -12,30 +12,11 @@ import java.net.URLConnection;
 
 public class Motd {
 
-    static String message = "";
-
-    private static void getMessage() {
-        String motd = get_motd("http://cswebcat.swansea.ac.uk/puzzle");
-        String decodedMotd = "";
-        int characterCount = motd.length() + 6;
-        int shift = 1;
-        int direction = 0;
-        char characters;
-        for (int i = 0; i<motd.length(); i++) {
-            if (direction == 0) {
-                characters = (char)(((int)motd.charAt(i) - shift + 26 - 65) % 26 + 65);
-                direction = 1;
-            } else {
-                characters = (char)(((int)motd.charAt(i) + shift - 65) % 26 + 65);
-                direction = 0;
-            }
-            shift++;
-            decodedMotd += characters;
-        }
-        message = get_motd("http://cswebcat.swansea.ac.uk/message?solution=CS-230" + decodedMotd + characterCount);
+    private static String getMessage() {
+        return decodeMotd();
     }
 
-    private static String get_motd(String url) {
+    private static String getMotd(String url) {
         String motd = "";
         try {
             URL puzzle = new URL(url);
@@ -57,8 +38,29 @@ public class Motd {
         return motd;
     }
 
+    private static String decodeMotd(){
+        String motd = getMotd("http://cswebcat.swansea.ac.uk/puzzle");
+        String decodedMotd = "";
+        int characterCount = motd.length() + 6;
+        int shift = 1;
+        int direction = 0;
+        char characters;
+        for (int i = 0; i<motd.length(); i++) {
+            if (direction == 0) {
+                characters = (char)(((int)motd.charAt(i) - shift + 26 - 65) % 26 + 65);
+                direction = 1;
+            } else {
+                characters = (char)(((int)motd.charAt(i) + shift - 65) % 26 + 65);
+                direction = 0;
+            }
+            shift++;
+            decodedMotd += characters;
+        }
+        return getMotd("http://cswebcat.swansea.ac.uk/message?solution=CS-230" + decodedMotd + characterCount);
+    }
+
+    //Testing out the program
     public static void main(String[] args) {
-        getMessage();
-        System.out.println(message);
+        System.out.println(getMessage());
     }
 }
