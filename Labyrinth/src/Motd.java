@@ -58,9 +58,4 @@ public class Motd {
         }
         return getMotd("http://cswebcat.swansea.ac.uk/message?solution=CS-230" + decodedMotd + characterCount);
     }
-
-    //Testing out the program
-    public static void main(String[] args) {
-        System.out.println(getMessage());
-    }
 }
