@@ -15,7 +15,7 @@ public class Board {
     private Tile[][] tileCoordinates;
     private Player[][] playerCoordinates;
 
-    public enum Cardinals { //add to the Floor Tile class
+    public enum Cardinals { //add to the Floor Tile class or something
         TOP,
         BOTTOM,
         LEFT,
@@ -25,7 +25,7 @@ public class Board {
     public Board(String nameOfBoard, int[] sizeOfBoard) {
         rowSize = sizeOfBoard[0];
         columnSize = sizeOfBoard[1];
-        this.nameOfBoard = nameOfBoard;
+        this.setNameOfBoard(nameOfBoard);
         tileCoordinates = new Tile[getColumnSize()][getRowSize()];
         playerCoordinates = new Player[getColumnSize()][getRowSize()];
     }
@@ -34,30 +34,38 @@ public class Board {
     public Board(int[] sizeOfBoard, String nameOfBoard) {
         rowSize = sizeOfBoard[0];
         columnSize = sizeOfBoard[1];
+        this.setNameOfBoard(nameOfBoard);
+    }
+
+    private String getNameOfBoard() {
+        return nameOfBoard;
+    }
+
+    private void setNameOfBoard(String nameOfBoard) {
         this.nameOfBoard = nameOfBoard;
     }
 
-    public void insertTile(int x, int y, Tile tile) {
+    private void insertTile(int x, int y, Tile tile) {
         tileCoordinates[x][y] = tile;
     }
 
-    public void insertPlayer(int x, int y, Player player) {
+    private void insertPlayer(int x, int y, Player player) {
         playerCoordinates[x][y] = player;
     }
 
-    public Tile getTileFromBoard(int x, int y) {
+    private Tile getTileFromBoard(int x, int y) {
         return tileCoordinates[x][y];
     }
 
-    public Player getPlayerFromBoard(int x, int y) {
+    private Player getPlayerFromBoard(int x, int y) {
         return playerCoordinates[x][y];
     }
 
-    public int getRowSize() {
+    private int getRowSize() {
         return rowSize;
     }
 
-    public int getColumnSize() {
+    private int getColumnSize() {
         return columnSize;
     }
 
@@ -123,7 +131,7 @@ public class Board {
 
     //for loop, pushing the x or y values back? depending on which cardinal direction
     public void placeOnNewTile(Cardinals c, int x, int y, Tile tile) { //use enum for access cardinals on tiles
-        if(c.equals("TOP")) {//shift index down from the second last (animations)
+        if (c == Cardinals.TOP) {//shift index down from the second last (animations)
             discardTileToSilkBag(getTileFromBoard(x, getColumnSize()));
             for (int col = getColumnSize(); col >= 0; col--) {
                 insertTile(x, col + 1, getTileFromBoard(x, col));
@@ -131,7 +139,7 @@ public class Board {
             insertTile(x, y, tile);
         }
 
-        if(c.equals("BOTTOM")) {
+        if (c == Cardinals.BOTTOM) {
             discardTileToSilkBag(getTileFromBoard(x, getColumnSize()));
             for (int col = 0; col < getColumnSize(); col++) {
                 insertTile(x, col - 1, getTileFromBoard(x, col));
@@ -139,7 +147,7 @@ public class Board {
             insertTile(x, y, tile);
         }
 
-        if(c.equals("LEFT")) {
+        if (c == Cardinals.LEFT) {
             discardTileToSilkBag(getTileFromBoard(getRowSize(),y));
             for (int row = getRowSize(); row >= 0; row--) {
                 insertTile(row + 1, getRowSize(), getTileFromBoard(row, y));
@@ -147,7 +155,7 @@ public class Board {
             insertTile(x, y, tile);
         }
 
-        if(c.equals("RIGHT")) {
+        if (c == Cardinals.RIGHT) {
             discardTileToSilkBag(getTileFromBoard(getRowSize(),y));
             for (int row = 0; row < getRowSize(); row++) {
                 insertTile(row - 1, getRowSize(), getTileFromBoard(row, y));
@@ -156,17 +164,29 @@ public class Board {
         }
     }
 
-    public void movePlayerFromEndTile(int x, int y) { //case move if end of tile, called from gameState?
-        insertPlayer(x, y, getPlayerFromBoard(getRowSize(), getColumnSize())); // need to edit
+    public void movePlayerFromEndTile(int x, int y, Cardinals c) { //case move if end of tile, called from gameState?
+        if (c == Cardinals.TOP) {
+            insertPlayer(x, y, getPlayerFromBoard(x, getColumnSize()));
+        }
+
+        if (c == Cardinals.BOTTOM) {
+            insertPlayer(x, y, getPlayerFromBoard(x, 0));
+        }
+
+        if (c == Cardinals.LEFT) {
+            insertPlayer(x, y, getPlayerFromBoard(getRowSize(),y));
+        }
+
+        if (c == Cardinals.RIGHT) {
+            insertPlayer(x, y, getPlayerFromBoard(0, getRowSize()));
+        }
     }
 
     public Boolean checkPlayerEndTile(int x, int y) {
-        if(getPlayerFromBoard(x, y) != null) {
-            return true;
-        }
-        return false;
+        return getPlayerFromBoard(x, y) != null;
     }
 
+    //need to check how previous coordinates work again
     public void backTrackPlayer(ArrayList<Integer> tilesVisited, int x, int y) {
         if(getPlayerFromBoard(x, y).hasBeendoubled) { //should be tracker on last 2 turns
             insertPlayer(tilesVisited.get(4), tilesVisited.get(5), getPlayerFromBoard(x, y));
