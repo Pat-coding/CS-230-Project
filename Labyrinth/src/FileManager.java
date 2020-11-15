@@ -90,7 +90,7 @@ public class FileManager {
         String profileName = in.next();
         String profileWinCount = in.next();
 
-        return  new Profile(profileID, profileName, profileWinCount);
+        return  new Profile(profileName, profileWinCount);
     }
 
     public static ArrayList<Profile> readDataFileProfile(Scanner in) {
