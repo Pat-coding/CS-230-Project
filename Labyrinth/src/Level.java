@@ -1,7 +1,4 @@
 
-import Board;
-import Player;
-
 public class Level {
 
     final Board boardData;
