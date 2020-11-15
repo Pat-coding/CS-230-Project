@@ -2,8 +2,8 @@
  * @author Pat, Ash
  * @version 1.0
  */
-import Tile;
-import Player;
+
+
 
 import java.util.ArrayList;
 
@@ -15,11 +15,12 @@ public class Board {
     private Tile[][] tileCoordinates;
     private Player[][] playerCoordinates;
 
-    public enum Cardinals { //add to the Floor Tile class or something
+    public enum Cardinals { //move to the Floor Tile class
         TOP,
         BOTTOM,
         LEFT,
         RIGHT }
+
 
     //  Tile (Type, Orientation, State, fixed)
     public Board(String nameOfBoard, int[] sizeOfBoard) {
@@ -92,7 +93,7 @@ public class Board {
      */
     private boolean checkTilePlacementCol(int x) {
         for (int y = 0; y < getColumnSize(); y++) {
-            if (getPlayerFromBoard(x, y).fixed || getPlayerFromBoard(x, y).frozen) {
+            if (getTileFromBoard(x, y).fixed || getTileFromBoard(x, y).frozen) {
                 return false;
             }
         }
@@ -102,30 +103,30 @@ public class Board {
     //need to change, negative index
     public void setTilesFrozen(int x, int y) {
         for (int row = x - 1; row < x + 3; row++) {
-            getTileFromBoard(row, y + 1).frozen == true;
+            getTileFromBoard(row, y + 1).frozen = true;
         }
 
         for (int row = x - 1; row < x + 3; row++) {
-            getTileFromBoard(row, y).frozen == true;
+            getTileFromBoard(row, y).frozen = true;
         }
 
         for (int row = x - 1; row < x + 3; row++) {
-            getTileFromBoard(row, y - 1).frozen == true;
+            getTileFromBoard(row, y - 1).frozen = true;
         }
     }
 
     //need to change, negative index
     public void setTilesOnFire(int x, int y) {
         for (int row = x - 1; row < x + 3; row++) {
-            getTileFromBoard(row, y + 1).onFire == true;
+            getTileFromBoard(row, y + 1).onFire = true;
         }
 
         for (int row = x - 1; row < x + 3; row++) {
-            getTileFromBoard(row, y).onFire == true;
+            getTileFromBoard(row, y).onFire = true;
         }
 
         for (int row = x - 1; row < x + 3; row++) {
-            getTileFromBoard(row, y - 1).onFire == true;
+            getTileFromBoard(row, y - 1).onFire = true;
         }
     }
 
@@ -134,7 +135,7 @@ public class Board {
         if (c == Cardinals.TOP) {//shift index down from the second last (animations)
             discardTileToSilkBag(getTileFromBoard(x, getColumnSize()));
             for (int col = getColumnSize(); col >= 0; col--) {
-                insertTile(x, col + 1, getTileFromBoard(x, col));
+                insertTile(x, col, getTileFromBoard(x, col));
             }
             insertTile(x, y, tile);
         }
@@ -186,6 +187,17 @@ public class Board {
         return getPlayerFromBoard(x, y) != null;
     }
 
+    public void movedPlayer(int newX, int newY, int oldX, int oldY) {
+
+    }
+
+    public void moveTileElement(int x, int y) {
+
+    }
+
+    public void movePlayerElement() {
+
+    }
     //need to check how previous coordinates work again
     public void backTrackPlayer(ArrayList<Integer> tilesVisited, int x, int y) {
         if(getPlayerFromBoard(x, y).hasBeendoubled) { //should be tracker on last 2 turns

@@ -4,11 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import Level;
-import Profile;
-import Board;
-import Player;
-import Tile;
+
 
 public class FileManager {
 
