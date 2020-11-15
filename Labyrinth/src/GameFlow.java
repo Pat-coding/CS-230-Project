@@ -5,26 +5,22 @@
 
 
 public class GameFlow {
-    private Board[] gameBoards;
-    // private Player[] players;
-    private int[] turns;
+    private Board[] gameBoards; // Stores each board created
+    private Player[] players;
+    private int[] turns; // Stores the current turn for each board created
 
-    // public GameFlow(Board board, Player[] players) {
-    public GameFlow(Board[] gameBoards) {
+    public GameFlow(Board[] gameBoards, Player[] players) {
         this.gameBoards = gameBoards;
-        // this.players = players;
+        this.players = players;
     }
 
-    // public void playerSlotFloorTile(Board gameBoard, Tile tile, int x, int y) {
-    public void playerSlotFloorTile() {}
+    public void playerSlotFloorTile(Board gameBoard, Tile tile, int x, int y) {}
 
-    // public Boolean playerPlaceActionTile(Board gameBoard, Tile tile, int x, int y) {
-    public Boolean playerPlaceActionTile() {
+    public Boolean playerPlaceActionTile(Board gameBoard, Tile tile, int x, int y) {
         return false;
     }
 
-    // public Boolean checkActionCardValid(Tile tile, Player player) {
-    public Boolean checkActionCardValid() {
+    public Boolean checkActionCardValid(Tile tile, Player player) {
         return false;
     }
 
@@ -39,9 +35,8 @@ public class GameFlow {
         return false;
     }
 
-    // public Player declareWinner() {
-    public void declareWinner() {
-
+    public Player declareWinner() {
+        return null;
     }
 
     public Boolean checkWin() {
