@@ -22,12 +22,33 @@ public class Player {
 
     public Player(Integer integer, int spawnPoint, Object o, Object heldPlayerTile, boolean backTrackCheck) {
     }
+
+    public Color getPlayercolor(){
+        return playercolor;
+    }
+
+    public ArrayList<Tile> getPlayerInventory() {
+        return playerInventory;
+    }
+    public boolean getPlayerTurn(){
+        return  isPlayerTurn;
+    }
+
+
     public int[] getPrevCoordinates(){
         return new int[]{tilesVisited.get(tilesVisited.size()),tilesVisited.get(tilesVisited.size()-1)};
 
     }
     public void getFromSilkBag(Tile pickedTile){
         playerInventory.add(pickedTile);
+    }
+
+    public void incPlayerWin(){
+
+    }
+
+    public void playerTurn(){
+        isPlayerTurn = !isPlayerTurn;
     }
 
 }
