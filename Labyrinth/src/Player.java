@@ -1,5 +1,5 @@
 public class Player {
-    public boolean hasBeendoubled;
+    public boolean hasBeenDoubled;
 
     public Player(int i, int i1, int i2, String heldPlayerTile, Boolean backTrackCheck) {
     }

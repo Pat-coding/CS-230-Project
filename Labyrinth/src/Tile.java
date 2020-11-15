@@ -1,7 +1,5 @@
 public class Tile {
 
-    public boolean isFixed;
-    public boolean isFrozen;
     public boolean fixed;
     public boolean frozen;
     public boolean onFire;

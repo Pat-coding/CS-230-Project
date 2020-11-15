@@ -12,7 +12,7 @@ public class Profile {
     private String profileName;
     private int[] profileWinCount;
 
-    public Profile(String profileName) {
+    public Profile(String name, String profileName) {
         this.profileID = profIDCounter.incrementAndGet();
         this.profileName = profileName;
     }

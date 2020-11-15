@@ -1,10 +1,7 @@
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-
 
 public class FileManager {
 
@@ -90,7 +87,8 @@ public class FileManager {
         String profileName = in.next();
         String profileWinCount = in.next();
 
-        return  new Profile(profileID, profileName, profileWinCount);
+
+        return new Profile(profileName, profileWinCount);
     }
 
     public static ArrayList<Profile> readDataFileProfile(Scanner in) {
