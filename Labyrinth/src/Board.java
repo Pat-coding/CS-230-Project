@@ -52,11 +52,11 @@ public class Board {
         playerCoordinates[x][y] = player;
     }
 
-    private Tile getTileFromBoard(int x, int y) {
+    public Tile getTileFromBoard(int x, int y) {
         return tileCoordinates[x][y];
     }
 
-    private Player getPlayerFromBoard(int x, int y) {
+    public Player getPlayerFromBoard(int x, int y) {
         return playerCoordinates[x][y];
     }
 
