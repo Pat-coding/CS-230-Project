@@ -2,10 +2,8 @@
  * @author Pat, Ash
  * @version 1.0
  */
-import Tile;
-import Player;
-
 import java.util.ArrayList;
+
 
 public class Board {
 
