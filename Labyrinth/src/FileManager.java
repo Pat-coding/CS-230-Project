@@ -1,10 +1,7 @@
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-
 
 public class FileManager {
 
@@ -82,15 +79,15 @@ public class FileManager {
             players[i] = (tempPlayer);
         }
 
-
         return new Level(tempBoard, 0, silkBagContent, players);
     }
 
     public static Profile loadProfile(Scanner in) {
         String profileName = in.next();
         String profileWinCount = in.next();
+        String profileLostCount = in.next();
 
-        return  new Profile(profileName, Integer.parseInt(profileWinCount));
+        return new Profile(profileName, Integer.parseInt(profileWinCount), Integer.parseInt(profileLostCount));
     }
 
     public static ArrayList<Profile> readDataFileProfile(Scanner in) {
