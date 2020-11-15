@@ -4,11 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import Level;
-import Profile;
-import Board;
-import Player;
-import Tile;
+
 
 public class FileManager {
 
@@ -41,8 +37,7 @@ public class FileManager {
             String[] sta = stringToStringArray(stringTile);
 
             Tile tempTile = new Tile(sta[2],sta[3],sta[4]);
-            tempBoard.insertTile(sta[0],sta[1], tempTile);
-            // [tile,tile,tile,tile]
+            tempBoard.insertTile(Integer.parseInt(sta[0]),Integer.parseInt(sta[1]), tempTile);
         }
 
         //  Creates Player Objects
@@ -75,7 +70,7 @@ public class FileManager {
             String[] sta = stringToStringArray(stringTile);
             // change parama of insert tiles to int
             Tile fixedTile = new Tile(sta[2],sta[3], true);
-            tempBoard.insertTile(sta[0],sta[1], fixedTile);
+            tempBoard.insertTile(Integer.parseInt(sta[0]),Integer.parseInt(sta[1]), fixedTile);
         }
 
         Player[] players = new Player[4];
@@ -95,14 +90,14 @@ public class FileManager {
         String profileName = in.next();
         String profileWinCount = in.next();
 
-        return  new Profile(profileID, profileName, profileWinCount);
+        return  new Profile(profileName, Integer.parseInt(profileWinCount));
     }
 
     public static ArrayList<Profile> readDataFileProfile(Scanner in) {
         ArrayList<Profile> returnableArray = new ArrayList<Profile>();
         while (in.hasNext()) {
             Profile profile = loadProfile(in);
-            returnableArrayProfile.add(profile);
+            returnableArray.add(profile);
         }
         return returnableArray;
     }
