@@ -12,7 +12,7 @@ import java.net.URLConnection;
 
 public class Motd {
 
-    private static String getMessage() {
+    public static String getMessage() {
         return decodeMotd();
     }
 
