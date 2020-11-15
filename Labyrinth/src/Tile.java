@@ -1,4 +1,4 @@
-// How to generate children of Tile, Tile tile = new TileSubType(args,  kwargs)
+// How to generate children of Tile, Tile tile = new <TileSubType>(args,  kwargs)
 
 
 public class Tile {
