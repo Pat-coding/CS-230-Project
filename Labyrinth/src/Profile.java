@@ -18,7 +18,16 @@ public class Profile {
         this.profileID = profIDCounter.incrementAndGet();
         this.profileName = profileName;
         this.profileWinCount = 0;
+        this.profileLossCount = 0;
     }
+
+    public Profile(String profileName, int profileWinCount, int profileLossCount){
+        this.profileID = profIDCounter.incrementAndGet();
+        this.profileName = profileName;
+        this.profileWinCount = profileWinCount;
+        this.profileLossCount = profileLossCount
+    }
+
     public int getWinCount(){
         return profileWinCount;
     }
