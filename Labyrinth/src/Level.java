@@ -7,6 +7,15 @@ public class Level {
     final Player[] playerData;
     final int[] spawnPoints;
 
+
+    /**
+     *
+     * @param tempBoard
+     * @param gameTurn
+     * @param tempSilkBag
+     * @param players
+     */
+
     public Level(Board tempBoard, int gameTurn, String[] tempSilkBag, Player[] players) {
         this.boardData = tempBoard;
         this.gameTurnData = gameTurn;
@@ -14,6 +23,14 @@ public class Level {
         this.playerData = players;
         this.spawnPoints = null;
     }
+
+    /**
+     *  Level
+     * @param tempBoard
+     * @param gameTurn
+     * @param tempSilkBag
+     * @param spawnPoints
+     */
 
     public Level(Board tempBoard, int gameTurn, String[] tempSilkBag, int[] spawnPoints) {
         this.boardData = tempBoard;
