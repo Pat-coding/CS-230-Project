@@ -9,7 +9,7 @@ public class Level {
 
 
     /**
-     *
+     * Saved Level
      * @param tempBoard
      * @param gameTurn
      * @param tempSilkBag
@@ -25,7 +25,7 @@ public class Level {
     }
 
     /**
-     *  Level
+     *  New Level
      * @param tempBoard
      * @param gameTurn
      * @param tempSilkBag
