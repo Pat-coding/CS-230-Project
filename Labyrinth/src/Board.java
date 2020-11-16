@@ -7,17 +7,11 @@ import java.util.ArrayList;
 
 public class Board {
 
-    private String nameOfBoard;
     private final int rowSize;
     private final int columnSize;
+    private String nameOfBoard;
     private Tile[][] tileCoordinates;
     private Player[][] playerCoordinates;
-
-    public enum Cardinals { //move to the Floor Tile class
-        TOP,
-        BOTTOM,
-        LEFT,
-        RIGHT }
 
     //  Tile (Type, Orientation, State, fixed)
     public Board(String nameOfBoard, int[] sizeOfBoard) {
@@ -69,6 +63,7 @@ public class Board {
 
     /**
      * This Method check to see if any Fixed Tiles are present inside of a particular row of the board.
+     *
      * @param y the row in question
      * @return Boolean result
      */
@@ -83,6 +78,7 @@ public class Board {
 
     /**
      * This method will check to see if any fixed tiles are present of a particular column of the board.
+     *
      * @param x the column in question
      * @return Boolean result
      */
@@ -95,7 +91,11 @@ public class Board {
         return true;
     }
 
-    //TODO need to change, out of bounds unaccountable
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public void setTilesFrozen(int x, int y) {
         for (int row = x - 1; row < x + 3; row++) {
             getTileFromBoard(row, y + 1).frozen = true;
@@ -110,32 +110,43 @@ public class Board {
         }
     }
 
-    //TODO need to change, out of bounds unaccountable
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public void setTilesOnFire(int x, int y) {
         for (int row = x - 1; row < x + 3; row++) {
-            getTileFromBoard(row, y + 1).onFire = true;
+            if (getTileFromBoard(row, y + 1) != null) {
+                getTileFromBoard(row, y + 1).onFire = true;
+            }
         }
 
         for (int row = x - 1; row < x + 3; row++) {
-            getTileFromBoard(row, y).onFire = true;
+            if (getTileFromBoard(row, y) != null) {
+                getTileFromBoard(row, y).onFire = true;
+            }
         }
 
         for (int row = x - 1; row < x + 3; row++) {
-            getTileFromBoard(row, y - 1).onFire = true;
+            if (getTileFromBoard(row, y - 1) != null) {
+                getTileFromBoard(row, y - 1).onFire = true;
+            }
         }
     }
 
     /**
-     *This method will shift tiles depending on their cardinal direction placement
-     * @param c The cardinal direction placement
-     * @param x The x co-ordinate where the player wants to slide tile in
-     * @param y The y co-ordinate where the player wants to slide tile in
+     * This method will shift tiles depending on their cardinal direction placement
+     *
+     * @param c    The cardinal direction placement
+     * @param x    The x co-ordinate where the player wants to slide tile in
+     * @param y    The y co-ordinate where the player wants to slide tile in
      * @param tile The tile that is being slided in
      */
     public void placeOnNewTile(Cardinals c, int x, int y, Tile tile) { //use enum for access cardinals on tiles
         if (c == Cardinals.TOP) {//shift index down from the second last (animations)
             discardTileToSilkBag(getTileFromBoard(x, getColumnSize()));
-            for (int col = getColumnSize(); col >= 0; col--) {
+            for (int col = getColumnSize(); col > 0; col--) {
                 insertTile(x, col, getTileFromBoard(x, col));
             }
             insertTile(x, y, tile);
@@ -144,21 +155,21 @@ public class Board {
         if (c == Cardinals.BOTTOM) {
             discardTileToSilkBag(getTileFromBoard(x, getColumnSize()));
             for (int col = 0; col < getColumnSize(); col++) {
-                insertTile(x, col , getTileFromBoard(x, col));
+                insertTile(x, col, getTileFromBoard(x, col));
             }
             insertTile(x, y, tile);
         }
 
         if (c == Cardinals.LEFT) {
-            discardTileToSilkBag(getTileFromBoard(getRowSize(),y));
-            for (int row = getRowSize(); row >= 0; row--) {
+            discardTileToSilkBag(getTileFromBoard(getRowSize(), y));
+            for (int row = getRowSize(); row > 0; row--) {
                 insertTile(row, getRowSize(), getTileFromBoard(row, y));
             }
             insertTile(x, y, tile);
         }
 
         if (c == Cardinals.RIGHT) {
-            discardTileToSilkBag(getTileFromBoard(getRowSize(),y));
+            discardTileToSilkBag(getTileFromBoard(getRowSize(), y));
             for (int row = 0; row < getRowSize(); row++) {
                 insertTile(row, getRowSize(), getTileFromBoard(row, y));
             }
@@ -167,7 +178,8 @@ public class Board {
     }
 
     /**
-     *This method will move player when their player piece is at the end of the tile placement
+     * This method will move player when their player piece is at the end of the tile placement
+     *
      * @param x The x co-ordinate of the new position of the player
      * @param y The y co-ordinate of the new position of the player
      * @param c The cardinal place of the tile insertion
@@ -191,7 +203,8 @@ public class Board {
     }
 
     /**
-     *This method checks to see if their is a player at the end of the tile
+     * This method checks to see if their is a player at the end of the tile
+     *
      * @param x The x co-ordinate of the tile on the end
      * @param y The y co-ordinate of the tile on the end
      * @return The Boolean value true or false
@@ -201,39 +214,69 @@ public class Board {
     }
 
     /**
-     *This method moves player to a new position
+     *
+     * @param x
+     * @param y
+     * @param player
+     * @return
+     */
+    public int[] playerLocationOnBoard(int x, int y, Player player) {
+        int[] coords = new int[2];
+        if (x == getRowSize() && y == getColumnSize()) {
+            return null;
+        } else {
+            if (getPlayerFromBoard(x, y) == player) {
+                coords[0] = x;
+                coords[1] = y;
+                return coords;
+            } else if (x < (getColumnSize() - 1)) {
+                playerLocationOnBoard(x, y + 1, player);
+            } else
+                playerLocationOnBoard(x + 1, y, player);
+        }
+        return null;
+    }
+
+    /**
+     * This method moves player to a new position
+     *
      * @param newX The x co-ordinate of the new position
      * @param newY The y co-ordinate of the new position
      * @param oldX The x co-ordinate of the old position
      * @param oldY The x co-ordinate of the old position
      */
-
     public void movePlayer(int newX, int newY, int oldX, int oldY) {
-        insertPlayer(newX, newY,getPlayerFromBoard(oldX, oldY));
+        insertPlayer(newX, newY, getPlayerFromBoard(oldX, oldY));
         insertPlayer(oldX, oldY, null);
     }
 
     /**
+     * This method will set the player back to their previous co-ordinate
      *
      * @param tilesVisited
      * @param x
      * @param y
      */
-    public void backTrackPlayer(ArrayList<Integer> tilesVisited, int x, int y) { //TODO need to check prev cords again
-        if(getPlayerFromBoard(x, y).hasBeenDoubled) { //should be tracker on last 2 turns
-            insertPlayer(tilesVisited.get(4), tilesVisited.get(5), getPlayerFromBoard(x, y));
+    public void backTrackPlayer(ArrayList<Integer> tilesVisited, int x, int y) { //TODO check index of tilesVisited
+        if (getPlayerFromBoard(x, y).hasBeenDoubled) { //should be tracker on last 2 turns
+            movePlayer(tilesVisited.get(4), tilesVisited.get(5), x, y);
         } else {
-            insertPlayer(tilesVisited.get(2), tilesVisited.get(3), getPlayerFromBoard(x, y));
+            movePlayer(tilesVisited.get(2), tilesVisited.get(3), x, y);
         }
     }
 
     /**
-     *
      * @param tile
      */
     public void discardTileToSilkBag(Tile tile) {
         SilkBag.insertTileToBag(tile);
     }
 
+    public enum Cardinals { //move to the Floor Tile class
+        TOP,
+        BOTTOM,
+        LEFT,
+        RIGHT
+    }
 
 }
