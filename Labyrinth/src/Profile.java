@@ -5,8 +5,7 @@
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Profile {
-    private int profileID;
-    private static AtomicInteger profIDCounter = new AtomicInteger(0);
+
     private String profileName;
     private int profileWinCount;
     private int profileLossCount;
@@ -17,7 +16,6 @@ public class Profile {
      * @param profileName profile name
      */
     public Profile(String profileName) {
-        this.profileID = profIDCounter.incrementAndGet();
         this.profileName = profileName;
         this.profileWinCount = 0;
         this.profileLossCount = 0;
@@ -30,7 +28,6 @@ public class Profile {
      * @param profileLossCount number of losses
      */
     public Profile(String profileName, int profileWinCount, int profileLossCount){
-        this.profileID = profIDCounter.incrementAndGet();
         this.profileName = profileName;
         this.profileWinCount = profileWinCount;
         this.profileLossCount = profileLossCount;
@@ -81,12 +78,6 @@ public class Profile {
         }
     }
 
-    /**
-     * @return profile ID
-     */
-    public int getProfileID() {
-        return profileID;
-    }
 
     /**
      * @return profile name
@@ -100,5 +91,6 @@ public class Profile {
      */
     public void setProfileName(String profileName) {
         this.profileName = profileName;
+        this.profileWinCount = profileWinCount;
     }
 }
