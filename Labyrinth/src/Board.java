@@ -213,7 +213,13 @@ public class Board {
         return getPlayerFromBoard(x, y) != null;
     }
 
-    //for FileManager or player for storing current coords.
+    /**
+     *
+     * @param x
+     * @param y
+     * @param player
+     * @return
+     */
     public int[] playerLocationOnBoard(int x, int y, Player player) {
         int[] coords = new int[2];
         if (x == getRowSize() && y == getColumnSize()) {
