@@ -113,15 +113,21 @@ public class Board {
     //TODO need to change, out of bounds unaccountable
     public void setTilesOnFire(int x, int y) {
         for (int row = x - 1; row < x + 3; row++) {
-            getTileFromBoard(row, y + 1).onFire = true;
+            if (getTileFromBoard(row, y + 1) != null) {
+                getTileFromBoard(row, y + 1).onFire = true;
+            }
         }
 
         for (int row = x - 1; row < x + 3; row++) {
-            getTileFromBoard(row, y).onFire = true;
+            if (getTileFromBoard(row, y) != null) {
+                getTileFromBoard(row, y).onFire = true;
+            }
         }
 
         for (int row = x - 1; row < x + 3; row++) {
-            getTileFromBoard(row, y - 1).onFire = true;
+            if(getTileFromBoard(row, y -1) != null) {
+                getTileFromBoard(row, y - 1).onFire = true;
+            }
         }
     }
 
@@ -135,7 +141,7 @@ public class Board {
     public void placeOnNewTile(Cardinals c, int x, int y, Tile tile) { //use enum for access cardinals on tiles
         if (c == Cardinals.TOP) {//shift index down from the second last (animations)
             discardTileToSilkBag(getTileFromBoard(x, getColumnSize()));
-            for (int col = getColumnSize(); col >= 0; col--) {
+            for (int col = getColumnSize(); col > 0; col--) {
                 insertTile(x, col, getTileFromBoard(x, col));
             }
             insertTile(x, y, tile);
@@ -151,7 +157,7 @@ public class Board {
 
         if (c == Cardinals.LEFT) {
             discardTileToSilkBag(getTileFromBoard(getRowSize(),y));
-            for (int row = getRowSize(); row >= 0; row--) {
+            for (int row = getRowSize(); row > 0; row--) {
                 insertTile(row, getRowSize(), getTileFromBoard(row, y));
             }
             insertTile(x, y, tile);
@@ -200,6 +206,28 @@ public class Board {
         return getPlayerFromBoard(x, y) != null;
     }
 
+    //for FileManager
+    public int[] playerLocationOnBoard(int x, int y,Player player) {
+        int[] coords = new int[2];
+        if(x == getRowSize() && y == getColumnSize()) {
+            return null;
+        } else {
+            if(getPlayerFromBoard(x, y) == player) {
+                coords[0] = x;
+                coords[1] = y;
+                return coords;
+            } else if(x < (getColumnSize() - 1)) {
+                playerLocationOnBoard(x, y + 1, player);
+            } else
+                playerLocationOnBoard(x + 1, y, player);
+            }
+        return null;
+        }
+
+//    public int[] tileLocationOnBoard() {
+//        int[] coords = new int[(getRowSize() * getColumnSize())];
+//        for
+//    }
     /**
      *This method moves player to a new position
      * @param newX The x co-ordinate of the new position
