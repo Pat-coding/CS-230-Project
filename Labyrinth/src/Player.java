@@ -17,10 +17,8 @@ public class Player {
     private Profile name;
 
 
-    public Player(int i, int i1, int i2, String heldPlayerTile, Boolean backTrackCheck) {
-    }
+    public Player(int Playerid, int profilecoordx,int profilecoordy,int[] history, Tile[] heldPlayerTile, boolean backTrackCheck){
 
-    public Player(Integer integer, int spawnPoint, Object o, Object heldPlayerTile, boolean backTrackCheck) {
     }
 
     public Color getPlayercolor(){
@@ -40,15 +38,31 @@ public class Player {
 
     }
     public void getFromSilkBag(Tile pickedTile){
+
         playerInventory.add(pickedTile);
     }
 
-    public void incPlayerWin(){
+    public void incPlayerWin(int[] wincorords){
+        if (getPrevCoordinates() == wincorords)
+            name.incrementWinCount();
+
 
     }
 
     public void playerTurn(){
         isPlayerTurn = !isPlayerTurn;
+    }
+
+    public Tile takeFromInventory(int index){
+        if(index-1 > playerInventory.size()){
+            System.out.println("out of bounds ");
+            return null;
+        }else
+            {Tile x = playerInventory.get(index);
+            playerInventory.remove(index);
+            return x;
+            }
+
     }
 
 }

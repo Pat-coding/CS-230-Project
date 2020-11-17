@@ -4,8 +4,17 @@ public class Level {
     final Board boardData;
     final int gameTurnData;
     final String[] silkBagData;
-    final Player[] playerData;
+    Player[] playerData;
     final int[] spawnPoints;
+
+
+    /**
+     * Template for a Saved Level
+     * @param tempBoard contains the Board Object
+     * @param gameTurn contains information regarding what turn it is
+     * @param tempSilkBag contains information regarding the Tiles which are in the Silk Bag
+     * @param players contains information of the players, and the profiles associated with them.
+     */
 
     public Level(Board tempBoard, int gameTurn, String[] tempSilkBag, Player[] players) {
         this.boardData = tempBoard;
@@ -14,6 +23,14 @@ public class Level {
         this.playerData = players;
         this.spawnPoints = null;
     }
+
+    /**
+     *  Template for a New Level
+     * @param tempBoard contains the Board Object
+     * @param gameTurn contains information regarding what turn it is
+     * @param tempSilkBag contains information regarding the Tiles which are in the Silk Bag
+     * @param spawnPoints contains information of the player spawn points.
+     */
 
     public Level(Board tempBoard, int gameTurn, String[] tempSilkBag, int[] spawnPoints) {
         this.boardData = tempBoard;
@@ -39,6 +56,12 @@ public class Level {
         return silkBagData;
     }
 
-    public int[] getSpawnPoints() {return spawnPoints;}
+    public int[] getSpawnPoints() {
+        return spawnPoints;
+    }
+
+    public void setPlayerArray (Player[] Players) {
+        this.playerData = Players;
+    }
 
 }
