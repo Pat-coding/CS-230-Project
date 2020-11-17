@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.io.FileWriter;
 
@@ -15,7 +16,7 @@ public class FileManager {
 
     private static Level loadSaveLevel(Scanner in) {
 
-        String stringProfileID = in.next();
+        String stringProfileName = in.next();
         String nameOfBoard = in.next();
         int gameTurn = in.nextInt();
         String stringSizeOfBoard = in.next();
@@ -26,13 +27,21 @@ public class FileManager {
         String stringBackTrackCheck = in.next();
 
         //  Converts strings to more useful data types.
-        int[] profileID = stringToIntArray(stringProfileID);
+        String[] profileName = stringToStringArray(stringProfileName);
         int[] sizeOfBoard = stringToIntArray(stringSizeOfBoard);
         int[] profileCord = stringToIntArray(stringProfileCord);
         int[] profileCordHistory = stringToIntArray(stringProfileCordHistory);
         String[] silkBagContent = stringToStringArray(stringSilkBagContent);
         String[] heldPlayerTiles = stringToStringArray(stringHeldPlayerTiles);
         Boolean backTrackCheck = Boolean.parseBoolean(stringBackTrackCheck);
+
+        ArrayList<Profile> profiles;
+        ArrayList<Profile> usedProfile = new ArrayList<>();
+        int[] profileCordX = new int[profileName.length];
+        int[] profileCordY = new int[profileName.length];
+        int[] profileCordHistoryArray = new int[profileName.length * 3];
+        int counter;
+
 
         //  Creates Board Object
         Board tempBoard = new Board(nameOfBoard, sizeOfBoard);
@@ -41,21 +50,48 @@ public class FileManager {
             String stringTile = in.next();
             String[] sta = stringToStringArray(stringTile);
 
-            Tile tempTile = new Tile(sta[2],sta[3],sta[4]);
+            Tile tempTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], Boolean.getBoolean(sta[5]));
             tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), tempTile);
         }
 
+        profiles = readProfileDataFile("Profiles.txt");
+        for (int i = 0; i < profileName.length; i++) {
+            if (Arrays.asList(profileName).contains(profiles.get(i).getProfileName()) == true) {
+                usedProfile.add(profiles.get(i));
+            }
+        }
+
+
+        counter = 0;
+        for (int i = 0; i < (profileCord.length)/2; i = i + 2, counter++) {
+            profileCordX[counter] = profileCord[i];
+        }
+
+        counter = 0;
+        for (int j = 1; j < (profileCord.length)/2; j = j + 2, counter++){
+            profileCordY[j] = profileCord[j];
+        }
+
+
+        //  [0,0,1,1,2,2][0,0,1,1,2,2][0,0,1,1,2,2][0,0,1,1,2,2]
+
         //  Creates Player Objects
-        Player[] players = new Player[profileID.length];
-        for (int i = 0; i < profileID.length; i++) {
+        counter = 0;
+        Player[] players = new Player[profileName.length];
+        for (int i = 0; i < profileName.length; i++, counter = counter + 6) {
+            for (int j = 0; j < 6; j++) {
+                profileCordHistoryArray[j] = profileCordHistory[j + counter];
+            }
 
-
-            Player tempPlayer = new Player(profileID[i], profileCord[i], profileCordHistory[i],
-                    heldPlayerTiles[i], backTrackCheck);
+            Player tempPlayer = new Player(usedProfile.get(i), profileCordX[i], profileCordY[i], profileCordHistory,
+                    heldPlayerTiles, backTrackCheck);
             players[i] = (tempPlayer);
         }
         return new Level(tempBoard, gameTurn, silkBagContent, players);
     }
+
+
+
 
     /**
      *  Creates a Level object for a new game.
@@ -78,10 +114,11 @@ public class FileManager {
         //  details of fixed tiles
         Board tempBoard = new Board(nameOfBoard, sizeOfBoard);
         for (int i = 0; i < numOfFixedTiles - 1; i++) {
+
             String stringTile = in.next();
             String[] sta = stringToStringArray(stringTile);
-            // change parama of insert tiles to int
-            Tile fixedTile = new Tile(sta[2],sta[3], true);
+
+            Tile fixedTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], true);
             tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), fixedTile);
         }
 
@@ -214,6 +251,28 @@ public class FileManager {
             System.exit(0);
         }
         return FileManager.readDataFileLevel(in, type);
+    }
+
+    public static Tile createTempTile(String typeOfTile, int orientation, String state, Boolean isFixed) {
+        Tile tempTile = null;
+
+        switch (typeOfTile) {
+            case "Straight" :
+                tempTile = new StraightTile(orientation, state, isFixed);
+                break;
+            case "TShaped"  :
+                tempTile = new TShapedTile(orientation, state, isFixed);
+                break;
+            case "Corner"   :
+                tempTile = new CornerTile(orientation, state, isFixed);
+                break;
+            case "Goal"     :
+                tempTile = new GoalTile(orientation, state, isFixed);
+                break;
+            default:
+                System.out.println("An error has occurred");
+        }
+        return tempTile;
     }
 
     /**
