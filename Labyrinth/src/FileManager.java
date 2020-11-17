@@ -1,14 +1,19 @@
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-
+import java.io.FileWriter;
 
 public class FileManager {
 
-    public static Level loadSaveLevel(Scanner in) {
+    /**
+     *  Creates a Level object for a pre-existing game.
+     * @param in passes through the Scanner for the file.
+     * @return a Level object
+     */
+
+    private static Level loadSaveLevel(Scanner in) {
 
         String stringProfileID = in.next();
         String nameOfBoard = in.next();
@@ -37,7 +42,7 @@ public class FileManager {
             String[] sta = stringToStringArray(stringTile);
 
             Tile tempTile = new Tile(sta[2],sta[3],sta[4]);
-            tempBoard.insertTile(Integer.parseInt(sta[0]),Integer.parseInt(sta[1]), tempTile);
+            tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), tempTile);
         }
 
         //  Creates Player Objects
@@ -51,7 +56,13 @@ public class FileManager {
         return new Level(tempBoard, gameTurn, silkBagContent, players);
     }
 
-    public static Level loadNewLevel(Scanner in) {
+    /**
+     *  Creates a Level object for a new game.
+     * @param in passes through the Scanner for the file.
+     * @return a Level object
+     */
+
+    private static Level loadNewLevel(Scanner in) {
 
         String nameOfBoard = in.next();
         String stringSizeOfBoard = in.next();
@@ -70,28 +81,59 @@ public class FileManager {
             String[] sta = stringToStringArray(stringTile);
             // change parama of insert tiles to int
             Tile fixedTile = new Tile(sta[2],sta[3], true);
-            tempBoard.insertTile(Integer.parseInt(sta[0]),Integer.parseInt(sta[1]), fixedTile);
+            tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), fixedTile);
         }
 
-        Player[] players = new Player[4];
-
-        for (int i = 0; i < (players.length - 1); i++) {
-
-            Player tempPlayer = new Player(null, spawnPoints[i], null,
-                    null, false);
-            players[i] = (tempPlayer);
-        }
-
-
-        return new Level(tempBoard, 0, silkBagContent, players);
+        return new Level(tempBoard, 0, silkBagContent, spawnPoints);
     }
 
-    public static Profile loadProfile(Scanner in) {
+    /**
+     *  Creates a Profile object
+     * @param in passes through the Scanner for the file.
+     * @return a Profile object
+     */
+
+    private static Profile loadProfile(Scanner in) {
         String profileName = in.next();
-        String profileWinCount = in.next();
+        String stringProfileWinCount = in.next();
+        String stringProfileLossCount = in.next();
 
-        return  new Profile(profileName, Integer.parseInt(profileWinCount));
+        int profileWinCount = stringToInt(stringProfileWinCount);
+        int profileLossCount = stringToInt(stringProfileLossCount);
+
+        return new Profile(profileName, profileWinCount, profileLossCount);
     }
+
+    /**
+     *
+     * @param level
+     */
+
+    public static void createNewSaveFile(Level level) {
+
+    }
+
+    /**
+     *
+     * @param name
+     */
+    public static void createNewProfile (String name) {
+        try {
+            FileWriter profileWriter = new FileWriter("Profile.txt");
+            profileWriter.write(name);
+
+        } catch (IOException e) {
+            System.out.println("An error has occurred");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *  Reads the data file used by the program, and returns a constructed arraylist.
+     *
+     * @param in the scanner of the file
+     * @return the arraylist represented by the data file
+     */
 
     public static ArrayList<Profile> readDataFileProfile(Scanner in) {
         ArrayList<Profile> returnableArray = new ArrayList<Profile>();
@@ -102,7 +144,16 @@ public class FileManager {
         return returnableArray;
     }
 
-    public static ArrayList<Profile> readProfileDataFile(String filename) {
+    /**
+     *  Method to read and turn an arraylist of profiles from this file. The
+     *  program should handle the file not found exception here and shut down
+     *  the program elegantly
+     *
+     * @param filename the name of the file
+     * @return the ArrayList of Profiles from the file.
+     */
+
+    private static ArrayList<Profile> readProfileDataFile(String filename) {
         File inputFile = new File(filename);
         Scanner in = null;
         try {
@@ -113,6 +164,13 @@ public class FileManager {
         }
         return FileManager.readDataFileProfile(in);
     }
+
+    /**
+     *  Reads the data file used by the program, and returns a constructed arraylist.
+     *
+     * @param in the scanner of the file
+     * @return the arraylist represented by the data file
+     */
 
     public static ArrayList<Level> readDataFileLevel(Scanner in, String loadType) {
         ArrayList<Level> returnableArray = new ArrayList<Level>();
@@ -136,7 +194,16 @@ public class FileManager {
         return returnableArray;
     }
 
-    public static ArrayList<Level> readLevelDataFile(String filename, String type) {
+    /**
+     *  Method to read and turn an arraylist of level from this file. The
+     *  program should handle the file not found exception here and shut down
+     *  the program elegantly
+     *
+     * @param filename the name of the file
+     * @return the ArrayList of Profiles from the file.
+     */
+
+    private static ArrayList<Level> readLevelDataFile(String filename, String type) {
         File inputFile = new File(filename);
         Scanner in = null;
         try {
@@ -148,9 +215,39 @@ public class FileManager {
         return FileManager.readDataFileLevel(in, type);
     }
 
+    /**
+     *  Method to convert a string into a string array, with a particular delimiter
+     * @param a the string
+     * @return an array with the contents of the string
+     */
+
     private static String[] stringToStringArray(String a) {
         return a.split("[,]");
     }
+
+    /**
+     *  Method takes a String, converts it into an Integer, and handles
+     *  the NumberFormatException here and shut down the program elegantly
+     * @param string the string being converted
+     * @return int value
+     */
+
+    private static int stringToInt(String string) {
+        int returnVal = 0;
+        try {
+            returnVal = Integer.parseInt(string);
+        } catch (NumberFormatException e) {
+            System.out.print(e);
+        }
+        return returnVal;
+    }
+
+    /**
+     *  Method takes a String, converts it into a Integer array, and handles
+     *  the NumberFormatException here and shut down the program elegantly
+     * @param a the string
+     * @return an array of type int with the contents of the string
+     */
 
     private static int[] stringToIntArray(String a) {
         String[] item = a.split("[,]");
