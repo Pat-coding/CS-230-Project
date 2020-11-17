@@ -17,8 +17,12 @@ public class Player {
     private Profile name;
 
 
-    public Player(int Playerid, int profilecoordx,int profilecoordy,int[] history, Tile[] heldPlayerTile, boolean backTrackCheck){
+    public Player(Profile profile, int playercoordx,int playercoordy,int[] profileCoordHistory, Tile[] heldPlayerTile, boolean backTrackCheck){
 
+    }
+
+    public void setPlayercolor(Color playercolor) {
+        this.playercolor = playercolor;
     }
 
     public Color getPlayercolor(){
@@ -64,6 +68,8 @@ public class Player {
             }
 
     }
+
+    public void draw(){}
 
 }
 
