@@ -1,15 +1,27 @@
 // How to generate children of Tile, Tile tile = new <TileSubType>(args,  kwargs)
 
-
+import java.awt.*;
 public class Tile {
 
     public boolean fixed;
     public boolean frozen;
     public boolean onFire;
+    private int size;
+    private Image image;
 
-    public Tile(String s, String s1, boolean b) {
+    protected Tile (int size, Image image){
+        this.image = image;
+        this.size = size;
     }
 
-    public Tile(String s, String s1, String s2) {
+    public void setSize (int size){
+        this.size = size;
+    }
+    public void setImage (Image image){
+
+    }
+
+    public void draw (Tile tile){
+
     }
 }
