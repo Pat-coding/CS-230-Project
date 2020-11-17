@@ -4,7 +4,7 @@ public class Level {
     final Board boardData;
     final int gameTurnData;
     final String[] silkBagData;
-    final Player[] playerData;
+    Player[] playerData;
     final int[] spawnPoints;
 
 
@@ -60,6 +60,8 @@ public class Level {
         return spawnPoints;
     }
 
-
+    public void setPlayerArray (Player[] Players) {
+        this.playerData = Players;
+    }
 
 }
