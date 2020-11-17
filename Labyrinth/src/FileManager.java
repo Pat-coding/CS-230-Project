@@ -49,6 +49,7 @@ public class FileManager {
         Player[] players = new Player[profileID.length];
         for (int i = 0; i < profileID.length; i++) {
 
+
             Player tempPlayer = new Player(profileID[i], profileCord[i], profileCordHistory[i],
                     heldPlayerTiles[i], backTrackCheck);
             players[i] = (tempPlayer);
