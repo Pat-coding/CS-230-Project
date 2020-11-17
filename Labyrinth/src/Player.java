@@ -12,18 +12,14 @@ public class Player {
     private ArrayList<Integer> tilesVisited =  new ArrayList<>();
     private ArrayList<Tile> playerInventory = new ArrayList<>();
     private boolean hasBeenBackTracked;
-    private Color playercolor;
     private boolean isPlayerTurn;
     private Profile name;
 
 
-    public Player(int Playerid, int profilecoordx,int profilecoordy,int[] history, Tile[] heldPlayerTile, boolean backTrackCheck){
+    public Player(Profile profile, int playercoordx,int playercoordy,int[] profileCoordHistory, ArrayList<Tile> heldPlayerTile, boolean backTrackCheck){
 
     }
 
-    public Color getPlayercolor(){
-        return playercolor;
-    }
 
     public ArrayList<Tile> getPlayerInventory() {
         return playerInventory;
@@ -64,6 +60,8 @@ public class Player {
             }
 
     }
+
+    public void draw(){}
 
 }
 
