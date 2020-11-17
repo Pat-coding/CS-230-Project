@@ -3,22 +3,42 @@
  * @version 1.0.0
  */
 
+import java.util.ArrayList;
 
 public class GameFlow {
-    private Board gameBoards; // Stores each board created
+    private Level level;
     private Player[] players;
-    private int turn; // Stores the current turn for each board created
 
     /**
-     * Create GameFlow logic for a specific board.
-     * @param gameBoard The board to put game logic on.
-     * @param players The players of the board.
-     * @param turn The current turn on the board.
+     * New Game
+     * @param level Level to play.
+     * @param profiles Profiles to create players from.
      */
-    public GameFlow(Board gameBoard, Player[] players, int turn) {
-        this.gameBoards = gameBoard;
-        this.players = players;
-        this.turn = turn;
+    public GameFlow(Level level, Profile[] profiles) {
+        this.level = level;
+        this.initiatePlayers(profiles);
+    }
+
+    /**
+     * Continue Level
+     * @param level Level to play.
+     */
+    public GameFlow(Level level) {
+        this.level = level;
+        this.players = level.getPlayerData();
+    }
+
+    /**
+     * Create players based on level data and profiles.
+     * @param profiles Profiles to initialise players from.
+     */
+    private void initiatePlayers(Profile[] profiles) {
+        this.players = new Player[profiles.length];
+        int[] spawnPoints = this.level.getSpawnPoints();
+        for (int i = 0; i < profiles.length; i++) {
+            this.players[i] = new Player(profiles[i], spawnPoints[i*2], spawnPoints[(i*2) + 1], new int[6], new ArrayList<Tile>(), false);
+        }
+        this.level.setPlayerArray(this.players);
     }
 
     /**
@@ -88,7 +108,7 @@ public class GameFlow {
 
     /**
      * Check if the board is in a state where a player has won.
-     * @return True if there is a winning situation. 
+     * @return True if there is a winning situation.
      */
     public Boolean checkWin() {
         return false;
