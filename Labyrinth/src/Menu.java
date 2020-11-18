@@ -1,4 +1,6 @@
 
+import com.sun.glass.ui.Clipboard;
+
 import java.util.ArrayList;
 
 public class Menu {
@@ -12,5 +14,10 @@ public class Menu {
         System.out.println(hello);
     }
 
+
+    public void createNewProfile(String name){
+        profiles.add(new Profile(name, 0, 0));
+        FileManager.createNewProfile(name);
+    }
 
 }
