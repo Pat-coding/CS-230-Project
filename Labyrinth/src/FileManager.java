@@ -31,7 +31,7 @@ public class FileManager {
         int[] sizeOfBoard = stringToIntArray(stringSizeOfBoard);
         int[] profileCord = stringToIntArray(stringProfileCord);
         int[] profileCordHistory = stringToIntArray(stringProfileCordHistory);
-        String[] silkBagContent = stringToStringArray(stringSilkBagContent);
+        int[] silkBagContent = stringToIntArray(stringSilkBagContent);
         String[] heldPlayerTiles = stringToStringArray(stringHeldPlayerTiles);
         Boolean backTrackCheck = Boolean.parseBoolean(stringBackTrackCheck);
 
@@ -54,6 +54,8 @@ public class FileManager {
             tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), tempTile);
         }
 
+
+
         profiles = readProfileDataFile("Profiles.txt");
         for (int i = 0; i < profileName.length; i++) {
             if (Arrays.asList(profileName).contains(profiles.get(i).getProfileName()) == true) {
@@ -73,8 +75,6 @@ public class FileManager {
         }
 
 
-        //  [0,0,1,1,2,2][0,0,1,1,2,2][0,0,1,1,2,2][0,0,1,1,2,2]
-
         //  Creates Player Objects
         counter = 0;
         Player[] players = new Player[profileName.length];
@@ -87,7 +87,11 @@ public class FileManager {
                     heldPlayerTiles, backTrackCheck);
             players[i] = (tempPlayer);
         }
-        return new Level(tempBoard, gameTurn, silkBagContent, players);
+
+        //  silkBag(int Straight,int Corner,int TShaped, int Fire,int Ice,int Backtrack,int Doublemove,int Goal)
+        SilkBag silkBag = new SilkBag(silkBagContent);
+
+        return new Level(tempBoard, gameTurn, silkBag, players);
     }
 
 
@@ -269,6 +273,41 @@ public class FileManager {
             case "Goal"     :
                 tempTile = new GoalTile(orientation, state, isFixed);
                 break;
+            default:
+                System.out.println("An error has occurred");
+        }
+        return tempTile;
+    }
+
+    public static Tile createSilkBagTile(String typeOfTile, int orientation) {
+        Tile tempTile = null;
+
+        switch (typeOfTile) {
+            case "Straight" :
+                tempTile = new StraightTile(orientation, "normal", false);
+                break;
+            case "TShaped"  :
+                tempTile = new TShapedTile(orientation, "normal", false);
+                break;
+            case "Corner"   :
+                tempTile = new CornerTile(orientation, "normal", false);
+                break;
+            case "Goal"     :
+                tempTile = new GoalTile(orientation, "normal", false);
+                break;
+            case "Fire"     :
+                tempTile = new FireTile();
+                break;
+            case "Ice"      :
+                tempTile = new IceTile();
+                break;
+            case "DoubleMove"   :
+                tempTile = new DoubleMoveTile();
+                break;
+            case "BackTrack"    :
+                tempTile = new BackTrackTile();
+                break;
+
             default:
                 System.out.println("An error has occurred");
         }
