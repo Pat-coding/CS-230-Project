@@ -189,7 +189,7 @@ public class FileManager {
      * @return the arraylist represented by the data file
      */
 
-    public static ArrayList<Profile> readDataFileProfile(Scanner in) {
+    private static ArrayList<Profile> readDataFileProfile(Scanner in) {
         ArrayList<Profile> returnableArray = new ArrayList<Profile>();
         while (in.hasNext()) {
             Profile profile = loadProfile(in);
@@ -207,7 +207,7 @@ public class FileManager {
      * @return the ArrayList of Profiles from the file.
      */
 
-    private static ArrayList<Profile> readProfileDataFile(String filename) {
+    public static ArrayList<Profile> readProfileDataFile(String filename) {
         File inputFile = new File(filename);
         Scanner in = null;
         try {
@@ -226,7 +226,7 @@ public class FileManager {
      * @return the arraylist represented by the data file
      */
 
-    public static ArrayList<Level> readDataFileLevel(Scanner in, String loadType) {
+    private static ArrayList<Level> readDataFileLevel(Scanner in, String loadType) {
         ArrayList<Level> returnableArray = new ArrayList<Level>();
 
         while (in.hasNext()) {
@@ -257,7 +257,7 @@ public class FileManager {
      * @return the ArrayList of Profiles from the file.
      */
 
-    private static ArrayList<Level> readLevelDataFile(String filename, String type) {
+    public static ArrayList<Level> readLevelDataFile(String filename, String type) {
         File inputFile = new File(filename);
         Scanner in = null;
         try {
