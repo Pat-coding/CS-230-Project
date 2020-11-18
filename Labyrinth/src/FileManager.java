@@ -32,7 +32,7 @@ public class FileManager {
         int[] profileCord = stringToIntArray(stringProfileCord);
         int[] profileCordHistory = stringToIntArray(stringProfileCordHistory);
         int[] silkBagContent = stringToIntArray(stringSilkBagContent);
-        String[] heldPlayerTiles = stringToStringArray(stringHeldPlayerTiles);
+
         Boolean backTrackCheck = Boolean.parseBoolean(stringBackTrackCheck);
 
         ArrayList<Profile> profiles;
@@ -40,6 +40,7 @@ public class FileManager {
         int[] profileCordX = new int[profileName.length];
         int[] profileCordY = new int[profileName.length];
         int[] profileCordHistoryArray = new int[profileName.length * 3];
+        ArrayList<Tile> t = new ArrayList<>();
         int counter;
 
 
@@ -54,15 +55,12 @@ public class FileManager {
             tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), tempTile);
         }
 
-
-
         profiles = readProfileDataFile("Profiles.txt");
         for (int i = 0; i < profileName.length; i++) {
             if (Arrays.asList(profileName).contains(profiles.get(i).getProfileName()) == true) {
                 usedProfile.add(profiles.get(i));
             }
         }
-
 
         counter = 0;
         for (int i = 0; i < (profileCord.length)/2; i = i + 2, counter++) {
@@ -74,17 +72,30 @@ public class FileManager {
             profileCordY[j] = profileCord[j];
         }
 
+        String[] heldPlayerTiles = stringHeldPlayerTiles.split("[;]");
+        String[] heldPlayerTilesPlayer = new String[0];
 
         //  Creates Player Objects
         counter = 0;
+
         Player[] players = new Player[profileName.length];
         for (int i = 0; i < profileName.length; i++, counter = counter + 6) {
             for (int j = 0; j < 6; j++) {
                 profileCordHistoryArray[j] = profileCordHistory[j + counter];
             }
+            
+            for (int j = 0; j < heldPlayerTiles.length; j++) {
+                heldPlayerTilesPlayer = heldPlayerTiles[j].split(",");
+            }
+
+
+            for (int j = 0; j < heldPlayerTilesPlayer.length; j = j+2) {
+                t.add(createHeldTiles(heldPlayerTilesPlayer[j], Integer.getInteger(heldPlayerTilesPlayer[j+1])));
+            }
+
 
             Player tempPlayer = new Player(usedProfile.get(i), profileCordX[i], profileCordY[i], profileCordHistory,
-                    heldPlayerTiles, backTrackCheck);
+                    t, backTrackCheck);
             players[i] = (tempPlayer);
         }
 
@@ -279,7 +290,7 @@ public class FileManager {
         return tempTile;
     }
 
-    public static Tile createSilkBagTile(String typeOfTile, int orientation) {
+    public static Tile createHeldTiles(String typeOfTile, int orientation) {
         Tile tempTile = null;
 
         switch (typeOfTile) {
