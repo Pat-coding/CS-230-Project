@@ -32,7 +32,6 @@ public class FileManager {
         int[] profileCord = stringToIntArray(stringProfileCord);
         int[] profileCordHistory = stringToIntArray(stringProfileCordHistory);
         int[] silkBagContent = stringToIntArray(stringSilkBagContent);
-
         Boolean backTrackCheck = Boolean.parseBoolean(stringBackTrackCheck);
 
         ArrayList<Profile> profiles;
@@ -40,12 +39,13 @@ public class FileManager {
         int[] profileCordX = new int[profileName.length];
         int[] profileCordY = new int[profileName.length];
         int[] profileCordHistoryArray = new int[profileName.length * 3];
+        Board tempBoard = new Board(nameOfBoard, sizeOfBoard);
         ArrayList<Tile> t = new ArrayList<>();
+        String[] heldPlayerTiles = stringHeldPlayerTiles.split("[;]");
+        String[] heldPlayerTilesPlayer = new String[0];
         int counter;
 
 
-        //  Creates Board Object
-        Board tempBoard = new Board(nameOfBoard, sizeOfBoard);
         //  Populates Board with Tiles
         for (int i = 0; i < sizeOfBoard[0]*sizeOfBoard[1]; i++) {
             String stringTile = in.next();
@@ -55,6 +55,7 @@ public class FileManager {
             tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), tempTile);
         }
 
+        //  Reads in profiles
         profiles = readProfileDataFile("Profiles.txt");
         for (int i = 0; i < profileName.length; i++) {
             if (Arrays.asList(profileName).contains(profiles.get(i).getProfileName()) == true) {
@@ -62,18 +63,18 @@ public class FileManager {
             }
         }
 
+        //  Splits ProfileCord X elements from Y elements
         counter = 0;
         for (int i = 0; i < (profileCord.length)/2; i = i + 2, counter++) {
             profileCordX[counter] = profileCord[i];
         }
 
+        //  Splits ProfileCord Y element from X elements.
         counter = 0;
         for (int j = 1; j < (profileCord.length)/2; j = j + 2, counter++){
             profileCordY[j] = profileCord[j];
         }
 
-        String[] heldPlayerTiles = stringHeldPlayerTiles.split("[;]");
-        String[] heldPlayerTilesPlayer = new String[0];
 
         //  Creates Player Objects
         counter = 0;
@@ -88,18 +89,18 @@ public class FileManager {
                 heldPlayerTilesPlayer = heldPlayerTiles[j].split(",");
             }
 
-
             for (int j = 0; j < heldPlayerTilesPlayer.length; j = j+2) {
                 t.add(createHeldTiles(heldPlayerTilesPlayer[j], Integer.getInteger(heldPlayerTilesPlayer[j+1])));
             }
-
 
             Player tempPlayer = new Player(usedProfile.get(i), profileCordX[i], profileCordY[i], profileCordHistory,
                     t, backTrackCheck);
             players[i] = (tempPlayer);
         }
 
-        //  silkBag(int Straight,int Corner,int TShaped, int Fire,int Ice,int Backtrack,int Doublemove,int Goal)
+        //  silkBag(int[] silkBagContent)
+        // ith element = (int Straight,int Corner,int TShaped, int Fire,int Ice,int Backtrack,int Doublemove,int Goal)
+        // respectively
         SilkBag silkBag = new SilkBag(silkBagContent);
 
         return new Level(tempBoard, gameTurn, silkBag, players);
