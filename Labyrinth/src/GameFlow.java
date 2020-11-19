@@ -50,7 +50,9 @@ public class GameFlow {
      * @param y             The y-coordinate to insert the tile into.
      * @return              The tile that was removed from the board.
      */
-    public Tile playerSlotFloorTile(Board gameBoard, Tile tile, int x, int y) {
+    public Tile playerSlotFloorTile(Board.Cardinals direction, Tile tile, int x, int y) {
+        // movePlayerFromEndTile (if player is on end tile)
+        // placeOnNewTile
         return null;
     }
 
@@ -63,6 +65,8 @@ public class GameFlow {
      * @return True if the tile was placed.
      */
     public Boolean playerPlaceActionTile(Board gameBoard, Tile tile, int x, int y) {
+        // check type of tile
+        // set tile on fire method or frozen depending on type of tile
         return false;
     }
 
@@ -80,6 +84,14 @@ public class GameFlow {
      * Go to the next turn of the board.
      */
     public void incGameTurn() {
+        // set the next player's turn to true (playerTurn method)
+        // set the previous player's turn to false (playerTurn method)
+    }
+
+    public void flow() {
+        // play through each player, until game win or save
+        // use checks to ensure player can move, otherwise try again
+        // once player has performed all tasks, incGameTurn()
     }
 
     /**
