@@ -12,9 +12,8 @@ public class SilkBag {
     int tShaped;
     int backtrack;
     int doublemove;
-    int goal;
     Random rand;
-    private int [] silkBagContent;
+    private int[] silkBagContent;
 
     public SilkBag(int[] silkBagContent) {
         this.silkBagContent = silkBagContent;
@@ -30,11 +29,11 @@ public class SilkBag {
     public static Tile getTile() {
         int randomNum = rand.nextInt(silkBagContent.length);
 
-        if (silkBagContent[randomNum] <= 0){
+        if (silkBagContent[randomNum] <= 0) {
             getTile();
         } else {
             silkBagContent[randomNum] = silkBagContent[randomNum] - 1;
-            switch (randomNum){
+            switch (randomNum) {
                 case 0:
                     Tile StraightTile = new StraightTile(randomNum, null);
                     return StraightTile;
@@ -61,9 +60,29 @@ public class SilkBag {
 
     }
 
-
-    public static void insertTileToBag(Tile[] tile) {
-        this.fire = tile[0];
+    public static void insertTileToBag(Tile tile) {
+        if (tile instanceof StraightTile) {
+            this.straight ++;
+        }
+        else if (tile instanceof CornerTile){
+            this.corner ++;
+        }
+        else if (tile instanceof FireTile){
+            this.fire ++;
+        }
+        else if (tile instanceof IceTile){
+            this.ice ++;
+        }
+        else if (tile instanceof TShapedTile){
+            this.tShaped ++;
+        }
+        else if (tile instanceof DoubleMoveTile){
+            this.doublemove ++;
+        }
+        else {
+            this.backtrack ++;
+        }
+        
     }
 
 >>>>>>> main
