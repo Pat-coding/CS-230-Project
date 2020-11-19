@@ -27,8 +27,7 @@ public class SilkBag {
         this.doublemove = silkBagContent[6];
     }
 
-    public int getTile() {
-
+    public static Tile getTile() {
         int randomNum = rand.nextInt(silkBagContent.length);
 
         if (silkBagContent[randomNum] <= 0){
@@ -38,18 +37,25 @@ public class SilkBag {
             switch (randomNum){
                 case 0:
                     Tile StraightTile = new StraightTile(randomNum, null);
+                    return StraightTile;
                 case 1:
                     Tile CornerTile = new CornerTile(randomNum, null);
+                    return CornerTile;
                 case 2:
                     Tile TShapedTile = new TShapedTile(randomNum, null);
+                    return TShapedTile;
                 case 3:
                     Tile FireTile = new FireTile(randomNum, null);
+                    return FireTile;
                 case 4:
                     Tile IceTile = new IceTile(randomNum, null);
+                    return IceTile;
                 case 5:
-                    Tile BackTrackTile = new BackTrackTile(randomNum, null);
+                    Tile BackTrackTile = new BacktrackTile(randomNum, null);
+                    return BackTrackTile;
                 case 6:
                     Tile DoubleMoveTile = new DoubleMoveTile(randomNum, null);
+                    return DoubleMoveTile;
             }
         }
 

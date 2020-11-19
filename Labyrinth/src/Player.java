@@ -33,9 +33,9 @@ public class Player {
         return new int[]{tilesVisited.get(tilesVisited.size()),tilesVisited.get(tilesVisited.size()-1)};
 
     }
-    public void getFromSilkBag(Tile pickedTile){
+    public void getFromSilkBag(){
 
-        playerInventory.add(pickedTile);
+        playerInventory.add(SilkBag.getTile());
     }
 
     public void incPlayerWin(int[] wincorords){
