@@ -1,45 +1,65 @@
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Random;
 
+import jdk.javadoc.internal.doclets.formats.html.markup.StringContent;
+
 public class SilkBag {
-    private static ArrayList<Tile> silkBag;
-    private Random randomTile;
 
-    public SilkBag() {
-        silkBag = new ArrayList<Tile>();
-        randomTile = new Random();
+    int fire;
+    int ice;
+    int straight;
+    int corner;
+    int tShaped;
+    int backtrack;
+    int doublemove;
+    int goal;
+    Random rand;
+    private int [] silkBagContent;
+
+    public SilkBag(int[] silkBagContent) {
+        this.silkBagContent = silkBagContent;
+        this.straight = silkBagContent[0];
+        this.corner = silkBagContent[1];
+        this.tShaped = silkBagContent[2];
+        this.goal = silkBagContent[3];
+        this.fire = silkBagContent[4];
+        this.ice = silkBagContent[5];
+        this.backtrack = silkBagContent[6];
+        this.doublemove = silkBagContent[7];
     }
 
-    /**
-     * This method returns the silk bag
-     * 
-     * @return an arraylist of tiles contained in the silk bag
-     */
-    public List<Tile> getFromSilkBag() {
-        return (silkBag);
+    public int getTile() {
+
+        int randomNum = rand.nextInt(silkBagContent.length);
+
+        if (silkBagContent[randomNum] <= 0){
+            getTile();
+        } else {
+            silkBagContent[randomNum] = silkBagContent[randomNum] - 1;
+            switch (randomNum){
+                case 0:
+                    Tile StraightTile = new StraightTile(randomNum, null);
+                case 1:
+                    Tile CornerTile = new CornerTile(randomNum, null);
+                case 2:
+                    Tile TShapedTile = new TShapedTile(randomNum, null);
+                case 3:
+                    Tile FireTile = new FireTile(randomNum, null);
+                case 4:
+                    Tile IceTile = new IceTile(randomNum, null);
+                case 5:
+                    Tile BackTrackTile = new BackTrackTile(randomNum, null);
+                case 6:
+                    Tile DoubleMoveTile = new DoubleMoveTile(randomNum, null);
+            }
+        }
 
     }
-    // ArrayList<Tile> inventory = inventory.getFromSilkBag(); catch the arraylist
 
-    /**
-     * this method retrieves a random Tile from the Silk Bag
-     * 
-     * @return random tile from the silk bag of the class Tile
-     */
-    public Tile giveTile() {
-        int index = randomTile.nextInt(silkBag.size());
-        Tile pickedTile = silkBag.get(index);
-        return pickedTile;
+
+    public static void insertTileToBag(Tile[] tile) {
+        this.fire = tile[0];
     }
 
-    /**
-     * This method will insert a discarded tile to the silk bag
-     * 
-     * @param tile is a discarded tile
-     */
-    public static void insertTileToBag(Tile tile) {
-        silkBag.add(tile);
-    }
-
+>>>>>>> main
 }
