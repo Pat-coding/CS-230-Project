@@ -17,7 +17,7 @@ public class Player {
     private Profile name;
 
 
-    public Player(Profile profile, int playercoordx,int playercoordy,int[] profileCoordHistory, ArrayList<Tile> heldPlayerTile, boolean backTrackCheck){
+    public Player(Profile profile, int playercoordx,int playercoordy,int[] profileCoordHistory, ArrayList<Tile> heldPlayerTile, boolean backTrackCheck, Boolean isPlayerTurn{
 
     }
 
@@ -59,8 +59,7 @@ public class Player {
      *
      */
     public void getFromSilkBag(Tile pickedTile){
-
-        playerInventory.add(SilkBag.getTile());
+        playerInventory.add();
     }
 
     /**
