@@ -21,11 +21,10 @@ public class SilkBag {
         this.straight = silkBagContent[0];
         this.corner = silkBagContent[1];
         this.tShaped = silkBagContent[2];
-        this.goal = silkBagContent[3];
-        this.fire = silkBagContent[4];
-        this.ice = silkBagContent[5];
-        this.backtrack = silkBagContent[6];
-        this.doublemove = silkBagContent[7];
+        this.fire = silkBagContent[3];
+        this.ice = silkBagContent[4];
+        this.backtrack = silkBagContent[5];
+        this.doublemove = silkBagContent[6];
     }
 
     public int getTile() {
