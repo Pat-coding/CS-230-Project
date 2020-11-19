@@ -8,8 +8,9 @@ import javafx.scene.paint.Color;
 
 public class Player {
 
-    public boolean hasBeenDoubled;
-    private ArrayList<Integer> tilesVisited =  new ArrayList<>();
+
+    private ArrayList<Integer> tilesVisitedX =  new ArrayList<>();
+    private ArrayList<Integer> tilesVisitedY =  new ArrayList<>();
     private ArrayList<Tile> playerInventory = new ArrayList<>();
     private boolean hasBeenBackTracked;
     private boolean isPlayerTurn;
@@ -19,6 +20,8 @@ public class Player {
     public Player(Profile profile, int playercoordx,int playercoordy,int[] profileCoordHistory, ArrayList<Tile> heldPlayerTile, boolean backTrackCheck){
 
     }
+
+    public void addToVisited() {}
 
     /**
      * This Method returns the players inventory
@@ -46,7 +49,7 @@ public class Player {
      */
 
     public int[] getPrevCoordinates(){
-        return new int[]{tilesVisited.get(tilesVisited.size()),tilesVisited.get(tilesVisited.size()-1)};
+        return new int[]{tilesVisitedX.get(tilesVisitedX.size()),tilesVisitedY.get(tilesVisitedY.size()-1)};
 
     }
 
@@ -57,7 +60,7 @@ public class Player {
      */
     public void getFromSilkBag(Tile pickedTile){
 
-        playerInventory.add(pickedTile);
+        playerInventory.add(SilkBag.getTile());
     }
 
     /**
@@ -100,7 +103,7 @@ public class Player {
 
     }
 
-    public void draw(){}
+
 
 }
 
