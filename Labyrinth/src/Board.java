@@ -339,13 +339,13 @@ public class Board {
         return null;
     }
 
-    /**
-     * This method will discard tiles from the board to the SilkBag.
-     * @param tile The tile being discarded.
-     */
-    public void discardTileToSilkBag(String tile) {
-        SilkBag.insertTileToBag(tile);
-    }
+//    /**
+//     * This method will discard tiles from the board to the SilkBag.
+//     * @param tile The tile being discarded.
+//     */
+//    public void discardTileToSilkBag(String tile) {
+//        SilkBag.insertTileToBag(tile);
+//    }
 
     public enum Cardinals { //move to the Floor Tile class
         TOP,

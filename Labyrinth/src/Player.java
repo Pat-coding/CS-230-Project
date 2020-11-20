@@ -1,11 +1,12 @@
+import java.util.ArrayList;
+
+import Tiles.Tile;
 /**
  * @author Kane
  * @version 1.0
  */
 
-import java.util.ArrayList;
 
-import Tiles.Tile;
 
 public class Player {
 
@@ -18,7 +19,8 @@ public class Player {
     private Profile name;
     private Board board;
 
-    public Player(Profile profile, int playercoordx,int playercoordy,int[] profileCoordHistory, ArrayList<Tile> heldPlayerTile, boolean backTrackCheck, Boolean isPlayerTurn){
+    public Player(Profile profile, int playercoordx,int playercoordy,int[] profileCoordHistory,
+                  ArrayList<Tile> heldPlayerTile, boolean backTrackCheck, Boolean isPlayerTurn){
 
     }
 
@@ -60,7 +62,7 @@ public class Player {
      *
      */
     public void getFromSilkBag(Tile pickedTile){
-        playerInventory.add();
+        playerInventory.add(pickedTile);
     }
 
     /**
@@ -80,7 +82,6 @@ public class Player {
      *
      * @return Boolean result
      */
-
     public void playerTurn(){
         isPlayerTurn = !isPlayerTurn;
     }
@@ -90,7 +91,6 @@ public class Player {
      * @param index the place of the tile
      * @return the selected Tile
      */
-
     public Tile takeFromInventory(int index){
         if(index-1 > playerInventory.size()){
             System.out.println("out of bounds ");
