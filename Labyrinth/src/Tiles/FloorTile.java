@@ -2,7 +2,7 @@ package Tiles;
 
 import java.awt.*;
 
-abstract class FloorTile extends Tile {
+public abstract class FloorTile extends Tile {
 
     protected boolean accessFromTop;
     protected boolean accessFromBottom;
@@ -70,6 +70,9 @@ abstract class FloorTile extends Tile {
 
     public abstract String getState();
 
+    public void setState(String state) {
+        this.state = state;
+    }
     /**
      *
      * @return

@@ -73,25 +73,25 @@ public class SilkBag {
     public void insertTileToBag(String type) {
         switch (type) {
             case "Straight":
-                silkBagContent[0]++;
+                this.silkBagContent[0]++;
                 break;
             case "CornerTile":
-                silkBagContent[1]++;
+                this.silkBagContent[1]++;
                 break;
             case "TShapedTile":
-                silkBagContent[2]++;
+                this.silkBagContent[2]++;
                 break;
             case "FireTile":
-                silkBagContent[3]++;
+                this.silkBagContent[3]++;
                 break;
             case "IceTile":
-                silkBagContent[4]++;
+                this.silkBagContent[4]++;
                 break;
             case "BacktrackTile":
-                silkBagContent[5]++;
+                this.silkBagContent[5]++;
                 break;
             case "DoubleMoveTile":
-                silkBagContent[6]++;
+                this.silkBagContent[6]++;
                 break;
         }
     }
