@@ -85,6 +85,4 @@ public class SilkBag {
         }
 
         this.silkBagContent[tileType]++;
-    }
-
-}
+    

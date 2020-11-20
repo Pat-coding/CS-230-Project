@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.io.FileWriter;
 
@@ -15,7 +16,7 @@ public class FileManager {
 
     private static Level loadSaveLevel(Scanner in) {
 
-        String stringProfileID = in.next();
+        String stringProfileName = in.next();
         String nameOfBoard = in.next();
         int gameTurn = in.nextInt();
         String stringSizeOfBoard = in.next();
@@ -26,36 +27,87 @@ public class FileManager {
         String stringBackTrackCheck = in.next();
 
         //  Converts strings to more useful data types.
-        int[] profileID = stringToIntArray(stringProfileID);
+        String[] profileName = stringToStringArray(stringProfileName);
         int[] sizeOfBoard = stringToIntArray(stringSizeOfBoard);
         int[] profileCord = stringToIntArray(stringProfileCord);
         int[] profileCordHistory = stringToIntArray(stringProfileCordHistory);
-        String[] silkBagContent = stringToStringArray(stringSilkBagContent);
-        String[] heldPlayerTiles = stringToStringArray(stringHeldPlayerTiles);
+        int[] silkBagContent = stringToIntArray(stringSilkBagContent);
         Boolean backTrackCheck = Boolean.parseBoolean(stringBackTrackCheck);
 
-        //  Creates Board Object
+        ArrayList<Profile> profiles;
+        ArrayList<Profile> usedProfile = new ArrayList<>();
+        int[] profileCordX = new int[profileName.length];
+        int[] profileCordY = new int[profileName.length];
+        int[] profileCordHistoryArray = new int[profileName.length * 3];
         Board tempBoard = new Board(nameOfBoard, sizeOfBoard);
+        ArrayList<Tile> t = new ArrayList<>();
+        String[] heldPlayerTiles = stringHeldPlayerTiles.split("[;]");
+        String[] heldPlayerTilesPlayer = new String[0];
+        int counter;
+
+
         //  Populates Board with Tiles
         for (int i = 0; i < sizeOfBoard[0]*sizeOfBoard[1]; i++) {
             String stringTile = in.next();
             String[] sta = stringToStringArray(stringTile);
 
-            Tile tempTile = new Tile(sta[2],sta[3],sta[4]);
+            Tile tempTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], Boolean.getBoolean(sta[5]));
             tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), tempTile);
         }
 
+        //  Reads in profiles
+        profiles = readProfileDataFile("Profiles.txt");
+        for (int i = 0; i < profileName.length; i++) {
+            if (Arrays.asList(profileName).contains(profiles.get(i).getProfileName()) == true) {
+                usedProfile.add(profiles.get(i));
+            }
+        }
+
+        //  Splits ProfileCord X elements from Y elements
+        counter = 0;
+        for (int i = 0; i < (profileCord.length)/2; i = i + 2, counter++) {
+            profileCordX[counter] = profileCord[i];
+        }
+
+        //  Splits ProfileCord Y element from X elements.
+        counter = 0;
+        for (int j = 1; j < (profileCord.length)/2; j = j + 2, counter++){
+            profileCordY[j] = profileCord[j];
+        }
+
+
         //  Creates Player Objects
-        Player[] players = new Player[profileID.length];
-        for (int i = 0; i < profileID.length; i++) {
+        counter = 0;
 
+        Player[] players = new Player[profileName.length];
+        for (int i = 0; i < profileName.length; i++, counter = counter + 6) {
+            for (int j = 0; j < 6; j++) {
+                profileCordHistoryArray[j] = profileCordHistory[j + counter];
+            }
+            
+            for (int j = 0; j < heldPlayerTiles.length; j++) {
+                heldPlayerTilesPlayer = heldPlayerTiles[j].split(",");
+            }
 
-            Player tempPlayer = new Player(profileID[i], profileCord[i], profileCordHistory[i],
-                    heldPlayerTiles[i], backTrackCheck);
+            for (int j = 0; j < heldPlayerTilesPlayer.length; j = j+2) {
+                t.add(createHeldTiles(heldPlayerTilesPlayer[j], Integer.getInteger(heldPlayerTilesPlayer[j+1])));
+            }
+
+            Player tempPlayer = new Player(usedProfile.get(i), profileCordX[i], profileCordY[i], profileCordHistory,
+                    t, backTrackCheck);
             players[i] = (tempPlayer);
         }
-        return new Level(tempBoard, gameTurn, silkBagContent, players);
+
+        //  silkBag(int[] silkBagContent)
+        // ith element = (int Straight,int Corner,int TShaped, int Fire,int Ice,int Backtrack,int Doublemove,int Goal)
+        // respectively
+        SilkBag silkBag = new SilkBag(silkBagContent);
+
+        return new Level(tempBoard, gameTurn, silkBag, players);
     }
+
+
+
 
     /**
      *  Creates a Level object for a new game.
@@ -78,10 +130,11 @@ public class FileManager {
         //  details of fixed tiles
         Board tempBoard = new Board(nameOfBoard, sizeOfBoard);
         for (int i = 0; i < numOfFixedTiles - 1; i++) {
+
             String stringTile = in.next();
             String[] sta = stringToStringArray(stringTile);
-            // change parama of insert tiles to int
-            Tile fixedTile = new Tile(sta[2],sta[3], true);
+
+            Tile fixedTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], true);
             tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), fixedTile);
         }
 
@@ -136,7 +189,7 @@ public class FileManager {
      * @return the arraylist represented by the data file
      */
 
-    public static ArrayList<Profile> readDataFileProfile(Scanner in) {
+    private static ArrayList<Profile> readDataFileProfile(Scanner in) {
         ArrayList<Profile> returnableArray = new ArrayList<Profile>();
         while (in.hasNext()) {
             Profile profile = loadProfile(in);
@@ -154,7 +207,7 @@ public class FileManager {
      * @return the ArrayList of Profiles from the file.
      */
 
-    private static ArrayList<Profile> readProfileDataFile(String filename) {
+    public static ArrayList<Profile> readProfileDataFile(String filename) {
         File inputFile = new File(filename);
         Scanner in = null;
         try {
@@ -173,7 +226,7 @@ public class FileManager {
      * @return the arraylist represented by the data file
      */
 
-    public static ArrayList<Level> readDataFileLevel(Scanner in, String loadType) {
+    private static ArrayList<Level> readDataFileLevel(Scanner in, String loadType) {
         ArrayList<Level> returnableArray = new ArrayList<Level>();
 
         while (in.hasNext()) {
@@ -204,7 +257,7 @@ public class FileManager {
      * @return the ArrayList of Profiles from the file.
      */
 
-    private static ArrayList<Level> readLevelDataFile(String filename, String type) {
+    public static ArrayList<Level> readLevelDataFile(String filename, String type) {
         File inputFile = new File(filename);
         Scanner in = null;
         try {
@@ -214,6 +267,63 @@ public class FileManager {
             System.exit(0);
         }
         return FileManager.readDataFileLevel(in, type);
+    }
+
+    public static Tile createTempTile(String typeOfTile, int orientation, String state, Boolean isFixed) {
+        Tile tempTile = null;
+
+        switch (typeOfTile) {
+            case "Straight" :
+                tempTile = new StraightTile(orientation, state, isFixed);
+                break;
+            case "TShaped"  :
+                tempTile = new TShapedTile(orientation, state, isFixed);
+                break;
+            case "Corner"   :
+                tempTile = new CornerTile(orientation, state, isFixed);
+                break;
+            case "Goal"     :
+                tempTile = new GoalTile(orientation, state, isFixed);
+                break;
+            default:
+                System.out.println("An error has occurred");
+        }
+        return tempTile;
+    }
+
+    public static Tile createHeldTiles(String typeOfTile, int orientation) {
+        Tile tempTile = null;
+
+        switch (typeOfTile) {
+            case "Straight" :
+                tempTile = new StraightTile(orientation, "normal", false);
+                break;
+            case "TShaped"  :
+                tempTile = new TShapedTile(orientation, "normal", false);
+                break;
+            case "Corner"   :
+                tempTile = new CornerTile(orientation, "normal", false);
+                break;
+            case "Goal"     :
+                tempTile = new GoalTile(orientation, "normal", false);
+                break;
+            case "Fire"     :
+                tempTile = new FireTile();
+                break;
+            case "Ice"      :
+                tempTile = new IceTile();
+                break;
+            case "DoubleMove"   :
+                tempTile = new DoubleMoveTile();
+                break;
+            case "BackTrack"    :
+                tempTile = new BackTrackTile();
+                break;
+
+            default:
+                System.out.println("An error has occurred");
+        }
+        return tempTile;
     }
 
     /**
