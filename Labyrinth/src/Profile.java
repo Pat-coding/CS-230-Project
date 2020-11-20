@@ -69,13 +69,12 @@ public class Profile {
      */
     public void setProfileName(String profileName) {
         this.profileName = profileName;
-        this.profileWinCount = profileWinCount;
     }
 
     /**
      * @return total number of games played
      */
-    public int getProfileGamesPlayed() {
+    public int getGamesPlayed() {
         return profileGamesPlayed;
     }
 
