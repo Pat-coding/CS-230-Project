@@ -25,16 +25,18 @@ public class SilkBag {
         this.backtrack = silkBagContent[5];
         this.doublemove = silkBagContent[6];
     }
-
-    public static Tile getTile() {
+    //throws exception
+    //create a new exception class that extends the default exception
+    // throws NumberNotMatchingTile expection
+    public Tile getTile() {
         int randomNum = rand.nextInt(silkBagContent.length);
 
         if (silkBagContent[randomNum] <= 0) {
-            getTile();
+           return getTile();
         } else {
             silkBagContent[randomNum] = silkBagContent[randomNum] - 1;
             switch (randomNum) {
-                case 0:
+                case Tile.STRAIGHT_TYPE:
                     Tile StraightTile = new StraightTile(randomNum, null);
                     return StraightTile;
                 case 1:
@@ -60,30 +62,12 @@ public class SilkBag {
 
     }
 
-    public static void insertTileToBag(Tile tile) {
-        if (tile instanceof StraightTile) {
-            this.straight ++;
-        }
-        else if (tile instanceof CornerTile){
-            this.corner ++;
-        }
-        else if (tile instanceof FireTile){
-            this.fire ++;
-        }
-        else if (tile instanceof IceTile){
-            this.ice ++;
-        }
-        else if (tile instanceof TShapedTile){
-            this.tShaped ++;
-        }
-        else if (tile instanceof DoubleMoveTile){
-            this.doublemove ++;
-        }
-        else {
-            this.backtrack ++;
-        }
+    public void insertTileToBag(Tile tile) {
+        int tileType = tile.getType();
+
+        this.silkBagContent[tileType]++;
+
         
     }
 
->>>>>>> main
 }

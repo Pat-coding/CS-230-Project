@@ -14,7 +14,7 @@ public class Player {
     private boolean hasBeenBackTracked;
     private boolean isPlayerTurn;
     private Profile name;
-
+    private Board board;
 
     public Player(Profile profile, int playercoordx,int playercoordy,int[] profileCoordHistory, ArrayList<Tile> heldPlayerTile, boolean backTrackCheck){
 
@@ -35,7 +35,7 @@ public class Player {
     }
     public void getFromSilkBag(){
 
-        playerInventory.add(SilkBag.getTile());
+        playerInventory.add(board.getBag().getTile());
     }
 
     public void incPlayerWin(int[] wincorords){
