@@ -324,6 +324,24 @@ public class Board {
     }
 
     /**
+     * This method will search and store the goal co-ordinate on the board.
+     * @return
+     */
+    public int[] getGoal() {
+        int[] coords = new int[2];
+        for (int x = 0; x < getRowSize(); x++) {
+            for ( int y = 0; y < getColumnSize(); y++) {
+                if (getTileFromBoard(x,y) == getTileFromBoard(x,y)) { //TODO will change to the goal class
+                    coords[0] = x;
+                    coords[1] = y;
+                    return coords;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * This method will discard tiles from the board to the SilkBag.
      * @param tile The tile being discarded.
      */
