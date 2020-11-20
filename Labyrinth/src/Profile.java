@@ -9,6 +9,7 @@ public class Profile {
     private String profileName;
     private int profileWinCount;
     private int profileLossCount;
+    private int profileGamesPlayed;
     public double winRatio;
 
     /**
@@ -19,6 +20,7 @@ public class Profile {
         this.profileName = profileName;
         this.profileWinCount = 0;
         this.profileLossCount = 0;
+        this.profileGamesPlayed = 0;
     }
 
     /**
@@ -31,6 +33,7 @@ public class Profile {
         this.profileName = profileName;
         this.profileWinCount = profileWinCount;
         this.profileLossCount = profileLossCount;
+        this.profileGamesPlayed = profileWinCount + profileLossCount;
     }
 
     /**
@@ -55,31 +58,6 @@ public class Profile {
     }
 
     /**
-     * Adds 1 to profile win count
-     */
-    public void incrementWinCount(){
-        this.profileWinCount++;
-        if (profileWinCount == 0 | profileLossCount == 0) {
-            this.winRatio = 0;
-        } else{
-            this.winRatio = profileWinCount / profileLossCount;
-        }
-    }
-
-    /**
-     * Adds 1 to profile loss count
-     */
-    public void incrementLoseCount() {
-        this.profileLossCount++;
-        if (profileWinCount == 0 | profileLossCount == 0) {
-            this.winRatio = 0;
-        } else {
-            this.winRatio = profileWinCount / profileLossCount;
-        }
-    }
-
-
-    /**
      * @return profile name
      */
     public String getProfileName() {
@@ -92,5 +70,38 @@ public class Profile {
     public void setProfileName(String profileName) {
         this.profileName = profileName;
         this.profileWinCount = profileWinCount;
+    }
+
+    /**
+     * @return total number of games played
+     */
+    public int getProfileGamesPlayed() {
+        return profileGamesPlayed;
+    }
+
+    /**
+     * Adds 1 to profile win count
+     */
+    public void incrementWinCount(){
+        this.profileWinCount++;
+        this.profileGamesPlayed++;
+        if (profileWinCount == 0 | profileLossCount == 0) {
+            this.winRatio = 0;
+        } else{
+            this.winRatio = profileWinCount / profileLossCount;
+        }
+    }
+
+    /**
+     * Adds 1 to profile loss count
+     */
+    public void incrementLoseCount() {
+        this.profileLossCount++;
+        this.profileGamesPlayed++;
+        if (profileWinCount == 0 | profileLossCount == 0) {
+            this.winRatio = 0;
+        } else {
+            this.winRatio = profileWinCount / profileLossCount;
+        }
     }
 }
