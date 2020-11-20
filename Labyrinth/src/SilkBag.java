@@ -1,7 +1,7 @@
 
 import java.util.Random;
 
-import jdk.javadoc.internal.doclets.formats.html.markup.StringContent;
+import Tiles.*;
 
 public class SilkBag {
 
@@ -9,16 +9,13 @@ public class SilkBag {
     private int[] silkBagContent;
 
     /**
-     *
-     * @param silkBagContent
-     *  0th = Straight
-     *  1st =
-     *
+     * @param silkBagContent 0th = Straight
+     *                       1st =
      */
 
 
     public SilkBag(int[] silkBagContent) {
-        this.silkBagLength = silkBagContent;
+        this.silkBagContent = silkBagContent;
 //        this.straight = silkBagContent[0];
 //        this.corner = silkBagContent[1];
 //        this.tShaped = silkBagContent[2];
@@ -27,13 +24,8 @@ public class SilkBag {
 //        this.backtrack = silkBagContent[5];
 //        this.doublemove = silkBagContent[6];
     }
-    //throws exception
-    //create a new exception class that extends the default exception
-    // throws NumberNotMatchingTile expection
-
 
     /**
-     *
      * @param player
      */
     public void giveTile(Player player) {
@@ -45,25 +37,25 @@ public class SilkBag {
             silkBagContent[randomNum] = silkBagContent[randomNum] - 1;
             switch (randomNum) {
                 case 0:
-                    Tile StraightTile = new StraightTile(randomNum, null);
+                    Tile StraightTile = new StraightTile(randomOrientation(), "NORMAL", false);
                     player.getPlayerInventory().add(StraightTile);
                 case 1:
-                    Tile CornerTile = new CornerTile(randomNum, null);
+                    Tile CornerTile = new CornerTile(randomOrientation(), "NORMAL", false);
                     player.getPlayerInventory().add(CornerTile);
                 case 2:
-                    Tile TShapedTile = new TShapedTile(randomNum, null);
+                    Tile TShapedTile = new TShapedTile(randomOrientation(), "NORMAL", false);
                     player.getPlayerInventory().add(TShapedTile);
                 case 3:
-                    Tile FireTile = new FireTile(randomNum, null);
+                    Tile FireTile = new FireTile();
                     player.getPlayerInventory().add(FireTile);
                 case 4:
-                    Tile IceTile = new IceTile(randomNum, null);
+                    Tile IceTile = new IceTile();
                     player.getPlayerInventory().add(IceTile);
                 case 5:
-                    Tile BackTrackTile = new BacktrackTile(randomNum, null);
+                    Tile BackTrackTile = new BacktrackTile();
                     player.getPlayerInventory().add(BackTrackTile);
                 case 6:
-                    Tile DoubleMoveTile = new DoubleMoveTile(randomNum, null);
+                    Tile DoubleMoveTile = new DoubleMoveTile();
                     player.getPlayerInventory().add(DoubleMoveTile);
 
             }
@@ -71,18 +63,36 @@ public class SilkBag {
     }
 
 
+    public int randomOrientation() {
+        int[] orientation = new int[]{0, 90, 180, 270};
+        int rnd = new Random().nextInt(orientation.length);
+        return orientation[rnd];
+    }
+
 
     public void insertTileToBag(String type) {
         switch (type) {
             case "Straight":
-                this.straight++;
+                silkBagContent[0]++;
                 break;
-            case "Corner":
-                this.corner++;
+            case "CornerTile":
+                silkBagContent[1]++;
                 break;
-            case "TShaped":
-                this.Tshaped
+            case "TShapedTile":
+                silkBagContent[2]++;
+                break;
+            case "FireTile":
+                silkBagContent[3]++;
+                break;
+            case "IceTile":
+                silkBagContent[4]++;
+                break;
+            case "BacktrackTile":
+                silkBagContent[5]++;
+                break;
+            case "DoubleMoveTile":
+                silkBagContent[6]++;
+                break;
         }
-
-        this.silkBagContent[tileType]++;
-    
+    }
+}

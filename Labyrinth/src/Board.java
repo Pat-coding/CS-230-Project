@@ -1,3 +1,5 @@
+import Tiles.Tile;
+
 import java.util.ArrayList;
 /**
  * The board class structures the game board where the methods are operations that directly affects what is going on
@@ -120,7 +122,7 @@ public class Board {
      */
     public boolean checkTileInsertionRow(int y) {
         for (int x = 0; x < getRowSize(); x++) {
-            if (getTileFromBoard(x, y).fixed || getTileFromBoard(x, y).frozen) {
+            if (getTileFromBoard(x, y).isFixed || getTileFromBoard(x, y).frozen) {
                 return false;
             }
         }
