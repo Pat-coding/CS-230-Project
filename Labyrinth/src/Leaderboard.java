@@ -1,8 +1,10 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Leaderboard {
+
     private ArrayList<Profile> profileList;
-    public int sortType;
+    private int sortType;
 
     public Leaderboard(int sortType, boolean asc){
         this.profileList = sort(Menu.profiles, sortType);
@@ -14,6 +16,7 @@ public class Leaderboard {
 
     public void setSortType(int sortType) {
         this.sortType = sortType;
+        this.profileList = sort(Menu.profiles, sortType);
     }
 
     public ArrayList<Profile> getLeaderboard() {
@@ -23,19 +26,16 @@ public class Leaderboard {
     private ArrayList<Profile> sort(ArrayList<Profile> profileList, int sortType, boolean asc) {
         switch (sortType) {
             case 0:
-                sortWins(profileList, asc);
-                break;
+                return sortWins(profileList, asc);
             case 1:
-                sortLosses(profileList, asc);
-                break;
+                return sortLosses(profileList, asc);
             case 2:
-                sortWinRatio(profileList, asc);
-                break;
+                return sortWinRatio(profileList, asc);
             case 3:
-                sortGamesPlayed(profileList, asc);
-                break;
+                return sortGamesPlayed(profileList, asc);
             default:
                 System.out.println("Error: unknown sort type (Use integers 0-3)");
+                return null;
         }
     }
 
