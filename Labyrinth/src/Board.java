@@ -13,6 +13,11 @@ public class Board {
     private String nameOfBoard;
     private Tile[][] tileCoordinates;
     private Player[][] playerCoordinates;
+    private SilkBag bag;
+    // needs a getter for bag
+    public SilkBag getBag(){
+        return bag;
+    }
 
     //  Tile (Type, Orientation, State, fixed)
     /**
