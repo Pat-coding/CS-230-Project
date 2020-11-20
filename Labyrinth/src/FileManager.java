@@ -55,7 +55,7 @@ public class FileManager {
             String stringTile = in.next();
             String[] sta = stringToStringArray(stringTile);
 
-            Tile tempTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], Boolean.getBoolean(sta[5]));
+            FloorTile tempTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], Boolean.getBoolean(sta[5]));
             tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), tempTile);
         }
 
@@ -138,7 +138,7 @@ public class FileManager {
             String stringTile = in.next();
             String[] sta = stringToStringArray(stringTile);
 
-            Tile fixedTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], true);
+            FloorTile fixedTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], true);
             tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), fixedTile);
         }
 
@@ -275,8 +275,8 @@ public class FileManager {
         return FileManager.readDataFileLevel(in, type);
     }
 
-    public static Tile createTempTile(String typeOfTile, int orientation, String state, Boolean isFixed) {
-        Tile tempTile = null;
+    public static FloorTile createTempTile(String typeOfTile, int orientation, String state, Boolean isFixed) {
+        FloorTile tempTile = null;
 
         switch (typeOfTile) {
             case "Straight" :
