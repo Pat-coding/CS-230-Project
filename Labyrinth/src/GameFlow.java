@@ -88,6 +88,12 @@ public class GameFlow {
     public void incGameTurn() {
         // set the next player's turn to true (playerTurn method)
         // set the previous player's turn to false (playerTurn method)
+        this.players[this.playerTurn].playerTurn(); // set current players turn to false
+        this.playerTurn ++; // increment which players turn it is
+        if (this.playerTurn == this.players.length) { // loop back to first player if at end of player array
+            this.playerTurn = 0;
+        }
+        this.players[this.playerTurn].playerTurn(); // set next players turn to true
     }
 
     public void flow() {
