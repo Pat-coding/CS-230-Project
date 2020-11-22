@@ -83,6 +83,14 @@ public class GameFlow {
     }
 
     /**
+     * This method will discard tiles from the board to the SilkBag.
+     * @param tile The tile being discarded.
+     */
+    public void discardTileToSilkBag(String tile) {
+        this.level.getSilkBagObject().insertTileToBag(tile);
+    }
+
+    /**
      * Go to the next turn of the board.
      */
     public void incGameTurn() {
