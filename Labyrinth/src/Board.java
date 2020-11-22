@@ -201,38 +201,43 @@ public class Board {
      * @param y    The y co-ordinate where the player wants to slide tile in.
      * @param tile The tile that is being slided in.
      */
-    public void placeOnNewTile(Cardinals c, int x, int y,FloorTile tile) { //use enum for access cardinals on tiles
+    public FloorTile placeOnNewTile(Cardinals c, int x, int y,FloorTile tile) { //use enum for access cardinals on tiles
         if (c == Cardinals.TOP) {//shift index down from the second last (animations)
-//            discardTileToSilkBag(getTileFromBoard(x, getColumnSize()));
+            FloorTile discardedTile = getTileFromBoard(x, getColumnSize());
             for (int col = getColumnSize() - 1; col >= 0; col--) {
                 insertTile(x, col, getTileFromBoard(x, col - 1));
             }
             insertTile(x, y, tile);
+            return discardedTile;
         }
 
         if (c == Cardinals.BOTTOM) {
-//            discardTileToSilkBag(getTileFromBoard(x, getColumnSize()));
+            FloorTile discardedTile = getTileFromBoard(x, 0);
             for (int col = 0; col < getColumnSize(); col++) {
                 insertTile(x, col, getTileFromBoard(x, col + 1));
             }
             insertTile(x, y, tile);
+            return discardedTile;
         }
 
         if (c == Cardinals.LEFT) {
-//            discardTileToSilkBag(getTileFromBoard(getRowSize(), y));
+            FloorTile discardedTile = getTileFromBoard(getRowSize(), y);
             for (int row = getRowSize(); row > 0; row--) {
                 insertTile(row, getRowSize(), getTileFromBoard(row - 1, y));
             }
             insertTile(x, y, tile);
+            return discardedTile;
         }
 
         if (c == Cardinals.RIGHT) {
-//            discardTileToSilkBag(getTileFromBoard(getRowSize(), y));
+            FloorTile discardedTile = getTileFromBoard(0, y);
             for (int row = 0; row < getRowSize(); row++) {
                 insertTile(row, getRowSize(), getTileFromBoard(row + 1, y));
             }
             insertTile(x, y, tile);
+            return discardedTile;
         }
+        return null;
     }
 
     /**
@@ -339,13 +344,13 @@ public class Board {
         return null;
     }
 
-    /**
-     * This method will discard tiles from the board to the SilkBag.
-     * @param tile The tile being discarded.
-     */
-    public void discardTileToSilkBag(String tile) {
-        SilkBag.insertTileToBag(tile);
-    }
+//    /**
+//     * This method will discard tiles from the board to the SilkBag.
+//     * @param tile The tile being discarded.
+//     */
+//    public void discardTileToSilkBag(String tile) {
+//        SilkBag.insertTileToBag(tile);
+//    }
 
     public enum Cardinals { //move to the Floor Tile class
         TOP,
