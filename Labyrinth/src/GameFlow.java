@@ -38,7 +38,7 @@ public class GameFlow {
         this.players = new Player[profiles.length];
         int[] spawnPoints = this.level.getSpawnPoints();
         for (int i = 0; i < profiles.length; i++) {
-            this.players[i] = new Player(profiles[i], spawnPoints[i*2], spawnPoints[(i*2) + 1], new int[6], new ArrayList<Tile>(), false);
+            this.players[i] = new Player(profiles[i], spawnPoints[i*2], spawnPoints[(i*2) + 1], new int[6], new ArrayList<Tile>(), false, false);
         }
         this.level.setPlayerArray(this.players);
     }
