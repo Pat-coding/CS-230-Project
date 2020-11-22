@@ -1,3 +1,6 @@
+import Tiles.ActionTile;
+import Tiles.FireTile;
+import Tiles.FloorTile;
 import Tiles.Tile;
 
 /**
@@ -73,14 +76,16 @@ public class GameFlow {
 
     /**
      * Place an action tile at the given coordinates on the board.
-     * @param gameBoard The board to place the tile on.
      * @param tile The tile to place on the board.
      * @param x The x-coordinate to insert the action tile.
      * @param y The y-coordinate to insert the action tile.
      * @return True if the tile was placed.
      */
-    public Boolean playerPlaceActionTile(Board gameBoard, Tile tile, int x, int y) {
+    public Boolean playerPlaceActionTile(ActionTile tile, int x, int y) {
         // check type of tile
+        if (tile instanceof FireTile) {
+            
+        }
         // set tile on fire method or frozen depending on type of tile
         return false;
     }
