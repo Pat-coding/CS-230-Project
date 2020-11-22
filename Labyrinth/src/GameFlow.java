@@ -6,10 +6,12 @@ import Tiles.Tile;
  */
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameFlow {
     private Level level;
     private Player[] players;
+    private int playerTurn;
 
     /**
      * New Game
@@ -19,6 +21,10 @@ public class GameFlow {
     public GameFlow(Level level, Profile[] profiles) {
         this.level = level;
         this.initiatePlayers(profiles);
+        // Randomly select a player to have the first turn.
+        Random r = new Random();
+        this.playerTurn = r.nextInt(this.players.length);
+        this.players[this.playerTurn].playerTurn();
     }
 
     /**
