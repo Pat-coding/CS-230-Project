@@ -34,6 +34,13 @@ public class GameFlow {
     public GameFlow(Level level) {
         this.level = level;
         this.players = level.getPlayerData();
+        // Set the player turn to whichever player had the last turn in the previous save.
+        for (int i = 0; i < this.players.length; i++) {
+            if (this.players[i].getPlayerTurn()) {
+                this.playerTurn = i;
+                break;
+            }
+        }
     }
 
     /**
