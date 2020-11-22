@@ -1,6 +1,7 @@
 import Tiles.ActionTile;
 import Tiles.FireTile;
 import Tiles.FloorTile;
+import Tiles.IceTile;
 import Tiles.Tile;
 
 /**
@@ -9,6 +10,7 @@ import Tiles.Tile;
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class GameFlow {
@@ -81,22 +83,29 @@ public class GameFlow {
      * @return True if the tile was placed.
      */
     public Boolean playerPlaceActionTile(ActionTile tile, int x, int y) {
+        // If the player of the current turn is trying to place an action tile
+        // on themselves, we deny it.
+        if (!checkActionCardValid(this.players[playerTurn], x, y)) {
+            return false;
+        }
         // check type of tile
         if (tile instanceof FireTile) {
-            
+            this.level.getBoardData().setTilesOnFire(x, y);
+            return true;
+        } else if (tile instanceof IceTile) {
+            this.level.getBoardData().setTilesFrozen(x, y);
+            return true;
         }
-        // set tile on fire method or frozen depending on type of tile
         return false;
     }
 
     /**
      * Checks if the player is standing on a point where they want to place an action tile.
-     * @param tile The tile the player wants to place.
      * @param player The player requesting the placement.
      * @return True if the tile can be placed.
      */
-    public Boolean checkActionCardValid(Tile tile, Player player) {
-        return false;
+    public Boolean checkActionCardValid(Player player, int x, int y) {
+        return Arrays.equals(this.level.getBoardData().playerLocationOnBoard(x, y, player), new int[] {x, y});
     }
 
     /**
