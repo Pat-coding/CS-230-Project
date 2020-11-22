@@ -65,9 +65,9 @@ public class GameFlow {
      * @param y             The y-coordinate to insert the tile into.
      * @return              The tile that was removed from the board.
      */
-    public Tile playerSlotFloorTile(Board.Cardinals direction, Tile tile, int x, int y) {
-        // movePlayerFromEndTile (if player is on end tile)
-        // placeOnNewTile
+    public Tile playerSlotFloorTile(Board.Cardinals direction, FloorTile tile, int x, int y) {
+        this.level.getBoardData().movePlayerFromEndTile(x, y, direction);
+        this.level.getBoardData().placeOnNewTile(direction, x, y, tile);
         return null;
     }
 
