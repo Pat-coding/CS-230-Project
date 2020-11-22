@@ -4,7 +4,8 @@
  */
 
 import java.util.ArrayList;
-import javafx.scene.paint.Color;
+
+import Tiles.Tile;
 
 public class Player {
 
@@ -15,9 +16,9 @@ public class Player {
     private boolean hasBeenBackTracked;
     private boolean isPlayerTurn;
     private Profile name;
+    private Board board;
 
-
-    public Player(Profile profile, int playercoordx,int playercoordy,int[] profileCoordHistory, ArrayList<Tile> heldPlayerTile, boolean backTrackCheck){
+    public Player(Profile profile, int playercoordx,int playercoordy,int[] profileCoordHistory, ArrayList<Tile> heldPlayerTile, boolean backTrackCheck, Boolean isPlayerTurn){
 
     }
 
@@ -59,8 +60,7 @@ public class Player {
      *
      */
     public void getFromSilkBag(Tile pickedTile){
-
-        playerInventory.add(SilkBag.getTile());
+        playerInventory.add();
     }
 
     /**

@@ -1,3 +1,6 @@
+import Tiles.FloorTile;
+import Tiles.Tile;
+
 import java.util.ArrayList;
 /**
  * The board class structures the game board where the methods are operations that directly affects what is going on
@@ -11,8 +14,13 @@ public class Board {
     private final int rowSize;
     private final int columnSize;
     private String nameOfBoard;
-    private Tile[][] tileCoordinates;
+    private FloorTile[][] tileCoordinates;
     private Player[][] playerCoordinates;
+    private SilkBag bag;
+    // needs a getter for bag
+    public SilkBag getBag(){
+        return bag;
+    }
 
     //  Tile (Type, Orientation, State, fixed)
     /**
@@ -24,7 +32,7 @@ public class Board {
         rowSize = sizeOfBoard[0];
         columnSize = sizeOfBoard[1];
         this.setNameOfBoard(nameOfBoard);
-        tileCoordinates = new Tile[getRowSize()][getColumnSize()];
+        tileCoordinates = new FloorTile[getRowSize()][getColumnSize()];
         playerCoordinates = new Player[getRowSize()][getColumnSize()];
     }
 
@@ -59,7 +67,7 @@ public class Board {
      * @param y The y co-ordinate of the tile.
      * @param tile THe tile at the position.
      */
-    public void insertTile(int x, int y, Tile tile) {
+    public void insertTile(int x, int y,FloorTile tile) {
         tileCoordinates[x][y] = tile;
     }
 
@@ -78,7 +86,7 @@ public class Board {
      * @param y
      * @return
      */
-    private Tile getTileFromBoard(int x, int y) {
+    private FloorTile getTileFromBoard(int x, int y) {
         return tileCoordinates[x][y];
     }
 
@@ -115,7 +123,7 @@ public class Board {
      */
     public boolean checkTileInsertionRow(int y) {
         for (int x = 0; x < getRowSize(); x++) {
-            if (getTileFromBoard(x, y).fixed || getTileFromBoard(x, y).frozen) {
+            if (getTileFromBoard(x, y).isFixed()|| getTileFromBoard(x, y).getState().equals("FROZEN")) {
                 return false;
             }
         }
@@ -129,7 +137,7 @@ public class Board {
      */
     private boolean checkTilePlacementCol(int x) {
         for (int y = 0; y < getColumnSize(); y++) {
-            if (getTileFromBoard(x, y).fixed || getTileFromBoard(x, y).frozen) {
+            if (getTileFromBoard(x, y).isFixed() || getTileFromBoard(x, y).getState().equals("FROZEN")) {
                 return false;
             }
         }
@@ -144,19 +152,19 @@ public class Board {
     public void setTilesFrozen(int x, int y) {
         for (int row = x - 1; row < x + 3; row++) {
             if (getTileFromBoard(row, y + 1) != null) {
-                getTileFromBoard(row, y + 1).frozen = true;
+                getTileFromBoard(row, y + 1).setState("FROZEN");
             }
         }
 
         for (int row = x - 1; row < x + 3; row++) {
             if (getTileFromBoard(row, y) != null) {
-                getTileFromBoard(row, y).frozen = true;
+                getTileFromBoard(row, y).setState("FROZEN");
             }
         }
 
         for (int row = x - 1; row < x + 3; row++) {
             if (getTileFromBoard(row, y - 1) != null) {
-                getTileFromBoard(row, y - 1).frozen = true;
+                getTileFromBoard(row, y - 1).setState("FROZEN");
             }
         }
     }
@@ -169,19 +177,19 @@ public class Board {
     public void setTilesOnFire(int x, int y) {
         for (int row = x - 1; row < x + 3; row++) {
             if (getTileFromBoard(row, y + 1) != null) {
-                getTileFromBoard(row, y + 1).onFire = true;
+                getTileFromBoard(row, y + 1).setState("FIRE");
             }
         }
 
         for (int row = x - 1; row < x + 3; row++) {
             if (getTileFromBoard(row, y) != null) {
-                getTileFromBoard(row, y).onFire = true;
+                getTileFromBoard(row, y).setState("FIRE");
             }
         }
 
         for (int row = x - 1; row < x + 3; row++) {
             if (getTileFromBoard(row, y - 1) != null) {
-                getTileFromBoard(row, y - 1).onFire = true;
+                getTileFromBoard(row, y - 1).setState("FIRE");
             }
         }
     }
@@ -193,9 +201,9 @@ public class Board {
      * @param y    The y co-ordinate where the player wants to slide tile in.
      * @param tile The tile that is being slided in.
      */
-    public void placeOnNewTile(Cardinals c, int x, int y, Tile tile) { //use enum for access cardinals on tiles
+    public void placeOnNewTile(Cardinals c, int x, int y,FloorTile tile) { //use enum for access cardinals on tiles
         if (c == Cardinals.TOP) {//shift index down from the second last (animations)
-            discardTileToSilkBag(getTileFromBoard(x, getColumnSize()));
+//            discardTileToSilkBag(getTileFromBoard(x, getColumnSize()));
             for (int col = getColumnSize() - 1; col >= 0; col--) {
                 insertTile(x, col, getTileFromBoard(x, col - 1));
             }
@@ -203,7 +211,7 @@ public class Board {
         }
 
         if (c == Cardinals.BOTTOM) {
-            discardTileToSilkBag(getTileFromBoard(x, getColumnSize()));
+//            discardTileToSilkBag(getTileFromBoard(x, getColumnSize()));
             for (int col = 0; col < getColumnSize(); col++) {
                 insertTile(x, col, getTileFromBoard(x, col + 1));
             }
@@ -211,7 +219,7 @@ public class Board {
         }
 
         if (c == Cardinals.LEFT) {
-            discardTileToSilkBag(getTileFromBoard(getRowSize(), y));
+//            discardTileToSilkBag(getTileFromBoard(getRowSize(), y));
             for (int row = getRowSize(); row > 0; row--) {
                 insertTile(row, getRowSize(), getTileFromBoard(row - 1, y));
             }
@@ -219,7 +227,7 @@ public class Board {
         }
 
         if (c == Cardinals.RIGHT) {
-            discardTileToSilkBag(getTileFromBoard(getRowSize(), y));
+//            discardTileToSilkBag(getTileFromBoard(getRowSize(), y));
             for (int row = 0; row < getRowSize(); row++) {
                 insertTile(row, getRowSize(), getTileFromBoard(row + 1, y));
             }
@@ -305,24 +313,37 @@ public class Board {
      * @param y The new y co-ordinate of the player.
      */
     public void backTrackPlayer(ArrayList<Integer> tilesVisited, int x, int y) { //TODO check index of tilesVisited
-        if ((getTileFromBoard(tilesVisited.get(4), tilesVisited.get(5))).onFire ||
-                (getTileFromBoard(tilesVisited.get(2), tilesVisited.get(3))).onFire) {
+        if ((getTileFromBoard(tilesVisited.get(4), tilesVisited.get(5))).getState().equals("FIRE") ||
+                (getTileFromBoard(tilesVisited.get(2), tilesVisited.get(3))).getState().equals(("FIRE"))) {
             //error message here stating player cannot go back because tile is on fire
         } else {
-            if (getPlayerFromBoard(x, y).hasBeenDoubled) { //should be tracker on last 2 turns
-                movePlayer(tilesVisited.get(4), tilesVisited.get(5), x, y);
-            } else {
                 movePlayer(tilesVisited.get(2), tilesVisited.get(3), x, y);
+        }
+    }
+
+    /**
+     * This method will search and store the goal co-ordinate on the board.
+     * @return
+     */
+    public int[] getGoal() {
+        int[] coords = new int[2];
+        for (int x = 0; x < getRowSize(); x++) {
+            for ( int y = 0; y < getColumnSize(); y++) {
+                if (getTileFromBoard(x,y) == getTileFromBoard(x,y)) { //TODO will change to the goal class
+                    coords[0] = x;
+                    coords[1] = y;
+                    return coords;
+                }
             }
         }
-
+        return null;
     }
 
     /**
      * This method will discard tiles from the board to the SilkBag.
      * @param tile The tile being discarded.
      */
-    public void discardTileToSilkBag(Tile tile) {
+    public void discardTileToSilkBag(String tile) {
         SilkBag.insertTileToBag(tile);
     }
 

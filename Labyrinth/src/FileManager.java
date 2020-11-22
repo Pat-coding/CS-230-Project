@@ -1,3 +1,5 @@
+import Tiles.*;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -25,9 +27,11 @@ public class FileManager {
         String stringSilkBagContent = in.next();
         String stringHeldPlayerTiles = in.next();
         String stringBackTrackCheck = in.next();
+        String stringIsPlayerTurn = in.next();
 
         //  Converts strings to more useful data types.
         String[] profileName = stringToStringArray(stringProfileName);
+        String[] isPlayerTurn = stringToStringArray(stringIsPlayerTurn);
         int[] sizeOfBoard = stringToIntArray(stringSizeOfBoard);
         int[] profileCord = stringToIntArray(stringProfileCord);
         int[] profileCordHistory = stringToIntArray(stringProfileCordHistory);
@@ -51,7 +55,7 @@ public class FileManager {
             String stringTile = in.next();
             String[] sta = stringToStringArray(stringTile);
 
-            Tile tempTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], Boolean.getBoolean(sta[5]));
+            FloorTile tempTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], Boolean.getBoolean(sta[5]));
             tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), tempTile);
         }
 
@@ -94,7 +98,7 @@ public class FileManager {
             }
 
             Player tempPlayer = new Player(usedProfile.get(i), profileCordX[i], profileCordY[i], profileCordHistory,
-                    t, backTrackCheck);
+                    t, backTrackCheck, Boolean.parseBoolean(isPlayerTurn[i]));
             players[i] = (tempPlayer);
         }
 
@@ -125,7 +129,7 @@ public class FileManager {
 
         int[] sizeOfBoard = stringToIntArray(stringSizeOfBoard);
         int[] spawnPoints = stringToIntArray(stringSpawnPoints);
-        String[] silkBagContent = stringToStringArray(stringSilkBagContent);
+        int[] silkBagContent = stringToIntArray(stringSilkBagContent);
 
         //  details of fixed tiles
         Board tempBoard = new Board(nameOfBoard, sizeOfBoard);
@@ -134,11 +138,13 @@ public class FileManager {
             String stringTile = in.next();
             String[] sta = stringToStringArray(stringTile);
 
-            Tile fixedTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], true);
+            FloorTile fixedTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], true);
             tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), fixedTile);
         }
 
-        return new Level(tempBoard, 0, silkBagContent, spawnPoints);
+        SilkBag silkBag = new SilkBag(silkBagContent);
+
+        return new Level(tempBoard, 0, silkBag, spawnPoints);
     }
 
     /**
@@ -269,8 +275,8 @@ public class FileManager {
         return FileManager.readDataFileLevel(in, type);
     }
 
-    public static Tile createTempTile(String typeOfTile, int orientation, String state, Boolean isFixed) {
-        Tile tempTile = null;
+    public static FloorTile createTempTile(String typeOfTile, int orientation, String state, Boolean isFixed) {
+        FloorTile tempTile = null;
 
         switch (typeOfTile) {
             case "Straight" :
@@ -317,7 +323,7 @@ public class FileManager {
                 tempTile = new DoubleMoveTile();
                 break;
             case "BackTrack"    :
-                tempTile = new BackTrackTile();
+                tempTile = new BacktrackTile();
                 break;
 
             default:

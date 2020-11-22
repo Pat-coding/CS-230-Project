@@ -1,3 +1,5 @@
+import Tiles.Tile;
+
 /**
  * @author Ben Dodd
  * @version 1.0.0
