@@ -20,6 +20,7 @@ public class Player {
     private Profile name;
     private Board board;
 
+
     public Player(Profile profile, int playercoordx,int playercoordy,int[] profileCoordHistory,
                   ArrayList<Tile> heldPlayerTile, boolean backTrackCheck, Boolean isPlayerTurn){
         this.playercoordy = playercoordy;
@@ -72,11 +73,11 @@ public class Player {
 
     /**
      * This Method adds a tile to the inventory
-     * @param pickedTile
+     *
      *
      */
-    public void getFromSilkBag(Tile pickedTile){
-        playerInventory.add(SilkBag.g);
+    public void getFromSilkBag(){
+        playerInventory.add(SilkBag.getTile());
     }
 
     /**
