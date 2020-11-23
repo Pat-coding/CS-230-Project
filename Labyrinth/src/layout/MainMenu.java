@@ -4,6 +4,7 @@ import backend.Motd;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
@@ -29,8 +30,11 @@ public class MainMenu {
 
     //Opens new LaunchNewGame window
     public void launchNewGame(javafx.event.ActionEvent actionEvent) throws IOException {
-        BorderPane pane = FXMLLoader.load(getClass().getResource("NewGame.fxml"));
+//        BorderPane pane = FXMLLoader.load(getClass().getResource("NewGame.fxml"));
+//        rootPane.getChildren().setAll(pane);
+        GridPane pane = FXMLLoader.load(getClass().getResource("BoardController.fxml")); //testing board
         rootPane.getChildren().setAll(pane);
+
     }
 
     //Opens new launchLoadGame window
