@@ -1,6 +1,6 @@
 package layout;
-
 import javafx.fxml.FXML;
+import backend.Motd;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -24,6 +24,7 @@ public class MainMenu {
         Motd motd = new Motd();
         motdText.setText(motd.getMessage());
         System.out.println("Motd loaded");
+        rootPane.setStyle("-fx-background-color: #202020;");
     }
 
     //Opens new LaunchNewGame window

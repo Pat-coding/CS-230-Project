@@ -15,8 +15,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         primaryStage.setTitle("Labyrinth");
-        primaryStage.setScene(new Scene(root, 900, 300));
+        primaryStage.setScene(new Scene(root, 900, 500));
         primaryStage.show();
+        primaryStage.sizeToScene();
     }
 
 
