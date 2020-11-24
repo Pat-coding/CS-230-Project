@@ -37,6 +37,7 @@ public class MainMenu {
 //        rootPane.getChildren().setAll(pane);
         GridPane gridPane = FXMLLoader.load(getClass().getResource("BoardController.fxml")); //testing board
         rootPane.getChildren().setAll(gridPane);
+
     }
 
     //Opens new launchLoadGame window
