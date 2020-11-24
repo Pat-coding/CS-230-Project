@@ -1,3 +1,5 @@
+package backend;
+
 import java.util.ArrayList;
 
 import Tiles.Tile;
@@ -10,8 +12,7 @@ import Tiles.Tile;
 
 public class Player {
 
-    private int playercoordx;
-    private int playercoordy;
+
     private ArrayList<Integer> tilesVisitedX =  new ArrayList<>();
     private ArrayList<Integer> tilesVisitedY =  new ArrayList<>();
     private ArrayList<Tile> playerInventory = new ArrayList<>();
@@ -20,26 +21,12 @@ public class Player {
     private Profile name;
     private Board board;
 
-
     public Player(Profile profile, int playercoordx,int playercoordy,int[] profileCoordHistory,
                   ArrayList<Tile> heldPlayerTile, boolean backTrackCheck, Boolean isPlayerTurn){
-        this.playercoordy = playercoordy;
-        this.playercoordx = playercoordy;
-
 
     }
-    /**
-     * This Method adds the players current position to the players visited arrays
-     *
-     * @return Tiles held by player
-     */
 
-
-    public void addToVisited() {
-        tilesVisitedX.add(playercoordx);
-        tilesVisitedY.add(playercoordy);
-
-    }
+    public void addToVisited() {}
 
     /**
      * This Method returns the players inventory
@@ -73,11 +60,11 @@ public class Player {
 
     /**
      * This Method adds a tile to the inventory
-     *
+     * @param pickedTile
      *
      */
-    public void getFromSilkBag(){
-        playerInventory.add(SilkBag.getTile());
+    public void getFromSilkBag(Tile pickedTile){
+        playerInventory.add(pickedTile);
     }
 
     /**
@@ -111,10 +98,10 @@ public class Player {
             System.out.println("out of bounds ");
             return null;
         }else
-        {Tile x = playerInventory.get(index);
+            {Tile x = playerInventory.get(index);
             playerInventory.remove(index);
             return x;
-        }
+            }
 
     }
 
