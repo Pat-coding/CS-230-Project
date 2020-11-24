@@ -1,5 +1,6 @@
+package backend;
+
 import Tiles.FloorTile;
-import Tiles.Tile;
 
 import java.util.ArrayList;
 /**
@@ -42,7 +43,7 @@ public class Board {
      * @param sizeOfBoard The name of the board.
      * @param nameOfBoard The size of the board.
      */
-    private Board(int[] sizeOfBoard, String nameOfBoard) {
+    public Board(int[] sizeOfBoard, String nameOfBoard) {
         rowSize = sizeOfBoard[0];
         columnSize = sizeOfBoard[1];
         this.setNameOfBoard(nameOfBoard);
@@ -51,14 +52,14 @@ public class Board {
     /**
      * @return The name of the board.
      */
-    private String getNameOfBoard() {
+    public String getNameOfBoard() {
         return nameOfBoard;
     }
 
     /**
      * @param nameOfBoard The name of the board.
      */
-    private void setNameOfBoard(String nameOfBoard) {
+    public void setNameOfBoard(String nameOfBoard) {
         this.nameOfBoard = nameOfBoard;
     }
 
@@ -77,7 +78,7 @@ public class Board {
      * @param y The y co-ordinate of the player.
      * @param player The player at the position.
      */
-    private void insertPlayer(int x, int y, Player player) {
+    public void insertPlayer(int x, int y, Player player) {
         playerCoordinates[x][y] = player;
     }
 
@@ -86,7 +87,7 @@ public class Board {
      * @param y
      * @return
      */
-    private FloorTile getTileFromBoard(int x, int y) {
+    public FloorTile getTileFromBoard(int x, int y) {
         return tileCoordinates[x][y];
     }
 
@@ -96,7 +97,7 @@ public class Board {
      * @param y
      * @return
      */
-    private Player getPlayerFromBoard(int x, int y) {
+    public Player getPlayerFromBoard(int x, int y) {
         return playerCoordinates[x][y];
     }
 
@@ -104,7 +105,7 @@ public class Board {
      *
      * @return
      */
-    private int getRowSize() {
+    public int getRowSize() {
         return rowSize;
     }
 
@@ -112,7 +113,7 @@ public class Board {
      *
      * @return
      */
-    private int getColumnSize() {
+    public int getColumnSize() {
         return columnSize;
     }
 
@@ -135,7 +136,7 @@ public class Board {
      * @param x the column in question.
      * @return Boolean result.
      */
-    private boolean checkTilePlacementCol(int x) {
+    public boolean checkTilePlacementCol(int x) {
         for (int y = 0; y < getColumnSize(); y++) {
             if (getTileFromBoard(x, y).isFixed() || getTileFromBoard(x, y).getState().equals("FROZEN")) {
                 return false;
@@ -246,7 +247,8 @@ public class Board {
      * @param y The y co-ordinate of the new position of the player.
      * @param c The cardinal place of the tile insertion.
      */
-    public void movePlayerFromEndTile(int x, int y, Cardinals c) { //case move if end of tile, called from gameState?
+    public void movePlayerFromEndTile(int x, int y, Cardinals c) {
+        //TODO add a check to see if a player is at the end.
         if (c == Cardinals.TOP) {
             movePlayer(x, y, x, getColumnSize());
         }
@@ -343,14 +345,6 @@ public class Board {
         }
         return null;
     }
-
-//    /**
-//     * This method will discard tiles from the board to the SilkBag.
-//     * @param tile The tile being discarded.
-//     */
-//    public void discardTileToSilkBag(String tile) {
-//        SilkBag.insertTileToBag(tile);
-//    }
 
     public enum Cardinals { //move to the Floor Tile class
         TOP,

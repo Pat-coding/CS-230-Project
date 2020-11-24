@@ -1,9 +1,13 @@
 package layout;
-
 import javafx.fxml.FXML;
+import backend.Motd;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
@@ -24,12 +28,16 @@ public class MainMenu {
         Motd motd = new Motd();
         motdText.setText(motd.getMessage());
         System.out.println("Motd loaded");
+        rootPane.setStyle("-fx-background-color: #202020;");
     }
 
     //Opens new LaunchNewGame window
     public void launchNewGame(javafx.event.ActionEvent actionEvent) throws IOException {
-        BorderPane pane = FXMLLoader.load(getClass().getResource("NewGame.fxml"));
-        rootPane.getChildren().setAll(pane);
+//        BorderPane pane = FXMLLoader.load(getClass().getResource("NewGame.fxml"));
+//        rootPane.getChildren().setAll(pane);
+        GridPane gridPane = FXMLLoader.load(getClass().getResource("BoardController.fxml")); //testing board
+        rootPane.getChildren().setAll(gridPane);
+
     }
 
     //Opens new launchLoadGame window
