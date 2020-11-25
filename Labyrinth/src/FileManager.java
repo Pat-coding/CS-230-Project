@@ -170,7 +170,15 @@ public class FileManager {
      */
 
     public static void createNewSaveFile(Level level) {
+        Player[] player = level.getPlayerData();
+        try {
+            FileWriter levelWriter = new FileWriter("SaveFile.txt");
+            levelWriter.write();
 
+        } catch (IOException e) {
+            System.out.println("An error has occurred");
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -10,18 +10,23 @@ import Tiles.Tile;
 
 public class Player {
 
-
-    private ArrayList<Integer> tilesVisitedX =  new ArrayList<>();
-    private ArrayList<Integer> tilesVisitedY =  new ArrayList<>();
+    private Profile profile;
+    private int playerCordX;
+    private int playerCordY;
+    private int[] profileCordHistory;
     private ArrayList<Tile> playerInventory = new ArrayList<>();
-    private boolean hasBeenBackTracked;
+    private boolean backTrackCheck;
     private boolean isPlayerTurn;
-    private Profile name;
-    private Board board;
 
-    public Player(Profile profile, int playercoordx,int playercoordy,int[] profileCoordHistory,
-                  ArrayList<Tile> heldPlayerTile, boolean backTrackCheck, Boolean isPlayerTurn){
-
+    public Player(Profile profile, int playerCordX,int playerCordY,int[] profileCordHistory,
+                  ArrayList<Tile> playerInventory, boolean backTrackCheck, Boolean isPlayerTurn){
+        this.profile = profile;
+        this.playerCordX = playerCordX;
+        this.playerCordY = playerCordY;
+        this.profileCordHistory = profileCordHistory;
+        this.playerInventory = playerInventory;
+        this.backTrackCheck = backTrackCheck;
+        this.isPlayerTurn = isPlayerTurn;
     }
 
     public void addToVisited() {}
