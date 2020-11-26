@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import Tiles.Tile;
@@ -29,59 +30,49 @@ public class Player {
         this.isPlayerTurn = isPlayerTurn;
     }
 
-    public void addToVisited() {}
+    public int getPlayerCordX() {
+        return this.playerCordX;
+    }
 
-    /**
-     * This Method returns the players inventory
-     *
-     * @return Tiles held by player
-     */
+    public int getPlayerCordY() {
+        return this.playerCordY;
+    }
+    public int[] getProfileCordHistory() {
+        return this.profileCordHistory;
+    }
+
     public ArrayList<Tile> getPlayerInventory() {
-        return playerInventory;
+        return this.playerInventory;
     }
 
-    /**
-     * This Method returns if it is the players turn
-     *
-     * @return boolean result for player turn
-     */
-    public boolean getPlayerTurn(){
-        return  isPlayerTurn;
+    public Boolean getBackTrackCheck() {
+        return this.backTrackCheck;
     }
 
-
-    /**
-     * This Method returns the players previous coordinates
-     *
-     * @return a array with the players previous x and y coords
-     */
-
-    public int[] getPrevCoordinates(){
-        return new int[]{tilesVisitedX.get(tilesVisitedX.size()),tilesVisitedY.get(tilesVisitedY.size()-1)};
-
+    public Boolean isPlayerTurn() {
+        return this.isPlayerTurn;
     }
+
 
     /**
      * This Method adds a tile to the inventory
      * @param pickedTile
      *
      */
+
     public void getFromSilkBag(Tile pickedTile){
         playerInventory.add(pickedTile);
     }
 
     /**
      * This Method check if player is at win coords and if so increments that players win stat
-     * @param wincorords
      *
      */
 
-    public void incPlayerWin(int[] wincorords){
-        if (getPrevCoordinates() == wincorords)
-            name.incrementWinCount();
-
-
+    public void incPlayerWin() {
+        profile.incrementWinCount();
     }
+
     /**
      * This Method flips player turn after they have finished their turn
      *
@@ -107,8 +98,5 @@ public class Player {
             }
 
     }
-
-
-
 }
 
