@@ -1,6 +1,7 @@
 package backend;
 
 import Tiles.FloorTile;
+import Tiles.GoalTile;
 
 import java.util.ArrayList;
 /**
@@ -248,24 +249,31 @@ public class Board {
      * @param c The cardinal place of the tile insertion.
      */
     public void movePlayerFromEndTile(int x, int y, Cardinals c) {
-        //TODO add a check to see if a player is at the end.
-        if (c == Cardinals.TOP) {
-            movePlayer(x, y, x, getColumnSize());
-        }
-
-        if (c == Cardinals.BOTTOM) {
-            movePlayer(x, y, x, 0);
-        }
-
-        if (c == Cardinals.LEFT) {
-            movePlayer(x, y, getRowSize(), y);
-        }
-
-        if (c == Cardinals.RIGHT) {
-            movePlayer(x, y, 0, y);
+        if (checkIfPlayerEndTile(x, y, c)) {
+            if (c == Cardinals.TOP) {
+                movePlayer(x, y, x, getColumnSize());
+            } else if (c == Cardinals.BOTTOM) {
+                movePlayer(x, y, x, 0);
+            } else if (c == Cardinals.LEFT) {
+                movePlayer(x, y, getRowSize(), y);
+            } else if (c == Cardinals.RIGHT) {
+                movePlayer(x, y, 0, y);
+            }
         }
     }
 
+    private boolean checkIfPlayerEndTile(int x, int y, Cardinals c) {
+        if (c == Cardinals.TOP) {
+            return getPlayerFromBoard(x, getColumnSize()) != null;
+        } else if (c == Cardinals.BOTTOM) {
+            return getPlayerFromBoard(x, 0) != null;
+        } else if (c == Cardinals.LEFT) {
+            return getPlayerFromBoard(getRowSize(), y) != null;
+        } else if (c == Cardinals.RIGHT) {
+            return  getPlayerFromBoard(0, y) != null;
+        }
+        return false;
+    }
     /**
      * This method checks to see if their is a player at the end of the tile.
      * @param x The x co-ordinate of the tile on the end.
@@ -319,10 +327,10 @@ public class Board {
      * @param x The new x co-ordinate of the player.
      * @param y The new y co-ordinate of the player.
      */
-    public void backTrackPlayer(ArrayList<Integer> tilesVisited, int x, int y) { //TODO check index of tilesVisited
+    public void backTrackPlayer(ArrayList<Integer> tilesVisited, int x, int y) {
         if ((getTileFromBoard(tilesVisited.get(4), tilesVisited.get(5))).getState().equals("FIRE") ||
                 (getTileFromBoard(tilesVisited.get(2), tilesVisited.get(3))).getState().equals(("FIRE"))) {
-            //error message here stating player cannot go back because tile is on fire
+            throw new IllegalArgumentException("Tile is on fire, select another tile!");
         } else {
                 movePlayer(tilesVisited.get(2), tilesVisited.get(3), x, y);
         }
@@ -336,7 +344,7 @@ public class Board {
         int[] coords = new int[2];
         for (int x = 0; x < getRowSize(); x++) {
             for ( int y = 0; y < getColumnSize(); y++) {
-                if (getTileFromBoard(x,y) == getTileFromBoard(x,y)) { //TODO will change to the goal class
+                if (getTileFromBoard(x, y) instanceof GoalTile) {
                     coords[0] = x;
                     coords[1] = y;
                     return coords;
@@ -346,7 +354,7 @@ public class Board {
         return null;
     }
 
-    public enum Cardinals { //move to the Floor Tile class
+    public enum Cardinals {
         TOP,
         BOTTOM,
         LEFT,
