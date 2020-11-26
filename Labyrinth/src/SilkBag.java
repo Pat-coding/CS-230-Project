@@ -69,6 +69,9 @@ public class SilkBag {
         return orientation[rnd];
     }
 
+    public int[] getSilkBagContent() {
+        return silkBagContent;
+    }
 
     public void insertTileToBag(String type) {
         switch (type) {

@@ -30,6 +30,10 @@ public class Player {
         this.isPlayerTurn = isPlayerTurn;
     }
 
+    public Profile getProfile() {
+        return this.profile;
+    }
+
     public int getPlayerCordX() {
         return this.playerCordX;
     }

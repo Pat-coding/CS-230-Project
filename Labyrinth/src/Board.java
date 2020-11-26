@@ -51,14 +51,16 @@ public class Board {
     /**
      * @return The name of the board.
      */
-    private String getNameOfBoard() {
+    public String getNameOfBoard() {
         return nameOfBoard;
     }
+
+
 
     /**
      * @param nameOfBoard The name of the board.
      */
-    private void setNameOfBoard(String nameOfBoard) {
+    public void setNameOfBoard(String nameOfBoard) {
         this.nameOfBoard = nameOfBoard;
     }
 
@@ -86,7 +88,7 @@ public class Board {
      * @param y
      * @return
      */
-    private FloorTile getTileFromBoard(int x, int y) {
+    public FloorTile getTileFromBoard(int x, int y) {
         return tileCoordinates[x][y];
     }
 
@@ -96,7 +98,7 @@ public class Board {
      * @param y
      * @return
      */
-    private Player getPlayerFromBoard(int x, int y) {
+    public Player getPlayerFromBoard(int x, int y) {
         return playerCoordinates[x][y];
     }
 
@@ -104,7 +106,7 @@ public class Board {
      *
      * @return
      */
-    private int getRowSize() {
+    public int getRowSize() {
         return rowSize;
     }
 
@@ -112,7 +114,7 @@ public class Board {
      *
      * @return
      */
-    private int getColumnSize() {
+    public int getColumnSize() {
         return columnSize;
     }
 
