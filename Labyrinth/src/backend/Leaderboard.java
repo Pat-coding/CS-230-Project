@@ -3,23 +3,24 @@ package backend;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 public class Leaderboard {
 
     private ArrayList<Profile> profileList;
     private int sortType;
 
-    public Leaderboard(int sortType, boolean asc){
-        this.profileList = sort(Menu.profiles, sortType, asc); //made menu profile static and added asc as parameters
-    }
+//    public Leaderboard(int sortType, boolean asc){
+//        this.profileList = sort(Menu.profiles, sortType, asc); //made menu profile static and added asc as parameters
+//    }
 
     public int getSortType() {
         return sortType;
     }
 
-    public void setSortType(int sortType, boolean asc) {
-        this.sortType = sortType;
-        this.profileList = sort(Menu.profiles, sortType, asc); //added asc
-    }
+//    public void setSortType(int sortType, boolean asc) {
+//        this.sortType = sortType;
+//        this.profileList = sort(Menu.profiles, sortType, asc); //added asc
+//    }
 
     public ArrayList<Profile> getLeaderboard() {
         return profileList;

@@ -58,4 +58,5 @@ public class Motd {
         }
         return getMotd("http://cswebcat.swansea.ac.uk/message?solution=CS-230" + decodedMotd + characterCount);
     }
+
 }

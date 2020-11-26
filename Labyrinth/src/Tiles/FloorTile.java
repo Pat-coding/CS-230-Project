@@ -1,6 +1,5 @@
 package Tiles;
 
-import java.awt.*;
 
 public abstract class FloorTile extends Tile {
 
