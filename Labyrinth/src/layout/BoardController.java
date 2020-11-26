@@ -34,6 +34,7 @@ public class BoardController implements Initializable {
     ArrayList<Button> buttons =  new ArrayList<>();
     GameFlow gameFlow;
     FloorTile selectedTile;
+    Board currentBoard;
 
 
     Image road = new Image(getClass().getResourceAsStream("/resources/roadDown.jpeg")); //testing image from internet
@@ -186,6 +187,8 @@ public class BoardController implements Initializable {
         Board.Cardinals left = Board.Cardinals.LEFT;
         System.out.println("P L");
         gameFlow.playerSlotFloorTile(left,selectedTile,x,y);
+        int discardx = x-4;
+        int discardy = y;
 
 
     }
@@ -193,17 +196,25 @@ public class BoardController implements Initializable {
         Board.Cardinals right = Board.Cardinals.RIGHT;
         System.out.println("P R");
         gameFlow.playerSlotFloorTile(right,selectedTile,x,y);
-        gameFlow.discardTileToSilkBag();
+        //shift tiles
+        int discardx = x+4;
+        int discardy = y;
     }
     public void pushup(int x,int y){
         Board.Cardinals bottom = Board.Cardinals.BOTTOM;
         System.out.println("P U");
         gameFlow.playerSlotFloorTile(bottom,selectedTile,x,y);
+        //shift tiles
+        int discardx = x;
+        int discardy = y+4;
     }
     public void pushdown(int x,int y){
         Board.Cardinals top = Board.Cardinals.TOP;
-        gameFlow.playerSlotFloorTile(top,selectedTile,x,y);
         System.out.println("P D");
+        gameFlow.playerSlotFloorTile(top,selectedTile,x,y);
+        //shift tiles
+        int discardx = x;
+        int discardy = y-4;
     }
 }
 
