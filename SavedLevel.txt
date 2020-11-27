@@ -5,7 +5,7 @@ LOLCATSAMIRITE
 2,2,2,2,2,2,2,2
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
 0,0,0,0,0,0,0,0
-Straight,90;;
+Straight,90,Straight,90;NA;NA;NA
 false,false,false,false
 true,false,false,false
 0,0,Straight,90,Normal,false

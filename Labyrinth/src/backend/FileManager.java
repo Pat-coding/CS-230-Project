@@ -7,9 +7,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.io.FileWriter;
-import java.util.regex.Pattern;
 
 public class FileManager {
 
@@ -28,7 +28,7 @@ public class FileManager {
         String stringProfileCord = in.next();
         String stringProfileCordHistory = in.next();
         String stringSilkBagContent = in.next();
-        String stringHeldPlayerTiles = in.next();
+        String stringPlayerInventory = in.next();
         String stringBackTrackCheck = in.next();
         String stringIsPlayerTurn = in.next();
 
@@ -42,19 +42,28 @@ public class FileManager {
         Boolean backTrackCheck = Boolean.parseBoolean(stringBackTrackCheck);
 
 
-
         ArrayList<Profile> profiles;
         ArrayList<Profile> usedProfile = new ArrayList<>();
         int[] profileCordX = new int[profileName.length];
         int[] profileCordY = new int[profileName.length];
         int[] profileCordHistoryArray = new int[profileName.length * 3];
         Board tempBoard = new Board(nameOfBoard, sizeOfBoard, profileName);
-        ArrayList<Tile> t = new ArrayList<>();
-        String[] heldPlayerTiles = stringHeldPlayerTiles.split("[;]");
-        String[] heldPlayerTilesPlayer = new String[0];
+
+
+        String[] playerInventory = stringPlayerInventory.split("[;]");
+
+        ArrayList<Tile> p0 = new ArrayList<>();
+        ArrayList<Tile> p1 = new ArrayList<>();
+        ArrayList<Tile> p2 = new ArrayList<>();
+        ArrayList<Tile> p3 = new ArrayList<>();
+
+        List<Tile>[] arrayOfList = new List[4];
+        arrayOfList[0] = p0;
+        arrayOfList[1] = p1;
+        arrayOfList[2] = p2;
+        arrayOfList[3] = p3;
+
         int counter;
-
-
         //  Populates Board with Tiles
         for (int i = 0; i < sizeOfBoard[0]*sizeOfBoard[1]; i++) {
             String stringTile = in.next();
@@ -85,30 +94,33 @@ public class FileManager {
         }
 
         //  Creates Player Objects
-        counter = 0;
 
+        counter = 0;
+        ArrayList<Tile> playerInventoryArrayListTemp = new ArrayList<>();
         Player[] players = new Player[profileName.length];
         for (int i = 0; i < profileName.length; i++, counter = counter + 6) {
+            String[] playerInventoryTemp = playerInventory[i].split(",");
+
+
+            //  Takes the first 6 numbers in the array
             for (int j = 0; j < 6; j++) {
                 profileCordHistoryArray[j] = profileCordHistory[j + counter];
             }
 
-            for (int j = 0; j < heldPlayerTiles.length; j++) {
-                heldPlayerTilesPlayer = heldPlayerTiles[j].split(",");
-            }
-
-            for (int j = 0; j < heldPlayerTilesPlayer.length; j = j+2) {
-                t.add(createHeldTiles(heldPlayerTilesPlayer[j], Integer.parseInt(heldPlayerTilesPlayer[j+1])));
+            for (int j = 0; j < playerInventoryTemp.length - 1; j = j+2) {
+                if (playerInventoryTemp[j] == "NA"){
+                    break;
+                }
+                arrayOfList[i].add(createPlayerInventoryTiles(playerInventoryTemp[j], Integer.parseInt(playerInventoryTemp[j+1])));
             }
 
             Player tempPlayer = new Player(usedProfile.get(i), profileCordX[i], profileCordY[i], profileCordHistory,
-                    t, backTrackCheck, Boolean.parseBoolean(isPlayerTurn[i]));
+                    (ArrayList<Tile>) arrayOfList[i], backTrackCheck, Boolean.parseBoolean(isPlayerTurn[i]));
             players[i] = (tempPlayer);
+            playerInventoryArrayListTemp.clear();
+
         }
 
-        //  silkBag(int[] silkBagContent)
-        // ith element = (int Straight,int Corner,int TShaped, int Fire,int Ice,int Backtrack,int Doublemove,int Goal)
-        // respectively
         SilkBag silkBag = new SilkBag(silkBagContent);
 
         return new Level(tempBoard, Integer.parseInt(roundNumber), silkBag, players);
@@ -370,7 +382,7 @@ public class FileManager {
         return tempTile;
     }
 
-    public static Tile createHeldTiles(String typeOfTile, int orientation) {
+    public static Tile createPlayerInventoryTiles(String typeOfTile, int orientation) {
         Tile tempTile = null;
 
         switch (typeOfTile) {
