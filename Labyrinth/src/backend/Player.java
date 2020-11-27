@@ -17,7 +17,7 @@ public class Player {
     private int playerCordX;
     private int playerCordY;
     private int[] profileCordHistory;
-    private ArrayList<Tile> playerInventory = new ArrayList<>();
+    private ArrayList<Tile> playerInventory;
     private boolean backTrackCheck;
     private boolean isPlayerTurn;
 
@@ -55,19 +55,8 @@ public class Player {
         return this.backTrackCheck;
     }
 
-    public Boolean isPlayerTurn() {
+    public Boolean getPlayerTurn() {
         return this.isPlayerTurn;
-    }
-
-
-    /**
-     * This Method adds a tile to the inventory
-     * @param pickedTile
-     *
-     */
-
-    public void getFromSilkBag(Tile pickedTile){
-        playerInventory.add(pickedTile);
     }
 
     /**
@@ -77,6 +66,10 @@ public class Player {
 
     public void incPlayerWin() {
         profile.incrementWinCount();
+    }
+
+    public void incPlayerLoss() {
+        profile.incrementLoseCount();
     }
 
     /**
