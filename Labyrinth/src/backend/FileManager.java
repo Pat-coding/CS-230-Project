@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.io.FileWriter;
+import java.util.regex.Pattern;
 
 public class FileManager {
 
@@ -22,7 +23,7 @@ public class FileManager {
 
         String stringProfileName = in.next();
         String nameOfBoard = in.next();
-        int gameTurn = in.nextInt();
+        String roundNumber = in.next();
         String stringSizeOfBoard = in.next();
         String stringProfileCord = in.next();
         String stringProfileCordHistory = in.next();
@@ -40,12 +41,14 @@ public class FileManager {
         int[] silkBagContent = stringToIntArray(stringSilkBagContent);
         Boolean backTrackCheck = Boolean.parseBoolean(stringBackTrackCheck);
 
+
+
         ArrayList<Profile> profiles;
         ArrayList<Profile> usedProfile = new ArrayList<>();
         int[] profileCordX = new int[profileName.length];
         int[] profileCordY = new int[profileName.length];
         int[] profileCordHistoryArray = new int[profileName.length * 3];
-        Board tempBoard = new Board(nameOfBoard, sizeOfBoard);
+        Board tempBoard = new Board(nameOfBoard, sizeOfBoard, profileName);
         ArrayList<Tile> t = new ArrayList<>();
         String[] heldPlayerTiles = stringHeldPlayerTiles.split("[;]");
         String[] heldPlayerTilesPlayer = new String[0];
@@ -57,7 +60,7 @@ public class FileManager {
             String stringTile = in.next();
             String[] sta = stringToStringArray(stringTile);
 
-            FloorTile tempTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], Boolean.getBoolean(sta[5]));
+            FloorTile tempTile = createTempTile(sta[2], Integer.parseInt(sta[3]), sta[4], Boolean.parseBoolean(sta[5]));
             tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), tempTile);
         }
 
@@ -81,7 +84,6 @@ public class FileManager {
             profileCordY[j] = profileCord[j];
         }
 
-
         //  Creates Player Objects
         counter = 0;
 
@@ -96,7 +98,7 @@ public class FileManager {
             }
 
             for (int j = 0; j < heldPlayerTilesPlayer.length; j = j+2) {
-                t.add(createHeldTiles(heldPlayerTilesPlayer[j], Integer.getInteger(heldPlayerTilesPlayer[j+1])));
+                t.add(createHeldTiles(heldPlayerTilesPlayer[j], Integer.parseInt(heldPlayerTilesPlayer[j+1])));
             }
 
             Player tempPlayer = new Player(usedProfile.get(i), profileCordX[i], profileCordY[i], profileCordHistory,
@@ -109,7 +111,7 @@ public class FileManager {
         // respectively
         SilkBag silkBag = new SilkBag(silkBagContent);
 
-        return new Level(tempBoard, gameTurn, silkBag, players);
+        return new Level(tempBoard, Integer.parseInt(roundNumber), silkBag, players);
     }
 
 
@@ -122,31 +124,39 @@ public class FileManager {
      */
 
     private static Level loadNewLevel(Scanner in) {
+        try {
+            String nameOfBoard = in.next();
+            String stringSizeOfBoard = in.next();
+            String stringSpawnPoints = in.next();
+            String stringSilkBagContent = in.next();
+            int numOfFixedTiles = in.nextInt();
 
-        String nameOfBoard = in.next();
-        String stringSizeOfBoard = in.next();
-        String stringSpawnPoints = in.next();
-        String stringSilkBagContent = in.next();
-        int numOfFixedTiles = in.nextInt();
 
-        int[] sizeOfBoard = stringToIntArray(stringSizeOfBoard);
-        int[] spawnPoints = stringToIntArray(stringSpawnPoints);
-        int[] silkBagContent = stringToIntArray(stringSilkBagContent);
+            int[] sizeOfBoard = stringToIntArray(stringSizeOfBoard);
+            int[] spawnPoints = stringToIntArray(stringSpawnPoints);
+            int[] silkBagContent = stringToIntArray(stringSilkBagContent);
 
-        //  details of fixed tiles
-        Board tempBoard = new Board(nameOfBoard, sizeOfBoard);
-        for (int i = 0; i < numOfFixedTiles - 1; i++) {
+            //  details of fixed tiles
+            Board tempBoard = new Board(nameOfBoard, sizeOfBoard);
+            for (int i = 0; i < numOfFixedTiles; i++) {
 
-            String stringTile = in.next();
-            String[] sta = stringToStringArray(stringTile);
+                String stringTile = in.next();
+                String[] sta = stringToStringArray(stringTile);
 
-            FloorTile fixedTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], true);
-            tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), fixedTile);
+                FloorTile fixedTile = createTempTile(sta[2], stringToInt(sta[3]), sta[4], true);
+
+                tempBoard.insertTile(stringToInt(sta[0]), stringToInt(sta[1]), fixedTile);
+            }
+
+            SilkBag silkBag = new SilkBag(silkBagContent);
+
+            return new Level(tempBoard, 0, silkBag, spawnPoints);
+        } catch (Error e) {
+            System.out.println(e);
         }
 
-        SilkBag silkBag = new SilkBag(silkBagContent);
 
-        return new Level(tempBoard, 0, silkBag, spawnPoints);
+        return null;
     }
 
     /**
@@ -154,14 +164,16 @@ public class FileManager {
      * @param in passes through the Scanner for the file.
      * @return a Profile object
      */
+    // throws ProfileNotCompleteException
+    private static Profile loadProfile(Scanner in){
 
-    private static Profile loadProfile(Scanner in) {
         String profileName = in.next();
         String stringProfileWinCount = in.next();
         String stringProfileLossCount = in.next();
 
         int profileWinCount = stringToInt(stringProfileWinCount);
         int profileLossCount = stringToInt(stringProfileLossCount);
+
 
         return new Profile(profileName, profileWinCount, profileLossCount);
     }
@@ -229,7 +241,7 @@ public class FileManager {
      * @param name
      */
     public static void createNewProfile (String name) {
-        try (FileWriter profileWriter = new FileWriter("Profile.txt")){
+        try (FileWriter profileWriter = new FileWriter("Profiles.txt")){
 
             profileWriter.write(name + "\n");
             profileWriter.write("0\n");
@@ -250,9 +262,14 @@ public class FileManager {
 
     private static ArrayList<Profile> readDataFileProfile(Scanner in) {
         ArrayList<Profile> returnableArray = new ArrayList<Profile>();
+
         while (in.hasNext()) {
-            Profile profile = loadProfile(in);
-            returnableArray.add(profile);
+            try {
+                Profile profile = loadProfile(in);
+                returnableArray.add(profile);
+            } catch (Error e) {
+                System.out.print("An unknown error has occurred.");
+            }
         }
         return returnableArray;
     }
@@ -268,11 +285,13 @@ public class FileManager {
 
     public static ArrayList<Profile> readProfileDataFile(String filename) {
         File inputFile = new File(filename);
+
         Scanner in = null;
         try {
             in = new Scanner (inputFile);
         } catch (FileNotFoundException e) {
-            System.out.println("Cannot open" + filename);
+            System.out.println("Cannot open " + filename);
+            System.out.print(e);
             System.exit(0);
         }
         return FileManager.readDataFileProfile(in);
@@ -287,11 +306,11 @@ public class FileManager {
 
     private static ArrayList<Level> readDataFileLevel(Scanner in, String loadType) {
         ArrayList<Level> returnableArray = new ArrayList<Level>();
-
         while (in.hasNext()) {
             switch (loadType) {
                 case "New Level":
                     Level newLevel = loadNewLevel(in);
+
                     returnableArray.add(newLevel);
                     break;
 
@@ -304,6 +323,7 @@ public class FileManager {
                     System.out.println("Error : Cannot identify File type.");
             }
         }
+        in.close();
         return returnableArray;
     }
 
@@ -322,15 +342,15 @@ public class FileManager {
         try {
             in = new Scanner (inputFile);
         } catch (FileNotFoundException e) {
-            System.out.println("Cannot open" + filename);
+            System.out.println("Cannot open " + filename);
             System.exit(0);
         }
         return FileManager.readDataFileLevel(in, type);
     }
 
-    public static FloorTile createTempTile(String typeOfTile, int orientation, String state, Boolean isFixed) {
-        FloorTile tempTile = null;
+    private static FloorTile createTempTile(String typeOfTile, int orientation, String state, Boolean isFixed) {
 
+        FloorTile tempTile = null;
         switch (typeOfTile) {
             case "Straight" :
                 tempTile = new StraightTile(orientation, state, isFixed);

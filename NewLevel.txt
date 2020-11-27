@@ -1,0 +1,7 @@
+Escape!!
+10,10
+0,0,10,0,0,10,10,10
+0,0,0,0,0,0,0,0
+2
+5,5,Straight,90,Normal
+5,5,Straight,90,Normal
