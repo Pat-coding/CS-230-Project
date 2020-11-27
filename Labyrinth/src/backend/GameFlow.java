@@ -130,9 +130,6 @@ public class GameFlow {
 
     /**  TODO Connects with constructor
      *
-     *
-     *
-     *
      *      Managing Turns
      *
      *      STARTING PHASE
@@ -146,11 +143,12 @@ public class GameFlow {
      *
      *      OPTIONAL PHASE - PLACING TILE
      *          Checks to see if action performed on player turn is legal
+     *              CHECK FOR ACTION TILES, AS WELL AS TILE PLACEMENTS
      *              if legal, proceed
      *                  CHECK IF THEY WIN BEFORE PROCEEDING
      *              else, cancel action.
      *
-     *      MOVING PHASE
+     *      MOVING PHASE (ACCOUNT FOR DOUBLE MOVE PLEASE!!!)
      *          Takes keystrokes, and moves in that direction - Proceeds to END TURN PHASE
      *              CHECKS FOR OBSTRUCTION
      *                  IF obstruction is detected FLAG TRUE

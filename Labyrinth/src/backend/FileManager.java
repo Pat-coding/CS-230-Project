@@ -212,13 +212,12 @@ public class FileManager {
             //  Backtrack
             levelWriter.write(player[0].getBackTrackCheck() + "," + player[1].getBackTrackCheck() + ","
                     + player[2].getBackTrackCheck() + "," + player[3].getBackTrackCheck());
-            //  ENTIREBOARD
+            //  ENTIRE BOARD
             for (int i = 0; i < board.getRowSize()*board.getColumnSize(); i++) {
                 for (int j = 0; j < board.getRowSize()*board.getColumnSize(); i++) {
                     levelWriter.write(board.getTileFromBoard(i,j) + "\n");
                 }
             }
-
         } catch (IOException e) {
             System.out.println("An error has occurred");
             e.printStackTrace();
