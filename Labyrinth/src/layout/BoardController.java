@@ -15,6 +15,7 @@ import javafx.scene.layout.*;
 import java.net.URL;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class BoardController implements Initializable {
@@ -29,7 +30,10 @@ public class BoardController implements Initializable {
     private GridPane leftGrid;
     @FXML
     private GridPane tileGrid;
-
+    int boardHeight = 3;
+    int boardWidth = 7;
+    int[] fixedTilesx ={0,6,0,6,3};
+    int[] fixedTilesy ={0,0,2,2,3};
     int size = 100;
     ArrayList<Button> buttons =  new ArrayList<>();
     GameFlow gameFlow;
@@ -51,14 +55,14 @@ public class BoardController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setupBoard();
         setupArrows();
-        setActions();
+        //setActions();
 
 
     }
 
     public void setupBoard(){
-        for (int x = 0; x < 5; x++) { //creates 5x5 board with selected image (need to put random images)
-            for (int y = 0; y < 5; y++) {
+        for (int x = 0; x < boardWidth; x++) { //creates 5x5 board with selected image (need to put random images)
+            for (int y = 0; y < boardHeight; y++) {
                 ImageView tileImg = new ImageView();
                 tileImg.setFitHeight(size);
                 tileImg.setFitWidth(size);
@@ -73,8 +77,8 @@ public class BoardController implements Initializable {
     public void setupArrows() {
         topGrid.setTranslateX(size);
         bottomGrid.setTranslateX(size);
-        for (int x = 0; x < 5; x++) {
-            for (int y = 0; y < 5; y++){
+        for (int x = 0; x < boardWidth; x++) {
+            for (int y = 0; y < boardHeight; y++){
                 if (x==0) {
                     ImageView tileImg = new ImageView();
                     Button buttonArrow = new Button();
@@ -90,7 +94,11 @@ public class BoardController implements Initializable {
                     tileImg.setImage(arrowRight);
                     //leftGrid.add(tileImg, x,y);
                     leftGrid.add(buttonArrow,x,y);
-                } else if (x == 4){ //4 is the board size, we will get board size from save files, this is just for testing right now.
+                    topGrid.add(buttonArrow, x, y);
+                    if(checkinlist(fixedTilesy,y)&&checkinlist(fixedTilesx,x) ){
+                        buttonArrow.setVisible(false);
+                    }
+                } else if (x == boardWidth-1){ //4 is the board size, we will get board size from save files, this is just for testing right now.
                     ImageView tileImg = new ImageView();
                     Button buttonArrow = new Button();
                     buttons.add(buttonArrow);
@@ -105,42 +113,65 @@ public class BoardController implements Initializable {
                     tileImg.setImage(arrowLeft);
                     //rightGrid.add(tileImg, x,y);
                     rightGrid.add(buttonArrow,x,y);
+                    topGrid.add(buttonArrow, x, y);
+
+                    if(checkinlist(fixedTilesy,y)&&checkinlist(fixedTilesx,x) ){
+                        buttonArrow.setVisible(false);
+
                 }
-                if (y==0){
+                }
+                if (y==boardHeight-1){
                     ImageView tileImg = new ImageView();
-                    Button buttonArrow = new Button();
-                    buttons.add(buttonArrow);
-                    buttonArrow.setTranslateX(x);
-                    buttonArrow.setTranslateY(y);
-                    buttonArrow.setMinSize(size,size);
-                    buttonArrow.setMaxSize(size,size);
-                    buttonArrow.setGraphic(tileImg);
-                    tileImg.setFitHeight(size);
-                    tileImg.setFitWidth(size);
-                    tileImg.setPreserveRatio(true);
-                    tileImg.setImage(arrowUp);
-                    //bottomGrid.add(tileImg, x,y);
-                    bottomGrid.add(buttonArrow,x,y);
-                } else if (y==4){ //4 is the board size, we will get board size from save files, this is just for testing right now.
+                        Button buttonArrow = new Button();
+                        buttons.add(buttonArrow);
+                        buttonArrow.setTranslateX(x);
+                        buttonArrow.setTranslateY(y);
+                        buttonArrow.setMinSize(size, size);
+                        buttonArrow.setMaxSize(size, size);
+                        buttonArrow.setGraphic(tileImg);
+                        tileImg.setFitHeight(size);
+                        tileImg.setFitWidth(size);
+                        tileImg.setPreserveRatio(true);
+                        tileImg.setImage(arrowUp);
+                        //bottomGrid.add(tileImg, x,y);
+                        bottomGrid.add(buttonArrow, x, y);
+                    topGrid.add(buttonArrow, x, y);
+                    if(checkinlist(fixedTilesy,y)&&checkinlist(fixedTilesx,x) ) {
+                        buttonArrow.setVisible(false);
+                    }
+
+
+                } else if (y==0){ //4 is the board size, we will get board size from save files, this is just for testing right now.
                     ImageView tileImg = new ImageView();
-                    Button buttonArrow = new Button();
-                    buttons.add(buttonArrow);
-                    buttonArrow.setTranslateX(x);
-                    buttonArrow.setTranslateY(y);
-                    buttonArrow.setMinSize(size,size);
-                    buttonArrow.setMaxSize(size,size);
-                    buttonArrow.setGraphic(tileImg);
-                    tileImg.setFitHeight(size);
-                    tileImg.setFitWidth(size);
-                    tileImg.setPreserveRatio(true);
-                    tileImg.setImage(arrowDown);
-                    //topGrid.add(tileImg, x,y);
-                    topGrid.add(buttonArrow,x,y);
+                        Button buttonArrow = new Button();
+                        buttons.add(buttonArrow);
+                        buttonArrow.setTranslateX(x);
+                        buttonArrow.setTranslateY(y);
+                        buttonArrow.setMinSize(size, size);
+                        buttonArrow.setMaxSize(size, size);
+                        buttonArrow.setGraphic(tileImg);
+                        tileImg.setFitHeight(size);
+                        tileImg.setFitWidth(size);
+                        tileImg.setPreserveRatio(true);
+                        tileImg.setImage(arrowDown);
+                        //topGrid.add(tileImg, x,y);
+                        topGrid.add(buttonArrow, x, y);
+                        if(checkinlist(fixedTilesy,y)&&checkinlist(fixedTilesx,x) ){
+                            buttonArrow.setVisible(false);
+
+
                 }
             }
         }
     }
-    private void setActions(){
+
+
+
+
+        }
+
+
+        private void setActions(){
         buttons.get(0).setOnAction(e -> pushRight(0,0));
 
         buttons.get(1).setOnAction(e -> pushup(0,4));
@@ -215,6 +246,17 @@ public class BoardController implements Initializable {
         //shift tiles
         int discardx = x;
         int discardy = y-4;
+    }
+
+    private boolean checkinlist(int[] arr, int key){
+        boolean check = false;
+        for(int i = 0; i < arr.length; i++){
+            if (arr[i] == key) {
+                check = true;
+                break;
+            }
+        }
+        return check;
     }
 }
 
