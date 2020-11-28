@@ -1,11 +1,16 @@
 package backend;
 
+import Tiles.ActionTile;
+import Tiles.FireTile;
+import Tiles.FloorTile;
+import Tiles.IceTile;
+import Tiles.Tile;
+
 /**
  * @author Ben Dodd
  * @version 1.0.0
  */
 
-import Tiles.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -33,14 +38,13 @@ public class GameFlow {
      * Continue Level
      * @param level Level to play.
      */
-
     public GameFlow(Level level) {
-        level = level;
-        players = level.getPlayerData();
+        this.level = level;
+        this.players = level.getPlayerData();
         // Set the player turn to whichever player had the last turn in the previous save.
         for (int i = 0; i < this.players.length; i++) {
-            if (players[i].getPlayerTurn() == true) {
-                playerTurn = i;
+            if (this.players[i].getPlayerTurn()) {
+                this.playerTurn = i;
                 break;
             }
         }
@@ -50,37 +54,28 @@ public class GameFlow {
      * Create players based on level data and profiles.
      * @param profiles Profiles to initialise players from.
      */
-
     private void initiatePlayers(Profile[] profiles) {
-        players = new Player[profiles.length];
-        int[] spawnPoints = level.getSpawnPoints();
+        this.players = new Player[profiles.length];
+        int[] spawnPoints = this.level.getSpawnPoints();
         for (int i = 0; i < profiles.length; i++) {
-            players[i] = new Player(profiles[i], spawnPoints[i*2], spawnPoints[(i*2) + 1], new int[6],
-                    new ArrayList<Tile>(), false, false);
+            this.players[i] = new Player(profiles[i], spawnPoints[i*2], spawnPoints[(i*2) + 1], new int[6], new ArrayList<Tile>(), false, false);
         }
-        level.setPlayerArray(this.players);
+        this.level.setPlayerArray(this.players);
     }
-
-    /** Populate board **/
-
-    private void populateBoard(Board board) {
-
-    }
-
 
     /**
      * Insert a tile onto the board at the specified coordinates.
      * The tile that is taken off the board will be returned to be inserted into the silk bag.
+     * @param gameBoard     The board that the tile is being added to.
      * @param tile          The tile to add to the board.
      * @param x             The x-coordinate to insert the tile into.
      * @param y             The y-coordinate to insert the tile into.
      * @return              The tile that was removed from the board.
      */
-    public FloorTile check(Board.Cardinals direction, FloorTile tile, int x, int y) {
-        level.getBoardData().movePlayerFromEndTile(x, y, direction);
-        return level.getBoardData().placeOnNewTile(direction, x, y, tile);
+    public FloorTile playerSlotFloorTile(Board.Cardinals direction, FloorTile tile, int x, int y) {
+        this.level.getBoardData().movePlayerFromEndTile(x, y, direction);
+        return this.level.getBoardData().placeOnNewTile(direction, x, y, tile);
     }
-
 
     /**
      * Place an action tile at the given coordinates on the board.
@@ -112,75 +107,35 @@ public class GameFlow {
      * @return True if the tile can be placed.
      */
     public Boolean checkActionCardValid(Player player, int x, int y) {
-        return Arrays.equals(level.getBoardData().playerLocationOnBoard(x, y, player), new int[] {x, y});
+        return Arrays.equals(this.level.getBoardData().playerLocationOnBoard(x, y, player), new int[] {x, y});
     }
 
-    public Boolean checkBackTrackValid(int x, int y) {
-        //  INVALID
-        if (level.getBoardData().getPlayerFromBoard(x, y).getBackTrackCheck() == true) {
-            return true;
-        }
-        return false;
+    /**
+     * This method will discard tiles from the board to the SilkBag.
+     * @param tile The tile being discarded.
+     */
+    public void discardTileToSilkBag(String tile) {
+        this.level.getSilkBagObject().insertTileToBag(tile);
     }
 
     /**
      * Go to the next turn of the board.
      */
+    public void incGameTurn() {
+        // set the next player's turn to true (playerTurn method)
+        // set the previous player's turn to false (playerTurn method)
+        this.players[this.playerTurn].playerTurn(); // set current players turn to false
+        this.playerTurn ++; // increment which players turn it is
+        if (this.playerTurn == this.players.length) { // loop back to first player if at end of player array
+            this.playerTurn = 0;
+        }
+        this.players[this.playerTurn].playerTurn(); // set next players turn to true
+    }
 
-
-    /**  TODO Connects with constructor
-     *
-     *      Managing Turns
-     *
-     *      STARTING PHASE
-     *          OPTIONAL - SAVE GAME
-     *
-     *
-     *      DRAWING PHASE - DRAW TILE
-     *          WAIT TILL PLAYER HAS DRAWN FROM SILK BAG
-     *          THEN PROCEED
-     *
-     *
-     *      OPTIONAL PHASE - PLACING TILE
-     *          Checks to see if action performed on player turn is legal
-     *              CHECK FOR ACTION TILES, AS WELL AS TILE PLACEMENTS
-     *              if legal, proceed
-     *                  CHECK IF THEY WIN BEFORE PROCEEDING
-     *              else, cancel action.
-     *
-     *      MOVING PHASE (ACCOUNT FOR DOUBLE MOVE PLEASE!!!)
-     *          Takes keystrokes, and moves in that direction - Proceeds to END TURN PHASE
-     *              CHECKS FOR OBSTRUCTION
-     *                  IF obstruction is detected FLAG TRUE
-     *                      SHOWS END TURN BUTTON
-     *
-     *
-     *      ENDING TURN PHASE
-     *          Check to see if player has won.
-     *              If true
-     *                  Increment player Win count
-     *                  Increment OTHER player loss count
-     *                  END GAME
-     *                      IF SAVED GAME
-     *                          DELETE SAVE FILE
-     *             If false
-     *                  Next Player Turn
-     *                      SETTING THIS player[x].isPlayerTurn to False
-     *                      Set player[x + 1].isPlayerTurn to True
-     *                          If player[x + 1] = 4
-     *                              THEN player[0].isPlayerTurn to True
-     *
-     * **/
-
-
-    public void flow(Player[] player) {
-        // constructor which connects to deniz part here
-
-        // while(Winner = false){
-
-        // }
-
-
+    public void flow() {
+        // play through each player, until game win or save
+        // use checks to ensure player can move, otherwise try again
+        // once player has performed all tasks, incGameTurn()
     }
 
     /**

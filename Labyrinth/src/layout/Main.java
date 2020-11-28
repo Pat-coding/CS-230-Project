@@ -1,6 +1,5 @@
 package layout;
 
-import backend.Board;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,11 +13,12 @@ public class Main extends Application {
     //do not change the code except resolution and title.
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("BoardController.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("TestBoard2.fxml"));
         primaryStage.setTitle("Labyrinth");
         primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();
         primaryStage.sizeToScene();
+
     }
 
 
