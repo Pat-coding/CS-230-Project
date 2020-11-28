@@ -1,5 +1,6 @@
 package backend;
 
+
 import java.util.Random;
 
 import Tiles.*;
@@ -13,6 +14,8 @@ public class SilkBag {
      * @param silkBagContent 0th = Straight
      *                       1st =
      */
+
+
     public SilkBag(int[] silkBagContent) {
         this.silkBagContent = silkBagContent;
 //        this.straight = silkBagContent[0];
@@ -61,12 +64,16 @@ public class SilkBag {
         }
     }
 
+
     public int randomOrientation() {
         int[] orientation = new int[]{0, 90, 180, 270};
         int rnd = new Random().nextInt(orientation.length);
         return orientation[rnd];
     }
 
+    public int[] getSilkBagContent() {
+        return silkBagContent;
+    }
 
     public void insertTileToBag(String type) {
         switch (type) {
