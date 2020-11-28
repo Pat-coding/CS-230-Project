@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="709.0" prefWidth="1084.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="layout.BoardController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="709.0" prefWidth="1084.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <AnchorPane prefHeight="551.0" prefWidth="822.0" BorderPane.alignment="CENTER">
          <children>
@@ -17,29 +18,42 @@
                      <children>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <StackPane prefHeight="0.0" prefWidth="0.0" />
-                              <GridPane fx:id="topGrid" gridLinesVisible="true">
+                              <GridPane fx:id="topGrid">
                               </GridPane>
                            </children>
                         </HBox>
                         <HBox prefHeight="51.0" prefWidth="670.0">
                            <children>
-                              <GridPane fx:id="leftGrid" gridLinesVisible="true" prefHeight="0.0" prefWidth="0.0">
+                              <GridPane fx:id="leftGrid" prefHeight="0.0" prefWidth="0.0">
                               </GridPane>
-                              <GridPane fx:id="tileGrid" gridLinesVisible="true">
+                              <GridPane fx:id="tileGrid">
                               </GridPane>
-                              <GridPane fx:id="rightGrid" gridLinesVisible="true">
+                              <GridPane fx:id="rightGrid">
                               </GridPane>
                            </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <GridPane fx:id="bottomGrid" gridLinesVisible="true">
+                              <GridPane fx:id="bottomGrid">
                               </GridPane>
                            </children>
                         </HBox>
                      </children>
                   </VBox>
+                  <AnchorPane prefHeight="709.0" prefWidth="431.0">
+                     <children>
+                        <HBox layoutY="444.0" prefHeight="267.0" prefWidth="425.0">
+                           <children>
+                              <Button mnemonicParsing="false" text="Turn left" />
+                              <Button mnemonicParsing="false" text="Turn right" />
+                              <Button mnemonicParsing="false" text="next tile" />
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </HBox>
+                        <Button layoutX="36.0" layoutY="28.0" mnemonicParsing="false" text="Save game" />
+                        <Button layoutX="345.0" layoutY="28.0" mnemonicParsing="false" text="Quit Game" />
+                     </children>
+                  </AnchorPane>
                </children>
             </HBox>
          </children>

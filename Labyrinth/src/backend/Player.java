@@ -9,8 +9,6 @@ import Tiles.Tile;
  * @version 1.0
  */
 
-
-
 public class Player {
 
     private Profile profile;
@@ -97,4 +95,8 @@ public class Player {
         }
 
     }
+
+//    public boolean getPlayerTurn() {
+//        return true;
+//    }
 }

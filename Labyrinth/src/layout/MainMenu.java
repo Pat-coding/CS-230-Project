@@ -4,6 +4,7 @@ import backend.Motd;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
@@ -25,7 +26,11 @@ public class MainMenu {
         Motd motd = new Motd();
         motdText.setText(motd.getMessage());
         System.out.println("Motd loaded");
-        //rootPane.setStyle("-fx-background-color: #202020;");
+        Image image = new Image(getClass().getResourceAsStream("/resources/amongUsBackground.jpg"));
+        BackgroundSize backSize = new BackgroundSize(100, 100, true, true, true, false);
+        BackgroundImage backgroundImg = new BackgroundImage(image,BackgroundRepeat.REPEAT,BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backSize);
+        Background background = new Background(backgroundImg);
+        rootPane.setBackground(background);
     }
 
     //Opens new LaunchNewGame window
