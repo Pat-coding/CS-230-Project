@@ -30,10 +30,15 @@ public class BoardController implements Initializable {
     private GridPane leftGrid;
     @FXML
     private GridPane tileGrid;
-    int boardHeight = 3;
-    int boardWidth = 7;
-    int[] fixedTilesx ={0,6,0,6,3};
-    int[] fixedTilesy ={0,0,2,2,3};
+    int boardHeight = 5;
+    int boardWidth = 5;
+    int fixedcount1 =0;
+    int fixedcount2 =0;
+    int fixedcount3 =0;
+    int fixedcount4 =0;
+
+    int[] fixedTilesx ={1,2};
+    int[] fixedTilesy ={1,3};
     int size = 100;
     ArrayList<Button> buttons =  new ArrayList<>();
     GameFlow gameFlow;
@@ -56,11 +61,9 @@ public class BoardController implements Initializable {
         setupBoard();
         setupArrows();
         //setActions();
-
-
     }
 
-    public void setupBoard(){
+    public void setupBoardOLD(){
         for (int x = 0; x < boardWidth; x++) { //creates 5x5 board with selected image (need to put random images)
             for (int y = 0; y < boardHeight; y++) {
                 ImageView tileImg = new ImageView();
@@ -71,107 +74,153 @@ public class BoardController implements Initializable {
             }
         }
     }
+    public void setupBoard(){
+        int fixedcount = 0;
+        for (int x = 0; x < boardWidth; x++) { //creates 5x5 board with selected image (need to put random images)
+            for (int y = 0; y < boardHeight; y++) {
+                if(fixedcount < fixedTilesx.length) {       //checks if any fixed tiles are left
+                    if (fixedTilesx[fixedcount] == x && fixedTilesy[fixedcount] == y) {  //checks if fixed tiles at current coords
+                        insertTile(goal,x,y);
+                        fixedcount++;
 
-    //Need to set arrows depending if tile is fixed or not
-    //also need to create clickable arrows.
-    public void setupArrows() {
-        topGrid.setTranslateX(size);
-        bottomGrid.setTranslateX(size);
-        for (int x = 0; x < boardWidth; x++) {
-            for (int y = 0; y < boardHeight; y++){
-                if (x==0) {
-                    ImageView tileImg = new ImageView();
-                    Button buttonArrow = new Button();
-                    buttons.add(buttonArrow);
-                    buttonArrow.setTranslateX(x);
-                    buttonArrow.setTranslateY(y);
-                    buttonArrow.setMinSize(size,size);
-                    buttonArrow.setMaxSize(size,size);
-                    buttonArrow.setGraphic(tileImg);
-                    tileImg.setFitHeight(size);
-                    tileImg.setFitWidth(size);
-                    tileImg.setPreserveRatio(true);
-                    tileImg.setImage(arrowRight);
-                    //leftGrid.add(tileImg, x,y);
-                    leftGrid.add(buttonArrow,x,y);
-                    topGrid.add(buttonArrow, x, y);
-                    if(checkinlist(fixedTilesy,y)&&checkinlist(fixedTilesx,x) ){
-                        buttonArrow.setVisible(false);
+                    } else {
+                        insertTile(road,x,y);   // inserts normal tile if there are still fixed tiles left
                     }
-                } else if (x == boardWidth-1){ //4 is the board size, we will get board size from save files, this is just for testing right now.
-                    ImageView tileImg = new ImageView();
-                    Button buttonArrow = new Button();
-                    buttons.add(buttonArrow);
-                    buttonArrow.setTranslateX(x);
-                    buttonArrow.setTranslateY(y);
-                    buttonArrow.setMinSize(size,size);
-                    buttonArrow.setMaxSize(size,size);
-                    buttonArrow.setGraphic(tileImg);
-                    tileImg.setFitHeight(size);
-                    tileImg.setFitWidth(size);
-                    tileImg.setPreserveRatio(true);
-                    tileImg.setImage(arrowLeft);
-                    //rightGrid.add(tileImg, x,y);
-                    rightGrid.add(buttonArrow,x,y);
-                    topGrid.add(buttonArrow, x, y);
-
-                    if(checkinlist(fixedTilesy,y)&&checkinlist(fixedTilesx,x) ){
-                        buttonArrow.setVisible(false);
-
-                }
-                }
-                if (y==boardHeight-1){
-                    ImageView tileImg = new ImageView();
-                        Button buttonArrow = new Button();
-                        buttons.add(buttonArrow);
-                        buttonArrow.setTranslateX(x);
-                        buttonArrow.setTranslateY(y);
-                        buttonArrow.setMinSize(size, size);
-                        buttonArrow.setMaxSize(size, size);
-                        buttonArrow.setGraphic(tileImg);
-                        tileImg.setFitHeight(size);
-                        tileImg.setFitWidth(size);
-                        tileImg.setPreserveRatio(true);
-                        tileImg.setImage(arrowUp);
-                        //bottomGrid.add(tileImg, x,y);
-                        bottomGrid.add(buttonArrow, x, y);
-                    topGrid.add(buttonArrow, x, y);
-                    if(checkinlist(fixedTilesy,y)&&checkinlist(fixedTilesx,x) ) {
-                        buttonArrow.setVisible(false);
-                    }
-
-
-                } else if (y==0){ //4 is the board size, we will get board size from save files, this is just for testing right now.
-                    ImageView tileImg = new ImageView();
-                        Button buttonArrow = new Button();
-                        buttons.add(buttonArrow);
-                        buttonArrow.setTranslateX(x);
-                        buttonArrow.setTranslateY(y);
-                        buttonArrow.setMinSize(size, size);
-                        buttonArrow.setMaxSize(size, size);
-                        buttonArrow.setGraphic(tileImg);
-                        tileImg.setFitHeight(size);
-                        tileImg.setFitWidth(size);
-                        tileImg.setPreserveRatio(true);
-                        tileImg.setImage(arrowDown);
-                        //topGrid.add(tileImg, x,y);
-                        topGrid.add(buttonArrow, x, y);
-                        if(checkinlist(fixedTilesy,y)&&checkinlist(fixedTilesx,x) ){
-                            buttonArrow.setVisible(false);
-
+                }else{
+                    insertTile(road,x,y);   // inserts normla tile if there are no fixed tiles left
 
                 }
             }
         }
     }
+    public void insertTile(Image tiletype,int x ,int y){
+        ImageView tileImg = new ImageView();
+        tileImg.setFitHeight(size);
+        tileImg.setFitWidth(size);
+        tileImg.setImage(tiletype); //get images from save file here
+        tileGrid.add(tileImg, x, y);
+
+    }
 
 
 
+    //Need to set arrows depending if tile is fixed or not
+    //also need to create clickable arrows.
+    public void setupArrows() {
+
+        topGrid.setTranslateX(size);
+        bottomGrid.setTranslateX(size);
+        for (int x = 0; x < boardWidth; x++) {
+            for (int y = 0; y < boardHeight; y++){
+                if (x==0) {
+                    Button buttonArrow = new Button();
+                    ImageView tileImg = new ImageView();
+                    buttonArrow.setTranslateX(x);
+                    buttonArrow.setTranslateY(y);
+                    buttonArrow.setMinSize(size,size);
+                    buttonArrow.setMaxSize(size,size);
+                    tileImg.setFitHeight(size);
+                    tileImg.setFitWidth(size);
+                    tileImg.setPreserveRatio(true);
+                    tileImg.setImage(arrowRight);
+                    buttonArrow.setGraphic(tileImg);
+                    buttons.add(buttonArrow);
+                    //leftGrid.add(tileImg, x,y);
+                    leftGrid.add(buttonArrow,x,y);
+                    //topGrid.add(buttonArrow, x, y);
+                    if(fixedcount1 < fixedTilesx.length) {       //checks if any fixed tiles are left
+                        if (fixedTilesy[fixedcount1] == y) {
+                            buttonArrow.setVisible(false);
+                            fixedcount1++;
+
+                        }
+                    }
+
+                } else if (x == boardWidth-1){ //4 is the board size, we will get board size from save files, this is just for testing right now.
+                    Button buttonArrow = new Button();
+                    ImageView tileImg = new ImageView();
+                    buttonArrow.setTranslateX(x);
+                    buttonArrow.setTranslateY(y);
+                    buttonArrow.setMinSize(size,size);
+                    buttonArrow.setMaxSize(size,size);
+                    tileImg.setFitHeight(size);
+                    tileImg.setFitWidth(size);
+                    tileImg.setPreserveRatio(true);
+                    tileImg.setImage(arrowLeft);
+                    buttonArrow.setGraphic(tileImg);
+                    buttons.add(buttonArrow);
+                    //rightGrid.add(tileImg, x,y);
+                    rightGrid.add(buttonArrow,x,y);
+                    //topGrid.add(buttonArrow, x, y);
+                    if(fixedcount2 < fixedTilesx.length) {       //checks if any fixed tiles are left
+                        if (fixedTilesy[fixedcount2] == y) {
+                            buttonArrow.setVisible(false);
+                            fixedcount2++;
+
+                        }
+                    }
+                }
+
+
+                if (y==0){
+                    ImageView tileImg = new ImageView();
+                    Button buttonArrow = new Button();
+                    buttonArrow.setTranslateX(x);
+                    buttonArrow.setTranslateY(y);
+                    buttonArrow.setMinSize(size, size);
+                    buttonArrow.setMaxSize(size, size);
+                    tileImg.setFitHeight(size);
+                    tileImg.setFitWidth(size);
+                    tileImg.setPreserveRatio(true);
+                    tileImg.setImage(arrowUp);
+                    buttons.add(buttonArrow);
+                    buttonArrow.setGraphic(tileImg);
+                    //bottomGrid.add(tileImg, x,y);
+                    bottomGrid.add(buttonArrow, x, y);
+                    //topGrid.add(buttonArrow, x, y);
+                    if(fixedcount3 < fixedTilesx.length) {       //checks if any fixed tiles are left
+                        if (fixedTilesx[fixedcount3] == x) {
+                            buttonArrow.setVisible(false);
+                            fixedcount3++;
+
+                        }
+                    }
+
+
+                } else if (y==boardHeight-1){ //4 is the board size, we will get board size from save files, this is just for testing right now.
+                    ImageView tileImg = new ImageView();
+                    Button buttonArrow = new Button();
+                    buttonArrow.setTranslateX(x);
+                    buttonArrow.setTranslateY(y);
+                    buttonArrow.setMinSize(size, size);
+                    buttonArrow.setMaxSize(size, size);
+                    buttonArrow.setGraphic(tileImg);
+                    tileImg.setFitHeight(size);
+                    tileImg.setFitWidth(size);
+                    tileImg.setPreserveRatio(true);
+                    buttons.add(buttonArrow);
+                    tileImg.setImage(arrowDown);
+                    //topGrid.add(tileImg, x,y);
+                    topGrid.add(buttonArrow, x, y);
+                    if(fixedcount4 < fixedTilesx.length) {       //checks if any fixed tiles are left
+                        if (fixedTilesx[fixedcount4] == x) {
+                            buttonArrow.setVisible(false);
+                            fixedcount4++;
+
+                        }
+                    }
+                }
+            }
 
         }
 
 
-        private void setActions(){
+
+
+    }
+
+
+    private void setActions(){
         buttons.get(0).setOnAction(e -> pushRight(0,0));
 
         buttons.get(1).setOnAction(e -> pushup(0,4));
