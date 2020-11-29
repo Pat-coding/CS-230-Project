@@ -30,21 +30,6 @@ public class BoardController implements Initializable {
     private GridPane leftGrid;
     @FXML
     private GridPane tileGrid;
-    int boardHeight = 5;
-    int boardWidth = 5;
-    int fixedcount1 =0;
-    int fixedcount2 =0;
-    int fixedcount3 =0;
-    int fixedcount4 =0;
-
-    int[] fixedTilesx ={1,2};
-    int[] fixedTilesy ={1,3};
-    int size = 100;
-    ArrayList<Button> buttons =  new ArrayList<>();
-    GameFlow gameFlow;
-    FloorTile selectedTile;
-    Board currentBoard;
-
 
     Image road = new Image(getClass().getResourceAsStream("/resources/roadDown.jpeg")); //testing image from internet
     Image straight = new Image(getClass().getResourceAsStream("/resources/STRAIGHT_PLACEHOLDER.png"));
@@ -54,6 +39,31 @@ public class BoardController implements Initializable {
     Image arrowUp = new Image(getClass().getResourceAsStream("/resources/arrowUP.png"));
     Image arrowLeft = new Image(getClass().getResourceAsStream("/resources/arrowLeft.png"));
     Image arrowRight = new Image(getClass().getResourceAsStream("/resources/arrowRight.png"));
+
+    int boardHeight = 5;
+    int boardWidth = 5;
+
+
+    int fixedcount1 =0;
+    int fixedcount2 =0;
+    int fixedcount3 =0;
+    int fixedcount4 =0;
+
+    Image[] fixedTiles = {goal,straight,straight,corner,goal};
+    int[] fixedTilesx ={1,2};
+    int[] fixedTilesy ={1,1};
+
+    //Image[] fixedTiles = {goal,straight,corner,corner};
+    //int[] fixedTilesx ={0,0,0,1,2};
+    //int[] fixedTilesy ={0,2,6,3,6};
+
+    int size = 100;
+    ArrayList<Button> buttons =  new ArrayList<>();
+    GameFlow gameFlow;
+    FloorTile selectedTile;
+    Board currentBoard;
+
+
 
 
     @Override
@@ -80,7 +90,7 @@ public class BoardController implements Initializable {
             for (int y = 0; y < boardHeight; y++) {
                 if(fixedcount < fixedTilesx.length) {       //checks if any fixed tiles are left
                     if (fixedTilesx[fixedcount] == x && fixedTilesy[fixedcount] == y) {  //checks if fixed tiles at current coords
-                        insertTile(goal,x,y);
+                        insertTile(fixedTiles[fixedcount],x,y);
                         fixedcount++;
 
                     } else {
@@ -127,13 +137,20 @@ public class BoardController implements Initializable {
                     buttons.add(buttonArrow);
                     //leftGrid.add(tileImg, x,y);
                     leftGrid.add(buttonArrow,x,y);
-                    //topGrid.add(buttonArrow, x, y);
+
+                    for(int i = 0; i < fixedTilesx.length; i++){
+                        if (fixedTilesy[i] == y) {
+                            buttonArrow.setVisible(false);
+                    }
+
+/**
                     if(fixedcount1 < fixedTilesx.length) {       //checks if any fixed tiles are left
                         if (fixedTilesy[fixedcount1] == y) {
                             buttonArrow.setVisible(false);
                             fixedcount1++;
 
-                        }
+                        } **/
+
                     }
 
                 } else if (x == boardWidth-1){ //4 is the board size, we will get board size from save files, this is just for testing right now.
@@ -151,13 +168,20 @@ public class BoardController implements Initializable {
                     buttons.add(buttonArrow);
                     //rightGrid.add(tileImg, x,y);
                     rightGrid.add(buttonArrow,x,y);
-                    //topGrid.add(buttonArrow, x, y);
+
+
+                        for(int i = 0; i < fixedTilesx.length; i++){
+                            if (fixedTilesy[i] == y) {
+                                buttonArrow.setVisible(false);
+                            }
+
+/**
                     if(fixedcount2 < fixedTilesx.length) {       //checks if any fixed tiles are left
                         if (fixedTilesy[fixedcount2] == y) {
                             buttonArrow.setVisible(false);
                             fixedcount2++;
 
-                        }
+                        }**/
                     }
                 }
 
@@ -173,21 +197,28 @@ public class BoardController implements Initializable {
                     tileImg.setFitWidth(size);
                     tileImg.setPreserveRatio(true);
                     tileImg.setImage(arrowUp);
-                    buttons.add(buttonArrow);
                     buttonArrow.setGraphic(tileImg);
+                    buttons.add(buttonArrow);
                     //bottomGrid.add(tileImg, x,y);
                     bottomGrid.add(buttonArrow, x, y);
-                    //topGrid.add(buttonArrow, x, y);
+
+
+                    for(int i = 0; i < fixedTilesx.length; i++){
+                        if (fixedTilesx[i] == x) {
+                            buttonArrow.setVisible(false);
+                        }
+
+/**
                     if(fixedcount3 < fixedTilesx.length) {       //checks if any fixed tiles are left
                         if (fixedTilesx[fixedcount3] == x) {
                             buttonArrow.setVisible(false);
                             fixedcount3++;
 
-                        }
+                        }**/
                     }
 
 
-                } else if (y==boardHeight-1){ //4 is the board size, we will get board size from save files, this is just for testing right now.
+                } else if (y==boardHeight-1) { //4 is the board size, we will get board size from save files, this is just for testing right now.
                     ImageView tileImg = new ImageView();
                     Button buttonArrow = new Button();
                     buttonArrow.setTranslateX(x);
@@ -198,16 +229,25 @@ public class BoardController implements Initializable {
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
                     tileImg.setPreserveRatio(true);
-                    buttons.add(buttonArrow);
                     tileImg.setImage(arrowDown);
-                    //topGrid.add(tileImg, x,y);
+                    topGrid.add(tileImg, x, y);
                     topGrid.add(buttonArrow, x, y);
-                    if(fixedcount4 < fixedTilesx.length) {       //checks if any fixed tiles are left
-                        if (fixedTilesx[fixedcount4] == x) {
-                            buttonArrow.setVisible(false);
-                            fixedcount4++;
 
+
+                    for (int i = 0; i < fixedTilesx.length; i++) {
+                        if (fixedTilesx[i] == x) {
+                            buttonArrow.setVisible(false);
                         }
+
+
+/**
+ if(fixedcount4 < fixedTilesx.length) {       //checks if any fixed tiles are left
+ if (fixedTilesx[fixedcount4] == x) {
+ buttonArrow.setVisible(false);
+ fixedcount4++;
+
+ }
+ }**/
                     }
                 }
             }
