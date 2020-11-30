@@ -1,16 +1,23 @@
 package backend;
 
 
+import java.util.ArrayList;
+
 public class Level {
+
+
+    private static ArrayList<Profile>  profileArray;
+    private static ArrayList<Level> newLevels;
+    private static ArrayList<Level>  savedLevels;
+
 
     private Board boardData;
     private int gameTurnData;
     private SilkBag silkBag;
     private Player[] playerData;
     private int[] spawnPoints;
-    private Profile[] profileArray;
-    private Level[] newLevels;
-    private Level[] savedLevels;
+
+
 
 
     /**
@@ -45,29 +52,7 @@ public class Level {
         this.playerData = null;
     }
 
-    public Profile[] getProfileArray() {
-        return profileArray;
-    }
 
-    public void setProfileArray(Profile[] profileArray) {
-        this.profileArray = profileArray;
-    }
-
-    public Level[] getNewLevels() {
-        return newLevels;
-    }
-
-    public void setNewLevels(Level[] newLevels) {
-        this.newLevels = newLevels;
-    }
-
-    public Level[] getSavedLevels() {
-        return savedLevels;
-    }
-
-    public void setSavedLevels(Level[] savedLevels) {
-        this.savedLevels = savedLevels;
-    }
 
 
     public Board getBoardData() {
@@ -99,5 +84,19 @@ public class Level {
     public void setSilkBag (SilkBag silkBag) {this.silkBag = silkBag;}
 
     public void setGameTurn (int gameTurn) {this.gameTurnData = gameTurn;}
+
+
+
+    public static ArrayList<Profile> getProfileArray() {
+        return profileArray;
+    }
+
+    public static ArrayList<Level> getNewLevels() {
+        return newLevels;
+    }
+
+    public static ArrayList<Level> getSavedLevels() {
+        return savedLevels;
+    }
 
 }
