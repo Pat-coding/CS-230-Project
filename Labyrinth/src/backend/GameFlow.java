@@ -6,6 +6,7 @@ package backend;
  */
 
 import Tiles.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -18,7 +19,8 @@ public class GameFlow {
 
     /**
      * New Game
-     * @param level Level to play.
+     *
+     * @param level    Level to play.
      * @param profiles Profiles to create players from.
      */
     public GameFlow(Level level, Profile[] profiles) {
@@ -32,6 +34,7 @@ public class GameFlow {
 
     /**
      * Continue Level
+     *
      * @param level Level to play.
      */
 
@@ -49,6 +52,7 @@ public class GameFlow {
 
     /**
      * Create players based on level data and profiles.
+     *
      * @param profiles Profiles to initialise players from.
      */
 
@@ -56,19 +60,20 @@ public class GameFlow {
         players = new Player[profiles.length];
         int[] spawnPoints = level.getSpawnPoints();
         for (int i = 0; i < profiles.length; i++) {
-            players[i] = new Player(profiles[i], spawnPoints[i*2], spawnPoints[(i*2) + 1], new int[6],
+            players[i] = new Player(profiles[i], spawnPoints[i * 2], spawnPoints[(i * 2) + 1], new int[6],
                     new ArrayList<Tile>(), false, false);
         }
         level.setPlayerArray(this.players);
     }
 
-    /** Populate board **/
+    /**
+     * Populate board
+     **/
     private void populateBoard(Board board) {
 
     }
 
     /**
-     *
      * @param direction
      * @param tile
      * @param x
@@ -81,19 +86,17 @@ public class GameFlow {
     }
 
     /**
-     *
      * @param x
      * @param y
      * @param player
      */
     public void movePlayer(int x, int y, int player) {
-        level.getBoardData().movePlayer(level.getPlayerData()[player].getPlayerCordX(),level.getPlayerData()[player].getPlayerCordY(),
-               x, y );
+        level.getBoardData().movePlayer(level.getPlayerData()[player].getPlayerCordX(), level.getPlayerData()[player].getPlayerCordY(),
+                x, y);
         checkWin();
     }
 
     /**
-     *
      * @param x
      * @param y
      */
@@ -102,7 +105,6 @@ public class GameFlow {
     }
 
     /**
-     *
      * @param x
      * @param y
      */
@@ -111,7 +113,6 @@ public class GameFlow {
     }
 
     /**
-     *
      * @param player
      * @param x
      * @param y
@@ -122,7 +123,6 @@ public class GameFlow {
     }
 
     /**
-     *
      * @param player
      */
     public void playerPlaceBack(int player) {
@@ -131,7 +131,6 @@ public class GameFlow {
     }
 
     /**
-     *
      * @param tile
      * @param player
      * @param x
@@ -140,42 +139,44 @@ public class GameFlow {
      */
     public Boolean checkWhichActionTile(ActionTile tile, int player, int x, int y) {
         if (tile instanceof FireTile) {
-            checkActionCardValid(x, y);
-            playerPlaceFire(x, y);
-            return true;
+            if (checkActionCardValid(x, y)) {
+                playerPlaceFire(x, y);
+                return true;
+            }
         } else if (tile instanceof IceTile) {
-            checkActionCardValid(x, y);
-            playerPlaceIce(x, y);
-            return true;
+            if (checkActionCardValid(x, y)) {
+                playerPlaceIce(x, y);
+                return true;
+            }
         } else if (tile instanceof DoubleMoveTile) {
             playerPlaceDouble(player, x, y);
             return true;
         } else {
-            checkBackTrackValid(player);
-            playerPlaceBack(player);
-            return true;
+            if (checkBackTrackValid(player)) {
+                playerPlaceBack(player);
+                return true;
+            }
         }
+        return false;
     }
 
     /**
-     *
      * @param x
      * @param y
      * @return
      */
     public Boolean checkActionCardValid(int x, int y) {
 
-        for(int i = 0; i < level.getPlayerData().length; i++) {
-             if (Arrays.equals(level.getBoardData().playerLocationOnBoard(x, y, level.getPlayerData()[i]),
-                    new int[] {x, y})) {
-                 return false;
-             }
+        for (int i = 0; i < level.getPlayerData().length; i++) {
+            if (Arrays.equals(level.getBoardData().playerLocationOnBoard(x, y, level.getPlayerData()[i]),
+                    new int[]{x, y})) {
+                return false;
+            }
         }
         return true;
     }
 
     /**
-     *
      * @param player
      * @return
      */
@@ -257,6 +258,7 @@ public class GameFlow {
 
     /**
      * Prepare the game to finish, either for saving or at a win.
+     *
      * @return True if the game could end
      */
     public Boolean endGame() {
@@ -265,6 +267,7 @@ public class GameFlow {
 
     /**
      * Pass data from the game to be saved.
+     *
      * @return True if the game could be saved.
      */
     public Boolean saveGame() {
@@ -273,6 +276,7 @@ public class GameFlow {
 
     /**
      * Announces that a player has won.
+     *
      * @return Player that won.
      */
     public void declareWinner() {
@@ -281,10 +285,11 @@ public class GameFlow {
 
     /**
      * Check if the board is in a state where a player has won.
+     *
      * @return True if there is a winning situation.
      */
     public Boolean checkWin() {
-        if(level.getBoardData().getPlayerFromBoard(level.getBoardData().getGoal()[0],
+        if (level.getBoardData().getPlayerFromBoard(level.getBoardData().getGoal()[0],
                 level.getBoardData().getGoal()[1]) != null) {
             declareWinner();
             return true;
