@@ -14,6 +14,7 @@ public class GameFlow {
     private Level level;
     private Player[] players;
     private int playerTurn;
+    private Boolean drawButton;
 
     /**
      * New Game
@@ -62,71 +63,134 @@ public class GameFlow {
     }
 
     /** Populate board **/
-
     private void populateBoard(Board board) {
 
     }
 
-
     /**
-     * Insert a tile onto the board at the specified coordinates.
-     * The tile that is taken off the board will be returned to be inserted into the silk bag.
-     * @param tile          The tile to add to the board.
-     * @param x             The x-coordinate to insert the tile into.
-     * @param y             The y-coordinate to insert the tile into.
-     * @return              The tile that was removed from the board.
+     *
+     * @param direction
+     * @param tile
+     * @param x
+     * @param y
+     * @return
      */
-    public FloorTile check(Board.Cardinals direction, FloorTile tile, int x, int y) {
+    public FloorTile slotTiles(Board.Cardinals direction, FloorTile tile, int x, int y) {
         level.getBoardData().movePlayerFromEndTile(x, y, direction);
         return level.getBoardData().placeOnNewTile(direction, x, y, tile);
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     * @param player
+     */
+    public void movePlayer(int x, int y, int player) {
+        level.boardData.movePlayer(level.playerData[player].getPlayerCordX(),level.playerData[player].getPlayerCordY(),
+               x, y );
+        checkWin();
+    }
 
     /**
-     * Place an action tile at the given coordinates on the board.
-     * @param tile The tile to place on the board.
-     * @param x The x-coordinate to insert the action tile.
-     * @param y The y-coordinate to insert the action tile.
-     * @return True if the tile was placed.
+     *
+     * @param x
+     * @param y
      */
-    public Boolean playerPlaceActionTile(ActionTile tile, int x, int y) {
-        // If the player of the current turn is trying to place an action tile
-        // on themselves, we deny it.
-        if (!checkActionCardValid(this.players[playerTurn], x, y)) {
-            return false;
-        }
-        // check type of tile
+    public void playerPlaceIce(int x, int y) {
+        level.getBoardData().setTilesFrozen(x, y);
+    }
+
+    /**
+     *
+     * @param x
+     * @param y
+     */
+    public void playerPlaceFire(int x, int y) {
+        level.getBoardData().setTilesOnFire(x, y);
+    }
+
+    /**
+     *
+     * @param player
+     * @param x
+     * @param y
+     */
+    public void playerPlaceDouble(int player, int x, int y) {
+        movePlayer(x, y, player);
+        movePlayer(x, y, player); //TODO need to change
+    }
+
+    /**
+     *
+     * @param player
+     */
+    public void playerPlaceBack(int player) {
+        level.boardData.backTrackPlayer(level.getPlayerData()[player].getProfileCordHistory(),
+                level.getPlayerData()[player].getPlayerCordX(), level.getPlayerData()[player].getPlayerCordY());
+    }
+
+    /**
+     *
+     * @param tile
+     * @param player
+     * @param x
+     * @param y
+     * @return
+     */
+    public Boolean checkWhichActionTile(ActionTile tile, int player, int x, int y) {
         if (tile instanceof FireTile) {
-            this.level.getBoardData().setTilesOnFire(x, y);
+            checkActionCardValid(x, y);
+            playerPlaceFire(x, y);
             return true;
         } else if (tile instanceof IceTile) {
-            this.level.getBoardData().setTilesFrozen(x, y);
+            checkActionCardValid(x, y);
+            playerPlaceIce(x, y);
+            return true;
+        } else if (tile instanceof DoubleMoveTile) {
+            playerPlaceDouble(player, x, y);
+            return true;
+        } else {
+            checkBackTrackValid(player);
+            playerPlaceBack(player);
             return true;
         }
-        return false;
     }
 
     /**
-     * Checks if the player is standing on a point where they want to place an action tile.
-     * @param player The player requesting the placement.
-     * @return True if the tile can be placed.
+     *
+     * @param x
+     * @param y
+     * @return
      */
-    public Boolean checkActionCardValid(Player player, int x, int y) {
-        return Arrays.equals(level.getBoardData().playerLocationOnBoard(x, y, player), new int[] {x, y});
-    }
+    public Boolean checkActionCardValid(int x, int y) {
 
-    public Boolean checkBackTrackValid(int x, int y) {
-        //  INVALID
-        if (level.getBoardData().getPlayerFromBoard(x, y).getBackTrackCheck() == true) {
-            return true;
+        for(int i = 0; i < level.playerData.length; i++) {
+             if (Arrays.equals(level.getBoardData().playerLocationOnBoard(x, y, level.playerData[i]),
+                    new int[] {x, y})) {
+                 return false;
+             }
         }
-        return false;
+        return true;
     }
 
     /**
-     * Go to the next turn of the board.
+     *
+     * @param player
+     * @return
      */
+    public Boolean checkBackTrackValid(int player) {
+        return !level.playerData[player].getBackTrackCheck();
 
+    }
+
+    /**
+     *
+     */
+    public void playerDraw(int i) {
+        level.silkBag.giveTile(level.playerData[i]);
+        setDrawButton(true);
+    }
 
     /**  TODO Connects with constructor
      *
@@ -171,16 +235,22 @@ public class GameFlow {
      *                              THEN player[0].isPlayerTurn to True
      *
      * **/
-
-
     public void flow(Player[] player) {
         // constructor which connects to deniz part here
+         while(!checkWin()){
 
-        // while(Winner = false){
+             //if(players clicks save game button then ) {saveGame()}
 
-        // }
+             if (getDrawButton()) {
+                 // pass to fronteend to display message saying please do an action
+             } else {
+                 // pass to frontend to display message saying please draw a card
+             }
 
+             //if(Player use action card) {playerPlaceFireIceTile }
 
+             }
+         }
     }
 
     /**
@@ -203,8 +273,8 @@ public class GameFlow {
      * Announces that a player has won.
      * @return Player that won.
      */
-    public Player declareWinner() {
-        return null;
+    public void declareWinner() {
+
     }
 
     /**
@@ -212,6 +282,18 @@ public class GameFlow {
      * @return True if there is a winning situation.
      */
     public Boolean checkWin() {
+        if(level.boardData.getPlayerFromBoard(level.boardData.getGoal()[0], level.boardData.getGoal()[1]) != null) {
+            declareWinner();
+            return true;
+        }
         return false;
+    }
+
+    public Boolean getDrawButton() {
+        return drawButton;
+    }
+
+    public void setDrawButton(Boolean drawButton) {
+        this.drawButton = drawButton;
     }
 }

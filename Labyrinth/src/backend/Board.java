@@ -19,10 +19,6 @@ public class Board {
     private FloorTile[][] tileCoordinates;
     private Player[][] playerCoordinates;
     private SilkBag bag;
-    // needs a getter for bag
-    public SilkBag getBag(){
-        return bag;
-    }
 
     //  Tile (Type, Orientation, State, fixed)
     /**
@@ -38,7 +34,6 @@ public class Board {
         playerCoordinates = new Player[getRowSize()][getColumnSize()];
     }
 
-    //new level format
     /**
      * The constructor for a new level format.
      * @param sizeOfBoard The name of the board.
@@ -48,6 +43,19 @@ public class Board {
         rowSize = sizeOfBoard[0];
         columnSize = sizeOfBoard[1];
         this.setNameOfBoard(nameOfBoard);
+    }
+
+    //TODO this method populates board
+    public void populateBoard() {
+
+    }
+
+    /**
+     *
+     * @return
+     */
+    public SilkBag getBag(){
+        return bag;
     }
 
     /**
@@ -262,6 +270,13 @@ public class Board {
         }
     }
 
+    /**
+     * This method checks if there is a player at the end of the tile.
+     * @param x
+     * @param y
+     * @param c
+     * @return
+     */
     private boolean checkIfPlayerEndTile(int x, int y, Cardinals c) {
         if (c == Cardinals.TOP) {
             return getPlayerFromBoard(x, getColumnSize()) != null;
@@ -274,6 +289,7 @@ public class Board {
         }
         return false;
     }
+
     /**
      * This method checks to see if their is a player at the end of the tile.
      * @param x The x co-ordinate of the tile on the end.
@@ -327,12 +343,11 @@ public class Board {
      * @param x The new x co-ordinate of the player.
      * @param y The new y co-ordinate of the player.
      */
-    public void backTrackPlayer(ArrayList<Integer> tilesVisited, int x, int y) {
-        if ((getTileFromBoard(tilesVisited.get(4), tilesVisited.get(5))).getState().equals("FIRE") ||
-                (getTileFromBoard(tilesVisited.get(2), tilesVisited.get(3))).getState().equals(("FIRE"))) {
-            throw new IllegalArgumentException("Tile is on fire, select another tile!");
+    public void backTrackPlayer(int[] tilesVisited, int x, int y) {
+        if (getTileFromBoard(tilesVisited[2], tilesVisited[3]).getState().equals("FIRE")) {
+            throw new IllegalArgumentException("Tile is on fire, select another tile!"); //TODO need to bring to frontend
         } else {
-                movePlayer(tilesVisited.get(2), tilesVisited.get(3), x, y);
+                movePlayer(tilesVisited[2], tilesVisited[3], x, y);
         }
     }
 
