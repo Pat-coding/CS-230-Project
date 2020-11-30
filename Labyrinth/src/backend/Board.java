@@ -12,16 +12,14 @@ import java.util.ArrayList;
 
 public class Board {
 
+
+    private String[] profileNames;
     private final int rowSize;
     private final int columnSize;
     private String nameOfBoard;
     private FloorTile[][] tileCoordinates;
     private Player[][] playerCoordinates;
     private SilkBag bag;
-    // needs a getter for bag
-    public SilkBag getBag(){
-        return bag;
-    }
 
     //  Tile (Type, Orientation, State, fixed)
     /**
@@ -29,24 +27,35 @@ public class Board {
      * @param nameOfBoard The name of the board.
      * @param sizeOfBoard The size of the board.
      */
-    public Board(String nameOfBoard, int[] sizeOfBoard) {
-        rowSize = sizeOfBoard[0];
-        columnSize = sizeOfBoard[1];
+    public Board(String nameOfBoard, int[] sizeOfBoard, String[] profileNames) {
+        this.rowSize = sizeOfBoard[0];
+        this.columnSize = sizeOfBoard[1];
         this.setNameOfBoard(nameOfBoard);
-        tileCoordinates = new FloorTile[getRowSize()][getColumnSize()];
-        playerCoordinates = new Player[getRowSize()][getColumnSize()];
+        this.tileCoordinates = new FloorTile[getRowSize()][getColumnSize()];
+        this.playerCoordinates = new Player[getRowSize()][getColumnSize()];
+        this.profileNames = profileNames;
     }
 
-    //new level format
+    //  new level format
     /**
      * The constructor for a new level format.
      * @param sizeOfBoard The name of the board.
      * @param nameOfBoard The size of the board.
      */
-    public Board(int[] sizeOfBoard, String nameOfBoard) {
-        rowSize = sizeOfBoard[0];
-        columnSize = sizeOfBoard[1];
+    public Board(String nameOfBoard, int[] sizeOfBoard) {
+        this.rowSize = sizeOfBoard[0];
+        this.columnSize = sizeOfBoard[1];
         this.setNameOfBoard(nameOfBoard);
+        this.tileCoordinates = new FloorTile[getRowSize()][getColumnSize()];
+        this.playerCoordinates = new Player[getRowSize()][getColumnSize()];
+    }
+
+    public String[] getProfileNames() {
+        return profileNames;
+    }
+
+    public void setProfileNames(String[] profileNames) {
+        this.profileNames = profileNames;
     }
 
     /**
