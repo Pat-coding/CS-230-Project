@@ -1,21 +1,19 @@
 package layout;
 
-//import backend.Board;
-import Tiles.FloorTile;
-import backend.Board;
-import backend.GameFlow;
+import Tiles.*;
+import backend.*;
+
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-
 
 import java.net.URL;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class BoardController implements Initializable {
@@ -30,46 +28,146 @@ public class BoardController implements Initializable {
     private GridPane leftGrid;
     @FXML
     private GridPane tileGrid;
-    int boardHeight = 3;
-    int boardWidth = 7;
-    int[] fixedTilesx ={0,6,0,6,3};
-    int[] fixedTilesy ={0,0,2,2,3};
+
+    //create new board 5x5
+    private Level board;
+
     int size = 100;
-    ArrayList<Button> buttons =  new ArrayList<>();
-    GameFlow gameFlow;
-    FloorTile selectedTile;
-    Board currentBoard;
-
-
     Image road = new Image(getClass().getResourceAsStream("/resources/roadDown.jpeg")); //testing image from internet
-    Image straight = new Image(getClass().getResourceAsStream("/resources/STRAIGHT_PLACEHOLDER.png"));
-    Image corner = new Image(getClass().getResourceAsStream("/resources/CORNER_PLACEHOLDER.png"));
+
+    Image straight_0 = new Image(getClass().getResourceAsStream("/resources/STRAIGHT_PLACEHOLDER_0.png"));
+    Image straight_90 = new Image(getClass().getResourceAsStream("/resources/STRAIGHT_PLACEHOLDER_90.png"));
+
     Image goal = new Image(getClass().getResourceAsStream("/resources/GOAL_PLACEHOLDER.png"));
+
+    Image corner_0 = new Image(getClass().getResourceAsStream("/resources/CORNER_PLACEHOLDER_0.png"));
+    Image corner_90 = new Image(getClass().getResourceAsStream("/resources/CORNER_PLACEHOLDER_90.png"));
+    Image corner_180 = new Image(getClass().getResourceAsStream("/resources/CORNER_PLACEHOLDER_180.png"));
+    Image corner_270 = new Image(getClass().getResourceAsStream("/resources/CORNER_PLACEHOLDER_270.png"));
+
+    Image tshaped_0 = new Image(getClass().getResourceAsStream("/resources/T_SHAPE_PLACEHOLDER_0.png"));
+    Image tshaped_90 = new Image(getClass().getResourceAsStream("/resources/T_SHAPE_PLACEHOLDER_90.png"));
+    Image tshaped_180 = new Image(getClass().getResourceAsStream("/resources/T_SHAPE_PLACEHOLDER_180.png"));
+    Image tshaped_270 = new Image(getClass().getResourceAsStream("/resources/T_SHAPE_PLACEHOLDER_270.png"));
+
     Image arrowDown = new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
     Image arrowUp = new Image(getClass().getResourceAsStream("/resources/arrowUP.png"));
     Image arrowLeft = new Image(getClass().getResourceAsStream("/resources/arrowLeft.png"));
     Image arrowRight = new Image(getClass().getResourceAsStream("/resources/arrowRight.png"));
 
+    public BoardController(Level level){
+        this.board = level;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupBoard();
         setupArrows();
-        //setActions();
-
+        refreshBoard();
+        //ArrayList<Level> newLevel = FileManager.readLevelDataFile("NewLevel.txt", "New Level");
+//        ArrayList<Level> savedLevels = FileManager.readLevelDataFile("SavedLevel.txt", "Saved Level");
+//        ArrayList<Profile> profiles = FileManager.readProfileDataFile("Profiles.txt");
+//        Player[] player = savedLevels.get(0).getPlayerData();
+//        System.out.println(savedLevels.get(0).getPlayerData());
+//        System.out.println(player[3].getPlayerInventory());
 
     }
 
-    public void setupBoard(){
-        for (int x = 0; x < boardWidth; x++) { //creates 5x5 board with selected image (need to put random images)
-            for (int y = 0; y < boardHeight; y++) {
+    private void setupBoard(){
+//        Tile tile = FileManager.createHeldTiles("TShaped", 0);
+//        board.insertTile(1,1, (FloorTile)tile);
+//        tile = FileManager.createHeldTiles("TShaped", 90);
+//        board.insertTile(1,2, (FloorTile)tile);
+//        tile = FileManager.createHeldTiles("TShaped", 180);
+//        board.insertTile(1,3, (FloorTile)tile);
+//        tile = FileManager.createHeldTiles("TShaped", 270);
+//        board.insertTile(1,4, (FloorTile)tile);
+//
+//        tile = FileManager.createHeldTiles("Corner", 0);
+//        board.insertTile(2,1, (FloorTile)tile);
+//        tile = FileManager.createHeldTiles("Corner", 90);
+//        board.insertTile(2,2, (FloorTile)tile);
+//        tile = FileManager.createHeldTiles("Corner", 180);
+//        board.insertTile(2,3, (FloorTile)tile);
+//        tile = FileManager.createHeldTiles("Corner", 270);
+//        board.insertTile(2,4, (FloorTile)tile);
+//
+//        tile = FileManager.createHeldTiles("Straight", 0);
+//        board.insertTile(3,0, (FloorTile)tile);
+//        tile = FileManager.createHeldTiles("Straight", 90);
+//        board.insertTile(3,1, (FloorTile)tile);
+    }
+
+    //show the board based on Board model
+    public void refreshBoard(){
+
+        tileGrid.getChildren().removeAll();
+
+        for (int x = 0; x < board.getBoardData().getColumnSize(); x++) { //creates 5x5 board with selected image (need to put random images)
+            for (int y = 0; y < board.getBoardData().getRowSize(); y++) {
                 ImageView tileImg = new ImageView();
                 tileImg.setFitHeight(size);
                 tileImg.setFitWidth(size);
-                tileImg.setImage(road); //get images from save file here
+
+                //get a tile at (x,y) on board
+                Tile aTile = board.getBoardData().getTileFromBoard(x, y);
+                if (aTile instanceof TShapedTile){ //TShaped
+                    TShapedTile TShapedTile = (TShapedTile)aTile;
+                    if (!TShapedTile.isAccessFromTop()){
+                        tileImg.setImage(tshaped_0);
+                    }else if (!TShapedTile.isAccessFromRight()){
+                        tileImg.setImage(tshaped_90);
+                    }else if (!TShapedTile.isAccessFromBottom()){
+                        tileImg.setImage(tshaped_180);
+                    }else{
+                        tileImg.setImage(tshaped_270);
+                    }
+                }else if (aTile instanceof CornerTile){ //Corner
+                    CornerTile aCornerTile = (CornerTile)aTile;
+                    if (aCornerTile.isAccessFromLeft() && aCornerTile.isAccessFromTop()){
+                        tileImg.setImage(corner_0);
+                    }else if (aCornerTile.isAccessFromTop() && aCornerTile.isAccessFromRight()){
+                        tileImg.setImage(corner_90);
+                    }else if (aCornerTile.isAccessFromRight() && aCornerTile.isAccessFromBottom()){
+                        tileImg.setImage(corner_180);
+                    }else{
+                        tileImg.setImage(corner_270);
+                    }
+                }else if (aTile instanceof StraightTile){ //Straight
+                    StraightTile aStraightTile = (StraightTile)aTile;
+                    if (aStraightTile.isAccessFromLeft() && aStraightTile.isAccessFromRight()){
+                        tileImg.setImage(straight_0);
+                    }else {
+                        tileImg.setImage(straight_90);
+                    }
+                }else {
+                    tileImg.setImage(road); //get images from save file here
+                }
                 tileGrid.add(tileImg, x,y);
             }
         }
+    }
+
+    /**
+     * the arrow is clicked
+     */
+    private void onClickArrow(int x, int y, Image arrow){
+        Board.Cardinals c = Board.Cardinals.BOTTOM;
+        if (arrow == arrowRight){
+            c = Board.Cardinals.LEFT;
+        }else if (arrow == arrowLeft){
+            c = Board.Cardinals.RIGHT;
+        }else if (arrow == arrowDown){
+            c = Board.Cardinals.TOP;
+        }
+
+        System.out.println(x + "," + y);
+
+        //FloorTile newTile = (FloorTile)FileManager.createHeldTiles("TShaped", 0); //TODO, replace it later
+        //FloorTile tile = board.placeOnNewTile(c, x, y, newTile);       //TODO, the tile will be put in SilkBag later
+
+        //show the board based on Board model
+        refreshBoard();
     }
 
     //Need to set arrows depending if tile is fixed or not
@@ -77,193 +175,88 @@ public class BoardController implements Initializable {
     public void setupArrows() {
         topGrid.setTranslateX(size);
         bottomGrid.setTranslateX(size);
-        for (int x = 0; x < boardWidth; x++) {
-            for (int y = 0; y < boardHeight; y++){
+        for (int x = 0; x < board.getBoardData().getRowSize(); x++) {
+            for (int y = 0; y < board.getBoardData().getColumnSize(); y++){
                 if (x==0) {
                     ImageView tileImg = new ImageView();
-                    Button buttonArrow = new Button();
-                    buttons.add(buttonArrow);
-                    buttonArrow.setTranslateX(x);
-                    buttonArrow.setTranslateY(y);
-                    buttonArrow.setMinSize(size,size);
-                    buttonArrow.setMaxSize(size,size);
-                    buttonArrow.setGraphic(tileImg);
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
-                    tileImg.setPreserveRatio(true);
                     tileImg.setImage(arrowRight);
-                    //leftGrid.add(tileImg, x,y);
-                    leftGrid.add(buttonArrow,x,y);
-                    topGrid.add(buttonArrow, x, y);
-                    if(checkinlist(fixedTilesy,y)&&checkinlist(fixedTilesx,x) ){
-                        buttonArrow.setVisible(false);
-                    }
-                } else if (x == boardWidth-1){ //4 is the board size, we will get board size from save files, this is just for testing right now.
+                    leftGrid.add(tileImg, x,y);
+
+                    final int xx = x, yy = y;
+
+                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+                        @Override
+                        public void handle(MouseEvent event) {
+                            System.out.println("arrowRight pressed ");
+                            onClickArrow(xx, yy, arrowRight);
+                            event.consume();
+                        }
+                    });
+
+                } else if (x == board.getBoardData().getRowSize() - 1){ //4 is the board size, we will get board size from save files, this is just for testing right now.
                     ImageView tileImg = new ImageView();
-                    Button buttonArrow = new Button();
-                    buttons.add(buttonArrow);
-                    buttonArrow.setTranslateX(x);
-                    buttonArrow.setTranslateY(y);
-                    buttonArrow.setMinSize(size,size);
-                    buttonArrow.setMaxSize(size,size);
-                    buttonArrow.setGraphic(tileImg);
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
-                    tileImg.setPreserveRatio(true);
                     tileImg.setImage(arrowLeft);
-                    //rightGrid.add(tileImg, x,y);
-                    rightGrid.add(buttonArrow,x,y);
-                    topGrid.add(buttonArrow, x, y);
+                    rightGrid.add(tileImg, x,y);
 
-                    if(checkinlist(fixedTilesy,y)&&checkinlist(fixedTilesx,x) ){
-                        buttonArrow.setVisible(false);
+                    final int xx = x, yy = y;
+
+                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+                        @Override
+                        public void handle(MouseEvent event) {
+                            System.out.println("arrowLeft pressed ");
+                            onClickArrow(xx, yy, arrowLeft);
+                            event.consume();
+                        }
+                    });
 
                 }
-                }
-                if (y==boardHeight-1){
+                if (y==0){
                     ImageView tileImg = new ImageView();
-                        Button buttonArrow = new Button();
-                        buttons.add(buttonArrow);
-                        buttonArrow.setTranslateX(x);
-                        buttonArrow.setTranslateY(y);
-                        buttonArrow.setMinSize(size, size);
-                        buttonArrow.setMaxSize(size, size);
-                        buttonArrow.setGraphic(tileImg);
-                        tileImg.setFitHeight(size);
-                        tileImg.setFitWidth(size);
-                        tileImg.setPreserveRatio(true);
-                        tileImg.setImage(arrowUp);
-                        //bottomGrid.add(tileImg, x,y);
-                        bottomGrid.add(buttonArrow, x, y);
-                    topGrid.add(buttonArrow, x, y);
-                    if(checkinlist(fixedTilesy,y)&&checkinlist(fixedTilesx,x) ) {
-                        buttonArrow.setVisible(false);
-                    }
+                    tileImg.setFitHeight(size);
+                    tileImg.setFitWidth(size);
+                    tileImg.setImage(arrowUp);
+                    bottomGrid.add(tileImg, x,y);
 
+                    final int xx = x, yy = y;
 
-                } else if (y==0){ //4 is the board size, we will get board size from save files, this is just for testing right now.
+                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+                        @Override
+                        public void handle(MouseEvent event) {
+                            System.out.println("arrowUp pressed ");
+                            onClickArrow(xx, yy, arrowUp);
+                            event.consume();
+                        }
+                    });
+
+                } else if (y==board.getBoardData().getColumnSize() - 1){ //4 is the board size, we will get board size from save files, this is just for testing right now.
                     ImageView tileImg = new ImageView();
-                        Button buttonArrow = new Button();
-                        buttons.add(buttonArrow);
-                        buttonArrow.setTranslateX(x);
-                        buttonArrow.setTranslateY(y);
-                        buttonArrow.setMinSize(size, size);
-                        buttonArrow.setMaxSize(size, size);
-                        buttonArrow.setGraphic(tileImg);
-                        tileImg.setFitHeight(size);
-                        tileImg.setFitWidth(size);
-                        tileImg.setPreserveRatio(true);
-                        tileImg.setImage(arrowDown);
-                        //topGrid.add(tileImg, x,y);
-                        topGrid.add(buttonArrow, x, y);
-                        if(checkinlist(fixedTilesy,y)&&checkinlist(fixedTilesx,x) ){
-                            buttonArrow.setVisible(false);
+                    tileImg.setFitHeight(size);
+                    tileImg.setFitWidth(size);
+                    tileImg.setImage(arrowDown);
+                    topGrid.add(tileImg, x,y);
 
+                    final int xx = x, yy = y;
+
+                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+                        @Override
+                        public void handle(MouseEvent event) {
+                            System.out.println("arrowDown pressed ");
+                            onClickArrow(xx, yy, arrowDown);
+                            event.consume();
+                        }
+                    });
 
                 }
             }
         }
-    }
-
-
-
-
-        }
-
-
-        private void setActions(){
-        buttons.get(0).setOnAction(e -> pushRight(0,0));
-
-        buttons.get(1).setOnAction(e -> pushup(0,4));
-
-        buttons.get(2).setOnAction(e -> pushRight(0,1));
-
-        buttons.get(3).setOnAction(e -> pushRight(0,2));
-
-        buttons.get(4).setOnAction(e -> pushRight(0,3));
-
-        buttons.get(5).setOnAction(e -> pushRight(0,4));
-
-        buttons.get(6).setOnAction(e -> pushdown(0,0));
-
-        buttons.get(7).setOnAction(e -> pushup(1,4));
-
-        buttons.get(8).setOnAction(e -> pushdown(1,0));
-
-        buttons.get(9).setOnAction(e -> pushup(2,4));
-
-        buttons.get(10).setOnAction(e -> pushdown(2,4));
-
-        buttons.get(11).setOnAction(e -> pushup(3,4));
-
-        buttons.get(12).setOnAction(e -> pushdown(3,0));
-
-        buttons.get(13).setOnAction(e -> pushLeft(4,0));
-
-        buttons.get(14).setOnAction(e -> pushup(4,4));
-
-        buttons.get(15).setOnAction(e -> pushLeft(4,1));
-
-        buttons.get(16).setOnAction(e -> pushLeft(4,2));
-
-        buttons.get(17).setOnAction(e -> pushLeft(4,3));
-
-        buttons.get(18).setOnAction(e -> pushLeft(4,4));
-
-        buttons.get(19).setOnAction(e -> pushdown(4,0));
-
-    }
-    public void pushLeft(int x,int y){
-        //(Board.Cardinals direction, FloorTile tile, int x, int y)
-        Board.Cardinals left = Board.Cardinals.LEFT;
-        System.out.println("P L");
-        gameFlow.playerSlotFloorTile(left,selectedTile,x,y);
-        int discardx = x-4;
-        int discardy = y;
-
-
-    }
-    public void pushRight(int x,int y){
-        Board.Cardinals right = Board.Cardinals.RIGHT;
-        System.out.println("P R");
-        gameFlow.playerSlotFloorTile(right,selectedTile,x,y);
-        //shift tiles
-        int discardx = x+4;
-        int discardy = y;
-    }
-    public void pushup(int x,int y){
-        Board.Cardinals bottom = Board.Cardinals.BOTTOM;
-        System.out.println("P U");
-        gameFlow.playerSlotFloorTile(bottom,selectedTile,x,y);
-        //shift tiles
-        int discardx = x;
-        int discardy = y+4;
-    }
-    public void pushdown(int x,int y){
-        Board.Cardinals top = Board.Cardinals.TOP;
-        System.out.println("P D");
-        gameFlow.playerSlotFloorTile(top,selectedTile,x,y);
-        //shift tiles
-        int discardx = x;
-        int discardy = y-4;
-    }
-
-    private boolean checkinlist(int[] arr, int key){
-        boolean check = false;
-        for(int i = 0; i < arr.length; i++){
-            if (arr[i] == key) {
-                check = true;
-                break;
-            }
-        }
-        return check;
     }
 }
-
-
-
-
-
-
-
 
