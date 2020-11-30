@@ -87,7 +87,7 @@ public class GameFlow {
      * @param player
      */
     public void movePlayer(int x, int y, int player) {
-        level.boardData.movePlayer(level.playerData[player].getPlayerCordX(),level.playerData[player].getPlayerCordY(),
+        level.getBoardData().movePlayer(level.getPlayerData()[player].getPlayerCordX(),level.getPlayerData()[player].getPlayerCordY(),
                x, y );
         checkWin();
     }
@@ -126,7 +126,7 @@ public class GameFlow {
      * @param player
      */
     public void playerPlaceBack(int player) {
-        level.boardData.backTrackPlayer(level.getPlayerData()[player].getProfileCordHistory(),
+        level.getBoardData().backTrackPlayer(level.getPlayerData()[player].getProfileCordHistory(),
                 level.getPlayerData()[player].getPlayerCordX(), level.getPlayerData()[player].getPlayerCordY());
     }
 
@@ -165,8 +165,8 @@ public class GameFlow {
      */
     public Boolean checkActionCardValid(int x, int y) {
 
-        for(int i = 0; i < level.playerData.length; i++) {
-             if (Arrays.equals(level.getBoardData().playerLocationOnBoard(x, y, level.playerData[i]),
+        for(int i = 0; i < level.getPlayerData().length; i++) {
+             if (Arrays.equals(level.getBoardData().playerLocationOnBoard(x, y, level.getPlayerData()[i]),
                     new int[] {x, y})) {
                  return false;
              }
@@ -180,7 +180,7 @@ public class GameFlow {
      * @return
      */
     public Boolean checkBackTrackValid(int player) {
-        return !level.playerData[player].getBackTrackCheck();
+        return !level.getPlayerData()[player].getBackTrackCheck();
 
     }
 
@@ -188,7 +188,7 @@ public class GameFlow {
      *
      */
     public void playerDraw(int i) {
-        level.silkBag.giveTile(level.playerData[i]);
+        level.getSilkBag().giveTile(level.getPlayerData()[i]);
         setDrawButton(true);
     }
 
@@ -235,23 +235,25 @@ public class GameFlow {
      *                              THEN player[0].isPlayerTurn to True
      *
      * **/
-    public void flow(Player[] player) {
-        // constructor which connects to deniz part here
-         while(!checkWin()){
-
-             //if(players clicks save game button then ) {saveGame()}
-
-             if (getDrawButton()) {
-                 // pass to fronteend to display message saying please do an action
-             } else {
-                 // pass to frontend to display message saying please draw a card
-             }
-
-             //if(Player use action card) {playerPlaceFireIceTile }
-
-             }
-         }
-    }
+//    public void flow(Player[] player) {
+//        // constructor which connects to deniz part here
+//        populateBoard();
+//        initiatePlayers();
+//         while(!checkWin()){
+//
+//             //if(players clicks save game button then ) {saveGame()}
+//
+//             if (getDrawButton()) {
+//                 // pass to fronteend to display message saying please do an action
+//             } else {
+//                 // pass to frontend to display message saying please draw a card
+//             }
+//
+//             //if(Player use action card) {playerPlaceFireIceTile }
+//
+//             }
+//         }
+//    }
 
     /**
      * Prepare the game to finish, either for saving or at a win.
@@ -282,7 +284,8 @@ public class GameFlow {
      * @return True if there is a winning situation.
      */
     public Boolean checkWin() {
-        if(level.boardData.getPlayerFromBoard(level.boardData.getGoal()[0], level.boardData.getGoal()[1]) != null) {
+        if(level.getBoardData().getPlayerFromBoard(level.getBoardData().getGoal()[0],
+                level.getBoardData().getGoal()[1]) != null) {
             declareWinner();
             return true;
         }
