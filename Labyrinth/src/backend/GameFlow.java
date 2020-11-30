@@ -67,10 +67,17 @@ public class GameFlow {
     }
 
     /**
-     * Populate board
-     **/
-    private void populateBoard(Board board) {
-
+     *
+     * @param board
+     * @param rowSize
+     * @param ColumnSize
+     */
+    private void populateBoard(Board board, int rowSize, int ColumnSize) {
+        for (int x = 0; x < rowSize; x++) {
+            for (int y = 0; y < ColumnSize; y++) {
+                board.insertTile(x, y, level.getSilkBag().populateRandomBoardTiles());
+            }
+        }
     }
 
     /**
