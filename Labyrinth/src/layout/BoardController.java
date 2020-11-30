@@ -96,6 +96,11 @@ public class BoardController implements Initializable {
 //        board.insertTile(3,0, (FloorTile)tile);
 //        tile = FileManager.createHeldTiles("Straight", 90);
 //        board.insertTile(3,1, (FloorTile)tile);
+        for (int x = 0; x < board.getBoardData().getColumnSize(); x++) { //creates 5x5 board with selected image (need to put random images)
+            for (int y = 0; y < board.getBoardData().getRowSize(); y++) {
+                board.getBoardData().insertTile(x,y,board.getBoardData().getTileFromBoard(x,y));
+            }
+        }
     }
 
     //show the board based on Board model
@@ -108,7 +113,6 @@ public class BoardController implements Initializable {
                 ImageView tileImg = new ImageView();
                 tileImg.setFitHeight(size);
                 tileImg.setFitWidth(size);
-
                 //get a tile at (x,y) on board
                 Tile aTile = board.getBoardData().getTileFromBoard(x, y);
                 if (aTile instanceof TShapedTile){ //TShaped
@@ -163,8 +167,8 @@ public class BoardController implements Initializable {
 
         System.out.println(x + "," + y);
 
-        //FloorTile newTile = (FloorTile)FileManager.createHeldTiles("TShaped", 0); //TODO, replace it later
-        //FloorTile tile = board.placeOnNewTile(c, x, y, newTile);       //TODO, the tile will be put in SilkBag later
+        FloorTile newTile = (FloorTile)FileManager.createPlayerInventoryTiles("TShaped", 0); //TODO, replace it later
+        FloorTile tile = board.getBoardData().placeOnNewTile(c, x, y, newTile);       //TODO, the tile will be put in SilkBag later
 
         //show the board based on Board model
         refreshBoard();
