@@ -192,56 +192,58 @@ public class FileManager {
      * @param level
      */
 
-    public static void createNewSaveFile(Level level) {
-        Board board = level.getBoardData();
-        int gameTurn = level.gameTurnData;
-        SilkBag silkBag = level.getSilkBag();
-        Player[] player = level.getPlayerData();
+    public static void createNewSaveFile(ArrayList<Level> levelArray) {
+        for (int i = 0; i < levelArray.size(); i++) {
+            Board board = levelArray.get(i).getBoardData();
+            int gameTurn = levelArray.get(i).getGameTurnData();
+            SilkBag silkBag = levelArray.get(i).getSilkBag();
+            Player[] player = levelArray.get(i).getPlayerData();
 
-        try (FileWriter levelWriter = new FileWriter("SaveFile.txt")) {
-            for (int i = 0; i < player.length - 1; i++) {
-                if (i == player.length - 1) {
-                    levelWriter.write(player[i].getProfile().getProfileName() + "\n");
-                    break;
+            try (FileWriter levelWriter = new FileWriter("SaveFile.txt")) {
+                for (int j = 0; j < player.length - 1; j++) {
+                    if (i == player.length - 1) {
+                        levelWriter.write(player[j].getProfile().getProfileName() + "\n");
+                        break;
+                    }
+                    levelWriter.write(player[j].getProfile().getProfileName() + ",");
                 }
-                levelWriter.write(player[i].getProfile().getProfileName() + ",");
-            }
 
-            //  Name
-            levelWriter.write(board.getNameOfBoard() + "\n");
-            //  Game Turn
-            levelWriter.write(gameTurn + "\n");
-            //  Size of Board
-            levelWriter.write(board.getRowSize() + "," + board.getColumnSize() + "\n");
-            //  Profile Coordinate
+                //  Name
+                levelWriter.write(board.getNameOfBoard() + "\n");
+                //  Game Turn
+                levelWriter.write(gameTurn + "\n");
+                //  Size of Board
+                levelWriter.write(board.getRowSize() + "," + board.getColumnSize() + "\n");
+                //  Profile Coordinate
 
-            for (int i = 0; i < player.length - 1; i++) {
-                levelWriter.write(player[i].getPlayerCordX() + "," + player[0].getPlayerCordY() + "\n");
-            }
-
-            //  Profile Coordinate History
-            for (int i = 0; i < player.length - 1; i++) {
-                levelWriter.write(Arrays.toString(player[i].getProfileCordHistory()) + "\n");
-            }
-
-            //  Contents of the Silk Bag
-            levelWriter.write(Arrays.toString(silkBag.getSilkBagContent()) + "\n");
-
-            //  Player inventory
-            levelWriter.write(player[0].getPlayerInventory() + ";" + player[1].getPlayerInventory() + ";" +
-                    player[2].getPlayerInventory() + ";" + player[3].getPlayerInventory());
-            //  Backtrack
-            levelWriter.write(player[0].getBackTrackCheck() + "," + player[1].getBackTrackCheck() + ","
-                    + player[2].getBackTrackCheck() + "," + player[3].getBackTrackCheck());
-            //  ENTIRE BOARD
-            for (int i = 0; i < board.getRowSize()*board.getColumnSize(); i++) {
-                for (int j = 0; j < board.getRowSize()*board.getColumnSize(); i++) {
-                    levelWriter.write(board.getTileFromBoard(i,j) + "\n");
+                for (int j = 0; j < player.length - 1; j++) {
+                    levelWriter.write(player[j].getPlayerCordX() + "," + player[0].getPlayerCordY() + "\n");
                 }
+
+                //  Profile Coordinate History
+                for (int j = 0; i < player.length - 1; i++) {
+                    levelWriter.write(Arrays.toString(player[j].getProfileCordHistory()) + "\n");
+                }
+
+                //  Contents of the Silk Bag
+                levelWriter.write(Arrays.toString(silkBag.getSilkBagContent()) + "\n");
+
+                //  Player inventory
+                levelWriter.write(player[0].getPlayerInventory() + ";" + player[1].getPlayerInventory() + ";" +
+                        player[2].getPlayerInventory() + ";" + player[3].getPlayerInventory());
+                //  Backtrack
+                levelWriter.write(player[0].getBackTrackCheck() + "," + player[1].getBackTrackCheck() + ","
+                        + player[2].getBackTrackCheck() + "," + player[3].getBackTrackCheck());
+                //  ENTIRE BOARD
+                for (int j = 0; j < board.getRowSize()*board.getColumnSize(); j++) {
+                    for (int k = 0; k < board.getRowSize()*board.getColumnSize(); k++) {
+                        levelWriter.write(board.getTileFromBoard(j,k) + "\n");
+                    }
+                }
+            } catch (IOException e) {
+                System.out.println("An error has occurred");
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            System.out.println("An error has occurred");
-            e.printStackTrace();
         }
     }
 
@@ -249,7 +251,7 @@ public class FileManager {
      *
      * @param name
      */
-    public static void createNewProfile (String name) {
+    public static void createNewProfile (Profile name) {
         try (FileWriter profileWriter = new FileWriter("Profiles.txt")){
 
             profileWriter.write(name + "\n");

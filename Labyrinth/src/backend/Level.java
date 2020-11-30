@@ -3,14 +3,14 @@ package backend;
 
 public class Level {
 
-    Board boardData;
-    int gameTurnData;
-    SilkBag silkBag;
-    Player[] playerData;
-    int[] spawnPoints;
-    Profile[] profileArray;
-    Level[] newLevels;
-    Level[] savedLevels;
+    private Board boardData;
+    private int gameTurnData;
+    private SilkBag silkBag;
+    private Player[] playerData;
+    private int[] spawnPoints;
+    private Profile[] profileArray;
+    private Level[] newLevels;
+    private Level[] savedLevels;
 
 
     /**
