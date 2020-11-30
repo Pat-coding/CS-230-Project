@@ -10,16 +10,16 @@ import java.io.IOException;
 
 public class MainMenu {
 
-    //This will import the label from fxml
+    //  This will import the label from fxml
     @FXML
     private Label motdText;
 
-    //this will import the borderpane from fxml
+    //  this will import the borderpane from fxml
     @FXML
     private BorderPane rootPane;
 
 
-    //when menu is launched, initialize motd and display it
+    //  when menu is launched, initialize motd and display it
     @FXML
     private void initialize(){
         Motd motd = new Motd();

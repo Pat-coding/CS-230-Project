@@ -3,11 +3,14 @@ package backend;
 
 public class Level {
 
-    Board boardData;
-    int gameTurnData;
-    SilkBag silkBag;
-    Player[] playerData;
-    final int[] spawnPoints;
+    private Board boardData;
+    private int gameTurnData;
+    private SilkBag silkBag;
+    private Player[] playerData;
+    private int[] spawnPoints;
+    private Profile[] profileArray;
+    private Level[] newLevels;
+    private Level[] savedLevels;
 
 
     /**
@@ -41,6 +44,31 @@ public class Level {
         this.silkBag = SilkBag;
         this.playerData = null;
     }
+
+    public Profile[] getProfileArray() {
+        return profileArray;
+    }
+
+    public void setProfileArray(Profile[] profileArray) {
+        this.profileArray = profileArray;
+    }
+
+    public Level[] getNewLevels() {
+        return newLevels;
+    }
+
+    public void setNewLevels(Level[] newLevels) {
+        this.newLevels = newLevels;
+    }
+
+    public Level[] getSavedLevels() {
+        return savedLevels;
+    }
+
+    public void setSavedLevels(Level[] savedLevels) {
+        this.savedLevels = savedLevels;
+    }
+
 
     public Board getBoardData() {
         return boardData;

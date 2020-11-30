@@ -43,6 +43,7 @@ public class Player {
     public int getPlayerCordY() {
         return this.playerCordY;
     }
+
     public int[] getProfileCordHistory() {
         return this.profileCordHistory;
     }

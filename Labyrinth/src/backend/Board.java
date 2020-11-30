@@ -1,7 +1,6 @@
 package backend;
 
 import Tiles.FloorTile;
-import Tiles.GoalTile;
 
 import java.util.ArrayList;
 /**
@@ -13,6 +12,8 @@ import java.util.ArrayList;
 
 public class Board {
 
+
+    private String[] profileNames;
     private final int rowSize;
     private final int columnSize;
     private String nameOfBoard;
@@ -26,36 +27,35 @@ public class Board {
      * @param nameOfBoard The name of the board.
      * @param sizeOfBoard The size of the board.
      */
-    public Board(String nameOfBoard, int[] sizeOfBoard) {
-        rowSize = sizeOfBoard[0];
-        columnSize = sizeOfBoard[1];
+    public Board(String nameOfBoard, int[] sizeOfBoard, String[] profileNames) {
+        this.rowSize = sizeOfBoard[0];
+        this.columnSize = sizeOfBoard[1];
         this.setNameOfBoard(nameOfBoard);
-        tileCoordinates = new FloorTile[getRowSize()][getColumnSize()];
-        playerCoordinates = new Player[getRowSize()][getColumnSize()];
+        this.tileCoordinates = new FloorTile[getRowSize()][getColumnSize()];
+        this.playerCoordinates = new Player[getRowSize()][getColumnSize()];
+        this.profileNames = profileNames;
     }
 
+    //  new level format
     /**
      * The constructor for a new level format.
      * @param sizeOfBoard The name of the board.
      * @param nameOfBoard The size of the board.
      */
-    public Board(int[] sizeOfBoard, String nameOfBoard) {
-        rowSize = sizeOfBoard[0];
-        columnSize = sizeOfBoard[1];
+    public Board(String nameOfBoard, int[] sizeOfBoard) {
+        this.rowSize = sizeOfBoard[0];
+        this.columnSize = sizeOfBoard[1];
         this.setNameOfBoard(nameOfBoard);
+        this.tileCoordinates = new FloorTile[getRowSize()][getColumnSize()];
+        this.playerCoordinates = new Player[getRowSize()][getColumnSize()];
     }
 
-    //TODO this method populates board
-    public void populateBoard() {
-
+    public String[] getProfileNames() {
+        return profileNames;
     }
 
-    /**
-     *
-     * @return
-     */
-    public SilkBag getBag(){
-        return bag;
+    public void setProfileNames(String[] profileNames) {
+        this.profileNames = profileNames;
     }
 
     /**
@@ -257,37 +257,22 @@ public class Board {
      * @param c The cardinal place of the tile insertion.
      */
     public void movePlayerFromEndTile(int x, int y, Cardinals c) {
-        if (checkIfPlayerEndTile(x, y, c)) {
-            if (c == Cardinals.TOP) {
-                movePlayer(x, y, x, getColumnSize());
-            } else if (c == Cardinals.BOTTOM) {
-                movePlayer(x, y, x, 0);
-            } else if (c == Cardinals.LEFT) {
-                movePlayer(x, y, getRowSize(), y);
-            } else if (c == Cardinals.RIGHT) {
-                movePlayer(x, y, 0, y);
-            }
-        }
-    }
-
-    /**
-     * This method checks if there is a player at the end of the tile.
-     * @param x
-     * @param y
-     * @param c
-     * @return
-     */
-    private boolean checkIfPlayerEndTile(int x, int y, Cardinals c) {
+        //TODO add a check to see if a player is at the end.
         if (c == Cardinals.TOP) {
-            return getPlayerFromBoard(x, getColumnSize()) != null;
-        } else if (c == Cardinals.BOTTOM) {
-            return getPlayerFromBoard(x, 0) != null;
-        } else if (c == Cardinals.LEFT) {
-            return getPlayerFromBoard(getRowSize(), y) != null;
-        } else if (c == Cardinals.RIGHT) {
-            return  getPlayerFromBoard(0, y) != null;
+            movePlayer(x, y, x, getColumnSize());
         }
-        return false;
+
+        if (c == Cardinals.BOTTOM) {
+            movePlayer(x, y, x, 0);
+        }
+
+        if (c == Cardinals.LEFT) {
+            movePlayer(x, y, getRowSize(), y);
+        }
+
+        if (c == Cardinals.RIGHT) {
+            movePlayer(x, y, 0, y);
+        }
     }
 
     /**
@@ -343,11 +328,12 @@ public class Board {
      * @param x The new x co-ordinate of the player.
      * @param y The new y co-ordinate of the player.
      */
-    public void backTrackPlayer(int[] tilesVisited, int x, int y) {
-        if (getTileFromBoard(tilesVisited[2], tilesVisited[3]).getState().equals("FIRE")) {
-            throw new IllegalArgumentException("Tile is on fire, select another tile!"); //TODO need to bring to frontend
+    public void backTrackPlayer(ArrayList<Integer> tilesVisited, int x, int y) { //TODO check index of tilesVisited
+        if ((getTileFromBoard(tilesVisited.get(4), tilesVisited.get(5))).getState().equals("FIRE") ||
+                (getTileFromBoard(tilesVisited.get(2), tilesVisited.get(3))).getState().equals(("FIRE"))) {
+            //error message here stating player cannot go back because tile is on fire
         } else {
-                movePlayer(tilesVisited[2], tilesVisited[3], x, y);
+                movePlayer(tilesVisited.get(2), tilesVisited.get(3), x, y);
         }
     }
 
@@ -359,7 +345,7 @@ public class Board {
         int[] coords = new int[2];
         for (int x = 0; x < getRowSize(); x++) {
             for ( int y = 0; y < getColumnSize(); y++) {
-                if (getTileFromBoard(x, y) instanceof GoalTile) {
+                if (getTileFromBoard(x,y) == getTileFromBoard(x,y)) { //TODO will change to the goal class
                     coords[0] = x;
                     coords[1] = y;
                     return coords;
@@ -369,7 +355,7 @@ public class Board {
         return null;
     }
 
-    public enum Cardinals {
+    public enum Cardinals { //move to the Floor Tile class
         TOP,
         BOTTOM,
         LEFT,
