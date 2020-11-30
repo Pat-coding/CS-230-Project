@@ -9,7 +9,6 @@ import Tiles.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 public class GameFlow {
     private Level level;
@@ -26,10 +25,8 @@ public class GameFlow {
     public GameFlow(Level level, Profile[] profiles) {
         this.level = level;
         this.initiatePlayers(profiles);
-        // Randomly select a player to have the first turn.
-        Random r = new Random();
-        this.playerTurn = r.nextInt(this.players.length);
-        this.players[this.playerTurn].playerTurn();
+
+        this.players = this.level.getPlayerData();
     }
 
     /**
@@ -39,15 +36,10 @@ public class GameFlow {
      */
 
     public GameFlow(Level level) {
-        level = level;
-        players = level.getPlayerData();
-        // Set the player turn to whichever player had the last turn in the previous save.
-        for (int i = 0; i < this.players.length; i++) {
-            if (players[i].getPlayerTurn() == true) {
-                playerTurn = i;
-                break;
-            }
-        }
+        this.level = level;
+        this.players = level.getPlayerData();
+
+        this.players = this.level.getPlayerData();
     }
 
     /**
@@ -195,9 +187,8 @@ public class GameFlow {
     /**
      *
      */
-    public void playerDraw(int i) {
-        level.getSilkBag().giveTile(level.getPlayerData()[i]);
-        setDrawButton(true);
+    public void playerDraw(int player) {
+        this.level.getSilkBag().giveTile(level.getPlayerData()[player]);
     }
 
     /**  TODO Connects with constructor
@@ -243,25 +234,56 @@ public class GameFlow {
      *                              THEN player[0].isPlayerTurn to True
      *
      * **/
-//    public void flow(Player[] player) {
-//        // constructor which connects to deniz part here
-//        populateBoard();
-//        initiatePlayers();
-//         while(!checkWin()){
-//
-//             //if(players clicks save game button then ) {saveGame()}
-//
-//             if (getDrawButton()) {
-//                 // pass to fronteend to display message saying please do an action
-//             } else {
-//                 // pass to frontend to display message saying please draw a card
-//             }
-//
-//             //if(Player use action card) {playerPlaceFireIceTile }
-//
-//             }
-//         }
-//    }
+
+    public void checkPlayerTurn() {
+
+        for(int i = 0; i < level.getPlayerData().length;i++) {
+            if (player[i].getPlayerTurn() == true) {
+               flow(i);
+            }
+        }
+    }
+
+    public void flow(int i) {
+        boolean buttonFlag = false;
+        boolean optionalButtonFlag = true;
+
+        // constructor which connects to deniz part here
+         while(!checkWin()) {
+             while (!buttonFlag) {
+                 if (getSaveButton() == true) {
+                     saveGame();
+                 } else if (getDrawButton() == true) {
+                     // This starts a player's turn
+                     buttonFlag = true;
+                 }
+             }
+             playerDraw(i);
+             while (!optionalButtonFlag)
+                 if (onClickFlag = true || actionTilePlaceFlag = true) {
+                     if (onClickFlagTop = true) {
+                         if (this.level.getBoardData().checkTileInsertionColoumn() = true) {
+                             slotTiles(Board.Cardinals.TOP, );
+                             optionalButtonFlag = true;
+                         } else {
+                             flow(i);
+                         }
+                     } else if (onClickFlagBottom = true) {
+
+                     } else if (onClickFlagLeft = true) {
+
+                     } else if (onClickFlagRight = true) {
+
+                     } else {
+
+                     }
+                 }
+
+
+         }
+
+         }
+    }
 
     /**
      * Prepare the game to finish, either for saving or at a win.
@@ -272,14 +294,32 @@ public class GameFlow {
         return false;
     }
 
-    /**
-     * Pass data from the game to be saved.
-     *
-     * @return True if the game could be saved.
-     */
-    public Boolean saveGame() {
+
+    public Boolean saveGameCheck() {
+        //  In range of amount of levels in saved levels
+        for (int i = 0; i < level.getSavedLevels().size(); i++) {
+            //  If name is equal to a level in saved level.
+            if (level.getSavedLevels().get(i).getBoardData().getNameOfBoard().equals
+                    (this.level.getBoardData().getNameOfBoard())) {
+                level.getSavedLevels().remove(i);
+                level.getSavedLevels().add(this.level);
+                return true;
+            }
+        }
         return false;
     }
+
+    public static void saveGame() {
+        //  Override previous save game
+        if (!saveGameCheck()) {
+            level.getSavedLevels().add(this.level);
+        }
+    }
+
+
+
+
+
 
     /**
      * Announces that a player has won.
@@ -295,7 +335,7 @@ public class GameFlow {
      *
      * @return True if there is a winning situation.
      */
-    public Boolean checkWin() {
+    public static Boolean checkWin() {
         if (level.getBoardData().getPlayerFromBoard(level.getBoardData().getGoal()[0],
                 level.getBoardData().getGoal()[1]) != null) {
             declareWinner();
