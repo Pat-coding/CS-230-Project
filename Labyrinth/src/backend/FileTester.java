@@ -1,5 +1,6 @@
 package backend;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class FileTester {
@@ -12,7 +13,7 @@ public class FileTester {
         try {
             profiles = FileManager.readProfileDataFile("Profiles.txt");
         } catch (Error e) {
-            System.out.println("A fatal eror has occured lolcats");
+            System.out.println("A fatal error has occurred lolcats");
         }
 
         try {
@@ -23,13 +24,13 @@ public class FileTester {
         }finally {
             System.out.println("NewLevels has been successfully run.");
             System.out.println(newLevels);
-            System.out.println(newLevels.get(0).getBoardData().getNameOfBoard());
+            System.out.println(newLevels.get(0).getBoardData().getTileFromBoard(5,5));
         }
 
         try {
             savedLevels = FileManager.readLevelDataFile("SavedLevel.txt", "Saved Level");
             Player[] player = savedLevels.get(0).getPlayerData();
-            System.out.println(player[3].getPlayerInventory());
+            System.out.println(player[1].getPlayerInventory());
         } catch (Error e) {
             System.out.println("FML");
         }

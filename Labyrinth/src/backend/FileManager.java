@@ -62,8 +62,8 @@ public class FileManager {
         arrayOfList[1] = p1;
         arrayOfList[2] = p2;
         arrayOfList[3] = p3;
-
         int counter;
+
         //  Populates Board with Tiles
         for (int i = 0; i < sizeOfBoard[0]*sizeOfBoard[1]; i++) {
             String stringTile = in.next();
@@ -125,9 +125,6 @@ public class FileManager {
 
         return new Level(tempBoard, Integer.parseInt(roundNumber), silkBag, players);
     }
-
-
-
 
     /**
      *  Creates a Level object for a new game.
