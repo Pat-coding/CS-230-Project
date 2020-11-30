@@ -48,4 +48,8 @@ public class MainMenu {
         BorderPane pane = FXMLLoader.load(getClass().getResource("Leaderboards.fxml"));
         rootPane.getChildren().setAll(pane);
     }
+    public void launchInventory(javafx.event.ActionEvent actionEvent) throws IOException{
+        BorderPane pane = FXMLLoader.load(getClass().getResource("InventoryController.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
 }

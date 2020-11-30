@@ -12,6 +12,20 @@ public class CornerTile extends FloorTile {
 
     public CornerTile(int orientation, String state, Boolean isFixed) {
         super(orientation, state, isFixed);
+
+        if (orientation == 0) {
+            this.accessFromTop = true;
+            this.accessFromLeft = true;
+        } else if (orientation == 90 ) {
+            this.accessFromTop = true;
+            this.accessFromRight = true;
+        } else if (orientation == 180 ) {
+            this.accessFromRight = true;
+            this.accessFromBottom = true;
+        } else {
+            this.accessFromBottom = true;
+            this.accessFromLeft = true;
+        }
     }
 
     /**

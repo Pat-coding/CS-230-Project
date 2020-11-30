@@ -15,6 +15,14 @@ public class StraightTile extends FloorTile {
 
     public StraightTile(int orientation, String state, Boolean isFixed) {
         super(orientation, state, isFixed);
+
+        if (orientation == 0) {
+            this.accessFromLeft = true;
+            this.accessFromRight = true;
+        } else{
+            this.accessFromTop = true;
+            this.accessFromBottom = true;
+        }
     }
 
     /**

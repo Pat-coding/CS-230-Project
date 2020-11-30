@@ -25,6 +25,9 @@ public class Player {
                   ArrayList<Tile> heldPlayerTile, boolean backTrackCheck, Boolean isPlayerTurn){
 
     }
+    public Player (){
+
+    }
 
     public void addToVisited() {}
 

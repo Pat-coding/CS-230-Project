@@ -68,7 +68,7 @@ public class Board {
      * @param y The y co-ordinate of the tile.
      * @param tile THe tile at the position.
      */
-    public void insertTile(int x, int y,FloorTile tile) {
+    public void insertTile(int x, int y, FloorTile tile) {
         tileCoordinates[x][y] = tile;
     }
 
@@ -202,40 +202,40 @@ public class Board {
      * @param y    The y co-ordinate where the player wants to slide tile in.
      * @param tile The tile that is being slided in.
      */
-    public FloorTile placeOnNewTile(Cardinals c, int x, int y,FloorTile tile) { //use enum for access cardinals on tiles
+    public FloorTile placeOnNewTile(Cardinals c, int x, int y, FloorTile tile) { //use enum for access cardinals on tiles
         if (c == Cardinals.TOP) {//shift index down from the second last (animations)
-            FloorTile discardedTile = getTileFromBoard(x, getColumnSize());
-            for (int col = getColumnSize() - 1; col >= 0; col--) {
-                insertTile(x, col, getTileFromBoard(x, col - 1));
-            }
-            insertTile(x, y, tile);
-            return discardedTile;
-        }
-
-        if (c == Cardinals.BOTTOM) {
             FloorTile discardedTile = getTileFromBoard(x, 0);
-            for (int col = 0; col < getColumnSize(); col++) {
-                insertTile(x, col, getTileFromBoard(x, col + 1));
+            for (int row = getRowSize() - 1; row > 0; row--) {
+                insertTile(x, row, getTileFromBoard(x, row - 1));
             }
-            insertTile(x, y, tile);
+            insertTile(x, 0, tile);
             return discardedTile;
         }
 
-        if (c == Cardinals.LEFT) {
-            FloorTile discardedTile = getTileFromBoard(getRowSize(), y);
-            for (int row = getRowSize(); row > 0; row--) {
-                insertTile(row, getRowSize(), getTileFromBoard(row - 1, y));
+        if (c == Cardinals.BOTTOM) {//push from bottom to up
+            FloorTile discardedTile = getTileFromBoard(x, getRowSize() - 1);
+            for (int row = 0; row < getRowSize() - 1; row++) {
+                insertTile(x, row, getTileFromBoard(x, row + 1));
             }
-            insertTile(x, y, tile);
+            insertTile(x, getRowSize() - 1, tile);
             return discardedTile;
         }
 
-        if (c == Cardinals.RIGHT) {
-            FloorTile discardedTile = getTileFromBoard(0, y);
-            for (int row = 0; row < getRowSize(); row++) {
-                insertTile(row, getRowSize(), getTileFromBoard(row + 1, y));
+        if (c == Cardinals.LEFT) { //push from left -> right
+            FloorTile discardedTile = getTileFromBoard(x, getColumnSize() - 1);
+            for (int col = getColumnSize() - 1; col > 0; col--) {
+                insertTile(col, y, getTileFromBoard(col - 1, y));
             }
-            insertTile(x, y, tile);
+            insertTile(0, y, tile);
+            return discardedTile;
+        }
+
+        if (c == Cardinals.RIGHT) { //push from right -> left
+            FloorTile discardedTile = getTileFromBoard(getColumnSize() - 1, y);
+            for (int col = 0; col < getColumnSize() - 1; col++) {
+                insertTile(col, y, getTileFromBoard(col + 1, y));
+            }
+            insertTile(getColumnSize() - 1, y, tile);
             return discardedTile;
         }
         return null;
@@ -324,7 +324,7 @@ public class Board {
                 (getTileFromBoard(tilesVisited.get(2), tilesVisited.get(3))).getState().equals(("FIRE"))) {
             //error message here stating player cannot go back because tile is on fire
         } else {
-                movePlayer(tilesVisited.get(2), tilesVisited.get(3), x, y);
+            movePlayer(tilesVisited.get(2), tilesVisited.get(3), x, y);
         }
     }
 
