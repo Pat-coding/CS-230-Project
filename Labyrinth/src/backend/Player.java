@@ -3,6 +3,7 @@ package backend;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import Tiles.FloorTile;
 import Tiles.Tile;
 /**
  * @author Kane
@@ -20,6 +21,7 @@ public class Player {
     private ArrayList<Tile> playerInventory;
     private boolean backTrackCheck;
     private boolean isPlayerTurn;
+    private FloorTile tileHand;
 
     public Player(Profile profile, int playerCordX,int playerCordY,int[] profileCordHistory,
                   ArrayList<Tile> playerInventory, boolean backTrackCheck, Boolean isPlayerTurn){
@@ -97,5 +99,13 @@ public class Player {
             return x;
         }
 
+    }
+
+    public FloorTile getTileHand() {
+        return tileHand;
+    }
+
+    public void setTileHand(FloorTile tileHand) {
+        this.tileHand = tileHand;
     }
 }

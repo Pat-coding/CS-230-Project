@@ -10,6 +10,9 @@ public class Level {
     private static ArrayList<Level> newLevels;
     private static ArrayList<Level>  savedLevels;
 
+    private int tempX;
+    private int tempY;
+    private Board.Cardinals tempCardinal;
 
     private Board boardData;
     private int gameTurnData;
@@ -99,4 +102,27 @@ public class Level {
         return savedLevels;
     }
 
+    public int getTempX() {
+        return tempX;
+    }
+
+    public void setTempX(int tempX) {
+        this.tempX = tempX;
+    }
+
+    public int getTempY() {
+        return tempY;
+    }
+
+    public void setTempY(int tempY) {
+        this.tempY = tempY;
+    }
+
+    public Board.Cardinals getTempCardinal() {
+        return tempCardinal;
+    }
+
+    public void setTempCardinal(Board.Cardinals tempCardinal) {
+        this.tempCardinal = tempCardinal;
+    }
 }

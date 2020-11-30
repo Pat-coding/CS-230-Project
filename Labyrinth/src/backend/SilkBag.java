@@ -32,30 +32,37 @@ public class SilkBag {
             silkBagContent[randomNum] = silkBagContent[randomNum] - 1;
             switch (randomNum) {
                 case 0:
-                    Tile StraightTile = new StraightTile(randomOrientation(), "NORMAL", false);
-                    player.getPlayerInventory().add(StraightTile);
+                    FloorTile StraightTile = new StraightTile(randomOrientation(), "NORMAL", false);
+                    player.setTileHand(StraightTile);
+                    break;
                 case 1:
-                    Tile CornerTile = new CornerTile(randomOrientation(), "NORMAL", true);
-                    player.getPlayerInventory().add(CornerTile);
+                    FloorTile CornerTile = new CornerTile(randomOrientation(), "NORMAL", true);
+                    player.setTileHand(CornerTile);
+                    break;
                 case 2:
-                    Tile TShapedTile = new TShapedTile(randomOrientation(), "NORMAL", false);
-                    player.getPlayerInventory().add(TShapedTile);
+                    FloorTile TShapedTile = new TShapedTile(randomOrientation(), "NORMAL", false);
+                    player.setTileHand(TShapedTile);
+
                 case 3:
-                    Tile GoalTile = new GoalTile(randomOrientation(), "NORMAL", false);
-                    player.getPlayerInventory().add(GoalTile);
+                    FloorTile GoalTile = new GoalTile(randomOrientation(), "NORMAL", false);
+                    player.setTileHand(GoalTile);
+                    break;
                 case 4:
                     Tile IceTile = new IceTile();
                     player.getPlayerInventory().add(IceTile);
+                    break;
                 case 5:
                     Tile BackTrackTile = new BacktrackTile();
                     player.getPlayerInventory().add(BackTrackTile);
+                    break;
                 case 6:
                     Tile DoubleMoveTile = new DoubleMoveTile();
                     player.getPlayerInventory().add(DoubleMoveTile);
+                    break;
                 case 7:
                     Tile FireTile = new FireTile();
                     player.getPlayerInventory().add(FireTile);
-
+                    break;
             }
         }
     }
