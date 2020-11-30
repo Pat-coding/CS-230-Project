@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.io.FileWriter;
 
@@ -22,12 +23,12 @@ public class FileManager {
 
         String stringProfileName = in.next();
         String nameOfBoard = in.next();
-        int gameTurn = in.nextInt();
+        String roundNumber = in.next();
         String stringSizeOfBoard = in.next();
         String stringProfileCord = in.next();
         String stringProfileCordHistory = in.next();
         String stringSilkBagContent = in.next();
-        String stringHeldPlayerTiles = in.next();
+        String stringPlayerInventory = in.next();
         String stringBackTrackCheck = in.next();
         String stringIsPlayerTurn = in.next();
 
@@ -40,24 +41,35 @@ public class FileManager {
         int[] silkBagContent = stringToIntArray(stringSilkBagContent);
         Boolean backTrackCheck = Boolean.parseBoolean(stringBackTrackCheck);
 
+
         ArrayList<Profile> profiles;
         ArrayList<Profile> usedProfile = new ArrayList<>();
         int[] profileCordX = new int[profileName.length];
         int[] profileCordY = new int[profileName.length];
         int[] profileCordHistoryArray = new int[profileName.length * 3];
-        Board tempBoard = new Board(nameOfBoard, sizeOfBoard);
-        ArrayList<Tile> t = new ArrayList<>();
-        String[] heldPlayerTiles = stringHeldPlayerTiles.split("[;]");
-        String[] heldPlayerTilesPlayer = new String[0];
-        int counter;
+        Board tempBoard = new Board(nameOfBoard, sizeOfBoard, profileName);
 
+
+        String[] playerInventory = stringPlayerInventory.split("[;]");
+
+        ArrayList<Tile> p0 = new ArrayList<>();
+        ArrayList<Tile> p1 = new ArrayList<>();
+        ArrayList<Tile> p2 = new ArrayList<>();
+        ArrayList<Tile> p3 = new ArrayList<>();
+
+        List<Tile>[] arrayOfList = new List[4];
+        arrayOfList[0] = p0;
+        arrayOfList[1] = p1;
+        arrayOfList[2] = p2;
+        arrayOfList[3] = p3;
+        int counter;
 
         //  Populates Board with Tiles
         for (int i = 0; i < sizeOfBoard[0]*sizeOfBoard[1]; i++) {
             String stringTile = in.next();
             String[] sta = stringToStringArray(stringTile);
 
-            FloorTile tempTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], Boolean.getBoolean(sta[5]));
+            FloorTile tempTile = createTempTile(sta[2], Integer.parseInt(sta[3]), sta[4], Boolean.parseBoolean(sta[5]));
             tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), tempTile);
         }
 
@@ -81,39 +93,38 @@ public class FileManager {
             profileCordY[j] = profileCord[j];
         }
 
-
         //  Creates Player Objects
-        counter = 0;
 
+        counter = 0;
+        ArrayList<Tile> playerInventoryArrayListTemp = new ArrayList<>();
         Player[] players = new Player[profileName.length];
         for (int i = 0; i < profileName.length; i++, counter = counter + 6) {
+            String[] playerInventoryTemp = playerInventory[i].split(",");
+
+
+            //  Takes the first 6 numbers in the array
             for (int j = 0; j < 6; j++) {
                 profileCordHistoryArray[j] = profileCordHistory[j + counter];
             }
 
-            for (int j = 0; j < heldPlayerTiles.length; j++) {
-                heldPlayerTilesPlayer = heldPlayerTiles[j].split(",");
-            }
-
-            for (int j = 0; j < heldPlayerTilesPlayer.length; j = j+2) {
-                t.add(createHeldTiles(heldPlayerTilesPlayer[j], Integer.getInteger(heldPlayerTilesPlayer[j+1])));
+            for (int j = 0; j < playerInventoryTemp.length - 1; j = j+2) {
+                if (playerInventoryTemp[j] == "NA"){
+                    break;
+                }
+                arrayOfList[i].add(createPlayerInventoryTiles(playerInventoryTemp[j], Integer.parseInt(playerInventoryTemp[j+1])));
             }
 
             Player tempPlayer = new Player(usedProfile.get(i), profileCordX[i], profileCordY[i], profileCordHistory,
-                    t, backTrackCheck, Boolean.parseBoolean(isPlayerTurn[i]));
+                    (ArrayList<Tile>) arrayOfList[i], backTrackCheck, Boolean.parseBoolean(isPlayerTurn[i]));
             players[i] = (tempPlayer);
+            playerInventoryArrayListTemp.clear();
+
         }
 
-        //  silkBag(int[] silkBagContent)
-        // ith element = (int Straight,int Corner,int TShaped, int Fire,int Ice,int Backtrack,int Doublemove,int Goal)
-        // respectively
         SilkBag silkBag = new SilkBag(silkBagContent);
 
-        return new Level(tempBoard, gameTurn, silkBag, players);
+        return new Level(tempBoard, Integer.parseInt(roundNumber), silkBag, players);
     }
-
-
-
 
     /**
      *  Creates a Level object for a new game.
@@ -122,31 +133,39 @@ public class FileManager {
      */
 
     private static Level loadNewLevel(Scanner in) {
+        try {
+            String nameOfBoard = in.next();
+            String stringSizeOfBoard = in.next();
+            String stringSpawnPoints = in.next();
+            String stringSilkBagContent = in.next();
+            int numOfFixedTiles = in.nextInt();
 
-        String nameOfBoard = in.next();
-        String stringSizeOfBoard = in.next();
-        String stringSpawnPoints = in.next();
-        String stringSilkBagContent = in.next();
-        int numOfFixedTiles = in.nextInt();
 
-        int[] sizeOfBoard = stringToIntArray(stringSizeOfBoard);
-        int[] spawnPoints = stringToIntArray(stringSpawnPoints);
-        int[] silkBagContent = stringToIntArray(stringSilkBagContent);
+            int[] sizeOfBoard = stringToIntArray(stringSizeOfBoard);
+            int[] spawnPoints = stringToIntArray(stringSpawnPoints);
+            int[] silkBagContent = stringToIntArray(stringSilkBagContent);
 
-        //  details of fixed tiles
-        Board tempBoard = new Board(nameOfBoard, sizeOfBoard);
-        for (int i = 0; i < numOfFixedTiles - 1; i++) {
+            //  details of fixed tiles
+            Board tempBoard = new Board(nameOfBoard, sizeOfBoard);
+            for (int i = 0; i < numOfFixedTiles; i++) {
 
-            String stringTile = in.next();
-            String[] sta = stringToStringArray(stringTile);
+                String stringTile = in.next();
+                String[] sta = stringToStringArray(stringTile);
 
-            FloorTile fixedTile = createTempTile(sta[2], Integer.getInteger(sta[3]), sta[4], true);
-            tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), fixedTile);
+                FloorTile fixedTile = createTempTile(sta[2], stringToInt(sta[3]), sta[4], true);
+
+                tempBoard.insertTile(stringToInt(sta[0]), stringToInt(sta[1]), fixedTile);
+            }
+
+            SilkBag silkBag = new SilkBag(silkBagContent);
+
+            return new Level(tempBoard, 0, silkBag, spawnPoints);
+        } catch (Error e) {
+            System.out.println(e);
         }
 
-        SilkBag silkBag = new SilkBag(silkBagContent);
 
-        return new Level(tempBoard, 0, silkBag, spawnPoints);
+        return null;
     }
 
     /**
@@ -154,14 +173,16 @@ public class FileManager {
      * @param in passes through the Scanner for the file.
      * @return a Profile object
      */
+    // throws ProfileNotCompleteException
+    private static Profile loadProfile(Scanner in){
 
-    private static Profile loadProfile(Scanner in) {
         String profileName = in.next();
         String stringProfileWinCount = in.next();
         String stringProfileLossCount = in.next();
 
         int profileWinCount = stringToInt(stringProfileWinCount);
         int profileLossCount = stringToInt(stringProfileLossCount);
+
 
         return new Profile(profileName, profileWinCount, profileLossCount);
     }
@@ -171,56 +192,58 @@ public class FileManager {
      * @param level
      */
 
-    public static void createNewSaveFile(Level level) {
-        Board board = level.getBoardData();
-        int gameTurn = level.gameTurnData;
-        SilkBag silkBag = level.getSilkBag();
-        Player[] player = level.getPlayerData();
+    public static void createNewSaveFile(ArrayList<Level> levelArray) {
+        for (int i = 0; i < levelArray.size(); i++) {
+            Board board = levelArray.get(i).getBoardData();
+            int gameTurn = levelArray.get(i).getGameTurnData();
+            SilkBag silkBag = levelArray.get(i).getSilkBag();
+            Player[] player = levelArray.get(i).getPlayerData();
 
-        try (FileWriter levelWriter = new FileWriter("SaveFile.txt")) {
-            for (int i = 0; i < player.length - 1; i++) {
-                if (i == player.length - 1) {
-                    levelWriter.write(player[i].getProfile().getProfileName() + "\n");
-                    break;
+            try (FileWriter levelWriter = new FileWriter("SaveFile.txt")) {
+                for (int j = 0; j < player.length - 1; j++) {
+                    if (i == player.length - 1) {
+                        levelWriter.write(player[j].getProfile().getProfileName() + "\n");
+                        break;
+                    }
+                    levelWriter.write(player[j].getProfile().getProfileName() + ",");
                 }
-                levelWriter.write(player[i].getProfile().getProfileName() + ",");
-            }
 
-            //  Name
-            levelWriter.write(board.getNameOfBoard() + "\n");
-            //  Game Turn
-            levelWriter.write(gameTurn + "\n");
-            //  Size of Board
-            levelWriter.write(board.getRowSize() + "," + board.getColumnSize() + "\n");
-            //  Profile Coordinate
+                //  Name
+                levelWriter.write(board.getNameOfBoard() + "\n");
+                //  Game Turn
+                levelWriter.write(gameTurn + "\n");
+                //  Size of Board
+                levelWriter.write(board.getRowSize() + "," + board.getColumnSize() + "\n");
+                //  Profile Coordinate
 
-            for (int i = 0; i < player.length - 1; i++) {
-                levelWriter.write(player[i].getPlayerCordX() + "," + player[0].getPlayerCordY() + "\n");
-            }
-
-            //  Profile Coordinate History
-            for (int i = 0; i < player.length - 1; i++) {
-                levelWriter.write(Arrays.toString(player[i].getProfileCordHistory()) + "\n");
-            }
-
-            //  Contents of the Silk Bag
-            levelWriter.write(Arrays.toString(silkBag.getSilkBagContent()) + "\n");
-
-            //  Player inventory
-            levelWriter.write(player[0].getPlayerInventory() + ";" + player[1].getPlayerInventory() + ";" +
-                    player[2].getPlayerInventory() + ";" + player[3].getPlayerInventory());
-            //  Backtrack
-            levelWriter.write(player[0].getBackTrackCheck() + "," + player[1].getBackTrackCheck() + ","
-                    + player[2].getBackTrackCheck() + "," + player[3].getBackTrackCheck());
-            //  ENTIRE BOARD
-            for (int i = 0; i < board.getRowSize()*board.getColumnSize(); i++) {
-                for (int j = 0; j < board.getRowSize()*board.getColumnSize(); i++) {
-                    levelWriter.write(board.getTileFromBoard(i,j) + "\n");
+                for (int j = 0; j < player.length - 1; j++) {
+                    levelWriter.write(player[j].getPlayerCordX() + "," + player[0].getPlayerCordY() + "\n");
                 }
+
+                //  Profile Coordinate History
+                for (int j = 0; i < player.length - 1; i++) {
+                    levelWriter.write(Arrays.toString(player[j].getProfileCordHistory()) + "\n");
+                }
+
+                //  Contents of the Silk Bag
+                levelWriter.write(Arrays.toString(silkBag.getSilkBagContent()) + "\n");
+
+                //  Player inventory
+                levelWriter.write(player[0].getPlayerInventory() + ";" + player[1].getPlayerInventory() + ";" +
+                        player[2].getPlayerInventory() + ";" + player[3].getPlayerInventory());
+                //  Backtrack
+                levelWriter.write(player[0].getBackTrackCheck() + "," + player[1].getBackTrackCheck() + ","
+                        + player[2].getBackTrackCheck() + "," + player[3].getBackTrackCheck());
+                //  ENTIRE BOARD
+                for (int j = 0; j < board.getRowSize()*board.getColumnSize(); j++) {
+                    for (int k = 0; k < board.getRowSize()*board.getColumnSize(); k++) {
+                        levelWriter.write(board.getTileFromBoard(j,k) + "\n");
+                    }
+                }
+            } catch (IOException e) {
+                System.out.println("An error has occurred");
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            System.out.println("An error has occurred");
-            e.printStackTrace();
         }
     }
 
@@ -228,8 +251,8 @@ public class FileManager {
      *
      * @param name
      */
-    public static void createNewProfile (String name) {
-        try (FileWriter profileWriter = new FileWriter("Profile.txt")){
+    public static void createNewProfile (Profile name) {
+        try (FileWriter profileWriter = new FileWriter("Profiles.txt")){
 
             profileWriter.write(name + "\n");
             profileWriter.write("0\n");
@@ -250,9 +273,14 @@ public class FileManager {
 
     private static ArrayList<Profile> readDataFileProfile(Scanner in) {
         ArrayList<Profile> returnableArray = new ArrayList<Profile>();
+
         while (in.hasNext()) {
-            Profile profile = loadProfile(in);
-            returnableArray.add(profile);
+            try {
+                Profile profile = loadProfile(in);
+                returnableArray.add(profile);
+            } catch (Error e) {
+                System.out.print("An unknown error has occurred.");
+            }
         }
         return returnableArray;
     }
@@ -268,11 +296,13 @@ public class FileManager {
 
     public static ArrayList<Profile> readProfileDataFile(String filename) {
         File inputFile = new File(filename);
+
         Scanner in = null;
         try {
             in = new Scanner (inputFile);
         } catch (FileNotFoundException e) {
-            System.out.println("Cannot open" + filename);
+            System.out.println("Cannot open " + filename);
+            System.out.print(e);
             System.exit(0);
         }
         return FileManager.readDataFileProfile(in);
@@ -287,11 +317,11 @@ public class FileManager {
 
     private static ArrayList<Level> readDataFileLevel(Scanner in, String loadType) {
         ArrayList<Level> returnableArray = new ArrayList<Level>();
-
         while (in.hasNext()) {
             switch (loadType) {
                 case "New Level":
                     Level newLevel = loadNewLevel(in);
+
                     returnableArray.add(newLevel);
                     break;
 
@@ -304,6 +334,7 @@ public class FileManager {
                     System.out.println("Error : Cannot identify File type.");
             }
         }
+        in.close();
         return returnableArray;
     }
 
@@ -322,15 +353,15 @@ public class FileManager {
         try {
             in = new Scanner (inputFile);
         } catch (FileNotFoundException e) {
-            System.out.println("Cannot open" + filename);
+            System.out.println("Cannot open " + filename);
             System.exit(0);
         }
         return FileManager.readDataFileLevel(in, type);
     }
 
-    public static FloorTile createTempTile(String typeOfTile, int orientation, String state, Boolean isFixed) {
-        FloorTile tempTile = null;
+    private static FloorTile createTempTile(String typeOfTile, int orientation, String state, Boolean isFixed) {
 
+        FloorTile tempTile = null;
         switch (typeOfTile) {
             case "Straight" :
                 tempTile = new StraightTile(orientation, state, isFixed);
@@ -350,7 +381,7 @@ public class FileManager {
         return tempTile;
     }
 
-    public static Tile createHeldTiles(String typeOfTile, int orientation) {
+    public static Tile createPlayerInventoryTiles(String typeOfTile, int orientation) {
         Tile tempTile = null;
 
         switch (typeOfTile) {

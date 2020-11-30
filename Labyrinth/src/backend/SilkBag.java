@@ -18,13 +18,6 @@ public class SilkBag {
 
     public SilkBag(int[] silkBagContent) {
         this.silkBagContent = silkBagContent;
-//        this.straight = silkBagContent[0];
-//        this.corner = silkBagContent[1];
-//        this.tShaped = silkBagContent[2];
-//        this.fire = silkBagContent[3];
-//        this.ice = silkBagContent[4];
-//        this.backtrack = silkBagContent[5];
-//        this.doublemove = silkBagContent[6];
     }
 
     /**
@@ -42,14 +35,14 @@ public class SilkBag {
                     Tile StraightTile = new StraightTile(randomOrientation(), "NORMAL", false);
                     player.getPlayerInventory().add(StraightTile);
                 case 1:
-                    Tile CornerTile = new CornerTile(randomOrientation(), "NORMAL", false);
+                    Tile CornerTile = new CornerTile(randomOrientation(), "NORMAL", true);
                     player.getPlayerInventory().add(CornerTile);
                 case 2:
                     Tile TShapedTile = new TShapedTile(randomOrientation(), "NORMAL", false);
                     player.getPlayerInventory().add(TShapedTile);
                 case 3:
-                    Tile FireTile = new FireTile();
-                    player.getPlayerInventory().add(FireTile);
+                    Tile GoalTile = new GoalTile(randomOrientation(), "NORMAL", false);
+                    player.getPlayerInventory().add(GoalTile);
                 case 4:
                     Tile IceTile = new IceTile();
                     player.getPlayerInventory().add(IceTile);
@@ -59,11 +52,30 @@ public class SilkBag {
                 case 6:
                     Tile DoubleMoveTile = new DoubleMoveTile();
                     player.getPlayerInventory().add(DoubleMoveTile);
+                case 7:
+                    Tile FireTile = new FireTile();
+                    player.getPlayerInventory().add(FireTile);
 
             }
         }
     }
 
+    public FloorTile populateRandomBoardTiles() {
+        int randomNum = rand.nextInt(silkBagContent.length);
+
+        silkBagContent[randomNum] = silkBagContent[randomNum] - 1;
+        switch (randomNum) {
+            case 0:
+               return new StraightTile(randomOrientation(), "NORMAL", false);
+            case 1:
+                return new CornerTile(randomOrientation(), "NORMAL", false);
+            case 2:
+                return new TShapedTile(randomOrientation(), "NORMAL", false);
+            case 3:
+                return new GoalTile(randomOrientation(),"NORMAL", false);
+        }
+        return null;
+    }
 
     public int randomOrientation() {
         int[] orientation = new int[]{0, 90, 180, 270};
@@ -87,7 +99,7 @@ public class SilkBag {
                 this.silkBagContent[2]++;
                 break;
             case "FireTile":
-                this.silkBagContent[3]++;
+                this.silkBagContent[7]++;
                 break;
             case "IceTile":
                 this.silkBagContent[4]++;
@@ -98,6 +110,8 @@ public class SilkBag {
             case "DoubleMoveTile":
                 this.silkBagContent[6]++;
                 break;
+            case "GoalTile":
+                this.silkBagContent[3]++;
         }
     }
 }
