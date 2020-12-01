@@ -70,16 +70,21 @@ public class SilkBag {
     public FloorTile populateRandomBoardTiles() {
         int randomNum = rand.nextInt(silkBagContent.length);
 
-        silkBagContent[randomNum] = silkBagContent[randomNum] - 1;
-        switch (randomNum) {
-            case 0:
-               return new StraightTile(randomOrientation(), "NORMAL", false);
-            case 1:
-                return new CornerTile(randomOrientation(), "NORMAL", false);
-            case 2:
-                return new TShapedTile(randomOrientation(), "NORMAL", false);
-            case 3:
-                return new GoalTile(randomOrientation(),"NORMAL", false);
+        if (silkBagContent[randomNum] <= 0) {
+            populateRandomBoardTiles();
+        } else {
+            silkBagContent[randomNum] = silkBagContent[randomNum] - 1;
+
+            switch (randomNum) {
+                case 0:
+                    return new StraightTile(randomOrientation(), "NORMAL", false);
+                case 1:
+                    return new CornerTile(randomOrientation(), "NORMAL", false);
+                case 2:
+                    return new TShapedTile(randomOrientation(), "NORMAL", false);
+                case 3:
+                    return new GoalTile(randomOrientation(), "NORMAL", false);
+            }
         }
         return null;
     }

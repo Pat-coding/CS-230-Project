@@ -42,6 +42,27 @@ public class GameFlow {
         this.players = this.level.getPlayerData();
     }
 
+    public static void saveGame() {
+        //  Override previous save game
+        if (!saveGameCheck()) {
+            level.getSavedLevels().add(this.level);
+        }
+    }
+
+    /**
+     * Check if the board is in a state where a player has won.
+     *
+     * @return True if there is a winning situation.
+     */
+    public static Boolean checkWin() {
+        if (level.getBoardData().getPlayerFromBoard(level.getBoardData().getGoal()[0],
+                level.getBoardData().getGoal()[1]) != null) {
+            declareWinner();
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Create players based on level data and profiles.
      *
@@ -59,7 +80,6 @@ public class GameFlow {
     }
 
     /**
-     *
      * @param board
      * @param rowSize
      * @param columnSize
@@ -191,56 +211,55 @@ public class GameFlow {
         this.level.getSilkBag().giveTile(level.getPlayerData()[player]);
     }
 
-
-    /**  TODO Connects with constructor
-     *
-     *      Managing Turns
-     *
-     *      STARTING PHASE
-     *          OPTIONAL - SAVE GAME
-     *
-     *
-     *      DRAWING PHASE - DRAW TILE
-     *          WAIT TILL PLAYER HAS DRAWN FROM SILK BAG
-     *          THEN PROCEED
-     *
-     *
-     *      OPTIONAL PHASE - PLACING TILE
-     *          Checks to see if action performed on player turn is legal
-     *              CHECK FOR ACTION TILES, AS WELL AS TILE PLACEMENTS
-     *              if legal, proceed
-     *                  CHECK IF THEY WIN BEFORE PROCEEDING
-     *              else, cancel action.
-     *
-     *      MOVING PHASE (ACCOUNT FOR DOUBLE MOVE PLEASE!!!)
-     *          Takes keystrokes, and moves in that direction - Proceeds to END TURN PHASE
-     *              CHECKS FOR OBSTRUCTION
-     *                  IF obstruction is detected FLAG TRUE
-     *                      SHOWS END TURN BUTTON
-     *
-     *
-     *      ENDING TURN PHASE
-     *          Check to see if player has won.
-     *              If true
-     *                  Increment player Win count
-     *                  Increment OTHER player loss count
-     *                  END GAME
-     *                      IF SAVED GAME
-     *                          DELETE SAVE FILE
-     *             If false
-     *                  Next Player Turn
-     *                      SETTING THIS player[x].isPlayerTurn to False
-     *                      Set player[x + 1].isPlayerTurn to True
-     *                          If player[x + 1] = 4
-     *                              THEN player[0].isPlayerTurn to True
-     *
-     * **/
+    /**
+     * TODO Connects with constructor
+     * <p>
+     * Managing Turns
+     * <p>
+     * STARTING PHASE
+     * OPTIONAL - SAVE GAME
+     * <p>
+     * <p>
+     * DRAWING PHASE - DRAW TILE
+     * WAIT TILL PLAYER HAS DRAWN FROM SILK BAG
+     * THEN PROCEED
+     * <p>
+     * <p>
+     * OPTIONAL PHASE - PLACING TILE
+     * Checks to see if action performed on player turn is legal
+     * CHECK FOR ACTION TILES, AS WELL AS TILE PLACEMENTS
+     * if legal, proceed
+     * CHECK IF THEY WIN BEFORE PROCEEDING
+     * else, cancel action.
+     * <p>
+     * MOVING PHASE (ACCOUNT FOR DOUBLE MOVE PLEASE!!!)
+     * Takes keystrokes, and moves in that direction - Proceeds to END TURN PHASE
+     * CHECKS FOR OBSTRUCTION
+     * IF obstruction is detected FLAG TRUE
+     * SHOWS END TURN BUTTON
+     * <p>
+     * <p>
+     * ENDING TURN PHASE
+     * Check to see if player has won.
+     * If true
+     * Increment player Win count
+     * Increment OTHER player loss count
+     * END GAME
+     * IF SAVED GAME
+     * DELETE SAVE FILE
+     * If false
+     * Next Player Turn
+     * SETTING THIS player[x].isPlayerTurn to False
+     * Set player[x + 1].isPlayerTurn to True
+     * If player[x + 1] = 4
+     * THEN player[0].isPlayerTurn to True
+     **/
 
     public void checkPlayerTurn() {
 
-        for(int i = 0; i < level.getPlayerData().length;i++) {
+        for (int i = 0; i < level.getPlayerData().length; i++) {
             if (players[i].getPlayerTurn() == true) {
-               flow(i);
+                flow(i);
             }
         }
     }
@@ -250,48 +269,57 @@ public class GameFlow {
         boolean optionalButtonFlag = true;
         this.players = this.level.getPlayerData();
         // constructor which connects to deniz part here
-         while(!checkWin()) {
-             while (!buttonFlag) {
-                 if (getSaveButton() == true) {
-                     saveGame();
-                 } else if (getDrawButton() == true) {
-                     // This starts a player's turn
-                     buttonFlag = true;
-                 }
-             }
+        while (!checkWin()) {
+            while (!buttonFlag) {
+                if (getSaveButton() == true) {
+                    saveGame();
+                } else if (getDrawButton() == true) {
+                    // This starts a player's turn
+                    buttonFlag = true;
+                }
+            }
             playerDraw(i);
-             while (this.players[i].getTileHand().getType() != null) {
+            while (this.players[i].getTileHand().getType() != null) {
 
-                 if ((level.getTempCardinal()) != Board.Cardinals.NULL) {
-                     slotTiles(level.getTempCardinal(),this.players[i].getTileHand(), level.getTempX(),
-                             level.getTempY());
-                     optionalButtonFlag = true;
-                     this.players[i].setTileHand(null);
-                     level.setTempCardinal(Board.Cardinals.NULL);
-                 }
-             }
-                 while (optionalButtonFlag) {
-                     if (actionTilePlaceFlag = true) {
-                         if (onClickFlagTop = true) {
+                if ((level.getTempCardinal()) != Board.Cardinals.NULL) {
+                    slotTiles(level.getTempCardinal(), this.players[i].getTileHand(), level.getTempX(),
+                            level.getTempY());
+                    optionalButtonFlag = true;
+                    this.players[i].setTileHand(null);
+                    level.setTempCardinal(Board.Cardinals.NULL);
+                }
+            }
+            while (optionalButtonFlag) {
+                if (actionTilePlaceFlag = true) {
+                    if (onClickFlagTop = true) {
 
-                         } else if (onClickFlagBottom = true) {
+                    } else if (onClickFlagBottom = true) {
 
-                         } else if (onClickFlagLeft = true) {
+                    } else if (onClickFlagLeft = true) {
 
-                         } else if (onClickFlagRight = true) {
+                    } else if (onClickFlagRight = true) {
 
-                         } else {
+                    } else {
 
-                         }
-                     }
-
-
-                 }
-             }
-
-
-
-         }
+                    }
+                } else {
+                    //how to use a key listener?
+                    optionalButtonFlag = false;
+                }
+                if (checkWin()) {
+                    declareWinner(i);
+                } else {
+                    players[i].playerTurn();
+                    if (i == players.length - 1) {
+                        i = 0;
+                        players[i].playerTurn();
+                    } else {
+                        i++;
+                        players[i].playerTurn();
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -302,7 +330,6 @@ public class GameFlow {
     public Boolean endGame() {
         return false;
     }
-
 
     public Boolean saveGameCheck() {
         //  In range of amount of levels in saved levels
@@ -318,39 +345,20 @@ public class GameFlow {
         return false;
     }
 
-    public static void saveGame() {
-        //  Override previous save game
-        if (!saveGameCheck()) {
-            level.getSavedLevels().add(this.level);
-        }
-    }
-
-
-
-
-
-
     /**
      * Announces that a player has won.
      *
      * @return Player that won.
      */
-    public void declareWinner() {
-
-    }
-
-    /**
-     * Check if the board is in a state where a player has won.
-     *
-     * @return True if there is a winning situation.
-     */
-    public static Boolean checkWin() {
-        if (level.getBoardData().getPlayerFromBoard(level.getBoardData().getGoal()[0],
-                level.getBoardData().getGoal()[1]) != null) {
-            declareWinner();
-            return true;
+    public void declareWinner(int i) {
+        Player[] players = level.getPlayerData();
+        for (int x = 0; x < players.length; x++) {
+            if (players[x] == players[i]) {
+                players[i].incPlayerWin();
+            } else {
+                players[i].incPlayerLoss();
+            }
         }
-        return false;
     }
 
     public Boolean getDrawButton() {
