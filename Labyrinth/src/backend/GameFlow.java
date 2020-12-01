@@ -13,7 +13,7 @@ public class GameFlow {
     private Level level;
     private Player[] players;
     private int playerTurn;
-    private Boolean drawButton;
+    private boolean drawButton;
 
     /**
      * New Game
@@ -53,7 +53,7 @@ public class GameFlow {
      *
      * @return True if there is a winning situation.
      */
-    public Boolean checkWin() {
+    public boolean checkWin() {
 
         if (level.getBoardData().getPlayerFromBoard(level.getBoardData().getGoal()[0],
                 level.getBoardData().getGoal()[1]) != null) {
@@ -160,7 +160,7 @@ public class GameFlow {
      * @param y
      * @return
      */
-    public Boolean checkWhichActionTile(ActionTile tile, int player, int x, int y) {
+    public boolean checkWhichActionTile(ActionTile tile, int player, int x, int y) {
         if (tile instanceof FireTile) {
             if (checkActionCardValid(x, y)) {
                 playerPlaceFire(x, y);
@@ -188,7 +188,7 @@ public class GameFlow {
      * @param y
      * @return
      */
-    public Boolean checkActionCardValid(int x, int y) {
+    public boolean checkActionCardValid(int x, int y) {
 
         for (int i = 0; i < level.getPlayerData().length; i++) {
             if (Arrays.equals(level.getBoardData().playerLocationOnBoard(level.getPlayerData()[i]),
@@ -203,7 +203,7 @@ public class GameFlow {
      * @param player
      * @return
      */
-    public Boolean checkBackTrackValid(int player) {
+    public boolean checkBackTrackValid(int player) {
         return !level.getPlayerData()[player].getBackTrackCheck();
 
     }
@@ -222,6 +222,10 @@ public class GameFlow {
                 flow(i);
             }
         }
+    }
+
+    public boolean checkPlayerMovement(int x, int y) {
+        level.getBoardData().getTileFromBoard()
     }
 
     /**
@@ -307,7 +311,7 @@ public class GameFlow {
         FileManager.createNewSaveFile(Level.getSavedLevels());
     }
 
-    public Boolean saveGameCheck() {
+    public boolean saveGameCheck() {
         //  In range of amount of levels in saved levels
         for (int i = 0; i < Level.getSavedLevels().size(); i++) {
             //  If name is equal to a level in saved level.
@@ -337,7 +341,7 @@ public class GameFlow {
         }
     }
 
-    public Boolean getDrawButton() {
+    public boolean getDrawButton() {
         return drawButton;
     }
 
