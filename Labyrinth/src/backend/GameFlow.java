@@ -224,83 +224,102 @@ public class GameFlow {
         }
     }
 
-//    public boolean checkPlayerMovement(int x, int y, int playerNum) { //TODO do
-//        int px = players[playerNum].getPlayerCordX();
-//        int py = players[playerNum].getPlayerCordY();
-//
-//        if(level.getBoardData().getTileFromBoard(x, y) == null) {
-//            return false;
-//        } else {
-//            if (level.getBoardData().getTileFromBoard(px, py) instanceof StraightTile) {
-//
-//            }
-//        }
-//    }
+    public boolean checkPlayerMovement(int x, int y, int playerNum) {
+        int px = players[playerNum].getPlayerCordX();
+        int py = players[playerNum].getPlayerCordY();
+
+        if(level.getBoardData().getTileFromBoard(x, y) == null) {
+            return false;
+        } else {
+            if(x == px - 1) {
+                return level.getBoardData().getTileFromBoard(px, py).isAccessFromLeft() ==
+                        level.getBoardData().getTileFromBoard(x, y).isAccessFromRight();
+            } else if(x == px + 1) {
+                return level.getBoardData().getTileFromBoard(px, py).isAccessFromRight() ==
+                        level.getBoardData().getTileFromBoard(x, y).isAccessFromLeft();
+            } else if(y == py - 1) {
+                return level.getBoardData().getTileFromBoard(px, py).isAccessFromTop() ==
+                        level.getBoardData().getTileFromBoard(x, y).isAccessFromBottom();
+            } else if(y == py + 1) {
+                return level.getBoardData().getTileFromBoard(px, py).isAccessFromBottom() ==
+                        level.getBoardData().getTileFromBoard(x, y).isAccessFromTop();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Go to the next turn of the board.
+     */
+    public void incPlayerTurn() {
+        // set the next player's turn to true (playerTurn method)
+        // set the previous player's turn to false (playerTurn method)
+        this.players[this.playerTurn].playerTurn(); // set current players turn to false
+        this.playerTurn ++; // increment which players turn it is
+        if (this.playerTurn == this.players.length) { // loop back to first player if at end of player array
+            this.playerTurn = 0;
+        }
+        this.players[this.playerTurn].playerTurn(); // set next players turn to true
+    }
 
     /**
      * Regulates the turn of the players
      *
-     * @param i
+     * @param playerIndex
      */
-    public void flow(int i) {
+    public void flow(int playerIndex) {
         boolean buttonFlag = false;
         boolean optionalButtonFlag = true;
+        boolean actionTilePlaceFlag = false;
+        boolean onClickFlag = false; // should be in level
+        boolean getSaveButton = false; // should be in level
         this.players = this.level.getPlayerData();
-        // constructor which connects to deniz part here
         while (!checkWin()) {
             while (!buttonFlag) {
-//                if (getSaveButton() == true) {
-//                    saveGame();
-//                } else
-                if (getDrawButton()) {
+                if (getSaveButton == true) {
+                    saveGame();
+                } else if (getDrawButton()) {
                     // This starts a player's turn
                     buttonFlag = true;
                 }
             }
-            playerDraw(i);
-            while (this.players[i].getTileHand().getType() != null) {
+            playerDraw(playerIndex);
+            while (this.players[playerIndex].getTileHand().getType() != null) {
 
                 if ((level.getTempCardinal()) != Board.Cardinals.NULL) {
-                    slotTiles(level.getTempCardinal(), this.players[i].getTileHand(), level.getTempX(),
+                    slotTiles(level.getTempCardinal(), this.players[playerIndex].getTileHand(), level.getTempX(),
                             level.getTempY());
                     optionalButtonFlag = true;
-                    this.players[i].setTileHand(null);
+                    this.players[playerIndex].setTileHand(null);
                     level.setTempCardinal(Board.Cardinals.NULL);
                 }
             }
             while (optionalButtonFlag) {
-//                if (actionTilePlaceFlag = true) {
-//                    if (onClickFlagTop = true) {
-//
-//                    } else if (onClickFlagBottom = true) {
-//
-//                    } else if (onClickFlagLeft = true) {
-//
-//                    } else if (onClickFlagRight = true) {
-//
-//                    } else {
-//
-//                   }
-//                } else {
-                {
-                    //how to use a key listener?
-                    optionalButtonFlag = false;
-                }
-            }
-            if (checkWin()) {
-                declareWinner(i);
-                endGame();
-            } else {
-                players[i].playerTurn();
-                if (i == players.length - 1) {
-                    i = 0;
+                if (actionTilePlaceFlag = true) {
+
                 } else {
-                    i++;
+                    {
+                        //how to use a key listener?
+                        optionalButtonFlag = false;
+                    }
                 }
-                players[i].playerTurn();
+                if (checkWin()) {
+                    declareWinner(playerIndex);
+                    endGame();
+                } else {
+                    players[playerIndex].playerTurn();
+                    if (playerIndex == players.length - 1) {
+                        playerIndex = 0;
+                    } else {
+                        playerIndex++;
+                    }
+                    players[playerIndex].playerTurn();
+                }
+                optionalButtonFlag = false;
             }
         }
     }
+
 
     /**
      * Prepare the game to finish, either for saving or at a win.
