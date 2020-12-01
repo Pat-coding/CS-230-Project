@@ -57,6 +57,7 @@ public class BoardController implements Initializable {
         for (int j = 0; j < level.getBoardData().getColumnSize(); j++) {
             for (int k = 0; k < level.getBoardData().getRowSize(); k++) {
                 //Loads tiles from SavedLevel.txt file
+                System.out.println(level.getBoardData().getTileFromBoard(j,k).getType());
                 ImageView tile = new ImageView("resources/" + level.getBoardData().getTileFromBoard(j,k).getType() + ".png");
                 //sets tiles to specified size
                 tile.setFitHeight(size);
