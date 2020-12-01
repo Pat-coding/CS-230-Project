@@ -50,7 +50,14 @@ public class BoardController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setupBoard();
         setupArrows();
+//        gameStart();
         //refreshBoard();
+    }
+
+    public void gameStart() {
+        for (int i = 0; i < level.getPlayerData().length; i++) {
+            flow.flow(i);
+        }
     }
 
     private void setupBoard(){
@@ -88,13 +95,13 @@ public class BoardController implements Initializable {
         }else if (arrow == arrowDown){
             c = Board.Cardinals.TOP;
         }
-
         System.out.println(x + "," + y);
 
         //FloorTile newTile = (FloorTile)F("TShaped", 0); //TODO, replace it later
 
         FloorTile newTile = (FloorTile)FileManager.createPlayerInventoryTiles("TShaped", 0); //TODO, replace it later
         FloorTile tile = level.getBoardData().placeOnNewTile(c, x, y, newTile);
+
 
         //show the board based on Board model
         //refreshBoard();
