@@ -1,9 +1,10 @@
 package backend;
-
-
 import java.util.Random;
-
 import Tiles.*;
+
+/**
+ * @author Diana
+ */
 
 public class SilkBag {
 
