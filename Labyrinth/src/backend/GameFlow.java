@@ -62,11 +62,11 @@ public class GameFlow {
      *
      * @param board
      * @param rowSize
-     * @param ColumnSize
+     * @param columnSize
      */
-    private void populateBoard(Board board, int rowSize, int ColumnSize) {
+    private void populateBoard(Board board, int rowSize, int columnSize) {
         for (int x = 0; x < rowSize; x++) {
-            for (int y = 0; y < ColumnSize; y++) {
+            for (int y = 0; y < columnSize; y++) {
                 board.insertTile(x, y, level.getSilkBag().populateRandomBoardTiles());
             }
         }
@@ -191,6 +191,7 @@ public class GameFlow {
         this.level.getSilkBag().giveTile(level.getPlayerData()[player]);
     }
 
+
     /**  TODO Connects with constructor
      *
      *      Managing Turns
@@ -238,7 +239,7 @@ public class GameFlow {
     public void checkPlayerTurn() {
 
         for(int i = 0; i < level.getPlayerData().length;i++) {
-            if (player[i].getPlayerTurn() == true) {
+            if (players[i].getPlayerTurn() == true) {
                flow(i);
             }
         }
@@ -247,7 +248,7 @@ public class GameFlow {
     public void flow(int i) {
         boolean buttonFlag = false;
         boolean optionalButtonFlag = true;
-
+        this.players = this.level.getPlayerData();
         // constructor which connects to deniz part here
          while(!checkWin()) {
              while (!buttonFlag) {
@@ -258,29 +259,37 @@ public class GameFlow {
                      buttonFlag = true;
                  }
              }
-             playerDraw(i);
-             while (!optionalButtonFlag)
-                 if (onClickFlag = true || actionTilePlaceFlag = true) {
-                     if (onClickFlagTop = true) {
-                         if (this.level.getBoardData().checkTileInsertionColoumn() = true) {
-                             slotTiles(Board.Cardinals.TOP, );
-                             optionalButtonFlag = true;
-                         } else {
-                             flow(i);
-                         }
-                     } else if (onClickFlagBottom = true) {
-
-                     } else if (onClickFlagLeft = true) {
-
-                     } else if (onClickFlagRight = true) {
-
-                     } else {
-
-                     }
+            playerDraw(i);
+             if (this.players[i].getTileHand().getType() != null) {
+                 //get data from button: cardinals, x or y of button
+                 if (slideButton.getCards = Board.Cardinals.TOP) { //TODO MARK
+                     slotTiles(Board.Cardinals.TOP,this.players[i].getTileHand(), x, y );
+                     optionalButtonFlag = true;
+                     this.players[i].setTileHand(null);
+                 } else {
+                     flow(i);
                  }
+             } else {
+                 while (!optionalButtonFlag) {
+                     if (actionTilePlaceFlag = true) {
+                         if (onClickFlagTop = true) {
+
+                         } else if (onClickFlagBottom = true) {
+
+                         } else if (onClickFlagLeft = true) {
+
+                         } else if (onClickFlagRight = true) {
+
+                         } else {
+
+                         }
+                     }
 
 
-         }
+                 }
+             }
+
+
 
          }
     }
