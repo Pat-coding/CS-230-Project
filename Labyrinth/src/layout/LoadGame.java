@@ -132,7 +132,7 @@ public class LoadGame implements Initializable {
             //displays the selected level
             selectedIndex = savedLevels.getSelectionModel().getSelectedIndex();
             System.out.println(selectedIndex);
-            Game game = new Game(stage, level.get(0));
+            Game game = new Game(stage, level.get(selectedIndex));
         }
     }
 }
