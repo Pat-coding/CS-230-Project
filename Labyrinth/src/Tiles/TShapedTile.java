@@ -18,11 +18,14 @@ public class TShapedTile extends FloorTile {
 
         if (orientation == 0) {
             this.accessFromTop = false;
-        } else if (orientation == 90 ) {
+        }
+        if (orientation == 90 ) {
             this.accessFromRight = false;
-        } else if (orientation == 180 ) {
+        }
+        if (orientation == 180 ) {
             this.accessFromBottom = false;
-        } else {
+        }
+        if (orientation == 270 ){
             this.accessFromLeft = false;
         }
     }

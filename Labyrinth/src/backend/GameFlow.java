@@ -1,14 +1,15 @@
 package backend;
-import Tiles.*;
-
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * @author Ben Dodd
  * @version 1.0.0
  */
+
+import Tiles.*;
+
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GameFlow {
     private Level level;
@@ -42,10 +43,10 @@ public class GameFlow {
         this.players = this.level.getPlayerData();
     }
 
-    public void saveGame() {
+    public static void saveGame() {
         //  Override previous save game
         if (!saveGameCheck()) {
-            Level.getSavedLevels().add(this.level);
+            level.getSavedLevels().add(this.level);
         }
     }
 
@@ -54,16 +55,11 @@ public class GameFlow {
      *
      * @return True if there is a winning situation.
      */
-    public Boolean checkWin() {
-
+    public static Boolean checkWin() {
         if (level.getBoardData().getPlayerFromBoard(level.getBoardData().getGoal()[0],
                 level.getBoardData().getGoal()[1]) != null) {
-            for(int i = 0; i < players.length; i++) {
-                if(players[i] == level.getBoardData().getPlayerFromBoard(level.getBoardData().getGoal()[0],
-                        level.getBoardData().getGoal()[1]))
-                declareWinner(i);
-                return true;
-            }
+            declareWinner();
+            return true;
         }
         return false;
     }
@@ -263,7 +259,7 @@ public class GameFlow {
     public void checkPlayerTurn() {
 
         for (int i = 0; i < level.getPlayerData().length; i++) {
-            if (players[i].getPlayerTurn()) {
+            if (players[i].getPlayerTurn() == true) {
                 flow(i);
             }
         }
@@ -278,7 +274,7 @@ public class GameFlow {
             while (!buttonFlag) {
                 if (getSaveButton() == true) {
                     saveGame();
-                } else if (getDrawButton()) {
+                } else if (getDrawButton() == true) {
                     // This starts a player's turn
                     buttonFlag = true;
                 }
@@ -334,28 +330,28 @@ public class GameFlow {
      * @return True if the game could end
      */
     public void endGame() {
-        for (int i = 0; i < Level.getSavedLevels().size(); i++) {
+        for (int i = 0; i < level.getSavedLevels().size(); i++) {
             //  If name is equal to a level in saved level.
-            if (Level.getSavedLevels().get(i).getBoardData().getNameOfBoard().equals
+            if (level.getSavedLevels().get(i).getBoardData().getNameOfBoard().equals
                     (this.level.getBoardData().getNameOfBoard())) {
-                Level.getSavedLevels().remove(i);
+                level.getSavedLevels().remove(i);
             }
         }
     }
 
     public void exportGames() {
-        FileManager.createNewProfile(Level.getProfileArray());
-        FileManager.createNewSaveFile(Level.getSavedLevels());
+        FileManager.createNewProfile(level.getProfileArray());
+        FileManager.createNewSaveFile(level.getSavedLevels());
     }
 
     public Boolean saveGameCheck() {
         //  In range of amount of levels in saved levels
-        for (int i = 0; i < Level.getSavedLevels().size(); i++) {
+        for (int i = 0; i < level.getSavedLevels().size(); i++) {
             //  If name is equal to a level in saved level.
-            if (Level.getSavedLevels().get(i).getBoardData().getNameOfBoard().equals
+            if (level.getSavedLevels().get(i).getBoardData().getNameOfBoard().equals
                     (this.level.getBoardData().getNameOfBoard())) {
-                Level.getSavedLevels().remove(i);
-                Level.getSavedLevels().add(this.level);
+                level.getSavedLevels().remove(i);
+                level.getSavedLevels().add(this.level);
                 return true;
             }
         }
