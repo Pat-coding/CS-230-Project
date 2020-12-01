@@ -224,8 +224,17 @@ public class GameFlow {
         }
     }
 
-    public boolean checkPlayerMovement(int x, int y) {
-        level.getBoardData().getTileFromBoard()
+    public boolean checkPlayerMovement(int x, int y, int playerNum) { //TODO do
+        int px = players[playerNum].getPlayerCordX();
+        int py = players[playerNum].getPlayerCordY();
+
+        if(level.getBoardData().getTileFromBoard(x, y) == null) {
+            return false;
+        } else {
+            if (level.getBoardData().getTileFromBoard(px, py) instanceof StraightTile) {
+
+            }
+        }
     }
 
     /**
