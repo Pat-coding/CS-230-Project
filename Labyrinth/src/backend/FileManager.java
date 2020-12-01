@@ -189,7 +189,7 @@ public class FileManager {
 
     /**
      *
-     * @param level
+     * @param ArrayList<Level> levelArray
      */
 
     public static void createNewSaveFile(ArrayList<Level> levelArray) {
@@ -249,18 +249,20 @@ public class FileManager {
 
     /**
      *
-     * @param name
+     * @param ArrayList<Profile> profileArray
      */
-    public static void createNewProfile (Profile name) {
-        try (FileWriter profileWriter = new FileWriter("Profiles.txt")){
+    public static void createNewProfile (ArrayList<Profile> profileArray) {
+        for (int i = 0; i < profileArray.size(); i++) {
+            try (FileWriter profileWriter = new FileWriter("Profiles.txt")) {
 
-            profileWriter.write(name + "\n");
-            profileWriter.write("0\n");
-            profileWriter.write("0");
+                profileWriter.write(profileArray.get(i).getProfileName() + "\n");
+                profileWriter.write(profileArray.get(i).getWinCount() +"\n");
+                profileWriter.write(profileArray.get(i).getLoseCount() + "\n");
 
-        } catch (IOException e) {
-            System.out.println("An error has occurred");
-            e.printStackTrace();
+            } catch (IOException e) {
+                System.out.println("An error has occurred");
+                e.printStackTrace();
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 Ashley,Reece,James,Gorden
 LOLCATSAMIRITE
 20
-2,2
+3,3
 2,2,2,2,2,2,2,2
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
 0,0,0,0,0,0,0,0
@@ -9,6 +9,11 @@ Straight,90,Straight,90;NA;Fire,0;NA
 false,false,false,false
 true,false,false,false
 0,0,Straight,90,Normal,false
-0,1,Straight,90,Normal,false
+0,1,TShape,90,Normal,false
 1,0,Straight,90,Normal,false
 1,1,Straight,90,Normal,false
+1,2,Straight,90,Normal,false
+2,1,Straight,90,Normal,false
+2,2,Straight,90,Normal,false
+2,0,Straight,90,Normal,false
+0,2,Straight,90,Normal,false

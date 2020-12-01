@@ -7,6 +7,7 @@ package backend;
 
 import Tiles.*;
 
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -304,20 +305,21 @@ public class GameFlow {
                     }
                 } else {
                     //how to use a key listener?
+                    //robot
                     optionalButtonFlag = false;
                 }
-                if (checkWin()) {
-                    declareWinner(i);
+            }
+            if (checkWin()) {
+                declareWinner(i);
+                endGame();
+            } else {
+                players[i].playerTurn();
+                if (i == players.length - 1) {
+                    i = 0;
                 } else {
-                    players[i].playerTurn();
-                    if (i == players.length - 1) {
-                        i = 0;
-                        players[i].playerTurn();
-                    } else {
-                        i++;
-                        players[i].playerTurn();
-                    }
+                    i++;
                 }
+                players[i].playerTurn();
             }
         }
     }
@@ -327,8 +329,19 @@ public class GameFlow {
      *
      * @return True if the game could end
      */
-    public Boolean endGame() {
-        return false;
+    public void endGame() {
+        for (int i = 0; i < level.getSavedLevels().size(); i++) {
+            //  If name is equal to a level in saved level.
+            if (level.getSavedLevels().get(i).getBoardData().getNameOfBoard().equals
+                    (this.level.getBoardData().getNameOfBoard())) {
+                level.getSavedLevels().remove(i);
+            }
+        }
+    }
+
+    public void exportGames() {
+        FileManager.createNewProfile(level.getProfileArray());
+        FileManager.createNewSaveFile(level.getSavedLevels());
     }
 
     public Boolean saveGameCheck() {
