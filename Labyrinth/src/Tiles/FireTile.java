@@ -1,7 +1,5 @@
 package Tiles;
 
-import java.awt.*;
-
 public class FireTile extends ActionTile {
     private String typeOfTile = "FireTile";
     private String image = "PATH";
