@@ -7,15 +7,14 @@ import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
-import javax.print.DocFlavor;
 import java.net.URL;
 
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class BoardController implements Initializable {
@@ -30,6 +29,24 @@ public class BoardController implements Initializable {
     private GridPane leftGrid;
     @FXML
     private GridPane tileGrid;
+    @FXML
+    private Button saveGameBtn;
+    @FXML
+    private Button quitBtn;
+    @FXML
+    private Button drawTileBtn;
+    @FXML
+    private Button endTurnBtn;
+    @FXML
+    private ImageView backTrackImg;
+    @FXML
+    private ImageView FireTileImg;
+    @FXML
+    private ImageView IceTileImg;
+    @FXML
+    private ImageView doubleMoveImg;
+
+    private boolean saveButtonFlag = false;
 
     //create new board 5x5
     private Level level;
@@ -48,10 +65,33 @@ public class BoardController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //Inventory bag will be hidden when endTurnBtn is pressed.
+        IceTileImg.setImage(arrowDown);
+        FireTileImg.setImage(arrowDown);
+        backTrackImg.setImage(arrowDown);
+        doubleMoveImg.setImage(arrowDown);
+
+
         setupBoard();
         setupArrows();
-//        gameStart();
-        //refreshBoard();
+
+        saveGameBtn.setOnAction(event -> {
+            saveGame();
+        });
+
+        quitBtn.setOnAction(event -> {
+
+        });
+
+        drawTileBtn.setOnAction(event -> {
+
+        });
+
+        endTurnBtn.setOnAction(event -> {
+
+        });
+
+
     }
 
     public void gameStart() {
@@ -79,16 +119,13 @@ public class BoardController implements Initializable {
         }
     }
 
-    private void movePlayer(){
-
-    }
 
     /**
      * the arrow is clicked
      */
     private void onClickArrow(int x, int y, Image arrow){
         Board.Cardinals c = Board.Cardinals.BOTTOM;
-        if (arrow == arrowRight){
+        if (arrow == arrowDown){
             c = Board.Cardinals.LEFT;
         }else if (arrow == arrowLeft){
             c = Board.Cardinals.RIGHT;
@@ -100,15 +137,13 @@ public class BoardController implements Initializable {
         //FloorTile newTile = (FloorTile)F("TShaped", 0); //TODO, replace it later
 
         FloorTile newTile = (FloorTile)FileManager.createPlayerInventoryTiles("TShaped", 0); //TODO, replace it later
-        FloorTile tile = level.getBoardData().placeOnNewTile(c, x, y, newTile);
+        level.getBoardData().placeOnNewTile(c, x, y, newTile);
 
 
         //show the board based on Board model
-        //refreshBoard();
+        setupBoard();
     }
 
-    //Need to set arrows depending if tile is fixed or not
-    //also need to create clickable arrows.
     public void setupArrows() {
         topGrid.setTranslateX(size);
         bottomGrid.setTranslateX(size);
@@ -119,26 +154,15 @@ public class BoardController implements Initializable {
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
                     tileImg.setImage(arrowRight);
-                    for(int i = 0; i < x; i++) {
-                        if (!(level.getBoardData().getTileFromBoard(x, y).isFixed())) {
-                            //buttonArrow.setVisible(false);
-                            leftGrid.add(tileImg, x, y);
-                        }
-                    }
+                    leftGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
 
-                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-
-                        @Override
-                        public void handle(MouseEvent event) {
-                            System.out.println("arrowRight pressed ");
-                            onClickArrow(xx, yy, arrowRight);
-                            level.setTempX(xx);
-                            level.setTempY(yy);
-                            level.setTempCardinal(Board.Cardinals.RIGHT);
-                            event.consume();
-                        }
+                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                        System.out.println("arrowRight pressed ");
+                        onClickArrow(xx, yy, arrowRight);
+                        level.setTempCardinal(Board.Cardinals.RIGHT);
+                        event.consume();
                     });
 
                 } else if (x == level.getBoardData().getRowSize() - 1) { //4 is the board size, we will get board size from save files, this is just for testing right now.
@@ -146,23 +170,15 @@ public class BoardController implements Initializable {
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
                     tileImg.setImage(arrowLeft);
-                    System.out.println(level.getBoardData().getTileFromBoard(x,y).isFixed());
-                    if (!(level.getBoardData().getTileFromBoard(x,y).isFixed()))
-                        rightGrid.add(tileImg, x, y);
+                    rightGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
 
-                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-
-                        @Override
-                        public void handle(MouseEvent event) {
-                            System.out.println("arrowLeft pressed ");
-                            onClickArrow(xx, yy, arrowLeft);
-                            level.setTempX(xx);
-                            level.setTempY(yy);
-                            level.setTempCardinal(Board.Cardinals.LEFT);
-                            event.consume();
-                        }
+                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                        System.out.println("arrowLeft pressed ");
+                        onClickArrow(xx, yy, arrowLeft);
+                        level.setTempCardinal(Board.Cardinals.LEFT);
+                        event.consume();
                     });
 
                 }
@@ -171,23 +187,16 @@ public class BoardController implements Initializable {
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
                     tileImg.setImage(arrowUp);
-                    System.out.println(level.getBoardData().getTileFromBoard(x,y).isFixed());
-                    if (!(level.getBoardData().getTileFromBoard(x,y).isFixed()))
-                        bottomGrid.add(tileImg, x, y);
+                    bottomGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
 
-                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-
-                        @Override
-                        public void handle(MouseEvent event) {
-                            System.out.println("arrowUp pressed ");
-                            onClickArrow(xx, yy, arrowUp);
-                            level.setTempX(xx);
-                            level.setTempY(yy);
-                            level.setTempCardinal(Board.Cardinals.TOP);
-                            event.consume();
-                        }
+                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                        System.out.println("arrowUp pressed ");
+                        onClickArrow(xx, yy, arrowUp);
+                        ;
+                        level.setTempCardinal(Board.Cardinals.TOP);
+                        event.consume();
                     });
 
                 } else if (y == level.getBoardData().getColumnSize() - 1) { //4 is the board size, we will get board size from save files, this is just for testing right now.
@@ -195,27 +204,60 @@ public class BoardController implements Initializable {
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
                     tileImg.setImage(arrowDown);
-                    System.out.println(level.getBoardData().getTileFromBoard(x,y).isFixed());
-                    if (!(level.getBoardData().getTileFromBoard(x,y).isFixed()))
-                        topGrid.add(tileImg, x, y);
+                    topGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
 
-                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-
-                        @Override
-                        public void handle(MouseEvent event) {
-                            System.out.println("arrowDown pressed ");
-                            onClickArrow(xx, yy, arrowDown);
-                            level.setTempX(xx);
-                            level.setTempY(yy);
-                            level.setTempCardinal(Board.Cardinals.BOTTOM);
-                            event.consume();
-                        }
+                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                        System.out.println("arrowDown pressed ");
+                        onClickArrow(xx, yy, arrowDown);
+                        level.setTempCardinal(Board.Cardinals.BOTTOM);
+                        event.consume();
                     });
                 }
             }
         }
     }
-}
+
+//    public void onClickArrow(int x, int y, String direction, Image arrow){
+//        Board.Cardinals c = Board.Cardinals.BOTTOM;
+//        if (arrow == arrowRight){
+//            c = Board.Cardinals.LEFT;
+//        }else if (arrow == arrowLeft){
+//            c = Board.Cardinals.RIGHT;
+//        }else if (arrow == arrowDown){
+//            c = Board.Cardinals.TOP;
+//        }
+//        image.setOnMouseClicked(e -> {
+//            FloorTile newTile = (FloorTile)FileManager.createPlayerInventoryTiles("TShaped", 0);
+//            //FloorTile tile = level.getBoardData().placeOnNewTile()
+//        });
+//    }
+
+        public boolean saveGameCheck () {
+            //  In range of amount of levels in saved levels
+            for (int i = 0; i < Level.getSavedLevels().size(); i++) {
+                //  If name is equal to a level in saved level.
+                if (Level.getSavedLevels().get(i).getBoardData().getNameOfBoard().equals
+                        (this.level.getBoardData().getNameOfBoard())) {
+                    Level.getSavedLevels().remove(i);
+                    Level.getSavedLevels().add(this.level);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void saveGame () {
+            saveButtonFlag = true;
+            //  Override previous save game
+            if (!saveGameCheck()) {
+                Level.getSavedLevels().add(this.level);
+            }
+        }
+
+        public void drawTile () {
+
+        }
+    }
 
