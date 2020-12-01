@@ -14,8 +14,5 @@ public class BacktrackTile extends ActionTile {
         return typeOfTile;
     }
 
-    @Override
-    public void draw(Tile tile) {
 
-    }
 }

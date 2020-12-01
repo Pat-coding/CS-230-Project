@@ -3,10 +3,10 @@ package Tiles;
 import java.awt.*;
 
 public class StraightTile extends FloorTile {
-    private boolean accessFromTop;
-    private boolean accessFromBottom;
-    private boolean accessFromLeft;
-    private boolean accessFromRight;
+    private boolean accessFromTop = true;
+    private boolean accessFromBottom = true;
+    private boolean accessFromLeft = true;
+    private boolean accessFromRight = true;
     private int orientation;
     private boolean isFixed;
     private String state;
@@ -15,6 +15,17 @@ public class StraightTile extends FloorTile {
 
     public StraightTile(int orientation, String state, Boolean isFixed) {
         super(orientation, state, isFixed);
+        this.orientation = orientation;
+        this.isFixed = isFixed;
+
+        if (orientation == 0 || orientation == 180) {
+            this.accessFromTop = false;
+            this.accessFromBottom = false;
+        }
+        if (orientation == 90 || orientation == 270) {
+            this.accessFromRight = false;
+            this.accessFromLeft = false;
+        }
     }
 
     /**
@@ -81,14 +92,6 @@ public class StraightTile extends FloorTile {
         return state;
     }
 
-    /**
-     * @param tile
-     * @return
-     */
-    @Override
-    public void draw(Tile tile) {
-
-    }
 
 
 }

@@ -20,7 +20,6 @@ public class FileManager {
      */
 
     private static Level loadSaveLevel(Scanner in) {
-
         String stringProfileName = in.next();
         String nameOfBoard = in.next();
         String roundNumber = in.next();
@@ -31,7 +30,6 @@ public class FileManager {
         String stringPlayerInventory = in.next();
         String stringBackTrackCheck = in.next();
         String stringIsPlayerTurn = in.next();
-
         //  Converts strings to more useful data types.
         String[] profileName = stringToStringArray(stringProfileName);
         String[] isPlayerTurn = stringToStringArray(stringIsPlayerTurn);
@@ -40,39 +38,30 @@ public class FileManager {
         int[] profileCordHistory = stringToIntArray(stringProfileCordHistory);
         int[] silkBagContent = stringToIntArray(stringSilkBagContent);
         Boolean backTrackCheck = Boolean.parseBoolean(stringBackTrackCheck);
-
-
         ArrayList<Profile> profiles;
         ArrayList<Profile> usedProfile = new ArrayList<>();
         int[] profileCordX = new int[profileName.length];
         int[] profileCordY = new int[profileName.length];
         int[] profileCordHistoryArray = new int[profileName.length * 3];
         Board tempBoard = new Board(nameOfBoard, sizeOfBoard, profileName);
-
-
         String[] playerInventory = stringPlayerInventory.split("[;]");
-
         ArrayList<Tile> p0 = new ArrayList<>();
         ArrayList<Tile> p1 = new ArrayList<>();
         ArrayList<Tile> p2 = new ArrayList<>();
         ArrayList<Tile> p3 = new ArrayList<>();
-
         List<Tile>[] arrayOfList = new List[4];
         arrayOfList[0] = p0;
         arrayOfList[1] = p1;
         arrayOfList[2] = p2;
         arrayOfList[3] = p3;
         int counter;
-
         //  Populates Board with Tiles
         for (int i = 0; i < sizeOfBoard[0]*sizeOfBoard[1]; i++) {
             String stringTile = in.next();
             String[] sta = stringToStringArray(stringTile);
-
             FloorTile tempTile = createTempTile(sta[2], Integer.parseInt(sta[3]), sta[4], Boolean.parseBoolean(sta[5]));
             tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), tempTile);
         }
-
         //  Reads in profiles
         profiles = readProfileDataFile("Profiles.txt");
         for (int i = 0; i < profileName.length; i++) {
@@ -80,49 +69,38 @@ public class FileManager {
                 usedProfile.add(profiles.get(i));
             }
         }
-
         //  Splits ProfileCord X elements from Y elements
         counter = 0;
         for (int i = 0; i < (profileCord.length)/2; i = i + 2, counter++) {
             profileCordX[counter] = profileCord[i];
         }
-
         //  Splits ProfileCord Y element from X elements.
         counter = 0;
         for (int j = 1; j < (profileCord.length)/2; j = j + 2, counter++){
             profileCordY[j] = profileCord[j];
         }
-
         //  Creates Player Objects
-
         counter = 0;
         ArrayList<Tile> playerInventoryArrayListTemp = new ArrayList<>();
         Player[] players = new Player[profileName.length];
         for (int i = 0; i < profileName.length; i++, counter = counter + 6) {
             String[] playerInventoryTemp = playerInventory[i].split(",");
-
-
             //  Takes the first 6 numbers in the array
             for (int j = 0; j < 6; j++) {
                 profileCordHistoryArray[j] = profileCordHistory[j + counter];
             }
-
             for (int j = 0; j < playerInventoryTemp.length - 1; j = j+2) {
                 if (playerInventoryTemp[j] == "NA"){
                     break;
                 }
                 arrayOfList[i].add(createPlayerInventoryTiles(playerInventoryTemp[j], Integer.parseInt(playerInventoryTemp[j+1])));
             }
-
             Player tempPlayer = new Player(usedProfile.get(i), profileCordX[i], profileCordY[i], profileCordHistory,
                     (ArrayList<Tile>) arrayOfList[i], backTrackCheck, Boolean.parseBoolean(isPlayerTurn[i]));
             players[i] = (tempPlayer);
             playerInventoryArrayListTemp.clear();
-
         }
-
         SilkBag silkBag = new SilkBag(silkBagContent);
-
         return new Level(tempBoard, Integer.parseInt(roundNumber), silkBag, players);
     }
 
