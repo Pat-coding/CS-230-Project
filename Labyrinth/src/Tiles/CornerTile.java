@@ -5,14 +5,34 @@ import Tiles.FloorTile;
 import java.awt.*;
 
 public class CornerTile extends FloorTile {
-    private boolean accessFromTop, accessFromBottom, accessFromLeft, accessFromRight, fixed;
+    private boolean accessFromTop = true;
+    private boolean accessFromBottom = true;
+    private boolean accessFromLeft = true;
+    private boolean accessFromRight = true;
+    private boolean isFixed;
     private int orientation;
     private String typeOfTile = "CornerTile";
     private String image = "PATH";
 
     public CornerTile(int orientation, String state, Boolean isFixed) {
         super(orientation, state, isFixed);
+
+        if(orientation == 0) {
+            this.accessFromLeft = false;
+            this.accessFromBottom = false;
+        } else if(orientation == 90) {
+            this.accessFromLeft = false;
+            this.accessFromTop = false;
+        } else if(orientation == 180) {
+            this.accessFromTop = false;
+            this.accessFromRight = false;
+        } else {
+            this.accessFromRight = false;
+            this.accessFromBottom = false;
+        }
     }
+
+
 
     /**
      * @return the type of Tile as a String.
@@ -77,7 +97,5 @@ public class CornerTile extends FloorTile {
     public String getState() {
         return state;
     }
-
-
 
 }
