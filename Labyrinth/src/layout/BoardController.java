@@ -65,7 +65,7 @@ public class BoardController implements Initializable {
             for (int k = 0; k < level.getBoardData().getRowSize(); k++) {
 
                 //Loads tiles from SavedLevel.txt file
-                System.out.println(level.getBoardData().getTileFromBoard(j,k).getType());
+                //System.out.println(level.getBoardData().getTileFromBoard(j,k).getType());
                 ImageView tile = new ImageView("resources/" + level.getBoardData().getTileFromBoard(j,k).getType() + ".png");
 
                 //sets tiles to specified size
@@ -119,7 +119,12 @@ public class BoardController implements Initializable {
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
                     tileImg.setImage(arrowRight);
-                    leftGrid.add(tileImg, x, y);
+                    for(int i = 0; i < x; i++) {
+                        if (!(level.getBoardData().getTileFromBoard(x, y).isFixed())) {
+                            //buttonArrow.setVisible(false);
+                            leftGrid.add(tileImg, x, y);
+                        }
+                    }
 
                     final int xx = x, yy = y;
 
@@ -141,7 +146,9 @@ public class BoardController implements Initializable {
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
                     tileImg.setImage(arrowLeft);
-                    rightGrid.add(tileImg, x, y);
+                    System.out.println(level.getBoardData().getTileFromBoard(x,y).isFixed());
+                    if (!(level.getBoardData().getTileFromBoard(x,y).isFixed()))
+                        rightGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
 
@@ -164,7 +171,9 @@ public class BoardController implements Initializable {
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
                     tileImg.setImage(arrowUp);
-                    bottomGrid.add(tileImg, x, y);
+                    System.out.println(level.getBoardData().getTileFromBoard(x,y).isFixed());
+                    if (!(level.getBoardData().getTileFromBoard(x,y).isFixed()))
+                        bottomGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
 
@@ -186,7 +195,9 @@ public class BoardController implements Initializable {
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
                     tileImg.setImage(arrowDown);
-                    topGrid.add(tileImg, x, y);
+                    System.out.println(level.getBoardData().getTileFromBoard(x,y).isFixed());
+                    if (!(level.getBoardData().getTileFromBoard(x,y).isFixed()))
+                        topGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
 
