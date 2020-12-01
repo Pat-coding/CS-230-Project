@@ -260,17 +260,17 @@ public class GameFlow {
                  }
              }
             playerDraw(i);
-             if (this.players[i].getTileHand().getType() != null) {
-                 //get data from button: cardinals, x or y of button
-                 if (slideButton.getCards = Board.Cardinals.TOP) { //TODO MARK
-                     slotTiles(Board.Cardinals.TOP,this.players[i].getTileHand(), x, y );
+             while (this.players[i].getTileHand().getType() != null) {
+
+                 if ((level.getTempCardinal()) != Board.Cardinals.NULL) {
+                     slotTiles(level.getTempCardinal(),this.players[i].getTileHand(), level.getTempX(),
+                             level.getTempY());
                      optionalButtonFlag = true;
                      this.players[i].setTileHand(null);
-                 } else {
-                     flow(i);
+                     level.setTempCardinal(Board.Cardinals.NULL);
                  }
-             } else {
-                 while (!optionalButtonFlag) {
+             }
+                 while (optionalButtonFlag) {
                      if (actionTilePlaceFlag = true) {
                          if (onClickFlagTop = true) {
 

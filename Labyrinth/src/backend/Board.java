@@ -372,7 +372,8 @@ public class Board {
         TOP,
         BOTTOM,
         LEFT,
-        RIGHT
+        RIGHT,
+        NULL
     }
 
 
