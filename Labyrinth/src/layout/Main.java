@@ -8,14 +8,11 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private static final int WINDOW_WIDTH = 600;
-    private static final int WINDOW_HEIGHT = 400;
+    private static final int WINDOW_WIDTH = 1280;
+    private static final int WINDOW_HEIGHT = 720;
 
-    //Used to load the fxml files, all logical modifications to Main Menu must be done on MainMenu class.
-    //This file can only be used to change the resolution and the title.
-    //do not change the code except resolution and title.
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Labyrinth");
         try {
             FXMLLoader loader = new FXMLLoader();

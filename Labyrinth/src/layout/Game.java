@@ -1,8 +1,6 @@
 package layout;
 
-import backend.Board;
 import backend.Level;
-import backend.Profile;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,5 +24,4 @@ public class Game {
             e.printStackTrace();
         }
     }
-
 }
