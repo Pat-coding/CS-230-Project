@@ -117,11 +117,11 @@ public class BoardController implements Initializable {
                 if (aTile instanceof TShapedTile){ //TShaped
                     TShapedTile TShapedTile = (TShapedTile)aTile;
                     if (!TShapedTile.isAccessFromTop()){
-                        tileImg.setImage(tshaped_0);
+                        tileImg.setImage(tshaped_180);
                     }else if (!TShapedTile.isAccessFromRight()){
                         tileImg.setImage(tshaped_90);
                     }else if (!TShapedTile.isAccessFromBottom()){
-                        tileImg.setImage(tshaped_180);
+                        tileImg.setImage(tshaped_0);
                     }else{
                         tileImg.setImage(tshaped_270);
                     }
@@ -159,7 +159,7 @@ public class BoardController implements Initializable {
                     tileImgPlayer.setImage(playerImg);
 
                     stackPane.getChildren().add(tileImgPlayer);
-                }
+
 
                 //if (aTile != null && ((FloorTile)aTile).isFixed()){//is fixed?
                 ImageView fixedImgView = new ImageView();
