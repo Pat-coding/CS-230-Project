@@ -24,7 +24,7 @@ public class Player {
     private FloorTile tileHand;
 
     public Player(Profile profile, int playerCordX,int playerCordY,int[] profileCordHistory,
-                  ArrayList<Tile> playerInventory, boolean backTrackCheck, Boolean isPlayerTurn){
+                  ArrayList<Tile> playerInventory, boolean backTrackCheck, boolean isPlayerTurn){
         this.profile = profile;
         this.playerCordX = playerCordX;
         this.playerCordY = playerCordY;
@@ -54,11 +54,11 @@ public class Player {
         return this.playerInventory;
     }
 
-    public Boolean getBackTrackCheck() {
+    public boolean getBackTrackCheck() {
         return this.backTrackCheck;
     }
 
-    public Boolean getPlayerTurn() {
+    public boolean getPlayerTurn() {
         return this.isPlayerTurn;
     }
 
