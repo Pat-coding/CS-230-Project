@@ -30,7 +30,7 @@ public class BoardController implements Initializable {
     private GridPane tileGrid;
 
     //create new board 5x5
-    private Level board;
+    private Level level;
 
     int size = 100;
     Image road = new Image(getClass().getResourceAsStream("/resources/roadDown.jpeg")); //testing image from internet
@@ -56,7 +56,7 @@ public class BoardController implements Initializable {
     Image arrowRight = new Image(getClass().getResourceAsStream("/resources/arrowRight.png"));
 
     public BoardController(Level level){
-        this.board = level;
+        this.level = level;
     }
 
     @Override
@@ -64,7 +64,7 @@ public class BoardController implements Initializable {
         setupBoard();
         setupArrows();
         refreshBoard();
-        //ArrayList<Level> newLevel = FileManager.readLevelDataFile("NewLevel.txt", "New Level");
+//        ArrayList<Level> newLevel = FileManager.readLevelDataFile("NewLevel.txt", "New Level");
 //        ArrayList<Level> savedLevels = FileManager.readLevelDataFile("SavedLevel.txt", "Saved Level");
 //        ArrayList<Profile> profiles = FileManager.readProfileDataFile("Profiles.txt");
 //        Player[] player = savedLevels.get(0).getPlayerData();
@@ -74,47 +74,46 @@ public class BoardController implements Initializable {
     }
 
     private void setupBoard(){
-//        Tile tile = FileManager.createHeldTiles("TShaped", 0);
-//        board.insertTile(1,1, (FloorTile)tile);
-//        tile = FileManager.createHeldTiles("TShaped", 90);
-//        board.insertTile(1,2, (FloorTile)tile);
-//        tile = FileManager.createHeldTiles("TShaped", 180);
-//        board.insertTile(1,3, (FloorTile)tile);
-//        tile = FileManager.createHeldTiles("TShaped", 270);
-//        board.insertTile(1,4, (FloorTile)tile);
+        Tile tile = FileManager.createPlayerInventoryTiles("TShaped", 0);
+//        board.getBoardData().insertTile(1,1, (FloorTile)tile);
+//        tile = FileManager.createPlayerInventoryTiles("TShaped", 90);
+//        board.getBoardData().insertTile(1,2, (FloorTile)tile);
+//        tile = FileManager.createPlayerInventoryTiles("TShaped", 180);
+//        board.getBoardData().insertTile(1,3, (FloorTile)tile);
+//        tile = FileManager.createPlayerInventoryTiles("TShaped", 270);
+//        board.getBoardData().insertTile(1,4, (FloorTile)tile);
 //
-//        tile = FileManager.createHeldTiles("Corner", 0);
-//        board.insertTile(2,1, (FloorTile)tile);
-//        tile = FileManager.createHeldTiles("Corner", 90);
-//        board.insertTile(2,2, (FloorTile)tile);
-//        tile = FileManager.createHeldTiles("Corner", 180);
+//        tile = FileManager.createPlayerInventoryTiles("Corner", 0);
+//        board.getBoardData().insertTile(2,1, (FloorTile)tile);
+//        tile = FileManager.createPlayerInventoryTiles("Corner", 90);
+//        board.getBoardData().insertTile(2,2, (FloorTile)tile);
+//        tile = FileManager.createPlayerInventoryTiles("Corner", 180);
 //        board.insertTile(2,3, (FloorTile)tile);
-//        tile = FileManager.createHeldTiles("Corner", 270);
+//        tile = FileManager.createPlayerInventoryTiles("Corner", 270);
 //        board.insertTile(2,4, (FloorTile)tile);
 //
-//        tile = FileManager.createHeldTiles("Straight", 0);
+//        tile = FileManager.createPlayerInventoryTiles("Straight", 0);
 //        board.insertTile(3,0, (FloorTile)tile);
-//        tile = FileManager.createHeldTiles("Straight", 90);
+//        tile = FileManager.createPlayerInventoryTiles("Straight", 90);
 //        board.insertTile(3,1, (FloorTile)tile);
-        for (int x = 0; x < board.getBoardData().getColumnSize(); x++) { //creates 5x5 board with selected image (need to put random images)
-            for (int y = 0; y < board.getBoardData().getRowSize(); y++) {
-                board.getBoardData().insertTile(x,y,board.getBoardData().getTileFromBoard(x,y));
+        for (int x = 0; x < level.getBoardData().getColumnSize(); x++) { //creates 5x5 board with selected image (need to put random images)
+            for (int y = 0; y < level.getBoardData().getRowSize(); y++) {
+                level.getBoardData().insertTile(x, y, (FloorTile) tile);
             }
         }
     }
 
     //show the board based on Board model
     public void refreshBoard(){
-
         tileGrid.getChildren().removeAll();
 
-        for (int x = 0; x < board.getBoardData().getColumnSize(); x++) { //creates 5x5 board with selected image (need to put random images)
-            for (int y = 0; y < board.getBoardData().getRowSize(); y++) {
+        for (int x = 0; x < level.getBoardData().getColumnSize(); x++) { //creates 5x5 board with selected image (need to put random images)
+            for (int y = 0; y < level.getBoardData().getRowSize(); y++) {
                 ImageView tileImg = new ImageView();
                 tileImg.setFitHeight(size);
                 tileImg.setFitWidth(size);
                 //get a tile at (x,y) on board
-                Tile aTile = board.getBoardData().getTileFromBoard(x, y);
+                Tile aTile = level.getBoardData().getTileFromBoard(x, y);
                 if (aTile instanceof TShapedTile){ //TShaped
                     TShapedTile TShapedTile = (TShapedTile)aTile;
                     if (!TShapedTile.isAccessFromTop()){
@@ -152,6 +151,10 @@ public class BoardController implements Initializable {
         }
     }
 
+    private void movePlayer(){
+
+    }
+
     /**
      * the arrow is clicked
      */
@@ -167,8 +170,10 @@ public class BoardController implements Initializable {
 
         System.out.println(x + "," + y);
 
+        //FloorTile newTile = (FloorTile)F("TShaped", 0); //TODO, replace it later
+
         FloorTile newTile = (FloorTile)FileManager.createPlayerInventoryTiles("TShaped", 0); //TODO, replace it later
-        FloorTile tile = board.getBoardData().placeOnNewTile(c, x, y, newTile);       //TODO, the tile will be put in SilkBag later
+        FloorTile tile = level.getBoardData().placeOnNewTile(c, x, y, newTile);
 
         //show the board based on Board model
         refreshBoard();
@@ -179,14 +184,14 @@ public class BoardController implements Initializable {
     public void setupArrows() {
         topGrid.setTranslateX(size);
         bottomGrid.setTranslateX(size);
-        for (int x = 0; x < board.getBoardData().getRowSize(); x++) {
-            for (int y = 0; y < board.getBoardData().getColumnSize(); y++){
-                if (x==0) {
+        for (int x = 0; x < level.getBoardData().getRowSize(); x++) {
+            for (int y = 0; y < level.getBoardData().getColumnSize(); y++) {
+                if (x == 0) {
                     ImageView tileImg = new ImageView();
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
                     tileImg.setImage(arrowRight);
-                    leftGrid.add(tileImg, x,y);
+                    leftGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
 
@@ -196,16 +201,19 @@ public class BoardController implements Initializable {
                         public void handle(MouseEvent event) {
                             System.out.println("arrowRight pressed ");
                             onClickArrow(xx, yy, arrowRight);
+                            level.setTempX(xx);
+                            level.setTempY(yy);
+                            level.setTempCardinal(Board.Cardinals.RIGHT);
                             event.consume();
                         }
                     });
 
-                } else if (x == board.getBoardData().getRowSize() - 1){ //4 is the board size, we will get board size from save files, this is just for testing right now.
+                } else if (x == level.getBoardData().getRowSize() - 1) { //4 is the board size, we will get board size from save files, this is just for testing right now.
                     ImageView tileImg = new ImageView();
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
                     tileImg.setImage(arrowLeft);
-                    rightGrid.add(tileImg, x,y);
+                    rightGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
 
@@ -215,17 +223,20 @@ public class BoardController implements Initializable {
                         public void handle(MouseEvent event) {
                             System.out.println("arrowLeft pressed ");
                             onClickArrow(xx, yy, arrowLeft);
+                            level.setTempX(xx);
+                            level.setTempY(yy);
+                            level.setTempCardinal(Board.Cardinals.LEFT);
                             event.consume();
                         }
                     });
 
                 }
-                if (y==0){
+                if (y == 0) {
                     ImageView tileImg = new ImageView();
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
                     tileImg.setImage(arrowUp);
-                    bottomGrid.add(tileImg, x,y);
+                    bottomGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
 
@@ -235,16 +246,19 @@ public class BoardController implements Initializable {
                         public void handle(MouseEvent event) {
                             System.out.println("arrowUp pressed ");
                             onClickArrow(xx, yy, arrowUp);
+                            level.setTempX(xx);
+                            level.setTempY(yy);
+                            level.setTempCardinal(Board.Cardinals.TOP);
                             event.consume();
                         }
                     });
 
-                } else if (y==board.getBoardData().getColumnSize() - 1){ //4 is the board size, we will get board size from save files, this is just for testing right now.
+                } else if (y == level.getBoardData().getColumnSize() - 1) { //4 is the board size, we will get board size from save files, this is just for testing right now.
                     ImageView tileImg = new ImageView();
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
                     tileImg.setImage(arrowDown);
-                    topGrid.add(tileImg, x,y);
+                    topGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
 
@@ -254,13 +268,16 @@ public class BoardController implements Initializable {
                         public void handle(MouseEvent event) {
                             System.out.println("arrowDown pressed ");
                             onClickArrow(xx, yy, arrowDown);
+                            level.setTempX(xx);
+                            level.setTempY(yy);
+                            level.setTempCardinal(Board.Cardinals.BOTTOM);
                             event.consume();
                         }
                     });
-
                 }
             }
         }
     }
+
 }
 
