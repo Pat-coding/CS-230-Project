@@ -27,6 +27,7 @@ public class MainMenu {
     private BorderPane rootPane;
 
     ArrayList<Level> savedLevels = FileManager.readLevelDataFile("SavedLevel.txt", "Saved Level");
+    ArrayList<Profile> profiles = FileManager.readProfileDataFile("Profiles.txt");
 
 
     //when menu is launched, initialize motd and display it
@@ -50,8 +51,10 @@ public class MainMenu {
 
     //Opens new launchLeaderBoards window
     public void launchLeaderBoards(javafx.event.ActionEvent actionEvent) throws IOException {
-        BorderPane pane = FXMLLoader.load(getClass().getResource("Leaderboards.fxml"));
-        rootPane.getChildren().setAll(pane);
+//        BorderPane pane = FXMLLoader.load(getClass().getResource("Leaderboards.fxml"));
+//        rootPane.getChildren().setAll(pane);
+        LeaderboardLoader leaderboards = new LeaderboardLoader(primaryStage, profiles);
+
     }
     public void launchInventory(javafx.event.ActionEvent actionEvent) throws IOException{
         BorderPane pane = FXMLLoader.load(getClass().getResource("InventoryController.fxml"));

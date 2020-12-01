@@ -63,8 +63,9 @@ public class BoardController implements Initializable {
                 //rotates the tile depending on orientation
                 tile.setRotate(level.getBoardData().getTileFromBoard(j,k).getOrientation());
                 tileGrid.add(tile, j,k);
+                //System.out.println(level.getBoardData().getTileFromBoard(j, k).getState());
                 //debug code below
-//                System.out.println(level.getBoardData().getTileFromBoard(j,k).getType());
+                System.out.println(level.getBoardData().getTileFromBoard(j,k).getType());
             }
         }
     }
