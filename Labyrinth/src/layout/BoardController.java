@@ -31,6 +31,7 @@ public class BoardController implements Initializable {
 
     //create new board 5x5
     private Level level;
+    private GameFlow flow;
 
     int size = 100;
     Image road = new Image(getClass().getResourceAsStream("/resources/roadDown.jpeg")); //testing image from internet
