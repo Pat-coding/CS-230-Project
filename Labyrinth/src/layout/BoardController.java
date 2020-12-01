@@ -55,6 +55,9 @@ public class BoardController implements Initializable {
     Image arrowLeft = new Image(getClass().getResourceAsStream("resources/arrowLeft.png"));
     Image arrowRight = new Image(getClass().getResourceAsStream("resources/arrowRight.png"));
 
+    Image playerImg = new Image(getClass().getResourceAsStream("resources/playerImg.png"));
+    Image fixImg = new Image(getClass().getResourceAsStream("resources/fixed.png"));
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupBoard();
@@ -86,6 +89,16 @@ public class BoardController implements Initializable {
         board.insertTile(3,0, (FloorTile)tile);
         tile = FileManager.createHeldTiles("Straight", 90);
         board.insertTile(3,1, (FloorTile)tile);
+
+        //put some players
+        Player player = new Player();
+        board.insertPlayer(3, 2, player);
+
+        player = new Player();
+        board.insertPlayer(1, 3, player);
+
+        player = new Player();
+        board.insertPlayer(2, 1, player);
     }
 
     //show the board based on Board model
@@ -134,7 +147,30 @@ public class BoardController implements Initializable {
                     tileImg.setImage(road); //get images from save file here
                 }
 
-                tileGrid.add(tileImg, x,y);
+                StackPane stackPane = new StackPane();
+                stackPane.getChildren().add(tileImg);
+
+                Player player = board.getPlayerFromBoard(x, y);
+                if (player != null){
+
+                    ImageView tileImgPlayer = new ImageView();
+                    tileImgPlayer.setFitHeight(size/2);
+                    tileImgPlayer.setFitWidth(size/2);
+                    tileImgPlayer.setImage(playerImg);
+
+                    stackPane.getChildren().add(tileImgPlayer);
+                }
+
+                //if (aTile != null && ((FloorTile)aTile).isFixed()){//is fixed?
+                ImageView fixedImgView = new ImageView();
+                fixedImgView.setFitHeight(size);
+                fixedImgView.setFitWidth(size);
+                fixedImgView.setImage(fixImg);
+
+                stackPane.getChildren().add(fixedImgView);
+                //}
+
+                tileGrid.add(stackPane, x,y);
             }
         }
     }
@@ -250,4 +286,3 @@ public class BoardController implements Initializable {
         }
     }
 }
-

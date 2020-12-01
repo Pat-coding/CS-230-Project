@@ -16,20 +16,37 @@ public class Player {
     private ArrayList<Integer> tilesVisitedX =  new ArrayList<>();
     private ArrayList<Integer> tilesVisitedY =  new ArrayList<>();
     private ArrayList<Tile> playerInventory = new ArrayList<>();
+
     private boolean hasBeenBackTracked;
     private boolean isPlayerTurn;
     private Profile name;
     private Board board;
+    private Profile profile;
 
-    public Player(Profile profile, int playercoordx,int playercoordy,int[] profileCoordHistory,
-                  ArrayList<Tile> heldPlayerTile, boolean backTrackCheck, Boolean isPlayerTurn){
+    private int[] profileCoordHistory;
 
+    //constructor
+    public Player(Profile profile, int playercoordx, int playercoordy, int[] profileCoordHistory,
+                  ArrayList<Tile> heldPlayerTile, boolean backTrackCheck, boolean isPlayerTurn){
+        this.profile = profile;
+        this.tilesVisitedX.add(playercoordx);
+        this.tilesVisitedY.add(playercoordy);
+        this.playerInventory.addAll(heldPlayerTile);
+        this.hasBeenBackTracked = backTrackCheck;
+
+        this.profileCoordHistory = profileCoordHistory;
+
+        this.isPlayerTurn = isPlayerTurn;
     }
+
+    //default constructor
     public Player (){
 
     }
 
-    public void addToVisited() {}
+    public void addToVisited() {
+
+    }
 
     /**
      * This Method returns the players inventory
@@ -77,10 +94,10 @@ public class Player {
      */
 
     public void incPlayerWin(int[] wincorords){
-        if (getPrevCoordinates() == wincorords)
+        int[] prevCoor = getPrevCoordinates();
+        if (prevCoor[0] == wincorords[0] && prevCoor[1] == wincorords[1]){
             name.incrementWinCount();
-
-
+        }
     }
     /**
      * This Method flips player turn after they have finished their turn
@@ -97,18 +114,15 @@ public class Player {
      * @return the selected Tile
      */
     public Tile takeFromInventory(int index){
-        if(index-1 > playerInventory.size()){
+        if(index - 1 > playerInventory.size()){
             System.out.println("out of bounds ");
             return null;
         }else
-            {Tile x = playerInventory.get(index);
+        {
+            Tile x = playerInventory.get(index);
             playerInventory.remove(index);
             return x;
-            }
-
+        }
     }
-
-
-
 }
 
