@@ -159,7 +159,7 @@ public class BoardController implements Initializable {
                     tileImgPlayer.setImage(playerImg);
 
                     stackPane.getChildren().add(tileImgPlayer);
-
+                }
 
                 //if (aTile != null && ((FloorTile)aTile).isFixed()){//is fixed?
                 ImageView fixedImgView = new ImageView();
