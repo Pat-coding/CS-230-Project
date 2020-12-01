@@ -10,8 +10,4 @@ public class FireTile extends ActionTile {
         return typeOfTile;
     }
 
-    @Override
-    public void draw(Tile tile) {
-
-    }
 }

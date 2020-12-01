@@ -17,8 +17,4 @@ public class DoubleMoveTile extends ActionTile {
         return typeOfTile;
     }
 
-    @Override
-    public void draw(Tile tile) {
-
-    }
 }

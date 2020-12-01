@@ -94,14 +94,5 @@ public class TShapedTile extends FloorTile {
         return state;
     }
 
-    /**
-     * @param tile
-     * @return
-     */
-    @Override
-    public void draw(Tile tile) {
-
-    }
-
 
 }

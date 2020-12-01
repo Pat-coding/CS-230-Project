@@ -78,13 +78,6 @@ public class CornerTile extends FloorTile {
         return state;
     }
 
-    /**
-     * @param tile
-     * @return
-     */
-    @Override
-    public void draw(Tile tile) {
 
-    }
 
 }

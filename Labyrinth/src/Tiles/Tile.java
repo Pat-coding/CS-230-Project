@@ -9,6 +9,5 @@ public abstract class Tile {
 
     public abstract String getType();
 
-    public abstract void draw (Tile tile);
 
 }

@@ -86,14 +86,6 @@ public class GoalTile extends FloorTile {
         return state;
     }
 
-    /**
-     * @param tile
-     * @return
-     */
-    @Override
-    public void draw(Tile tile) {
-
-    }
 
 
 }

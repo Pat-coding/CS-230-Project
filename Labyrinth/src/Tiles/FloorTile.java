@@ -77,7 +77,7 @@ public abstract class FloorTile extends Tile {
      * @return
      */
 
-    public abstract void draw (Tile tile);
+
 
 
 }

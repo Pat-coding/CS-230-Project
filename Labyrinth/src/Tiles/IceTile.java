@@ -14,9 +14,5 @@ public class IceTile extends ActionTile {
         return typeOfTile;
     }
 
-    @Override
-    public void draw(Tile tile) {
-
-    }
 
 }
