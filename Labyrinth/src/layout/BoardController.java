@@ -63,18 +63,18 @@ public class BoardController implements Initializable {
     private void setupBoard(){
         for (int j = 0; j < level.getBoardData().getColumnSize(); j++) {
             for (int k = 0; k < level.getBoardData().getRowSize(); k++) {
+
                 //Loads tiles from SavedLevel.txt file
                 System.out.println(level.getBoardData().getTileFromBoard(j,k).getType());
                 ImageView tile = new ImageView("resources/" + level.getBoardData().getTileFromBoard(j,k).getType() + ".png");
+
                 //sets tiles to specified size
                 tile.setFitHeight(size);
                 tile.setFitWidth(size);
+
                 //rotates the tile depending on orientation
                 tile.setRotate(level.getBoardData().getTileFromBoard(j,k).getOrientation());
                 tileGrid.add(tile, j,k);
-                //System.out.println(level.getBoardData().getTileFromBoard(j, k).getState());
-                //debug code below
-                System.out.println(level.getBoardData().getTileFromBoard(j,k).getType());
             }
         }
     }
@@ -112,8 +112,8 @@ public class BoardController implements Initializable {
     public void setupArrows() {
         topGrid.setTranslateX(size);
         bottomGrid.setTranslateX(size);
-        for (int x = 0; x < level.getBoardData().getRowSize(); x++) {
-            for (int y = 0; y < level.getBoardData().getColumnSize(); y++) {
+        for (int x = 0; x < level.getBoardData().getColumnSize(); x++) {
+            for (int y = 0; y < level.getBoardData().getRowSize(); y++) {
                 if (x == 0) {
                     ImageView tileImg = new ImageView();
                     tileImg.setFitHeight(size);
