@@ -1,7 +1,6 @@
 package backend;
 import Tiles.*;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -192,7 +191,7 @@ public class GameFlow {
     public Boolean checkActionCardValid(int x, int y) {
 
         for (int i = 0; i < level.getPlayerData().length; i++) {
-            if (Arrays.equals(level.getBoardData().playerLocationOnBoard(x, y, level.getPlayerData()[i]),
+            if (Arrays.equals(level.getBoardData().playerLocationOnBoard(level.getPlayerData()[i]),
                     new int[]{x, y})) {
                 return false;
             }
@@ -216,50 +215,6 @@ public class GameFlow {
         this.level.getSilkBag().giveTile(level.getPlayerData()[player]);
     }
 
-    /**
-     * TODO Connects with constructor
-     * <p>
-     * Managing Turns
-     * <p>
-     * STARTING PHASE
-     * OPTIONAL - SAVE GAME
-     * <p>
-     * <p>
-     * DRAWING PHASE - DRAW TILE
-     * WAIT TILL PLAYER HAS DRAWN FROM SILK BAG
-     * THEN PROCEED
-     * <p>
-     * <p>
-     * OPTIONAL PHASE - PLACING TILE
-     * Checks to see if action performed on player turn is legal
-     * CHECK FOR ACTION TILES, AS WELL AS TILE PLACEMENTS
-     * if legal, proceed
-     * CHECK IF THEY WIN BEFORE PROCEEDING
-     * else, cancel action.
-     * <p>
-     * MOVING PHASE (ACCOUNT FOR DOUBLE MOVE PLEASE!!!)
-     * Takes keystrokes, and moves in that direction - Proceeds to END TURN PHASE
-     * CHECKS FOR OBSTRUCTION
-     * IF obstruction is detected FLAG TRUE
-     * SHOWS END TURN BUTTON
-     * <p>
-     * <p>
-     * ENDING TURN PHASE
-     * Check to see if player has won.
-     * If true
-     * Increment player Win count
-     * Increment OTHER player loss count
-     * END GAME
-     * IF SAVED GAME
-     * DELETE SAVE FILE
-     * If false
-     * Next Player Turn
-     * SETTING THIS player[x].isPlayerTurn to False
-     * Set player[x + 1].isPlayerTurn to True
-     * If player[x + 1] = 4
-     * THEN player[0].isPlayerTurn to True
-     **/
-
     public void checkPlayerTurn() {
 
         for (int i = 0; i < level.getPlayerData().length; i++) {
@@ -269,6 +224,11 @@ public class GameFlow {
         }
     }
 
+    /**
+     * Regulates the turn of the players
+     *
+     * @param i
+     */
     public void flow(int i) {
         boolean buttonFlag = false;
         boolean optionalButtonFlag = true;
@@ -309,7 +269,6 @@ public class GameFlow {
                     }
                 } else {
                     //how to use a key listener?
-                    //robot
                     optionalButtonFlag = false;
                 }
             }
