@@ -284,28 +284,47 @@ public class GameFlow {
                     playerDraw(playerIndex);
                     level.drawTileFlag = false;
                     level.wantToSaveOpportunityFlag = true;
+
+                    //  Increment game turn
+                    if (playerIndex == 0) {
+                        gameTurn++;
+                    }
                 }
             }
 
 
             while (this.players[playerIndex].getTileHand().getType() != null) {
-                if ((level.getTempCardinal()) != Board.Cardinals.NULL) {
-                    slotTiles(level.getTempCardinal(), this.players[playerIndex].getTileHand(), level.getTempX(),
-                            level.getTempY());
+                if (level.arrowFlagPressedVert = true) {
+                    if (level.getBoardData().checkTileInsertionRow(level.getTempY()) == true) {
+                        slotTiles(level.getTempCardinal(), this.players[playerIndex].getTileHand(), level.getTempX(),
+                                level.getTempY());
+                        this.players[playerIndex].setTileHand(null);
+                        level.setTempCardinal(Board.Cardinals.NULL);
 
-                    this.players[playerIndex].setTileHand(null);
-                    level.setTempCardinal(Board.Cardinals.NULL);
+                    }
+                    level.arrowFlagPressedVert = false;
+
+                } else if (level.arrowFlagPressedHorz = true) {
+                    if (level.getBoardData().checkTileInsertionCol(level.getTempX()) == true) {
+                        slotTiles(level.getTempCardinal(), this.players[playerIndex].getTileHand(), level.getTempX(),
+                                level.getTempY());
+                        this.players[playerIndex].setTileHand(null);
+                        level.setTempCardinal(Board.Cardinals.NULL);
+                    }
+                    level.arrowFlagPressedHorz = false;
                 }
-
             }
+
+            //  We can add action tiles here once we get the game working. at the moment, we are not implementing them
+            //  Movement will be done in the front end, through a series of buttons. Unfortunate, but no choice now.
 
             while (level.movementFlag = true) {
 
                 if (level.pressUpFlag == true) {
 
                     if (checkPlayerMovement(level.getTempX(), level.getTempY(), playerIndex) == true) {
-                        level.getBoardData().movePlayer(players[playerIndex].getPlayerCordX(), players[playerIndex].getPlayerCordY(),
-                                level.getTempX(), level.getTempY());
+                        level.getBoardData().movePlayer(players[playerIndex].getPlayerCordX(),
+                                players[playerIndex].getPlayerCordY(), level.getTempX(), level.getTempY());
                         level.movementFlag = false;
                     }
                     level.pressUpFlag = false;
@@ -313,8 +332,8 @@ public class GameFlow {
                 } else if (level.pressDownFlag == true) {
 
                     if (checkPlayerMovement(level.getTempX(), level.getTempY(), playerIndex) == true) {
-                        level.getBoardData().movePlayer(players[playerIndex].getPlayerCordX(), players[playerIndex].getPlayerCordY(),
-                                level.getTempX(), level.getTempY());
+                        level.getBoardData().movePlayer(players[playerIndex].getPlayerCordX(),
+                                players[playerIndex].getPlayerCordY(), level.getTempX(), level.getTempY());
                         level.movementFlag = false;
                     }
                     level.pressDownFlag = false;

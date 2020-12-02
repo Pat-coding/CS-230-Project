@@ -17,6 +17,8 @@ public class Level {
     public boolean pressDownFlag;
     public boolean pressUpFlag;
     public boolean drawTileFlag;
+    public boolean arrowFlagPressedVert;
+    public boolean arrowFlagPressedHorz;
 
     private int tempX;
     private int tempY;
