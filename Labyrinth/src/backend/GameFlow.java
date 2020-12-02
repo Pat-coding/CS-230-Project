@@ -216,15 +216,6 @@ public class GameFlow {
         this.level.getSilkBag().giveTile(level.getPlayerData()[player]);
     }
 
-    public void checkPlayerTurn() {
-
-        for (int i = 0; i < level.getPlayerData().length; i++) {
-            if (players[i].getPlayerTurn()) {
-                flow(i);
-            }
-        }
-    }
-
     public boolean checkPlayerMovement(int x, int y, int playerNum) {
         int px = players[playerNum].getPlayerCordX();
         int py = players[playerNum].getPlayerCordY();
@@ -261,6 +252,16 @@ public class GameFlow {
             this.playerTurn = 0;
         }
         this.players[this.playerTurn].playerTurn(); // set next players turn to true
+    }
+
+
+    public void checkPlayerTurn() {
+
+        for (int i = 0; i < level.getPlayerData().length; i++) {
+            if (players[i].getPlayerTurn()) {
+                flow(i);
+            }
+        }
     }
 
     /**
