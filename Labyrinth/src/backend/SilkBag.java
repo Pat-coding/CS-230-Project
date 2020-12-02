@@ -22,16 +22,18 @@ public class SilkBag {
     }
 
     /**
-     * @param player
+     *
+     *
      */
-    public void giveTile(Player player) {
-        int randomNum = rand.nextInt(silkBagContent.length);
 
-        if (silkBagContent[randomNum] <= 0) {
+    public void giveTile(Player player) {
+        int rnd = new Random().nextInt(silkBagContent.length);
+
+        if (silkBagContent[rnd] < 0) {
             giveTile(player);
         } else {
-            silkBagContent[randomNum] = silkBagContent[randomNum] - 1;
-            switch (randomNum) {
+            silkBagContent[rnd] = silkBagContent[rnd] - 1;
+            switch (rnd) {
                 case 0:
                     FloorTile StraightTile = new StraightTile(randomOrientation(), "NORMAL", false);
                     player.setTileHand(StraightTile);
@@ -43,7 +45,7 @@ public class SilkBag {
                 case 2:
                     FloorTile TShapedTile = new TShapedTile(randomOrientation(), "NORMAL", false);
                     player.setTileHand(TShapedTile);
-
+                    break;
                 case 3:
                     FloorTile GoalTile = new GoalTile(randomOrientation(), "NORMAL", false);
                     player.setTileHand(GoalTile);
@@ -67,6 +69,7 @@ public class SilkBag {
             }
         }
     }
+
 
     public FloorTile populateRandomBoardTiles() {
         int randomNum = rand.nextInt(silkBagContent.length);

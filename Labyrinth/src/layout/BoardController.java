@@ -10,9 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-
 import java.net.URL;
-
 import java.util.ResourceBundle;
 
 public class BoardController implements Initializable {
@@ -32,7 +30,12 @@ public class BoardController implements Initializable {
     @FXML private ImageView doubleMoveImg;
 
     private Level level;
-    private GameFlow game;
+    private Player[] player;
+    private int gameTurn;
+    private SilkBag silkBag;
+    private int playerIndex;
+    private GameFlow gameFlow;
+
     int size = 100;
 
     Image arrowDown = new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
@@ -42,45 +45,39 @@ public class BoardController implements Initializable {
 
     public BoardController(Level level){
         this.level = level;
-        //GameFlow game = new GameFlow(this.level);
-        //game.startFlow();
-
+        //  This sets the turn to the player who is playing.
+        this.playerIndex = 0;
+        //  Provides gameFlow with the level information as well as the information regarding the who's turn it is.
+        this.gameFlow = new GameFlow(this.level, this.playerIndex);
     }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //Inventory bag will be hidden when endTurnBtn is pressed.
         IceTileImg.setImage(arrowDown);
         FireTileImg.setImage(arrowDown);
         backTrackImg.setImage(arrowDown);
         doubleMoveImg.setImage(arrowDown);
-
-
-
         saveGameBtn.setOnAction(event -> {
-            changeSaveGameFlag();
+            level.saveButtonFlag = true;
+            gameFlow.flow();
         });
-
         quitBtn.setOnAction(event -> {
             System.exit(404);
         });
-
         drawTileBtn.setOnAction(event -> {
             this.level.drawTileFlag = true;
-
+            gameFlow.flow();
         });
-
         endTurnBtn.setOnAction(event -> {
-            this.level.endTurnButton = true;
+            level.endTurnFlag = true;
+            gameFlow.flow();
         });
         setupBoard();
         setupArrows();
-
     }
 
-    private void changeSaveGameFlag() {
-        this.level.saveButtonFlag = true;
-    }
+
 
 
     private void setupBoard(){
@@ -134,8 +131,10 @@ public class BoardController implements Initializable {
             c = Board.Cardinals.TOP;
         }
         System.out.println(x + "," + y);
+
         level.setTempX(x);
         level.setTempY(y);
+        gameFlow.flow();
 
         refreshBoard();
     }
@@ -151,13 +150,12 @@ public class BoardController implements Initializable {
                     tileImg.setFitWidth(size);
                     tileImg.setImage(arrowRight);
                     leftGrid.add(tileImg, x, y);
-                    System.out.println("Hello World");
+
                     final int xx = x, yy = y;
 
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                         System.out.println("arrowRight pressed ");
                         onClickArrow(xx, yy, arrowRight);
-
 
                         level.arrowFlagPressedVert = true;
                         level.setTempCardinal(Board.Cardinals.RIGHT);
@@ -223,6 +221,5 @@ public class BoardController implements Initializable {
             }
         }
     }
-
 }
 

@@ -6,12 +6,14 @@ import java.util.ArrayList;
 public class Level {
 
 
-    private static ArrayList<Profile>  profileArray;
-    private static ArrayList<Level> newLevels;
-    private static ArrayList<Level>  savedLevels;
+    private static ArrayList<Profile>  profileArray =
+            FileManager.readProfileDataFile("Profiles.txt");
+    private static ArrayList<Level> newLevels =
+            FileManager.readLevelDataFile("NewLevel.txt", "New Level");
+    private static ArrayList<Level>  savedLevels =
+            FileManager.readLevelDataFile("SavedLevel.txt", "Saved Level");
 
     public boolean saveButtonFlag;
-    public boolean wantToSaveOpportunityFlag;
     public boolean movementFlag;
     public boolean pressLeftFlag;
     public boolean pressRightFlag;
@@ -21,6 +23,8 @@ public class Level {
     public boolean arrowFlagPressedVert;
     public boolean arrowFlagPressedHorz;
     public boolean endTurnButton;
+    public boolean playerHasMovedFlag;
+    public boolean endTurnFlag;
 
     private int tempX;
     private int tempY;
@@ -50,6 +54,7 @@ public class Level {
         this.playerData = players;
         this.spawnPoints = null;
     }
+
 
     /**
      *  Template for a New Level
@@ -102,6 +107,8 @@ public class Level {
 
 
 
+
+
     public static ArrayList<Profile> getProfileArray() {
         return profileArray;
     }
@@ -113,6 +120,8 @@ public class Level {
     public static ArrayList<Level> getSavedLevels() {
         return savedLevels;
     }
+
+
 
     public int getTempX() {
         return tempX;

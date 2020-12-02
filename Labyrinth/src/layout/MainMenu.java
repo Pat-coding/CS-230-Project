@@ -13,8 +13,10 @@ public class MainMenu {
 
     private Stage primaryStage;
 
+    Level level;
 
     public void setStage(Stage stage){
+
         this.primaryStage = stage;
     }
 
@@ -26,6 +28,8 @@ public class MainMenu {
     @FXML
     private BorderPane rootPane;
 
+
+    ArrayList<Level> newLevels = FileManager.readLevelDataFile("NewLevel.txt", "New Level");
     ArrayList<Level> savedLevels = FileManager.readLevelDataFile("SavedLevel.txt", "Saved Level");
     ArrayList<Profile> profiles = FileManager.readProfileDataFile("Profiles.txt");
 

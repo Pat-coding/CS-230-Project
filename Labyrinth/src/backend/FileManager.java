@@ -100,6 +100,9 @@ public class FileManager {
             players[i] = (tempPlayer);
             playerInventoryArrayListTemp.clear();
         }
+        System.out.println(silkBagContent[0] + " " + silkBagContent[1]+ " " +silkBagContent[2]
+                + " " + silkBagContent[3] + " " +silkBagContent[4]);
+
         SilkBag silkBag = new SilkBag(silkBagContent);
         return new Level(tempBoard, Integer.parseInt(roundNumber), silkBag, players);
     }

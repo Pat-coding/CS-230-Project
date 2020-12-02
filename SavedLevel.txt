@@ -4,8 +4,8 @@ LOLCATSAMIRITE
 3,3
 2,2,2,2,2,2,2,2
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-0,0,0,0,0,0,0,0
-Straight,90,Straight,90;NA;Fire,0;NA
+1,1,1,1,1,1,1,1
+Fire,0;NA;Fire,0;NA
 false,false,false,false
 true,false,false,false
 0,0,Straight,0,Normal,false
@@ -23,8 +23,8 @@ TEST
 3,3
 2,2,2,2,2,2,2,2
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-0,0,0,0,0,0,0,0
-Straight,90,Straight,90;NA;Fire,0;NA
+1,1,1,1,1,1,1,1
+Fire,0,Straight,90;NA;Fire,0;NA
 false,false,false,false
 true,false,false,false
 0,0,Corner,0,Normal,false
@@ -42,7 +42,7 @@ TEST3
 3,3
 2,2,2,2,2,2,2,2
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-0,0,0,0,0,0,0,0
+1,1,1,1,1,1,1,1
 Straight,90,Straight,90;NA;Fire,0;NA
 false,false,false,false
 true,false,false,false
