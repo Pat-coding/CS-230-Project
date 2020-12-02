@@ -11,11 +11,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.net.URL;
 
 import java.util.ResourceBundle;
 
-public class BoardController implements Initializable {
+public class BoardController implements Initializable, KeyListener {
 
     @FXML private GridPane topGrid;
     @FXML private GridPane rightGrid;
@@ -249,5 +251,33 @@ public class BoardController implements Initializable {
                 Level.getSavedLevels().add(this.level);
             }
         }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
+
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        switch( keyCode ) {
+            case KeyEvent.VK_UP:
+                Level.pressUpFlag = true;
+                break;
+            case KeyEvent.VK_DOWN:
+                Level.pressDownFlag = true;
+                break;
+            case KeyEvent.VK_LEFT:
+                Level.pressLeftFlag = true;
+                break;
+            case KeyEvent.VK_RIGHT :
+                Level.pressRightFlag = true;
+                break;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+}
 

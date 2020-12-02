@@ -1,6 +1,8 @@
 package backend;
 import Tiles.*;
+import layout.BoardController;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -272,15 +274,15 @@ public class GameFlow {
     public void flow(int playerIndex) {
 
         this.players = this.level.getPlayerData();
-        while (checkWin() == false) {
+        while (!checkWin()) {
             //  This loop forces the player to draw a Tile at the start of a turn.
-            while (level.wantToSaveOpportunityFlag == false) {
+            while (!level.wantToSaveOpportunityFlag) {
                 //  The player is given an opportunity to save the game here.
-                if (level.saveButtonFlag == true) {
+                if (level.saveButtonFlag) {
                     saveGame();
                     level.saveButtonFlag = false;
 
-                } else if (level.drawTileFlag == true) { // The player losses this opportunity if they press drawTileButton
+                } else if (level.drawTileFlag) { // The player losses this opportunity if they press drawTileButton
                     // This starts a player's turn
                     playerDraw(playerIndex);
                     level.drawTileFlag = false;
@@ -292,12 +294,10 @@ public class GameFlow {
                     }
                 }
             }
-
-
             //  This needs to be looked at, it is a general idea, that's unfinished.
             while (this.players[playerIndex].getTileHand().getType() != null) {
                 if (level.arrowFlagPressedVert = true) {
-                    if (level.getBoardData().checkTileInsertionRow(level.getTempY()) == true) {
+                    if (level.getBoardData().checkTileInsertionRow(level.getTempY())) {
                         slotTiles(level.getTempCardinal(), this.players[playerIndex].getTileHand(), level.getTempX(),
                                 level.getTempY());
                         this.players[playerIndex].setTileHand(null);
@@ -307,7 +307,7 @@ public class GameFlow {
                     level.arrowFlagPressedVert = false;
 
                 } else if (level.arrowFlagPressedHorz = true) {
-                    if (level.getBoardData().checkTileInsertionCol(level.getTempX()) == true) {
+                    if (level.getBoardData().checkTileInsertionCol(level.getTempX())) {
                         slotTiles(level.getTempCardinal(), this.players[playerIndex].getTileHand(), level.getTempX(),
                                 level.getTempY());
                         this.players[playerIndex].setTileHand(null);
@@ -316,47 +316,45 @@ public class GameFlow {
                     level.arrowFlagPressedHorz = false;
                 }
             }
-
             //  We can add action tiles here once we get the game working. at the moment, we are not implementing them
             //  Movement will be done in the front end, through a series of buttons. Unfortunate, but no choice now.
 
             while (level.movementFlag = true) {
 
-                if (level.pressUpFlag == true) {
-
-                    if (checkPlayerMovement(level.getTempX(), level.getTempY(), playerIndex) == true) {
+                if (Level.pressUpFlag) {
+                    if (checkPlayerMovement(level.getTempX(), level.getTempY(), playerIndex)) {
                         level.getBoardData().movePlayer(players[playerIndex].getPlayerCordX(),
                                 players[playerIndex].getPlayerCordY(), level.getTempX(), level.getTempY());
                         level.movementFlag = false;
                     }
-                    level.pressUpFlag = false;
+                    Level.pressUpFlag = false;
 
-                } else if (level.pressDownFlag == true) {
+                } else if (Level.pressDownFlag) {
 
-                    if (checkPlayerMovement(level.getTempX(), level.getTempY(), playerIndex) == true) {
+                    if (checkPlayerMovement(level.getTempX(), level.getTempY(), playerIndex)) {
                         level.getBoardData().movePlayer(players[playerIndex].getPlayerCordX(),
                                 players[playerIndex].getPlayerCordY(), level.getTempX(), level.getTempY());
                         level.movementFlag = false;
                     }
-                    level.pressDownFlag = false;
+                    Level.pressDownFlag = false;
 
-                } else if (level.pressRightFlag == true) {
+                } else if (Level.pressRightFlag) {
 
-                    if (checkPlayerMovement(level.getTempX(), level.getTempY(), playerIndex) == true) {
+                    if (checkPlayerMovement(level.getTempX(), level.getTempY(), playerIndex)) {
                         level.getBoardData().movePlayer(players[playerIndex].getPlayerCordX(), players[playerIndex].getPlayerCordY(),
                                 level.getTempX(), level.getTempY());
                         level.movementFlag = false;
                     }
-                    level.pressRightFlag = false;
+                    Level.pressRightFlag = false;
 
-                } else if (level.pressLeftFlag == true) {
+                } else if (Level.pressLeftFlag) {
 
-                    if (checkPlayerMovement(level.getTempX(), level.getTempY(), playerIndex) == true) {
+                    if (checkPlayerMovement(level.getTempX(), level.getTempY(), playerIndex)) {
                         level.getBoardData().movePlayer(players[playerIndex].getPlayerCordX(), players[playerIndex].getPlayerCordY(),
                                 level.getTempX(), level.getTempY());
                         level.movementFlag = false;
                     }
-                    level.pressLeftFlag = false;
+                    Level.pressLeftFlag = false;
 
                 }
 
@@ -365,7 +363,7 @@ public class GameFlow {
 
             }
 
-            if (checkWin() == true) {
+            if (checkWin()) {
                 declareWinner(playerIndex);
                 endGame();
             } else {

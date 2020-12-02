@@ -12,15 +12,15 @@ public class Level {
     public boolean saveButtonFlag;
     public boolean wantToSaveOpportunityFlag;
     public boolean movementFlag;
-    public boolean pressLeftFlag;
-    public boolean pressRightFlag;
-    public boolean pressDownFlag;
-    public boolean pressUpFlag;
+    public static boolean pressLeftFlag;
+    public static boolean pressRightFlag;
+    public static boolean pressDownFlag;
+    public static boolean pressUpFlag;
     public boolean drawTileFlag;
     public boolean arrowFlagPressedVert;
     public boolean arrowFlagPressedHorz;
     public boolean endTurnButton;
-
+    public boolean keyPressed;
     private int tempX;
     private int tempY;
     private Board.Cardinals tempCardinal;
