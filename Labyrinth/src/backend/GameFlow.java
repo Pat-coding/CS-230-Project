@@ -257,13 +257,8 @@ public class GameFlow {
     }
 
 
-    public void checkPlayerTurn() {
-
-        for (int i = 0; i < level.getPlayerData().length; i++) {
-            if (players[i].getPlayerTurn()) {
-                flow(i);
-            }
-        }
+    public void startFlow() {
+        flow(0);
     }
 
     /**
@@ -292,6 +287,7 @@ public class GameFlow {
                     if (playerIndex == 0) {
                         gameTurn++;
                     }
+
                 }
             }
             //  This needs to be looked at, it is a general idea, that's unfinished.
