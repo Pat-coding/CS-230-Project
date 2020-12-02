@@ -31,8 +31,6 @@ public class BoardController implements Initializable {
     @FXML private ImageView IceTileImg;
     @FXML private ImageView doubleMoveImg;
 
-    private boolean saveButtonFlag = false;
-
     private Level level;
     private GameFlow flow;
 
@@ -79,7 +77,7 @@ public class BoardController implements Initializable {
     }
 
     private void changeSaveGameFlag() {
-        saveButtonFlag = true;
+        level.saveButtonFlag = true;
     }
 
     private void setupBoard(){
@@ -160,6 +158,9 @@ public class BoardController implements Initializable {
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                         System.out.println("arrowRight pressed ");
                         onClickArrow(xx, yy, arrowRight);
+
+
+                        level.arrowFlagPressedVert = true;
                         level.setTempCardinal(Board.Cardinals.RIGHT);
                         event.consume();
                     });
@@ -176,6 +177,8 @@ public class BoardController implements Initializable {
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                         System.out.println("arrowLeft pressed ");
                         onClickArrow(xx, yy, arrowLeft);
+
+                        level.arrowFlagPressedVert = true;
                         level.setTempCardinal(Board.Cardinals.LEFT);
                         event.consume();
                     });
@@ -193,7 +196,9 @@ public class BoardController implements Initializable {
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                         System.out.println("arrowUp pressed ");
                         onClickArrow(xx, yy, arrowUp);
-                        ;
+
+                        level.arrowFlagPressedHorz = true;
+
                         level.setTempCardinal(Board.Cardinals.TOP);
                         event.consume();
                     });
@@ -210,6 +215,9 @@ public class BoardController implements Initializable {
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                         System.out.println("arrowDown pressed ");
                         onClickArrow(xx, yy, arrowDown);
+
+                        level.arrowFlagPressedHorz = true;
+
                         level.setTempCardinal(Board.Cardinals.BOTTOM);
                         event.consume();
                     });

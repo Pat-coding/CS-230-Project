@@ -294,6 +294,7 @@ public class GameFlow {
             }
 
 
+            //  This needs to be looked at, it is a general idea, that's unfinished.
             while (this.players[playerIndex].getTileHand().getType() != null) {
                 if (level.arrowFlagPressedVert = true) {
                     if (level.getBoardData().checkTileInsertionRow(level.getTempY()) == true) {
@@ -347,6 +348,7 @@ public class GameFlow {
                         level.movementFlag = false;
                     }
                     level.pressRightFlag = false;
+
                 } else if (level.pressLeftFlag == true) {
 
                     if (checkPlayerMovement(level.getTempX(), level.getTempY(), playerIndex) == true) {
@@ -355,10 +357,13 @@ public class GameFlow {
                         level.movementFlag = false;
                     }
                     level.pressLeftFlag = false;
+
                 }
 
-            }
+                //  if (player is obstructed) : show end turn button.
 
+
+            }
 
             if (checkWin() == true) {
                 declareWinner(playerIndex);
