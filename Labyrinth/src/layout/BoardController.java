@@ -243,7 +243,7 @@ public class BoardController implements Initializable {
         }
 
         public void saveGame () {
-            saveButtonFlag = true;
+            level.saveButtonFlag = true;
             //  Override previous save game
             if (!saveGameCheck()) {
                 Level.getSavedLevels().add(this.level);
