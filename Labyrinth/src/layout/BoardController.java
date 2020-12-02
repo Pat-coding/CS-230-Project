@@ -3,8 +3,6 @@ package layout;
 import Tiles.*;
 import backend.*;
 
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -19,36 +17,22 @@ import java.util.ResourceBundle;
 
 public class BoardController implements Initializable {
 
-    @FXML
-    private GridPane topGrid;
-    @FXML
-    private GridPane rightGrid;
-    @FXML
-    private GridPane bottomGrid;
-    @FXML
-    private GridPane leftGrid;
-    @FXML
-    private GridPane tileGrid;
-    @FXML
-    private Button saveGameBtn;
-    @FXML
-    private Button quitBtn;
-    @FXML
-    private Button drawTileBtn;
-    @FXML
-    private Button endTurnBtn;
-    @FXML
-    private ImageView backTrackImg;
-    @FXML
-    private ImageView FireTileImg;
-    @FXML
-    private ImageView IceTileImg;
-    @FXML
-    private ImageView doubleMoveImg;
+    @FXML private GridPane topGrid;
+    @FXML private GridPane rightGrid;
+    @FXML private GridPane bottomGrid;
+    @FXML private GridPane leftGrid;
+    @FXML private GridPane tileGrid;
+    @FXML private Button saveGameBtn;
+    @FXML private Button quitBtn;
+    @FXML private Button drawTileBtn;
+    @FXML private Button endTurnBtn;
+    @FXML private ImageView backTrackImg;
+    @FXML private ImageView FireTileImg;
+    @FXML private ImageView IceTileImg;
+    @FXML private ImageView doubleMoveImg;
 
     private boolean saveButtonFlag = false;
 
-    //create new board 5x5
     private Level level;
     private GameFlow flow;
 
@@ -76,28 +60,26 @@ public class BoardController implements Initializable {
         setupArrows();
 
         saveGameBtn.setOnAction(event -> {
-            saveGame();
+            changeSaveGameFlag();
         });
 
         quitBtn.setOnAction(event -> {
-
+            System.exit(404);
         });
 
         drawTileBtn.setOnAction(event -> {
-
+            level.drawTileFlag = true;
         });
 
         endTurnBtn.setOnAction(event -> {
-
+            level.endTurnButton = true;
         });
 
 
     }
 
-    public void gameStart() {
-        for (int i = 0; i < level.getPlayerData().length; i++) {
-            flow.flow(i);
-        }
+    private void changeSaveGameFlag() {
+        saveButtonFlag = true;
     }
 
     private void setupBoard(){
@@ -151,18 +133,17 @@ public class BoardController implements Initializable {
             c = Board.Cardinals.TOP;
         }
         System.out.println(x + "," + y);
+        level.setTempX(x);
+        level.setTempY(y);
 
-        //FloorTile newTile = (FloorTile)F("TShaped", 0); //TODO, replace it later
 
         FloorTile newTile = (FloorTile)FileManager.createPlayerInventoryTiles("TShaped", 0); //TODO, replace it later
         level.getBoardData().placeOnNewTile(c, x, y, newTile);
 
-
-        //show the board based on Board model
-        setupBoard();
+        refreshBoard();
     }
 
-    public void setupArrows() {
+    public boolean setupArrows() {
         topGrid.setTranslateX(size);
         bottomGrid.setTranslateX(size);
         for (int x = 0; x < level.getBoardData().getColumnSize(); x++) {
@@ -234,23 +215,10 @@ public class BoardController implements Initializable {
                     });
                 }
             }
+            return false;
         }
+        return false;
     }
-
-//    public void onClickArrow(int x, int y, String direction, Image arrow){
-//        Board.Cardinals c = Board.Cardinals.BOTTOM;
-//        if (arrow == arrowRight){
-//            c = Board.Cardinals.LEFT;
-//        }else if (arrow == arrowLeft){
-//            c = Board.Cardinals.RIGHT;
-//        }else if (arrow == arrowDown){
-//            c = Board.Cardinals.TOP;
-//        }
-//        image.setOnMouseClicked(e -> {
-//            FloorTile newTile = (FloorTile)FileManager.createPlayerInventoryTiles("TShaped", 0);
-//            //FloorTile tile = level.getBoardData().placeOnNewTile()
-//        });
-//    }
 
         public boolean saveGameCheck () {
             //  In range of amount of levels in saved levels
@@ -272,10 +240,6 @@ public class BoardController implements Initializable {
             if (!saveGameCheck()) {
                 Level.getSavedLevels().add(this.level);
             }
-        }
-
-        public void drawTile () {
-
         }
     }
 

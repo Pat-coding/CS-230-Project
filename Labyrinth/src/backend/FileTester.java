@@ -11,28 +11,20 @@ public class FileTester {
 
     public static void main(String[] arg) {
         try {
-            profiles = FileManager.readProfileDataFile("Profiles.txt");
-        } catch (Error e) {
-            System.out.println("A fatal error has occurred lolcats");
-        }
-
-        try {
-            newLevels = FileManager.readLevelDataFile("NewLevel.txt", "New Level");
-
-        } catch (Error e) {
-            System.out.print("A fatal Error has occurred with the NewLevel File Reader");
-        }finally {
-            System.out.println("NewLevels has been successfully run.");
-            System.out.println(newLevels);
-            System.out.println(newLevels.get(0).getBoardData().getTileFromBoard(5,5));
-        }
-
-        try {
             savedLevels = FileManager.readLevelDataFile("SavedLevel.txt", "Saved Level");
             Player[] player = savedLevels.get(0).getPlayerData();
-            System.out.println(player[1].getPlayerInventory());
+            Player[] players = savedLevels.get(1).getPlayerData();
+
+            System.out.println(player[0].getPlayerInventory());
+            System.out.println(players[0].getPlayerInventory());
+
+            System.out.println(savedLevels.get(0).getBoardData());
+            System.out.println(savedLevels.get(1).getBoardData());
+            System.out.println(savedLevels.get(0).getBoardData().getTileFromBoard(0,0).getType());
+            System.out.println(savedLevels.get(1).getBoardData().getTileFromBoard(0,0).getType());
         } catch (Error e) {
             System.out.println("FML");
         }
     }
 }
+

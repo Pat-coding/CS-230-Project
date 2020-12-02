@@ -12,8 +12,9 @@ import java.util.Arrays;
 public class GameFlow {
     private Level level;
     private Player[] players;
-    private int playerTurn;
+    private int gameTurn;
     private boolean drawButton;
+    private int playerTurn;
 
     /**
      * New Game
@@ -24,7 +25,7 @@ public class GameFlow {
     public GameFlow(Level level, Profile[] profiles) {
         this.level = level;
         this.initiatePlayers(profiles);
-
+        this.gameTurn = level.getGameTurnData();
         this.players = this.level.getPlayerData();
     }
 
@@ -37,7 +38,7 @@ public class GameFlow {
     public GameFlow(Level level) {
         this.level = level;
         this.players = level.getPlayerData();
-
+        this.gameTurn = level.getGameTurnData();
         this.players = this.level.getPlayerData();
     }
 
@@ -60,7 +61,7 @@ public class GameFlow {
             for(int i = 0; i < players.length; i++) {
                 if(players[i] == level.getBoardData().getPlayerFromBoard(level.getBoardData().getGoal()[0],
                         level.getBoardData().getGoal()[1]))
-                declareWinner(i);
+                    declareWinner(i);
                 return true;
             }
         }
@@ -268,55 +269,84 @@ public class GameFlow {
      * @param playerIndex
      */
     public void flow(int playerIndex) {
-        boolean buttonFlag = false;
-        boolean optionalButtonFlag = true;
-        boolean actionTilePlaceFlag = false;
-        boolean onClickFlag = false; // should be in level
-        boolean getSaveButton = false; // should be in level
+
         this.players = this.level.getPlayerData();
-        while (!checkWin()) {
-            while (!buttonFlag) {
-                if (getSaveButton == true) {
+        while (checkWin() == false) {
+            //  This loop forces the player to draw a Tile at the start of a turn.
+            while (level.wantToSaveOpportunityFlag == false) {
+                //  The player is given an opportunity to save the game here.
+                if (level.saveButtonFlag == true) {
                     saveGame();
-                } else if (getDrawButton()) {
+                    level.saveButtonFlag = false;
+
+                } else if (level.drawTileFlag == true) { // The player losses this opportunity if they press drawTileButton
                     // This starts a player's turn
-                    buttonFlag = true;
+                    playerDraw(playerIndex);
+                    level.drawTileFlag = false;
+                    level.wantToSaveOpportunityFlag = true;
                 }
             }
-            playerDraw(playerIndex);
-            while (this.players[playerIndex].getTileHand().getType() != null) {
 
+
+            while (this.players[playerIndex].getTileHand().getType() != null) {
                 if ((level.getTempCardinal()) != Board.Cardinals.NULL) {
                     slotTiles(level.getTempCardinal(), this.players[playerIndex].getTileHand(), level.getTempX(),
                             level.getTempY());
-                    optionalButtonFlag = true;
+
                     this.players[playerIndex].setTileHand(null);
                     level.setTempCardinal(Board.Cardinals.NULL);
                 }
-            }
-            while (optionalButtonFlag) {
-                if (actionTilePlaceFlag = true) {
 
-                } else {
-                    {
-                        //how to use a key listener?
-                        optionalButtonFlag = false;
-                    }
-                }
-                if (checkWin()) {
-                    declareWinner(playerIndex);
-                    endGame();
-                } else {
-                    players[playerIndex].playerTurn();
-                    if (playerIndex == players.length - 1) {
-                        playerIndex = 0;
-                    } else {
-                        playerIndex++;
-                    }
-                    players[playerIndex].playerTurn();
-                }
-                optionalButtonFlag = false;
             }
+
+            while (level.movementFlag = true) {
+
+                if (level.pressUpFlag == true) {
+
+                    if (checkPlayerMovement(level.getTempX(), level.getTempY(), playerIndex) == true) {
+                        level.getBoardData().movePlayer(players[playerIndex].getPlayerCordX(), players[playerIndex].getPlayerCordY(),
+                                level.getTempX(), level.getTempY());
+                        level.movementFlag = false;
+                    }
+                    level.pressUpFlag = false;
+
+                } else if (level.pressDownFlag == true) {
+
+                    if (checkPlayerMovement(level.getTempX(), level.getTempY(), playerIndex) == true) {
+                        level.getBoardData().movePlayer(players[playerIndex].getPlayerCordX(), players[playerIndex].getPlayerCordY(),
+                                level.getTempX(), level.getTempY());
+                        level.movementFlag = false;
+                    }
+                    level.pressDownFlag = false;
+
+                } else if (level.pressRightFlag == true) {
+
+                    if (checkPlayerMovement(level.getTempX(), level.getTempY(), playerIndex) == true) {
+                        level.getBoardData().movePlayer(players[playerIndex].getPlayerCordX(), players[playerIndex].getPlayerCordY(),
+                                level.getTempX(), level.getTempY());
+                        level.movementFlag = false;
+                    }
+                    level.pressRightFlag = false;
+                } else if (level.pressLeftFlag == true) {
+
+                    if (checkPlayerMovement(level.getTempX(), level.getTempY(), playerIndex) == true) {
+                        level.getBoardData().movePlayer(players[playerIndex].getPlayerCordX(), players[playerIndex].getPlayerCordY(),
+                                level.getTempX(), level.getTempY());
+                        level.movementFlag = false;
+                    }
+                    level.pressLeftFlag = false;
+                }
+
+            }
+
+
+            if (checkWin() == true) {
+                declareWinner(playerIndex);
+                endGame();
+            } else {
+                incPlayerTurn();
+            }
+
         }
     }
 
@@ -332,6 +362,7 @@ public class GameFlow {
             if (Level.getSavedLevels().get(i).getBoardData().getNameOfBoard().equals
                     (this.level.getBoardData().getNameOfBoard())) {
                 Level.getSavedLevels().remove(i);
+                exportGames();
             }
         }
     }
@@ -371,11 +402,4 @@ public class GameFlow {
         }
     }
 
-    public boolean getDrawButton() {
-        return drawButton;
-    }
-
-    public void setDrawButton(Boolean drawButton) {
-        this.drawButton = drawButton;
-    }
 }
