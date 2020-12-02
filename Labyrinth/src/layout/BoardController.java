@@ -32,8 +32,7 @@ public class BoardController implements Initializable {
     @FXML private ImageView doubleMoveImg;
 
     private Level level;
-    private GameFlow flow;
-
+    private GameFlow game;
     int size = 100;
 
     Image arrowDown = new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
@@ -43,6 +42,9 @@ public class BoardController implements Initializable {
 
     public BoardController(Level level){
         this.level = level;
+        //GameFlow game = new GameFlow(this.level);
+        //game.startFlow();
+
     }
 
     @Override
@@ -54,8 +56,6 @@ public class BoardController implements Initializable {
         doubleMoveImg.setImage(arrowDown);
 
 
-        setupBoard();
-        setupArrows();
 
         saveGameBtn.setOnAction(event -> {
             changeSaveGameFlag();
@@ -66,19 +66,22 @@ public class BoardController implements Initializable {
         });
 
         drawTileBtn.setOnAction(event -> {
-            level.drawTileFlag = true;
+            this.level.drawTileFlag = true;
+
         });
 
         endTurnBtn.setOnAction(event -> {
-            level.endTurnButton = true;
+            this.level.endTurnButton = true;
         });
-
+        setupBoard();
+        setupArrows();
 
     }
 
     private void changeSaveGameFlag() {
-        level.saveButtonFlag = true;
+        this.level.saveButtonFlag = true;
     }
+
 
     private void setupBoard(){
         for (int j = 0; j < level.getBoardData().getColumnSize(); j++) {
@@ -134,14 +137,10 @@ public class BoardController implements Initializable {
         level.setTempX(x);
         level.setTempY(y);
 
-
-        FloorTile newTile = (FloorTile)FileManager.createPlayerInventoryTiles("TShaped", 0); //TODO, replace it later
-        level.getBoardData().placeOnNewTile(c, x, y, newTile);
-
         refreshBoard();
     }
 
-    public boolean setupArrows() {
+    public void setupArrows() {
         topGrid.setTranslateX(size);
         bottomGrid.setTranslateX(size);
         for (int x = 0; x < level.getBoardData().getColumnSize(); x++) {
@@ -152,7 +151,7 @@ public class BoardController implements Initializable {
                     tileImg.setFitWidth(size);
                     tileImg.setImage(arrowRight);
                     leftGrid.add(tileImg, x, y);
-
+                    System.out.println("Hello World");
                     final int xx = x, yy = y;
 
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -165,7 +164,7 @@ public class BoardController implements Initializable {
                         event.consume();
                     });
 
-                } else if (x == level.getBoardData().getRowSize() - 1) { //4 is the board size, we will get board size from save files, this is just for testing right now.
+                } else if (x == level.getBoardData().getRowSize() - 1) {
                     ImageView tileImg = new ImageView();
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
@@ -215,7 +214,6 @@ public class BoardController implements Initializable {
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                         System.out.println("arrowDown pressed ");
                         onClickArrow(xx, yy, arrowDown);
-
                         level.arrowFlagPressedHorz = true;
 
                         level.setTempCardinal(Board.Cardinals.BOTTOM);
@@ -223,31 +221,8 @@ public class BoardController implements Initializable {
                     });
                 }
             }
-            return false;
-        }
-        return false;
-    }
-
-        public boolean saveGameCheck () {
-            //  In range of amount of levels in saved levels
-            for (int i = 0; i < Level.getSavedLevels().size(); i++) {
-                //  If name is equal to a level in saved level.
-                if (Level.getSavedLevels().get(i).getBoardData().getNameOfBoard().equals
-                        (this.level.getBoardData().getNameOfBoard())) {
-                    Level.getSavedLevels().remove(i);
-                    Level.getSavedLevels().add(this.level);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public void saveGame () {
-            level.saveButtonFlag = true;
-            //  Override previous save game
-            if (!saveGameCheck()) {
-                Level.getSavedLevels().add(this.level);
-            }
         }
     }
+
+}
 

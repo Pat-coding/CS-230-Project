@@ -9,6 +9,7 @@ public class Level {
     private static ArrayList<Profile>  profileArray;
     private static ArrayList<Level> newLevels;
     private static ArrayList<Level>  savedLevels;
+
     public boolean saveButtonFlag;
     public boolean wantToSaveOpportunityFlag;
     public boolean movementFlag;
