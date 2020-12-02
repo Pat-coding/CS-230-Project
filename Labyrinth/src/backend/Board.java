@@ -6,6 +6,9 @@ import Tiles.GoalTile;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
+
 /**
  * The board class structures the game board where the methods are operations that directly affects what is going on
  * the game board. This includes tiles and players on the game board.
@@ -16,6 +19,16 @@ import java.util.Map;
 
 public class Board {
 
+    /**
+     * The cardinal directions of the board
+     */
+    public enum Cardinals {
+        TOP,
+        BOTTOM,
+        LEFT,
+        RIGHT,
+        NULL
+    }
 
     private final int rowSize;
     private final int columnSize;
@@ -230,19 +243,13 @@ public class Board {
         getStatusTime().forEach((k, v) -> v++);
     }
 
-    /**
-     *
-     * @param tile
-     * @param x
-     * @param y
-     */
-    public void updateStatusKey(int x, int y, FloorTile tile) {
-        for(Map.Entry<FloorTile, Integer> entry:statusTime.entrySet()) {
-            if(entry.getKey().equals(tile)) {
-                insertTile(x, y, entry.getKey());
-            }
-        }
-    }
+//    public void updateStatusKey(int x, int y, FloorTile tile) {
+//        for (Map.Entry<FloorTile, Integer> entry : statusTime.entrySet()) {
+//            if (entry.getKey().equals(tile)) {
+//                insertTile(x, y, entry.getKey());
+//            }
+//        }
+//    }
 
     /**
      * Shift tiles depending on their cardinal direction placement.
@@ -256,54 +263,55 @@ public class Board {
         if (c == Cardinals.TOP) {//shift index down from the second last (animations)
             FloorTile discardedTile = getTileFromBoard(x, 0);
             for (int row = getRowSize() - 1; row > 0; row--) {
-                if (getTileFromBoard(x, row - 1).getState().equals("FROZEN") ||
-                        getTileFromBoard(x, row - 1).getState().equals("FIRE")) {
-                    updateStatusKey(x, row, getTileFromBoard(x, row - 1));
-                } else {
-                    insertTile(x, row, getTileFromBoard(x, row - 1));
-                }
+//                if (getTileFromBoard(x, row - 1).getState().equals("FROZEN") ||
+//                        getTileFromBoard(x, row - 1).getState().equals("FIRE")) {
+//                    updateStatusKey(x, row, getTileFromBoard(x, row - 1));
+//                } else {
+                insertTile(x, row, getTileFromBoard(x, row - 1));
+//                }
             }
             insertTile(x, 0, tile);
             return discardedTile;
         } else if (c == Cardinals.BOTTOM) {//push from bottom to up
             FloorTile discardedTile = getTileFromBoard(x, getRowSize() - 1);
             for (int row = 0; row < getRowSize() - 1; row++) {
-                if (getTileFromBoard(x, row + 1).getState().equals("FROZEN") ||
-                        getTileFromBoard(x, row + 1).getState().equals("FIRE")) {
-                    updateStatusKey(x, row, getTileFromBoard(x, row + 1));
-                } else {
-                    insertTile(x, row, getTileFromBoard(x, row + 1));
-                }
+//                if (getTileFromBoard(x, row + 1).getState().equals("FROZEN") ||
+//                        getTileFromBoard(x, row + 1).getState().equals("FIRE")) {
+//                    updateStatusKey(x, row, getTileFromBoard(x, row + 1));
+//                } else {
+                insertTile(x, row, getTileFromBoard(x, row + 1));
+//                }
             }
             insertTile(x, getRowSize() - 1, tile);
             return discardedTile;
         } else if (c == Cardinals.LEFT) { //push from left -> right
             FloorTile discardedTile = getTileFromBoard(x, getColumnSize() - 1);
             for (int col = getColumnSize() - 1; col > 0; col--) {
-                if (getTileFromBoard(col - 1 , y).getState().equals("FROZEN") ||
-                        getTileFromBoard(col - 1, y).getState().equals("FIRE")) {
-                    updateStatusKey(col, y, getTileFromBoard(col - 1, y));
-                } else {
-                    insertTile(col, y, getTileFromBoard(col - 1, y));
-                }
+//                if (getTileFromBoard(col - 1 , y).getState().equals("FROZEN") ||
+//                        getTileFromBoard(col - 1, y).getState().equals("FIRE")) {
+//                    updateStatusKey(col, y, getTileFromBoard(col - 1, y));
+//                } else {
+                insertTile(col, y, getTileFromBoard(col - 1, y));
+//                }
             }
             insertTile(0, y, tile);
             return discardedTile;
         } else if (c == Cardinals.RIGHT) { //push from right -> left
             FloorTile discardedTile = getTileFromBoard(getColumnSize() - 1, y);
             for (int col = 0; col < getColumnSize() - 1; col++) {
-                if (getTileFromBoard(col + 1, y).getState().equals("FROZEN") ||
-                        getTileFromBoard(col + 1, y).getState().equals("FIRE")) {
-                    updateStatusKey(col, y, getTileFromBoard(col + 1, y));
-                } else {
-                    insertTile(col, y, getTileFromBoard(col + 1, y));
-                }
+//                if (getTileFromBoard(col + 1, y).getState().equals("FROZEN") ||
+//                        getTileFromBoard(col + 1, y).getState().equals("FIRE")) {
+//                    updateStatusKey(col, y, getTileFromBoard(col + 1, y));
+//                } else {
+                insertTile(col, y, getTileFromBoard(col + 1, y));
+//                }
             }
             insertTile(getColumnSize() - 1, y, tile);
             return discardedTile;
         }
         return null;
     }
+
 
     /**
      * Move player when their player piece is at the end of the tile placement.
@@ -431,17 +439,6 @@ public class Board {
 
     public void setStatusTime(HashMap<FloorTile, Integer> statusTime) {
         this.statusTime = statusTime;
-    }
-
-    /**
-     * The cardinal directions of the board
-     */
-    public enum Cardinals {
-        TOP,
-        BOTTOM,
-        LEFT,
-        RIGHT,
-        NULL
     }
 
 
