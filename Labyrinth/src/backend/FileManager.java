@@ -215,25 +215,31 @@ public class FileManager {
 
                 //  Player inventory
                 for (int j = 0; j < player.length; j++) {
+                    if (player[j].getPlayerInventory().size() == 0) {
+                        // levelWriter.write(player[j].getPlayerInventory().get(k).getType());
+                        levelWriter.write("NA;");
+                    }
                     for (int k = 0; k < player[j].getPlayerInventory().size(); k++) {
-                        if (player[j].getPlayerInventory().size() == 0) {
-                            levelWriter.write(player[j].getPlayerInventory().get(k).getType());
-                        }
                         if (k < player[j].getPlayerInventory().size() - 1) {
-                            levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",");
+                            levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0,");
                         } else {
-                            levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ";");
+                            levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0;");
                         }
                     }
                 }
 
+                // Player Turn
+                levelWriter.write("\n" + player[0].getPlayerTurn() + "," + player[1].getPlayerTurn() + ","
+                        + player[2].getPlayerTurn() + "," + player[3].getPlayerTurn());
                 //  Backtrack
-                levelWriter.write(player[0].getBackTrackCheck() + "," + player[1].getBackTrackCheck() + ","
-                        + player[2].getBackTrackCheck() + "," + player[3].getBackTrackCheck());
+                levelWriter.write("\n" + player[0].getBackTrackCheck() + "," + player[1].getBackTrackCheck() + ","
+                        + player[2].getBackTrackCheck() + "," + player[3].getBackTrackCheck() + "\n");
                 //  ENTIRE BOARD
-                for (int j = 0; j < board.getRowSize()*board.getColumnSize(); j++) {
-                    for (int k = 0; k < board.getRowSize()*board.getColumnSize(); k++) {
-                        levelWriter.write(board.getTileFromBoard(j,k) + "\n");
+                for (int j = 0; j < board.getRowSize(); j++) {
+                    for (int k = 0; k < board.getColumnSize(); k++) {
+                        levelWriter.write(j + "," + k + "," + board.getTileFromBoard(j,k).getType()
+                        + "," + board.getTileFromBoard(j,k).getOrientation() + ",Normal,"
+                        + board.getTileFromBoard(j,k).isFixed() + "\n");
                     }
                 }
             } catch (IOException e) {
