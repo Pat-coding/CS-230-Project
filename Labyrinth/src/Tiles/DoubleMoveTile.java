@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class DoubleMoveTile extends ActionTile {
 
-    private String typeOfTile ="DoubleMoveTile";
+    private String typeOfTile ="DoubleMove";
     private String image = "PATH";
     public DoubleMoveTile() {
 

@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class IceTile extends ActionTile {
 
-    private String typeOfTile = "IceTile";
+    private String typeOfTile = "Ice";
     private String image = "PATH";
 
     @Override
