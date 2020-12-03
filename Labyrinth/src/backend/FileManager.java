@@ -244,8 +244,8 @@ public class FileManager {
     }
 
     /**
-     *
-     * @param ArrayList<Profile> profileArray
+     *  Takes in ArrayList of profiles
+     * @param profileArray takes in an ArrayList of profiles
      */
     public static void createNewProfile (ArrayList<Profile> profileArray) {
 
@@ -365,6 +365,15 @@ public class FileManager {
         return FileManager.readDataFileLevel(in, type);
     }
 
+    /**
+     * Used to create floor tiles for board.
+     * @param typeOfTile
+     * @param orientation
+     * @param state
+     * @param isFixed
+     * @return
+     */
+
     private static FloorTile createTempTile(String typeOfTile, int orientation, String state, Boolean isFixed) {
 
         FloorTile tempTile = null;
@@ -386,6 +395,13 @@ public class FileManager {
         }
         return tempTile;
     }
+
+    /**
+     * Used to create Tiles for player Inventory
+     * @param typeOfTile
+     * @param orientation
+     * @return
+     */
 
     public static Tile createPlayerInventoryTiles(String typeOfTile, int orientation) {
         Tile tempTile = null;

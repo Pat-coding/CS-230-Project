@@ -2,7 +2,7 @@ package Tiles;
 
 public class BacktrackTile extends ActionTile {
 
-    private String typeOfTile ="BacktrackTile";
+    private String typeOfTile ="Backtrack";
     private String image = "PATH";
 
     public BacktrackTile() {

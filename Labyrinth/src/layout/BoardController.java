@@ -6,7 +6,6 @@ import backend.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,39 +22,20 @@ import java.util.ResourceBundle;
 
 public class BoardController implements Initializable {
 
-    int size = 100;
-    Image arrowDown = new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
-    Image arrowUp = new Image(getClass().getResourceAsStream("/resources/arrowUP.png"));
-    Image arrowLeft = new Image(getClass().getResourceAsStream("/resources/arrowLeft.png"));
-    Image arrowRight = new Image(getClass().getResourceAsStream("/resources/arrowRight.png"));
-    @FXML
-    private GridPane boardControl;
-    @FXML
-    private GridPane topGrid;
-    @FXML
-    private GridPane rightGrid;
-    @FXML
-    private GridPane bottomGrid;
-    @FXML
-    private GridPane leftGrid;
-    @FXML
-    private GridPane tileGrid;
-    @FXML
-    private Button saveGameBtn;
-    @FXML
-    private Button quitBtn;
-    @FXML
-    private Button drawTileBtn;
-    @FXML
-    private Button endTurnBtn;
-    @FXML
-    private ImageView backTrackImg;
-    @FXML
-    private ImageView FireTileImg;
-    @FXML
-    private ImageView IceTileImg;
-    @FXML
-    private ImageView doubleMoveImg;
+    @FXML private GridPane topGrid;
+    @FXML private GridPane rightGrid;
+    @FXML private GridPane bottomGrid;
+    @FXML private GridPane leftGrid;
+    @FXML private GridPane tileGrid;
+    @FXML private Button saveGameBtn;
+    @FXML private Button quitBtn;
+    @FXML private Button drawTileBtn;
+    @FXML private Button endTurnBtn;
+    @FXML private ImageView backTrackImg;
+    @FXML private ImageView FireTileImg;
+    @FXML private ImageView IceTileImg;
+    @FXML private ImageView doubleMoveImg;
+
     private Level level;
     private Player[] player;
     private int gameTurn;
@@ -78,7 +58,11 @@ public class BoardController implements Initializable {
         }
         event.consume();
     };
-
+    int size = 100;
+    Image arrowDown = new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
+    Image arrowUp = new Image(getClass().getResourceAsStream("/resources/arrowUP.png"));
+    Image arrowLeft = new Image(getClass().getResourceAsStream("/resources/arrowLeft.png"));
+    Image arrowRight = new Image(getClass().getResourceAsStream("/resources/arrowRight.png"));
     public BoardController(Level level) {
         this.level = level;
         //  This sets the turn to the player who is playing.
@@ -87,13 +71,13 @@ public class BoardController implements Initializable {
         this.gameFlow = new GameFlow(this.level, this.playerIndex);
     }
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         IceTileImg.setImage(arrowDown);
         FireTileImg.setImage(arrowDown);
         backTrackImg.setImage(arrowDown);
         doubleMoveImg.setImage(arrowDown);
-
         saveGameBtn.setOnAction(event -> {
             level.saveButtonFlag = true;
             gameFlow.flow();
@@ -164,12 +148,12 @@ public class BoardController implements Initializable {
     }
 
     public void refreshBoard() {
-        for (int j = 0; j < level.getBoardData().getRowSize(); j++) {
-            for (int k = 0; k < level.getBoardData().getColumnSize(); k++) {
+        for (int j = 0; j < level.getBoardData().getColumnSize(); j++) {
+            for (int k = 0; k < level.getBoardData().getRowSize(); k++) {
 
                 //Loads tiles from SavedLevel.txt file
                 //System.out.println(level.getBoardData().getTileFromBoard(j,k).getType());
-                ImageView tile = new ImageView("resources/" + level.getBoardData().getTileFromBoard(j, k).getType() + ".png");
+                ImageView tile = new ImageView("resources/" + level.getBoardData().getTileFromBoard(j,k).getType() + ".png");
 
                 //sets tiles to specified size
                 tile.setFitHeight(size);
@@ -188,7 +172,7 @@ public class BoardController implements Initializable {
     /**
      * the arrow is clicked
      */
-    private void onClickArrow(int x, int y, Image arrow) {
+    private void onClickArrow(int x, int y, Image arrow){
 
 
         //  For debugging
@@ -197,8 +181,10 @@ public class BoardController implements Initializable {
         level.setTempX(x);
         level.setTempY(y);
         gameFlow.flow();
+
         //  Removes every thing on the screen
         tileGrid.getChildren().removeAll();
+
         refreshBoard();
     }
 
@@ -278,6 +264,5 @@ public class BoardController implements Initializable {
             }
         }
     }
-
 }
 

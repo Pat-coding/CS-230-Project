@@ -1,7 +1,7 @@
 package Tiles;
 
 public class FireTile extends ActionTile {
-    private String typeOfTile = "FireTile";
+    private String typeOfTile = "Fire";
     private String image = "PATH";
 
 
