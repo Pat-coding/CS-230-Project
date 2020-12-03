@@ -144,7 +144,7 @@ public class Board {
      */
     public boolean checkTileInsertionRow(int y) {
         for (int x = 0; x < getRowSize() - 1; x++) {
-            if (getTileFromBoard(x, y).isFixed() || getTileFromBoard(x, y).getState().equals("FROZEN")) {
+            if (getTileFromBoard(x, y).isFixed()) {
                 return false;
             }
         }
@@ -159,7 +159,7 @@ public class Board {
      */
     public boolean checkTileInsertionCol(int x) {
         for (int y = 0; y < getColumnSize() - 1; y++) {
-            if (getTileFromBoard(x, y).isFixed() || getTileFromBoard(x, y).getState().equals("FROZEN")) {
+            if (getTileFromBoard(x, y).isFixed()) {
                 return false;
             }
         }
