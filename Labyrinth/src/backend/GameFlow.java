@@ -140,45 +140,41 @@ public class GameFlow {
     public void movePlayerOnBoard() {
         int x = level.getPlayerData()[playerIndex].getPlayerCordX();
         int y = level.getPlayerData()[playerIndex].getPlayerCordY();
-        if(level.pressUpFlag) {
-            System.out.println("B: " + x + " " + y);
+        if(level.pressUpFlag && !level.playerHasMovedFlag) {
             if(checkPlayerBounds(x, (y - 1)) && checkPlayerMovement(x,(y - 1), playerIndex)) {
                 movePlayer(x, (y - 1), playerIndex);
                 level.pressUpFlag = false;
                 level.getPlayerData()[playerIndex].setPlayerCordY((y - 1));
+                level.playerHasMovedFlag = true;
             }
-            System.out.println("A: " + x + " " + y);
 
         }
 
-        if(level.pressDownFlag) {
-            System.out.println("B: " + x + " " + y);
+        if(level.pressDownFlag && !level.playerHasMovedFlag) {
             if(checkPlayerBounds(x, (y + 1)) && checkPlayerMovement(x, (y + 1), playerIndex)) {
                 movePlayer(x, (y + 1), playerIndex);
                 level.pressDownFlag = false;
                 level.getPlayerData()[playerIndex].setPlayerCordY((y + 1));
+                level.playerHasMovedFlag = true;
             }
-            System.out.println("A: " + x + " " + y);
         }
 
-        if(level.pressLeftFlag) {
-            System.out.println("B: " + x + " " + y);
+        if(level.pressLeftFlag && !level.playerHasMovedFlag) {
             if(checkPlayerBounds(x - 1, y) && checkPlayerMovement(x - 1, y, playerIndex)) {
                 movePlayer(x - 1, y, playerIndex);
                 level.pressLeftFlag = false;
                 level.getPlayerData()[playerIndex].setPlayerCordX(x - 1);
+                level.playerHasMovedFlag = true;
             }
-            System.out.println("A: " + x + " " + y);
         }
 
-        if(level.pressRightFlag) {
-            System.out.println("B: " + x + " " + y);
+        if(level.pressRightFlag && !level.playerHasMovedFlag) {
             if(checkPlayerBounds(x + 1, y) && checkPlayerMovement(x + 1, y, playerIndex)) {
                 movePlayer(x + 1, y, playerIndex);
                 level.pressRightFlag = false;
                 level.getPlayerData()[playerIndex].setPlayerCordX(x + 1);
+                level.playerHasMovedFlag = true;
             }
-            System.out.println("A: " + x + " " + y);
         }
     }
 
@@ -327,6 +323,7 @@ public class GameFlow {
                 players[i].incPlayerLoss();
             }
         }
+        System.out.println("player " + i + " has won!");
     }
 
 }

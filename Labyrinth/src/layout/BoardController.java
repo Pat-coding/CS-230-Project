@@ -95,6 +95,7 @@ public class BoardController implements Initializable {
         });
         drawTileBtn.setOnAction(event -> {
             this.level.drawTileFlag = true;
+            level.playerHasMovedFlag = false;
             drawTileBtn.setOnKeyPressed(keyListener);
             gameFlow.flow();
             refreshBoard();
@@ -102,6 +103,7 @@ public class BoardController implements Initializable {
         });
         endTurnBtn.setOnAction(event -> {
             level.endTurnFlag = true;
+            level.playerHasMovedFlag = false;
             gameFlow.flow();
         });
         setupBoard();
