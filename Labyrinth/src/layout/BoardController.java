@@ -118,30 +118,13 @@ public class BoardController implements Initializable {
             }
         }
 
-        for (int j = 0; j < level.getBoardData().getColumnSize(); j++) {
-            for (int k = 0; k < level.getBoardData().getRowSize(); k++) {
-
-                //Loads tiles from SavedLevel.txt file
-                //System.out.println(level.getBoardData().getTileFromBoard(j,k).getType());
-                ImageView tile = new ImageView("resources/playerImg.png");
-
-                //sets tiles to specified size
-                tile.setFitHeight(size);
-                tile.setFitWidth(size);
-
-                //rotates the tile depending on orientation
-                tileGrid.add(tile, j,k);
-            }
-        }
-
     }
 
     /**
      * the arrow is clicked
      */
     private void onClickArrow(int x, int y, Image arrow){
-        //  Removes every thing on the screen
-        tileGrid.getChildren().removeAll();
+
 
         //  For debugging
         System.out.println(x + "," + y);
@@ -149,6 +132,9 @@ public class BoardController implements Initializable {
         level.setTempX(x);
         level.setTempY(y);
         gameFlow.flow();
+
+        //  Removes every thing on the screen
+        tileGrid.getChildren().removeAll();
 
         refreshBoard();
     }
