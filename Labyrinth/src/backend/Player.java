@@ -84,22 +84,6 @@ public class Player {
         isPlayerTurn = !isPlayerTurn;
     }
 
-    /**
-     * This Method returns the chosen tile from the inventory and removes it as its been used
-     * @param index the place of the tile
-     * @return the selected Tile
-     */
-    public Tile takeFromInventory(int index){
-        if(index-1 > playerInventory.size()){
-            System.out.println("out of bounds ");
-            return null;
-        }else
-        {Tile x = playerInventory.get(index);
-            playerInventory.remove(index);
-            return x;
-        }
-
-    }
 
     public FloorTile getTileHand() {
         return tileHand;

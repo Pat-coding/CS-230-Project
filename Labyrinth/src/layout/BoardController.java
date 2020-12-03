@@ -10,14 +10,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.net.URL;
-
 import java.util.ResourceBundle;
 
-public class BoardController implements Initializable, KeyListener {
+public class BoardController implements Initializable {
 
     @FXML private GridPane topGrid;
     @FXML private GridPane rightGrid;
@@ -34,7 +30,12 @@ public class BoardController implements Initializable, KeyListener {
     @FXML private ImageView doubleMoveImg;
 
     private Level level;
-    private GameFlow game;
+    private Player[] player;
+    private int gameTurn;
+    private SilkBag silkBag;
+    private int playerIndex;
+    private GameFlow gameFlow;
+
     int size = 100;
 
     Image arrowDown = new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
@@ -44,45 +45,40 @@ public class BoardController implements Initializable, KeyListener {
 
     public BoardController(Level level){
         this.level = level;
-        //GameFlow game = new GameFlow(this.level);
-        //game.startFlow();
-
+        //  This sets the turn to the player who is playing.
+        this.playerIndex = 0;
+        //  Provides gameFlow with the level information as well as the information regarding the who's turn it is.
+        this.gameFlow = new GameFlow(this.level, this.playerIndex);
     }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //Inventory bag will be hidden when endTurnBtn is pressed.
         IceTileImg.setImage(arrowDown);
         FireTileImg.setImage(arrowDown);
         backTrackImg.setImage(arrowDown);
         doubleMoveImg.setImage(arrowDown);
-
-
-
         saveGameBtn.setOnAction(event -> {
-            changeSaveGameFlag();
+            level.saveButtonFlag = true;
+            gameFlow.flow();
         });
-
         quitBtn.setOnAction(event -> {
             System.exit(404);
         });
-
         drawTileBtn.setOnAction(event -> {
             this.level.drawTileFlag = true;
-
+            gameFlow.flow();
         });
-
         endTurnBtn.setOnAction(event -> {
-            this.level.endTurnButton = true;
+            level.endTurnFlag = true;
+            gameFlow.flow();
         });
         setupBoard();
         setupArrows();
-
     }
 
-    private void changeSaveGameFlag() {
-        this.level.saveButtonFlag = true;
-    }
+
+
 
     private void setupBoard(){
         for (int j = 0; j < level.getBoardData().getColumnSize(); j++) {
@@ -101,6 +97,7 @@ public class BoardController implements Initializable, KeyListener {
                 tileGrid.add(tile, j,k);
             }
         }
+
     }
 
     public void refreshBoard() {
@@ -120,23 +117,38 @@ public class BoardController implements Initializable, KeyListener {
                 tileGrid.add(tile, j,k);
             }
         }
+
+        for (int j = 0; j < level.getBoardData().getColumnSize(); j++) {
+            for (int k = 0; k < level.getBoardData().getRowSize(); k++) {
+
+                //Loads tiles from SavedLevel.txt file
+                //System.out.println(level.getBoardData().getTileFromBoard(j,k).getType());
+                ImageView tile = new ImageView("resources/playerImg.png");
+
+                //sets tiles to specified size
+                tile.setFitHeight(size);
+                tile.setFitWidth(size);
+
+                //rotates the tile depending on orientation
+                tileGrid.add(tile, j,k);
+            }
+        }
+
     }
 
     /**
      * the arrow is clicked
      */
     private void onClickArrow(int x, int y, Image arrow){
-        Board.Cardinals c = Board.Cardinals.BOTTOM;
-        if (arrow == arrowDown){
-            c = Board.Cardinals.LEFT;
-        }else if (arrow == arrowLeft){
-            c = Board.Cardinals.RIGHT;
-        }else if (arrow == arrowDown){
-            c = Board.Cardinals.TOP;
-        }
+        //  Removes every thing on the screen
+        tileGrid.getChildren().removeAll();
+
+        //  For debugging
         System.out.println(x + "," + y);
+
         level.setTempX(x);
         level.setTempY(y);
+        gameFlow.flow();
 
         refreshBoard();
     }
@@ -150,18 +162,15 @@ public class BoardController implements Initializable, KeyListener {
                     ImageView tileImg = new ImageView();
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
-                    tileImg.setImage(arrowRight);
-                    leftGrid.add(tileImg, x, y);
-                    System.out.println("Hello World");
+                    tileImg.setImage(arrowLeft);
+                    rightGrid.add(tileImg, x, y);
+
                     final int xx = x, yy = y;
 
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                        System.out.println("arrowRight pressed ");
+                        refreshBoard();
+                        System.out.println("arrow facing left pressed ");
                         onClickArrow(xx, yy, arrowRight);
-
-
-                        level.arrowFlagPressedVert = true;
-                        level.setTempCardinal(Board.Cardinals.RIGHT);
                         event.consume();
                     });
 
@@ -169,41 +178,21 @@ public class BoardController implements Initializable, KeyListener {
                     ImageView tileImg = new ImageView();
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
-                    tileImg.setImage(arrowLeft);
-                    rightGrid.add(tileImg, x, y);
+                    tileImg.setImage(arrowRight);
+                    leftGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
 
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                        System.out.println("arrowLeft pressed ");
+                        refreshBoard();
+                        System.out.println("arrow facing right pressed");
                         onClickArrow(xx, yy, arrowLeft);
-
-                        level.arrowFlagPressedVert = true;
-                        level.setTempCardinal(Board.Cardinals.LEFT);
+                        level.setTempCardinal(Board.Cardinals.RIGHT);
                         event.consume();
                     });
 
                 }
                 if (y == 0) {
-                    ImageView tileImg = new ImageView();
-                    tileImg.setFitHeight(size);
-                    tileImg.setFitWidth(size);
-                    tileImg.setImage(arrowUp);
-                    bottomGrid.add(tileImg, x, y);
-
-                    final int xx = x, yy = y;
-
-                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                        System.out.println("arrowUp pressed ");
-                        onClickArrow(xx, yy, arrowUp);
-
-                        level.arrowFlagPressedHorz = true;
-
-                        level.setTempCardinal(Board.Cardinals.TOP);
-                        event.consume();
-                    });
-
-                } else if (y == level.getBoardData().getColumnSize() - 1) { //4 is the board size, we will get board size from save files, this is just for testing right now.
                     ImageView tileImg = new ImageView();
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
@@ -213,62 +202,32 @@ public class BoardController implements Initializable, KeyListener {
                     final int xx = x, yy = y;
 
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                        System.out.println("arrowDown pressed ");
-                        onClickArrow(xx, yy, arrowDown);
-
-                        level.arrowFlagPressedHorz = true;
-
+                        refreshBoard();
+                        System.out.println("arrow facing down pressed");
+                        onClickArrow(xx, yy, arrowUp);
                         level.setTempCardinal(Board.Cardinals.BOTTOM);
+                        event.consume();
+                    });
+
+                } else if (y == level.getBoardData().getColumnSize() - 1) { //4 is the board size, we will get board size from save files, this is just for testing right now.
+                    ImageView tileImg = new ImageView();
+                    tileImg.setFitHeight(size);
+                    tileImg.setFitWidth(size);
+                    tileImg.setImage(arrowUp);
+                    bottomGrid.add(tileImg, x, y);
+
+                    final int xx = x, yy = y;
+
+                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                        refreshBoard();
+                        System.out.println("arrow facing up pressed");
+                        onClickArrow(xx, yy, arrowDown);
+                        level.setTempCardinal(Board.Cardinals.TOP);
                         event.consume();
                     });
                 }
             }
-            return false;
         }
-        return false;
-    }
-
-        public boolean saveGameCheck () {
-            //  In range of amount of levels in saved levels
-            for (int i = 0; i < Level.getSavedLevels().size(); i++) {
-                //  If name is equal to a level in saved level.
-                if (Level.getSavedLevels().get(i).getBoardData().getNameOfBoard().equals
-                        (this.level.getBoardData().getNameOfBoard())) {
-                    Level.getSavedLevels().remove(i);
-                    Level.getSavedLevels().add(this.level);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        switch( keyCode ) {
-            case KeyEvent.VK_UP:
-                Level.pressUpFlag = true;
-                break;
-            case KeyEvent.VK_DOWN:
-                Level.pressDownFlag = true;
-                break;
-            case KeyEvent.VK_LEFT:
-                Level.pressLeftFlag = true;
-                break;
-            case KeyEvent.VK_RIGHT :
-                Level.pressRightFlag = true;
-                break;
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
     }
 }
 

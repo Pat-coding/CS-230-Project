@@ -1,5 +1,8 @@
 package backend;
 
+import Tiles.CornerTile;
+import Tiles.FloorTile;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -22,6 +25,12 @@ public class FileTester {
             System.out.println(savedLevels.get(1).getBoardData());
             System.out.println(savedLevels.get(0).getBoardData().getTileFromBoard(0,0).getType());
             System.out.println(savedLevels.get(1).getBoardData().getTileFromBoard(0,0).getType());
+            System.out.println(savedLevels.get(1).getPlayerData()[0].getPlayerInventory());
+            System.out.println(savedLevels.get(1).getPlayerData()[0].getPlayerCordX());
+            System.out.println(savedLevels.get(1).getPlayerData()[0]);
+
+            System.out.println(savedLevels.get(1).getPlayerData()[0].getTileHand());
+
         } catch (Error e) {
             System.out.println("FML");
         }

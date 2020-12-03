@@ -20,7 +20,6 @@ public class NewGame {
         System.out.println("Loaded New Game window.");
     }
 
-
     public void goBackToMenu(ActionEvent actionEvent) throws IOException {
         BorderPane pane = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         rootPane.getChildren().setAll(pane);

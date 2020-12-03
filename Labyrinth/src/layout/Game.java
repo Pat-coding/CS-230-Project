@@ -1,5 +1,6 @@
 package layout;
 
+import backend.GameFlow;
 import backend.Level;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,6 +21,7 @@ public class Game {
             Scene scene = new Scene(root, 1280, 720);
             primaryStage.setScene(scene);
             primaryStage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
