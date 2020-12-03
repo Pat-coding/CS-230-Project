@@ -220,6 +220,31 @@ public class Board {
         return true;
     }
 
+    /**
+     * Moves player to a new position.
+     *
+     * @param newX The x co-ordinate of the new position.
+     * @param newY The y co-ordinate of the new position.
+     * @param oldX The x co-ordinate of the old position.
+     * @param oldY The x co-ordinate of the old position.
+     */
+    public void movePlayer(int newX, int newY, int oldX, int oldY) {
+        if(checkPlayerBounds(newX, newY)) {
+        } else {
+            insertPlayer(newX, newY, getPlayerFromBoard(oldX, oldY));
+            insertPlayer(oldX, oldY, null);
+
+        }
+    }
+    private boolean checkPlayerBounds(int x, int y) {
+        if(x < 0 || y < 0) {
+            System.out.println("Player out of bounds");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 
     /**
      * Shift tiles depending on their cardinal direction placement.
@@ -326,6 +351,25 @@ public class Board {
         return playerCoordinates[x][y];
     }
 
+    /**
+     * Searches and store player information.
+     *
+     * @param player The player in search .
+     * @return The x and y co-ordinate in as an int array.
+     */
+    public int[] playerLocationOnBoard(Player player) {
+        int[] cords = new int[2];
+        for (int x = 0; x < getRowSize(); x++) {
+            for (int y = 0; y < getColumnSize(); y++) {
+                if (getPlayerFromBoard(x, y) == player) {
+                    cords[0] = x;
+                    cords[1] = y;
+                    return cords;
+                }
+            }
+        }
+        return null;
+    }
 
 
 }
