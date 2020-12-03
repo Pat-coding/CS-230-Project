@@ -46,14 +46,14 @@ public class GameFlow {
 
 
         //  Check to see if the player is allowed to save the game.
-        if (level.saveButtonFlag == true && hasDrawn == false) {
+        if (level.saveButtonFlag && !hasDrawn) {
             System.out.println("Player " + playerIndex + " has pressed the save game button!");
             saveGame();
             level.saveButtonFlag = false;
         }
 
         //  Allows the player to draw a tile.
-        if (level.drawTileFlag == true && hasDrawn == false) {
+        if (level.drawTileFlag && !hasDrawn) {
             hasDrawn = true;
             drawTile();
             System.out.println("Player " + playerIndex + " has drawn the " +
@@ -64,20 +64,20 @@ public class GameFlow {
         }
 
         //  Throws failed to save error
-        if (level.saveButtonFlag == true && hasDrawn == true) {
+        if (level.saveButtonFlag && hasDrawn) {
             System.out.println("Player " + playerIndex + " has attempted to save the game after drawing!");
             level.saveButtonFlag = false;
         }
 
 
         //  Throws failed tile draw message
-        if (level.drawTileFlag == true && hasDrawn == true) {
+        if (level.drawTileFlag && hasDrawn) {
             System.out.println("Player " + playerIndex + " attempted to draw another tile!!!");
             level.drawTileFlag = false;
         }
 
         //  Throws multiple attempts of placing tile error
-        if (player[playerIndex].getTileHand() == null && hasDrawn == true) {
+        if (player[playerIndex].getTileHand() == null && hasDrawn) {
 
             System.out.println("Player " + playerIndex + " has attempted placed another tile this turn!");
             level.setTempCardinal(null);
@@ -86,7 +86,7 @@ public class GameFlow {
         }
 
         //  Throws error for not drawing a tile
-        if (level.getTempCardinal() != null && hasDrawn == false) {
+        if (level.getTempCardinal() != null && !hasDrawn) {
 
             System.out.println("Player " + playerIndex + " needs to draw before slotting a tile!");
             level.setTempCardinal(null);
@@ -147,14 +147,14 @@ public class GameFlow {
             System.out.println("A " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
         }
         //  Need to implement constrain to see if the player has moved or not.
-        if (level.endTurnFlag == true) {
+        if (level.endTurnFlag) {
             hasDrawn = false;
             level.endTurnFlag = false;
             incPlayerTurn();
         }
 
-        if (level.playerHasMovedFlag == true) {
-            if (checkWin() == true) {
+        if (level.playerHasMovedFlag) {
+            if (checkWin()) {
                 declareWinner(playerIndex);
                 endGame();
             } else {
