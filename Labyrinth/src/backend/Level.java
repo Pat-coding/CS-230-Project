@@ -6,11 +6,11 @@ import java.util.ArrayList;
 public class Level {
 
 
-    private static ArrayList<Profile>  profileArray =
+    public static ArrayList<Profile>  profileArray =
             FileManager.readProfileDataFile("Profiles.txt");
-    private static ArrayList<Level> newLevels =
+    public static ArrayList<Level> newLevels =
             FileManager.readLevelDataFile("NewLevel.txt", "New Level");
-    private static ArrayList<Level>  savedLevels =
+    public static ArrayList<Level>  savedLevels =
             FileManager.readLevelDataFile("SavedLevel.txt", "Saved Level");
 
     public boolean saveButtonFlag;

@@ -1,4 +1,4 @@
-package layout;
+package layout.controllers;
 
 import backend.Leaderboard;
 import backend.Profile;
@@ -10,13 +10,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import backend.Leaderboard;
+import layout.Main;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class Leaderboards implements Initializable {
+public class LeaderboardController implements Initializable {
 
     @FXML private Button backToMenuBtn;
     @FXML private MenuItem sortWins;
@@ -32,12 +33,12 @@ public class Leaderboards implements Initializable {
     private ArrayList<Profile> sortedLosses;
     private ArrayList<Profile> sortedGamesPlayed;
 
-    public Leaderboards(Stage stage, ArrayList<Profile> profiles){
+    public LeaderboardController(Stage stage, ArrayList<Profile> profiles){
         this.profiles = profiles;
         this.stage = stage;
-        sortedWins = new Leaderboard(profiles, 0, true).getLeaderboard();
-        sortedLosses = new Leaderboard(profiles, 1, true).getLeaderboard();
-        sortedGamesPlayed = new Leaderboard(profiles, 3, true).getLeaderboard();
+        sortedWins = new Leaderboard(profiles, 0, false).getLeaderboard();
+        sortedLosses = new Leaderboard(profiles, 1, false).getLeaderboard();
+        sortedGamesPlayed = new Leaderboard(profiles, 3, false).getLeaderboard();
     }
 
     @Override

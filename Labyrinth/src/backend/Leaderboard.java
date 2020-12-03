@@ -39,15 +39,15 @@ public class Leaderboard {
     }
 
     private ArrayList<Profile> sortWins(ArrayList<Profile> profileList, boolean asc) {
-        for(int i = 1; i < profileList.size(); i++) {
-            Profile key = profileList.get(i);
-            int j = i - 1;
-
-            while (j >= 0 && (profileList.get(j).getWinCount() > key.getWinCount())) {
-                profileList.set((j+1), profileList.get(j));
-                j--;
+        int n = profileList.size();
+        for(int i = 0; i<n-1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (profileList.get(j).getWinCount() >= profileList.get(j + 1).getWinCount()) {
+                    Profile temp = profileList.get(j);
+                    profileList.set(j + 1, profileList.get(j));
+                    profileList.set(j, temp);
+                }
             }
-            profileList.set((j+1), key);
         }
         if(asc){
             return profileList;

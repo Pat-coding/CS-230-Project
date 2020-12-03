@@ -1,15 +1,18 @@
-package layout;
+package layout.controllers;
 import backend.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import layout.loaders.ProfileSelectLoader;
+import layout.loaders.LeaderboardLoader;
+import layout.loaders.LoadMenuLoader;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainMenu {
+public class MainMenuController {
 
     private Stage primaryStage;
 
@@ -28,12 +31,6 @@ public class MainMenu {
     @FXML
     private BorderPane rootPane;
 
-
-    ArrayList<Level> newLevels = FileManager.readLevelDataFile("NewLevel.txt", "New Level");
-    ArrayList<Level> savedLevels = FileManager.readLevelDataFile("SavedLevel.txt", "Saved Level");
-    ArrayList<Profile> profiles = FileManager.readProfileDataFile("Profiles.txt");
-
-
     //when menu is launched, initialize motd and display it
     @FXML
     private void initialize(){
@@ -44,13 +41,12 @@ public class MainMenu {
 
     //Opens new LaunchNewGame window
     public void launchNewGame(){
-        ProfileSelectLoader loader = new ProfileSelectLoader(primaryStage, profiles);
-        //Game game = new Game(primaryStage, savedLevels.get(0));
+        ProfileSelectLoader loader = new ProfileSelectLoader(primaryStage, Level.getProfileArray(), Level.getNewLevels());
     }
 
     //Opens new launchLoadGame window
     public void launchLoadGame() {
-        LoadMenuLoader loadMenuLoader = new LoadMenuLoader(primaryStage, savedLevels);
+        LoadMenuLoader loadMenuLoader = new LoadMenuLoader(primaryStage, Level.getSavedLevels());
 
     }
 
@@ -58,7 +54,7 @@ public class MainMenu {
     public void launchLeaderBoards() {
 //        BorderPane pane = FXMLLoader.load(getClass().getResource("Leaderboards.fxml"));
 //        rootPane.getChildren().setAll(pane);
-          LeaderboardLoader leaderboards = new LeaderboardLoader(primaryStage, profiles);
+          LeaderboardLoader leaderboards = new LeaderboardLoader(primaryStage, Level.getProfileArray());
 
     }
     public void launchInventory() throws IOException{
