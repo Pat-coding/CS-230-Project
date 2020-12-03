@@ -6,6 +6,7 @@ import backend.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -90,9 +91,10 @@ public class BoardController implements Initializable {
             level.saveButtonFlag = true;
             gameFlow.flow();
         });
-        quitBtn.setOnAction(event -> {
-            System.exit(404);
-        });
+
+        quitBtn.setOnAction(event -> System.exit(404));
+
+
         drawTileBtn.setOnAction(event -> {
             this.level.drawTileFlag = true;
             drawTileBtn.setOnKeyPressed(keyListener);
@@ -106,6 +108,12 @@ public class BoardController implements Initializable {
         });
         setupBoard();
         setupArrows();
+    }
+
+    //Displays win message
+    private void youWonCongrats(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "You won :)");
+        alert.showAndWait();
     }
 
     private void setupBoard() {

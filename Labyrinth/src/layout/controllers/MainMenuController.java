@@ -31,11 +31,11 @@ public class MainMenuController {
     @FXML
     private BorderPane rootPane;
 
+
     //when menu is launched, initialize motd and display it
     @FXML
     private void initialize(){
-        Motd motd = new Motd();
-        motdText.setText(motd.getMessage());
+        motdText.setText(Motd.getMessage());
         System.out.println("Motd loaded");
     }
 
