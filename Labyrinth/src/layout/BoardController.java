@@ -109,21 +109,21 @@ public class BoardController implements Initializable {
     }
 
     private void setupBoard() {
-        for (int j = 0; j < level.getBoardData().getRowSize(); j++) {
-            for (int k = 0; k < level.getBoardData().getColumnSize(); k++) {
+        for (int x = 0; x < level.getBoardData().getRowSize(); x++) {
+            for (int y = 0; y < level.getBoardData().getColumnSize(); y++) {
 
                 //Loads tiles from SavedLevel.txt file
                 //System.out.println(level.getBoardData().getTileFromBoard(j,k).getType());
-                ImageView tile = new ImageView("resources/" + level.getBoardData().getTileFromBoard(j, k).getType() + ".png");
+                ImageView tile = new ImageView("resources/" + level.getBoardData().getTileFromBoard(x, y).getType() + ".png");
 
                 //sets tiles to specified size
                 tile.setFitHeight(size);
                 tile.setFitWidth(size);
 
                 //rotates the tile depending on orientation
-                tile.setRotate(level.getBoardData().getTileFromBoard(j, k).getOrientation());
-                tileGrid.add(tile, j, k);
-                checkPlayerNull(j, k, tile);
+                tile.setRotate(level.getBoardData().getTileFromBoard(x, y).getOrientation());
+                tileGrid.add(tile, x, y);
+                checkPlayerNull(x, y, tile);
 
             }
         }
@@ -132,6 +132,7 @@ public class BoardController implements Initializable {
     private void checkPlayerNull(int j, int k, ImageView tile) {
 
         if (level.getBoardData().getPlayerFromBoard(j, k) != null) {
+            System.out.println("x: " + j + "y: " + k);
             ImageView playerIv = new ImageView("/resources/playerImg.png");
             //sets tiles to specified size
             playerIv.setFitHeight(size);
