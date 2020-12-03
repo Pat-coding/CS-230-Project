@@ -95,6 +95,7 @@ public class FileManager {
             Player tempPlayer = new Player(usedProfile.get(i), profileCordX[i], profileCordY[i], profileCordHistory,
                     (ArrayList<Tile>) arrayOfList[i], backTrackCheck, Boolean.parseBoolean(isPlayerTurn[i]));
             players[i] = (tempPlayer);
+            System.out.println("x: " + profileCordX[i] + "y: " + profileCordY[i]);
             tempBoard.insertPlayer(profileCordX[i], profileCordY[i], tempPlayer);
             playerInventoryArrayListTemp.clear();
         }

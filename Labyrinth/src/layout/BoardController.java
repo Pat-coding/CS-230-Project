@@ -130,7 +130,9 @@ public class BoardController implements Initializable {
     }
 
     private void checkPlayerNull(int j, int k, ImageView tile) {
+
         if (level.getBoardData().getPlayerFromBoard(j, k) != null) {
+            System.out.println("x: " + j + "y: " + k);
             ImageView playerIv = new ImageView("/resources/playerImg.png");
             //sets tiles to specified size
             playerIv.setFitHeight(size);

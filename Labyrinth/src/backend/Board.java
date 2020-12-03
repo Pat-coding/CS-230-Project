@@ -175,20 +175,12 @@ public class Board {
      * @param oldY The x co-ordinate of the old position.
      */
     public void movePlayer(int oldX, int oldY, int newX, int newY) {
-        if(checkPlayerBounds(newX, newY)) {
             insertPlayer(newX, newY, getPlayerFromBoard(oldX, oldY));
             insertPlayer(oldX, oldY, null);
-        }
+
     }
 
-    private boolean checkPlayerBounds(int x, int y) {
-        if((x < 0) || (x > getRowSize() - 1)|| (y < 0) || (y > getColumnSize() - 1) || (getPlayerFromBoard(x, y) != null)) {
-            System.out.println("Player out of bounds");
-            return false;
-        } else {
-            return true;
-        }
-    }
+
 
 
     /**
