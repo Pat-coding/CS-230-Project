@@ -172,14 +172,21 @@ public class FileManager {
      */
 
     public static void createNewSaveFile(ArrayList<Level> levelArray) {
-        System.out.println("CreateNewSaveFile is being called");
+
+        try(PrintWriter dumpFile = new PrintWriter("SavedLevel.txt")) {
+            dumpFile.print("");
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+        }
+
+
         for (int i = 0; i < levelArray.size(); i++) {
             Board board = levelArray.get(i).getBoardData();
             int gameTurn = levelArray.get(i).getGameTurnData();
             SilkBag silkBag = levelArray.get(i).getSilkBag();
             Player[] player = levelArray.get(i).getPlayerData();
 
-            try (FileWriter levelWriter = new FileWriter("SaveFile.txt")) {
+            try (FileWriter levelWriter = new FileWriter("SavedLevel.txt", true)) {
                 //  This is used to write the profile names
                 for (int j = 0; j < player.length; j++) {
                     if (j < player.length - 1) {
@@ -215,29 +222,35 @@ public class FileManager {
 
                 //  Player inventory
                 for (int j = 0; j < player.length; j++) {
+                    if (player[j].getPlayerInventory().size() == 0) {
+                        // levelWriter.write(player[j].getPlayerInventory().get(k).getType());
+                        levelWriter.write("NA;");
+                    }
                     for (int k = 0; k < player[j].getPlayerInventory().size(); k++) {
-                        if (player[j].getPlayerInventory().size() == 0) {
-                            levelWriter.write(player[j].getPlayerInventory().get(k).getType());
-                        }
                         if (k < player[j].getPlayerInventory().size() - 1) {
-                            levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",");
+                            levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0,");
                         } else {
-                            levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ";");
+                            levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0;");
                         }
                     }
                 }
 
+                // Player Turn
+                levelWriter.write("\n" + player[0].getPlayerTurn() + "," + player[1].getPlayerTurn() + ","
+                        + player[2].getPlayerTurn() + "," + player[3].getPlayerTurn());
                 //  Backtrack
-                levelWriter.write(player[0].getBackTrackCheck() + "," + player[1].getBackTrackCheck() + ","
-                        + player[2].getBackTrackCheck() + "," + player[3].getBackTrackCheck());
+                levelWriter.write("\n" + player[0].getBackTrackCheck() + "," + player[1].getBackTrackCheck() + ","
+                        + player[2].getBackTrackCheck() + "," + player[3].getBackTrackCheck() + "\n");
                 //  ENTIRE BOARD
-                for (int j = 0; j < board.getRowSize()*board.getColumnSize(); j++) {
-                    for (int k = 0; k < board.getRowSize()*board.getColumnSize(); k++) {
-                        levelWriter.write(board.getTileFromBoard(j,k) + "\n");
+                for (int j = 0; j < board.getRowSize(); j++) {
+                    for (int k = 0; k < board.getColumnSize(); k++) {
+                        levelWriter.write(j + "," + k + "," + board.getTileFromBoard(j,k).getType()
+                        + "," + board.getTileFromBoard(j,k).getOrientation() + ",Normal,"
+                        + board.getTileFromBoard(j,k).isFixed() + "\n");
                     }
                 }
             } catch (IOException e) {
-                System.out.println("An error has occurred");
+                System.out.println("Reading File Error Has Occured");
                 e.printStackTrace();
             }
         }
@@ -264,7 +277,7 @@ public class FileManager {
                 profileWriter.write(profileArray.get(i).getLoseCount() + "\n");
 
             } catch (IOException e) {
-                System.out.println("An error has occurred");
+                System.out.println("createNewProfile erorr has occured");
                 e.printStackTrace();
             }
         }
@@ -288,6 +301,7 @@ public class FileManager {
                 System.out.print("An unknown error has occurred.");
             }
         }
+        in.close();
         return returnableArray;
     }
 
@@ -391,7 +405,7 @@ public class FileManager {
                 tempTile = new GoalTile(orientation, state, isFixed);
                 break;
             default:
-                System.out.println("An error has occurred");
+                System.out.println("An error has occurred whoops");
         }
         return tempTile;
     }
@@ -433,7 +447,7 @@ public class FileManager {
                 break;
 
             default:
-                System.out.println("An error has occurred");
+                System.out.println("An error has occurred createPlayerInv");
         }
         return tempTile;
     }
