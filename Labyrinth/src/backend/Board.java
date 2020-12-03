@@ -2,7 +2,6 @@ package backend;
 
 import Tiles.FloorTile;
 import Tiles.GoalTile;
-
 import java.util.HashMap;
 
 
@@ -183,7 +182,7 @@ public class Board {
     }
 
     private boolean checkPlayerBounds(int x, int y) {
-        if((0 > x || (x > getRowSize() - 1)|| 0 > y || y > getColumnSize() - 1)) {
+        if((0 > x || (x > getRowSize() - 1)|| 0 > y || y > getColumnSize() - 1) || getPlayerFromBoard(x, y) != null) {
             System.out.println("Player out of bounds");
             return false;
         } else {

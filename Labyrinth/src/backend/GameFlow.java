@@ -121,30 +121,34 @@ public class GameFlow {
 
         if(level.pressUpFlag) {
             System.out.println("B: " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
-            movePlayer(level.getPlayerData()[playerIndex].getPlayerCordX(), (level.getPlayerData()[playerIndex].getPlayerCordX() + 1), playerIndex);
+            movePlayer(level.getPlayerData()[playerIndex].getPlayerCordX(), (level.getPlayerData()[playerIndex].getPlayerCordY() - 1), playerIndex);
             level.pressUpFlag = false;
             System.out.println("A: " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
+            level.playerHasMovedFlag = true;
         }
 
         if(level.pressDownFlag) {
             System.out.println("B " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
-            movePlayer(level.getPlayerData()[playerIndex].getPlayerCordX(), (level.getPlayerData()[playerIndex].getPlayerCordX() - 1), playerIndex);
+            movePlayer(level.getPlayerData()[playerIndex].getPlayerCordX(), (level.getPlayerData()[playerIndex].getPlayerCordY() + 1), playerIndex);
             level.pressDownFlag = false;
             System.out.println("A " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
+            level.playerHasMovedFlag = true;
         }
 
         if(level.pressLeftFlag) {
             System.out.println("B " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
-            movePlayer(level.getPlayerData()[playerIndex].getPlayerCordX() - 1, level.getPlayerData()[playerIndex].getPlayerCordX(), playerIndex);
+            movePlayer(level.getPlayerData()[playerIndex].getPlayerCordX() - 1, level.getPlayerData()[playerIndex].getPlayerCordY(), playerIndex);
             level.pressLeftFlag = false;
             System.out.println("A " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
+            level.playerHasMovedFlag = true;
         }
 
         if(level.pressRightFlag) {
             System.out.println("B " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
-            movePlayer(level.getPlayerData()[playerIndex].getPlayerCordX() + 1, level.getPlayerData()[playerIndex].getPlayerCordX(), playerIndex);
+            movePlayer(level.getPlayerData()[playerIndex].getPlayerCordX() + 1, level.getPlayerData()[playerIndex].getPlayerCordY(), playerIndex);
             level.pressRightFlag = false;
             System.out.println("A " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
+            level.playerHasMovedFlag = true;
         }
         //  Need to implement constrain to see if the player has moved or not.
         if (level.endTurnFlag) {
