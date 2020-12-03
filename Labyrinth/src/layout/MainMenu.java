@@ -13,8 +13,6 @@ public class MainMenu {
 
     private Stage primaryStage;
 
-    Level level;
-
     public void setStage(Stage stage){
 
         this.primaryStage = stage;
@@ -28,12 +26,6 @@ public class MainMenu {
     @FXML
     private BorderPane rootPane;
 
-
-    ArrayList<Level> newLevels = FileManager.readLevelDataFile("NewLevel.txt", "New Level");
-    ArrayList<Level> savedLevels = FileManager.readLevelDataFile("SavedLevel.txt", "Saved Level");
-    ArrayList<Profile> profiles = FileManager.readProfileDataFile("Profiles.txt");
-
-
     //when menu is launched, initialize motd and display it
     @FXML
     private void initialize(){
@@ -44,13 +36,13 @@ public class MainMenu {
 
     //Opens new LaunchNewGame window
     public void launchNewGame(){
-        ProfileSelectLoader loader = new ProfileSelectLoader(primaryStage, profiles);
+        ProfileSelectLoader loader = new ProfileSelectLoader(primaryStage, Level.profileArray);
         //Game game = new Game(primaryStage, savedLevels.get(0));
     }
 
     //Opens new launchLoadGame window
     public void launchLoadGame() {
-        LoadMenuLoader loadMenuLoader = new LoadMenuLoader(primaryStage, savedLevels);
+        LoadMenuLoader loadMenuLoader = new LoadMenuLoader(primaryStage, Level.savedLevels);
 
     }
 
@@ -58,7 +50,7 @@ public class MainMenu {
     public void launchLeaderBoards() {
 //        BorderPane pane = FXMLLoader.load(getClass().getResource("Leaderboards.fxml"));
 //        rootPane.getChildren().setAll(pane);
-          LeaderboardLoader leaderboards = new LeaderboardLoader(primaryStage, profiles);
+          LeaderboardLoader leaderboards = new LeaderboardLoader(primaryStage, Level.profileArray);
 
     }
     public void launchInventory() throws IOException{
