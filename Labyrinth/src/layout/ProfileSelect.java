@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,13 +18,17 @@ public class ProfileSelect implements Initializable {
     @FXML private Button selectProfileBtn;
     @FXML private Button deleteProfileBtn;
     @FXML private ListView profileList;
+    @FXML private Button menuBtn;
 
     private ArrayList<Profile> profiles;
     private int selectedIndex;
     private ArrayList<Profile> selectedProfiles = new ArrayList<>();
 
-    public ProfileSelect(ArrayList<Profile> profiles){
+    private Stage stage;
+
+    public ProfileSelect(Stage stage, ArrayList<Profile> profiles){
         this.profiles = profiles;
+        this.stage = stage;
     }
 
     @Override
@@ -58,6 +63,16 @@ public class ProfileSelect implements Initializable {
                 alert.showAndWait();
             } else {
                 profileList.getItems().remove(selectedIndex);
+            }
+        });
+
+
+        menuBtn.setOnAction(event -> {
+            try {
+                Main main = new Main();
+                main.start(stage);
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
 

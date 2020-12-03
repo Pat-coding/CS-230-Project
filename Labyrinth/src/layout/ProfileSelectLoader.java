@@ -16,7 +16,7 @@ public class ProfileSelectLoader {
         primaryStage = stage;
         try {
             FXMLLoader fxmlloader = new FXMLLoader();
-            ProfileSelect controller = new ProfileSelect(profiles);
+            ProfileSelect controller = new ProfileSelect(primaryStage, profiles);
             fxmlloader.setController(controller);
             Parent root = fxmlloader.load(getClass().getClassLoader().getResource("layout/ProfileSelect.fxml").openStream());
             Scene scene = new Scene(root, 530, 530);

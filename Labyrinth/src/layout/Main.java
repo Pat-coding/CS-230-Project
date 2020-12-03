@@ -12,7 +12,7 @@ public class Main extends Application {
     private static final int WINDOW_HEIGHT = 720;
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         primaryStage.setTitle("Labyrinth");
         try {
             FXMLLoader loader = new FXMLLoader();
