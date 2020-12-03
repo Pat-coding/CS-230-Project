@@ -201,8 +201,6 @@ public class GameFlow {
         return false;
     }
 
-
-
     /**
      * Go to the next turn of the board.
      */

@@ -15,7 +15,7 @@ public class TShapedTile extends FloorTile {
 
     public TShapedTile(int orientation, String state, Boolean isFixed) {
         super(orientation, state, isFixed);
-
+        this.isFixed = isFixed;
         if (orientation == 0) {
             this.accessFromTop = false;
         }

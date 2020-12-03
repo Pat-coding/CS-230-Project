@@ -20,6 +20,7 @@ public class GoalTile extends FloorTile {
 
     public GoalTile(int orientation, String state, Boolean isFixed) {
         super(orientation, state, isFixed);
+        this.isFixed = isFixed;
     }
 
     /**

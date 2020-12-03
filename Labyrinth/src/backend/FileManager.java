@@ -82,7 +82,7 @@ public class FileManager {
         //  Reads in profiles
         profiles = readProfileDataFile("Profiles.txt");
         for (int i = 0; i < profileName.length; i++) {
-            if (Arrays.asList(profileName).contains(profiles.get(i).getProfileName()) == true) {
+            if (Arrays.asList(profileName).contains(profiles.get(i).getProfileName())) {
                 usedProfile.add(profiles.get(i));
             }
         }

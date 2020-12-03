@@ -16,7 +16,7 @@ public class CornerTile extends FloorTile {
 
     public CornerTile(int orientation, String state, Boolean isFixed) {
         super(orientation, state, isFixed);
-
+        this.isFixed = isFixed;
         if(orientation == 0) {
             this.accessFromLeft = false;
             this.accessFromBottom = false;

@@ -113,22 +113,26 @@ public class BoardController implements Initializable {
     private void setupBoard() {
         for (int x = 0; x < level.getBoardData().getRowSize(); x++) {
             for (int y = 0; y < level.getBoardData().getColumnSize(); y++) {
+                if(level.getBoardData().getTileFromBoard(x, y).isFixed()) {
+                    ImageView tileFixed = new ImageView("resources/" + level.getBoardData().getTileFromBoard(x, y).getType() + "_fixed.png");
+                    setTiles(tileFixed, x, y);
+                } else {
+                    System.out.println(level.getBoardData().getTileFromBoard(x, y).getOrientation());
+                    ImageView tile = new ImageView("resources/" + level.getBoardData().getTileFromBoard(x, y).getType() + ".png");
+                    setTiles(tile, x, y);
 
-                //Loads tiles from SavedLevel.txt file
-                //System.out.println(level.getBoardData().getTileFromBoard(j,k).getType());
-                ImageView tile = new ImageView("resources/" + level.getBoardData().getTileFromBoard(x, y).getType() + ".png");
-
-                //sets tiles to specified size
-                tile.setFitHeight(size);
-                tile.setFitWidth(size);
-
-                //rotates the tile depending on orientation
-                tile.setRotate(level.getBoardData().getTileFromBoard(x, y).getOrientation());
-                tileGrid.add(tile, x, y);
-                checkPlayerNull(x, y, tile);
-
+                }
             }
         }
+    }
+
+    private void setTiles(ImageView tile, int x, int y) {
+        tile.setFitHeight(size);
+        tile.setFitWidth(size);
+        tile.setRotate(level.getBoardData().getTileFromBoard(x, y).getOrientation());
+        tileGrid.add(tile, x, y);
+        checkPlayerNull(x, y, tile);
+
     }
 
     private void checkPlayerNull(int j, int k, ImageView tile) {
@@ -148,37 +152,19 @@ public class BoardController implements Initializable {
     }
 
     public void refreshBoard() {
-        for (int j = 0; j < level.getBoardData().getColumnSize(); j++) {
-            for (int k = 0; k < level.getBoardData().getRowSize(); k++) {
-
-                //Loads tiles from SavedLevel.txt file
-                //System.out.println(level.getBoardData().getTileFromBoard(j,k).getType());
-                ImageView tile = new ImageView("resources/" + level.getBoardData().getTileFromBoard(j,k).getType() + ".png");
-
-                //sets tiles to specified size
-                tile.setFitHeight(size);
-                tile.setFitWidth(size);
-
-                //rotates the tile depending on orientation
-                tile.setRotate(level.getBoardData().getTileFromBoard(j, k).getOrientation());
-                tileGrid.add(tile, j, k);
-                checkPlayerNull(j, k, tile);
+        for (int x = 0; x < level.getBoardData().getColumnSize(); x++) {
+            for (int y = 0; y < level.getBoardData().getRowSize(); y++) {
+                if(level.getBoardData().getTileFromBoard(x, y).isFixed()) {
+                    System.out.println(level.getBoardData().getTileFromBoard(x, y).isFixed());
+                    ImageView tileFixed = new ImageView("resources/" + level.getBoardData().getTileFromBoard(x, y).getType() + "_fixed.png");
+                    setTiles(tileFixed, x, y);
+                } else {
+                    System.out.println(level.getBoardData().getTileFromBoard(x, y).isFixed());
+                    ImageView tile = new ImageView("resources/" + level.getBoardData().getTileFromBoard(x, y).getType() + ".png");
+                    setTiles(tile, x, y);
+                }
             }
         }
-
-    }
-
-    /**
-     * the arrow is clicked
-     */
-    private void onClickArrow(int x, int y, Image arrow){
-        System.out.println(x + "," + y);
-        level.setTempX(x);
-        level.setTempY(y);
-        gameFlow.flow();
-        //  Removes every thing on the screen
-        refreshBoard();
-        tileGrid.getChildren().removeAll();
     }
 
     public void setupArrows() {
@@ -195,11 +181,19 @@ public class BoardController implements Initializable {
 
                     final int xx = x, yy = y;
 
+                    if (!level.getBoardData().checkTileInsertionRow(y)) {
+                        rightGrid.getChildren().get(y + 1).setVisible(false);
+                        System.out.println("label og" + y);
+                    }
+
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                        refreshBoard();
+
                         System.out.println("arrow facing left pressed ");
-                        onClickArrow(xx, yy, arrowRight);
                         level.setTempCardinal(Board.Cardinals.RIGHT);
+                        level.setTempX(xx);
+                        level.setTempY(yy);
+                        gameFlow.flow();
+                        refreshBoard();
                         event.consume();
                     });
 
@@ -211,12 +205,18 @@ public class BoardController implements Initializable {
                     leftGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
-
+                    if (!level.getBoardData().checkTileInsertionRow(y)) {
+                        leftGrid.getChildren().get(y + 1).setVisible(false);
+                        System.out.println("label" + y);
+                    }
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                        refreshBoard();
+
                         System.out.println("arrow facing right pressed");
-                        onClickArrow(xx, yy, arrowLeft);
                         level.setTempCardinal(Board.Cardinals.LEFT);
+                        level.setTempX(xx);
+                        level.setTempY(yy);
+                        gameFlow.flow();
+                        refreshBoard();
                         event.consume();
                     });
 
@@ -230,11 +230,17 @@ public class BoardController implements Initializable {
 
                     final int xx = x, yy = y;
 
+                    if (!level.getBoardData().checkTileInsertionCol(x)) {
+                        topGrid.getChildren().get(x + 1).setVisible(false);
+                    }
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                        refreshBoard();
+
                         System.out.println("arrow facing down pressed");
-                        onClickArrow(xx, yy, arrowUp);
                         level.setTempCardinal(Board.Cardinals.TOP);
+                        level.setTempX(xx);
+                        level.setTempY(yy);
+                        gameFlow.flow();
+                        refreshBoard();
                         event.consume();
                     });
 
@@ -246,12 +252,16 @@ public class BoardController implements Initializable {
                     bottomGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
-
+                    if (!level.getBoardData().checkTileInsertionCol(x)) {
+                        bottomGrid.getChildren().get(x + 1).setVisible(false);
+                    }
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                        refreshBoard();
                         System.out.println("arrow facing up pressed");
-                        onClickArrow(xx, yy, arrowDown);
                         level.setTempCardinal(Board.Cardinals.BOTTOM);
+                        level.setTempX(xx);
+                        level.setTempY(yy);
+                        gameFlow.flow();
+                        refreshBoard();
                         event.consume();
                     });
                 }
