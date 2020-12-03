@@ -46,22 +46,22 @@ public class BoardController implements Initializable {
         if (event.getCode() == KeyCode.UP) {
             level.pressUpFlag = true;
             System.out.println("UP");
-            gameFlow.flow();
+            gameFlow.movePlayerOnBoard();
             refreshBoard();
         } else if (event.getCode() == KeyCode.DOWN) {
             level.pressDownFlag = true;
             System.out.println("DOWN");
-            gameFlow.flow();
+            gameFlow.movePlayerOnBoard();
             refreshBoard();
         } else if (event.getCode() == KeyCode.LEFT) {
             level.pressLeftFlag = true;
             System.out.println("LEFT");
-            gameFlow.flow();
+            gameFlow.movePlayerOnBoard();
             refreshBoard();
         } else if (event.getCode() == KeyCode.RIGHT) {
             level.pressRightFlag = true;
             System.out.println("RIGHT");
-            gameFlow.flow();
+            gameFlow.movePlayerOnBoard();
             refreshBoard();
         }
         event.consume();
@@ -95,6 +95,7 @@ public class BoardController implements Initializable {
         });
         drawTileBtn.setOnAction(event -> {
             this.level.drawTileFlag = true;
+            level.playerHasMovedFlag = false;
             drawTileBtn.setOnKeyPressed(keyListener);
             gameFlow.flow();
             refreshBoard();
@@ -102,6 +103,7 @@ public class BoardController implements Initializable {
         });
         endTurnBtn.setOnAction(event -> {
             level.endTurnFlag = true;
+            level.playerHasMovedFlag = false;
             gameFlow.flow();
         });
         setupBoard();
