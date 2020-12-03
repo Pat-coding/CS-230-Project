@@ -10,7 +10,7 @@ public class StraightTile extends FloorTile {
     private int orientation;
     private boolean isFixed;
     private String state;
-    private String typeOfTile = "StraightTile";
+    private String typeOfTile = "Straight";
     private String image = "PATH";
 
     public StraightTile(int orientation, String state, Boolean isFixed) {

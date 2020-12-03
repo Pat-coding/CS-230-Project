@@ -11,7 +11,7 @@ public class GoalTile extends FloorTile {
     private boolean accessFromBottom = true;
     private boolean accessFromLeft = true;
     private boolean accessFromRight = true;
-    private String typeOfTile = "GoalTile";
+    private String typeOfTile = "Goal";
     private int orientation;
     private boolean isFixed;
     private String state;

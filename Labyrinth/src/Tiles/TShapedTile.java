@@ -6,7 +6,7 @@ public class TShapedTile extends FloorTile {
     private boolean accessFromBottom = true;
     private boolean accessFromLeft = true;
     private boolean accessFromRight = true;
-    private String typeOfTile = "TShapedTile";
+    private String typeOfTile = "TShaped";
     private String image = "PATH";
     private int orientation;
     private boolean isFixed;

@@ -172,14 +172,21 @@ public class FileManager {
      */
 
     public static void createNewSaveFile(ArrayList<Level> levelArray) {
-        System.out.println("CreateNewSaveFile is being called");
+
+        try(PrintWriter dumpFile = new PrintWriter("SavedLevel.txt")) {
+            dumpFile.print("");
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+        }
+
+
         for (int i = 0; i < levelArray.size(); i++) {
             Board board = levelArray.get(i).getBoardData();
             int gameTurn = levelArray.get(i).getGameTurnData();
             SilkBag silkBag = levelArray.get(i).getSilkBag();
             Player[] player = levelArray.get(i).getPlayerData();
 
-            try (FileWriter levelWriter = new FileWriter("SaveFile.txt")) {
+            try (FileWriter levelWriter = new FileWriter("SavedLevel.txt", true)) {
                 //  This is used to write the profile names
                 for (int j = 0; j < player.length; j++) {
                     if (j < player.length - 1) {
@@ -243,7 +250,7 @@ public class FileManager {
                     }
                 }
             } catch (IOException e) {
-                System.out.println("An error has occurred");
+                System.out.println("Reading File Error Has Occured");
                 e.printStackTrace();
             }
         }
@@ -270,7 +277,7 @@ public class FileManager {
                 profileWriter.write(profileArray.get(i).getLoseCount() + "\n");
 
             } catch (IOException e) {
-                System.out.println("An error has occurred");
+                System.out.println("createNewProfile erorr has occured");
                 e.printStackTrace();
             }
         }
@@ -398,7 +405,7 @@ public class FileManager {
                 tempTile = new GoalTile(orientation, state, isFixed);
                 break;
             default:
-                System.out.println("An error has occurred");
+                System.out.println("An error has occurred whoops");
         }
         return tempTile;
     }
@@ -440,7 +447,7 @@ public class FileManager {
                 break;
 
             default:
-                System.out.println("An error has occurred");
+                System.out.println("An error has occurred createPlayerInv");
         }
         return tempTile;
     }

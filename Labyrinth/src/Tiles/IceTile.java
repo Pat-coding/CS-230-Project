@@ -14,5 +14,10 @@ public class IceTile extends ActionTile {
         return typeOfTile;
     }
 
+    @Override
+    public int getOrientation() {
+        return 0;
+    }
+
 
 }
