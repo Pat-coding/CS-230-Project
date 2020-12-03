@@ -223,15 +223,17 @@ public class FileManager {
                 //  Player inventory
                 for (int j = 0; j < player.length; j++) {
                     if (player[j].getPlayerInventory().size() == 0) {
-                        // levelWriter.write(player[j].getPlayerInventory().get(k).getType());
-                        levelWriter.write("NA;");
+                        levelWriter.write("NA");
                     }
                     for (int k = 0; k < player[j].getPlayerInventory().size(); k++) {
                         if (k < player[j].getPlayerInventory().size() - 1) {
                             levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0,");
                         } else {
-                            levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0;");
+                            levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0");
                         }
+                    }
+                    if (j != (player.length - 1)) {
+                        levelWriter.write(";");
                     }
                 }
 
@@ -240,13 +242,13 @@ public class FileManager {
                         + player[2].getPlayerTurn() + "," + player[3].getPlayerTurn());
                 //  Backtrack
                 levelWriter.write("\n" + player[0].getBackTrackCheck() + "," + player[1].getBackTrackCheck() + ","
-                        + player[2].getBackTrackCheck() + "," + player[3].getBackTrackCheck() + "\n");
+                        + player[2].getBackTrackCheck() + "," + player[3].getBackTrackCheck());
                 //  ENTIRE BOARD
                 for (int j = 0; j < board.getRowSize(); j++) {
                     for (int k = 0; k < board.getColumnSize(); k++) {
-                        levelWriter.write(j + "," + k + "," + board.getTileFromBoard(j,k).getType()
+                        levelWriter.write("\n" + j + "," + k + "," + board.getTileFromBoard(j,k).getType()
                         + "," + board.getTileFromBoard(j,k).getOrientation() + ",Normal,"
-                        + board.getTileFromBoard(j,k).isFixed() + "\n");
+                        + board.getTileFromBoard(j,k).isFixed());
                     }
                 }
             } catch (IOException e) {
