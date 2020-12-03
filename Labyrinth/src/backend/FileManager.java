@@ -288,6 +288,7 @@ public class FileManager {
                 System.out.print("An unknown error has occurred.");
             }
         }
+        in.close();
         return returnableArray;
     }
 

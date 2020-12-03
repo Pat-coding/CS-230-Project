@@ -185,9 +185,9 @@ public class BoardController implements Initializable {
         level.setTempX(x);
         level.setTempY(y);
         gameFlow.flow();
-
-        //  Removes every thing on the screen
         tileGrid.getChildren().removeAll();
+        //  Removes every thing on the screen
+
 
         refreshBoard();
     }
