@@ -3,13 +3,20 @@ package layout;
 import Tiles.*;
 import backend.*;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+
+import java.awt.*;
+
+import javafx.scene.input.KeyEvent;
+import java.awt.event.KeyListener;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -35,15 +42,28 @@ public class BoardController implements Initializable {
     private SilkBag silkBag;
     private int playerIndex;
     private GameFlow gameFlow;
-
+    private EventHandler<KeyEvent> keyListener = event -> {
+        if (event.getCode() == KeyCode.UP) {
+            level.pressUpFlag = true;
+            System.out.println("UP");
+        } else if (event.getCode() == KeyCode.DOWN) {
+            level.pressDownFlag = false;
+            System.out.println("DOWN");
+        } else if (event.getCode() == KeyCode.LEFT) {
+            level.pressLeftFlag = true;
+            System.out.println("LEFT");
+        } else if (event.getCode() == KeyCode.RIGHT) {
+            level.pressRightFlag = true;
+            System.out.println("RIGHT");
+        }
+        event.consume();
+    };
     int size = 100;
-
     Image arrowDown = new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
     Image arrowUp = new Image(getClass().getResourceAsStream("/resources/arrowUP.png"));
     Image arrowLeft = new Image(getClass().getResourceAsStream("/resources/arrowLeft.png"));
     Image arrowRight = new Image(getClass().getResourceAsStream("/resources/arrowRight.png"));
-
-    public BoardController(Level level){
+    public BoardController(Level level) {
         this.level = level;
         //  This sets the turn to the player who is playing.
         this.playerIndex = 0;
@@ -67,7 +87,9 @@ public class BoardController implements Initializable {
         });
         drawTileBtn.setOnAction(event -> {
             this.level.drawTileFlag = true;
+            drawTileBtn.setOnKeyPressed(keyListener);
             gameFlow.flow();
+            refreshBoard();
         });
         endTurnBtn.setOnAction(event -> {
             level.endTurnFlag = true;
@@ -77,27 +99,52 @@ public class BoardController implements Initializable {
         setupArrows();
     }
 
-
-
-
-    private void setupBoard(){
-        for (int j = 0; j < level.getBoardData().getColumnSize(); j++) {
-            for (int k = 0; k < level.getBoardData().getRowSize(); k++) {
+    private void setupBoard() {
+        for (int j = 0; j < level.getBoardData().getRowSize(); j++) {
+            for (int k = 0; k < level.getBoardData().getColumnSize(); k++) {
 
                 //Loads tiles from SavedLevel.txt file
                 //System.out.println(level.getBoardData().getTileFromBoard(j,k).getType());
-                ImageView tile = new ImageView("resources/" + level.getBoardData().getTileFromBoard(j,k).getType() + ".png");
+                ImageView tile = new ImageView("resources/" + level.getBoardData().getTileFromBoard(j, k).getType() + ".png");
 
                 //sets tiles to specified size
                 tile.setFitHeight(size);
                 tile.setFitWidth(size);
 
                 //rotates the tile depending on orientation
-                tile.setRotate(level.getBoardData().getTileFromBoard(j,k).getOrientation());
-                tileGrid.add(tile, j,k);
+                tile.setRotate(level.getBoardData().getTileFromBoard(j, k).getOrientation());
+                tileGrid.add(tile, j, k);
+                checkPlayerNull(j, k, tile);
+
             }
         }
 
+    }
+
+    private void checkPlayerNull(int j, int k, ImageView tile) {
+        Player aPlayer = null;
+        //players
+        for (Player player : level.getPlayerData()) {
+            if (player.getPlayerCordX() == j && player.getPlayerCordY() == k) {
+                aPlayer = player;
+                break;
+            }
+        }
+
+        if (aPlayer != null) {
+            ImageView playerIv = new ImageView("/resources/playerImg.png");
+            //sets tiles to specified size
+            playerIv.setFitHeight(size);
+            playerIv.setFitWidth(size);
+
+            StackPane pane = new StackPane();
+            pane.getChildren().add(tile);
+            pane.getChildren().add(playerIv);
+
+            tileGrid.add(pane, j, k);
+
+
+        }
     }
 
     public void refreshBoard() {
@@ -113,8 +160,10 @@ public class BoardController implements Initializable {
                 tile.setFitWidth(size);
 
                 //rotates the tile depending on orientation
-                tile.setRotate(level.getBoardData().getTileFromBoard(j,k).getOrientation());
-                tileGrid.add(tile, j,k);
+                tile.setRotate(level.getBoardData().getTileFromBoard(j, k).getOrientation());
+                tileGrid.add(tile, j, k);
+
+                checkPlayerNull(j, k, tile);
             }
         }
 
