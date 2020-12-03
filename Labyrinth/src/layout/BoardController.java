@@ -45,16 +45,24 @@ public class BoardController implements Initializable {
     private EventHandler<KeyEvent> keyListener = event -> {
         if (event.getCode() == KeyCode.UP) {
             level.pressUpFlag = true;
+            gameFlow.flow();
+            refreshBoard();
             System.out.println("UP");
         } else if (event.getCode() == KeyCode.DOWN) {
-            level.pressDownFlag = false;
+            level.pressDownFlag = true;
             System.out.println("DOWN");
+            gameFlow.flow();
+            refreshBoard();
         } else if (event.getCode() == KeyCode.LEFT) {
             level.pressLeftFlag = true;
             System.out.println("LEFT");
+            gameFlow.flow();
+            refreshBoard();
         } else if (event.getCode() == KeyCode.RIGHT) {
             level.pressRightFlag = true;
             System.out.println("RIGHT");
+            gameFlow.flow();
+            refreshBoard();
         }
         event.consume();
     };
@@ -90,6 +98,7 @@ public class BoardController implements Initializable {
             drawTileBtn.setOnKeyPressed(keyListener);
             gameFlow.flow();
             refreshBoard();
+            event.consume();
         });
         endTurnBtn.setOnAction(event -> {
             level.endTurnFlag = true;
@@ -118,31 +127,27 @@ public class BoardController implements Initializable {
 
             }
         }
-
     }
 
     private void checkPlayerNull(int j, int k, ImageView tile) {
-        Player aPlayer = null;
-        //players
-        for (Player player : level.getPlayerData()) {
-            if (player.getPlayerCordX() == j && player.getPlayerCordY() == k) {
-                aPlayer = player;
-                break;
-            }
-        }
+//        Player aPlayer = null;
+//        //players
+//        for (Player player : level.getPlayerData()) {
+//            if (player.getPlayerCordX() == j && player.getPlayerCordY() == k) {
+//                aPlayer = player;
+//                break;
+//            }
+//        }
 
-        if (aPlayer != null) {
+        if (level.getBoardData().getPlayerFromBoard(j, k) != null) {
             ImageView playerIv = new ImageView("/resources/playerImg.png");
             //sets tiles to specified size
             playerIv.setFitHeight(size);
             playerIv.setFitWidth(size);
-
             StackPane pane = new StackPane();
             pane.getChildren().add(tile);
             pane.getChildren().add(playerIv);
-
             tileGrid.add(pane, j, k);
-
 
         }
     }
@@ -162,7 +167,6 @@ public class BoardController implements Initializable {
                 //rotates the tile depending on orientation
                 tile.setRotate(level.getBoardData().getTileFromBoard(j, k).getOrientation());
                 tileGrid.add(tile, j, k);
-
                 checkPlayerNull(j, k, tile);
             }
         }

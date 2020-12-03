@@ -228,16 +228,15 @@ public class Board {
      * @param oldX The x co-ordinate of the old position.
      * @param oldY The x co-ordinate of the old position.
      */
-    public void movePlayer(int newX, int newY, int oldX, int oldY) {
+    public void movePlayer(int oldX, int oldY, int newX, int newY) {
         if(checkPlayerBounds(newX, newY)) {
-        } else {
             insertPlayer(newX, newY, getPlayerFromBoard(oldX, oldY));
             insertPlayer(oldX, oldY, null);
-
         }
     }
+
     private boolean checkPlayerBounds(int x, int y) {
-        if(x < 0 || y < 0) {
+        if((0 > x || (x > getRowSize() - 1)|| 0 > y || y > getColumnSize() - 1)) {
             System.out.println("Player out of bounds");
             return false;
         } else {
