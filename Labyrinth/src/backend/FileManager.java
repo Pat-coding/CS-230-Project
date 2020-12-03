@@ -235,9 +235,11 @@ public class FileManager {
                 levelWriter.write("\n" + player[0].getBackTrackCheck() + "," + player[1].getBackTrackCheck() + ","
                         + player[2].getBackTrackCheck() + "," + player[3].getBackTrackCheck() + "\n");
                 //  ENTIRE BOARD
-                for (int j = 0; j < board.getRowSize()*board.getColumnSize(); j++) {
-                    for (int k = 0; k < board.getRowSize()*board.getColumnSize(); k++) {
-                        levelWriter.write(board.getTileFromBoard(j,k) + "\n");
+                for (int j = 0; j < board.getRowSize(); j++) {
+                    for (int k = 0; k < board.getColumnSize(); k++) {
+                        levelWriter.write(j + "," + k + "," + board.getTileFromBoard(j,k).getType()
+                        + "," + board.getTileFromBoard(j,k).getOrientation() + ",Normal,"
+                        + board.getTileFromBoard(j,k).isFixed() + "\n");
                     }
                 }
             } catch (IOException e) {
