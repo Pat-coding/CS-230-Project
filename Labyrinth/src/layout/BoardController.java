@@ -124,7 +124,7 @@ public class BoardController implements Initializable {
      * the arrow is clicked
      */
     private void onClickArrow(int x, int y, Image arrow){
-
+        refreshBoard();
 
         //  For debugging
         System.out.println(x + "," + y);
