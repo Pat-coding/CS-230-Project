@@ -22,7 +22,8 @@
                   <items>
                     <MenuItem fx:id="sortWins" mnemonicParsing="false" text="Sort by wins" />
                     <MenuItem fx:id="sortLoss" mnemonicParsing="false" text="Sort by losses" />
-                    <MenuItem fx:id="gamesPlayed" mnemonicParsing="false" text="Sort by games played" />
+                    <MenuItem fx:id="sortGamesPlayed" mnemonicParsing="false" text="Sort by games played" />
+                    <MenuItem fx:id="sortWinRatio" mnemonicParsing="false" text="Sort by win ratio" />
                   </items>
                 </Menu>
               </menus>

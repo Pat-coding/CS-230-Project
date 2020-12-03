@@ -43,24 +43,25 @@ public class MainMenu {
     }
 
     //Opens new LaunchNewGame window
-    public void launchNewGame(javafx.event.ActionEvent actionEvent) throws IOException {
-        Game game = new Game(primaryStage, savedLevels.get(0));
+    public void launchNewGame(){
+        ProfileSelectLoader loader = new ProfileSelectLoader(primaryStage, profiles);
+        //Game game = new Game(primaryStage, savedLevels.get(0));
     }
 
     //Opens new launchLoadGame window
-    public void launchLoadGame(javafx.event.ActionEvent actionEvent) throws IOException {
+    public void launchLoadGame() {
         LoadMenuLoader loadMenuLoader = new LoadMenuLoader(primaryStage, savedLevels);
 
     }
 
     //Opens new launchLeaderBoards window
-    public void launchLeaderBoards(javafx.event.ActionEvent actionEvent) throws IOException {
+    public void launchLeaderBoards() {
 //        BorderPane pane = FXMLLoader.load(getClass().getResource("Leaderboards.fxml"));
 //        rootPane.getChildren().setAll(pane);
-        LeaderboardLoader leaderboards = new LeaderboardLoader(primaryStage, profiles);
+          LeaderboardLoader leaderboards = new LeaderboardLoader(primaryStage, profiles);
 
     }
-    public void launchInventory(javafx.event.ActionEvent actionEvent) throws IOException{
+    public void launchInventory() throws IOException{
         BorderPane pane = FXMLLoader.load(getClass().getResource("InventoryController.fxml"));
         rootPane.getChildren().setAll(pane);
     }

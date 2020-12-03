@@ -83,8 +83,7 @@ public class LoadGame implements Initializable {
      */
     private void deleteSaveFile(){
         //Get the index of the selected save file from the list
-        selectedIndex =
-                savedLevels.getSelectionModel().getSelectedIndex();
+        selectedIndex = savedLevels.getSelectionModel().getSelectedIndex();
 
         //check if user has selected an item
         if (selectedIndex<0){
@@ -92,8 +91,7 @@ public class LoadGame implements Initializable {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("ERROR");
             alert.setHeaderText(null);
-            alert.setContentText(
-                    "Please select a save file before proceeding.");
+            alert.setContentText("Please select a save file before proceeding.");
             alert.showAndWait();
         } else {
             //removes save from the list

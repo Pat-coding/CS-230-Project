@@ -9,9 +9,9 @@ public class Leaderboard {
     private ArrayList<Profile> profileList;
     private int sortType;
 
-//    public Leaderboard(ArrayList<Profile> profiles, int sortType, boolean asc){
-//        this.profileList = sort(profiles, sortType, asc);
-//    }
+    public Leaderboard(ArrayList<Profile> profiles, int sortType, boolean asc){
+        this.profileList = sort(profiles, sortType, asc);
+    }
 
     public int getSortType() {
         return sortType;

@@ -1,5 +1,3 @@
-//Sample code to test the connections between Menu
-
 package layout;
 
 import backend.Leaderboard;
@@ -8,10 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuButton;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import backend.Leaderboard;
@@ -23,28 +18,31 @@ import java.util.ResourceBundle;
 
 public class Leaderboards implements Initializable {
 
-    @FXML
-    private Button backToMenuBtn;
-    @FXML
-    private MenuButton sortWins;
-    @FXML
-    private MenuBar sortLoss;
-    @FXML
-    private MenuButton gamesPlayed;
-    @FXML
-    private ListView<String> profileList;
+    @FXML private Button backToMenuBtn;
+    @FXML private MenuItem sortWins;
+    @FXML private MenuItem sortLoss;
+    @FXML private MenuItem sortGamesPlayed;
+    @FXML private ListView<String> profileList;
 
     private Leaderboard leaderboard;
     private Stage stage;
     private ArrayList<Profile> profiles;
 
+    private ArrayList<Profile> sortedWins;
+    private ArrayList<Profile> sortedLosses;
+    private ArrayList<Profile> sortedGamesPlayed;
+
     public Leaderboards(Stage stage, ArrayList<Profile> profiles){
         this.profiles = profiles;
         this.stage = stage;
+        sortedWins = new Leaderboard(profiles, 0, true).getLeaderboard();
+        sortedLosses = new Leaderboard(profiles, 1, true).getLeaderboard();
+        sortedGamesPlayed = new Leaderboard(profiles, 3, true).getLeaderboard();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         backToMenuBtn.setOnAction(e -> {
             goBackToMenu();
         });
@@ -52,19 +50,49 @@ public class Leaderboards implements Initializable {
         sortWins.setOnAction(e -> {
             sortByWins();
         });
+
+        sortLoss.setOnAction(event -> {
+            sortByLoss();
+        });
+
+        sortGamesPlayed.setOnAction(e -> {
+            sortGamesPlayed();
+        });
+
+        refreshLeaderboard();
     }
 
-
-//    public void displayProfiles() {
-//        profiles
-//    }
-
-
-    public void sortByWins(){
-        leaderboard.sort(profiles, 0, true);
-        for (int i = 0; i<profiles.size(); i++) {
-            //profileList.getItems().add(leaderboard.getLeaderboard().get());
+    private void refreshLeaderboard(){
+        profileList.getItems().clear();
+        for(Profile i : profiles){
+            profileList.getItems().add(i.getProfileName());
         }
+    }
+
+    public void displayProfiles() {
+
+    }
+
+    public void sortByWins() {
+        profileList.getItems().clear();
+        System.out.println("Sorting by wins");
+        for (Profile i : sortedWins){
+            profileList.getItems().add(i.getProfileName());
+        }
+    }
+
+    private void sortGamesPlayed() {
+        profileList.getItems().clear();
+        System.out.println("Sorting by games played");
+        for (Profile i : sortedGamesPlayed)
+            profileList.getItems().add(i.getProfileName());
+    }
+
+    private void sortByLoss() {
+        profileList.getItems().clear();
+        System.out.println("Sorting by losses");
+        for (Profile i : sortedLosses)
+            profileList.getItems().add(i.getProfileName());
     }
 
     public void goBackToMenu() {
@@ -74,6 +102,5 @@ public class Leaderboards implements Initializable {
         } catch (Exception e){
             e.printStackTrace();
         }
-
     }
 }
