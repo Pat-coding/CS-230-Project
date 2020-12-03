@@ -156,9 +156,9 @@ public class BoardController implements Initializable {
     public void setupArrows() {
         topGrid.setTranslateX(size);
         bottomGrid.setTranslateX(size);
-        for (int x = 0; x < level.getBoardData().getColumnSize(); x++) {
-            for (int y = 0; y < level.getBoardData().getRowSize(); y++) {
-                if (x == 0) {
+        for (int x = 0; x < level.getBoardData().getRowSize(); x++) {
+            for (int y = 0; y < level.getBoardData().getColumnSize(); y++) {
+                if (x == level.getBoardData().getRowSize() - 1) {
                     ImageView tileImg = new ImageView();
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
@@ -174,7 +174,7 @@ public class BoardController implements Initializable {
                         event.consume();
                     });
 
-                } else if (x == level.getBoardData().getRowSize() - 1) {
+                } else if (x == 0) {
                     ImageView tileImg = new ImageView();
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
