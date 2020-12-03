@@ -138,59 +138,6 @@ public class Board {
 
 
     /**
-     * The method which is used to insert a new tile into a row.
-     * @param c Cardinal direction
-     * @param x the x position of the new Tile
-     * @param y the y position of the new Tile
-     * @param tile the new Tile
-     * @return the old tile
-     */
-    public void insertTileIntoRow(Cardinals c, int x, int y, FloorTile tile) {
-        FloorTile discardedTile;
-        if (c == Cardinals.LEFT) { //push from left -> right
-            discardedTile = getTileFromBoard(getRowSize() - 1, y);
-            for (int row = getRowSize() - 1; row > 0; row--) {
-                insertTile(row, y, getTileFromBoard(row - 1, y));
-            }
-            insertTile(0, y, tile);
-
-        } else  { //push from right -> left
-            discardedTile = getTileFromBoard(0, y);
-            for (int row = 0; row < getRowSize() - 1; row++) {
-                insertTile(row, y, getTileFromBoard(row + 1, y));
-            }
-            insertTile(getColumnSize() - 1, y, tile);
-        }
-    }
-
-
-    /**
-     * The method which is used to insert a new tile into a column.
-     * @param c Cardinal direction
-     * @param x the x position of the new Tile
-     * @param y the y position of the new Tile
-     * @param tile the new Tile
-     * @return the old tile
-     */
-    public void insertTileIntoCol(Cardinals c, int x, int y, FloorTile tile) {
-        FloorTile discardedTile;
-        if (c == Cardinals.TOP) { //push from top -> bottom
-            discardedTile = getTileFromBoard(x, getColumnSize() - 1);
-            for (int row = getRowSize() - 1; row > 0; row--) {
-                insertTile(row, y, getTileFromBoard(row - 1, y));
-            }
-            insertTile(x, 0, tile);
-
-        } else  { //push from right -> left
-            discardedTile = getTileFromBoard(x, 0);
-            for (int row = 0; row < getRowSize() - 1; row++) {
-                insertTile(row, y, getTileFromBoard(row + 1, y));
-            }
-            insertTile(x, getColumnSize() - 1, tile);
-        }
-    }
-
-    /**
      * Check to see if any Fixed Tiles are present inside of a particular row of the board.
      *
      * @param y the row in question.

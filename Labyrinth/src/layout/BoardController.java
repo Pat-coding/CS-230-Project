@@ -157,6 +157,7 @@ public class BoardController implements Initializable {
                         refreshBoard();
                         System.out.println("arrow facing left pressed ");
                         onClickArrow(xx, yy, arrowRight);
+                        level.setTempCardinal(Board.Cardinals.RIGHT);
                         event.consume();
                     });
 
@@ -173,7 +174,7 @@ public class BoardController implements Initializable {
                         refreshBoard();
                         System.out.println("arrow facing right pressed");
                         onClickArrow(xx, yy, arrowLeft);
-                        level.setTempCardinal(Board.Cardinals.RIGHT);
+                        level.setTempCardinal(Board.Cardinals.LEFT);
                         event.consume();
                     });
 
@@ -191,7 +192,7 @@ public class BoardController implements Initializable {
                         refreshBoard();
                         System.out.println("arrow facing down pressed");
                         onClickArrow(xx, yy, arrowUp);
-                        level.setTempCardinal(Board.Cardinals.BOTTOM);
+                        level.setTempCardinal(Board.Cardinals.TOP);
                         event.consume();
                     });
 
@@ -208,7 +209,7 @@ public class BoardController implements Initializable {
                         refreshBoard();
                         System.out.println("arrow facing up pressed");
                         onClickArrow(xx, yy, arrowDown);
-                        level.setTempCardinal(Board.Cardinals.TOP);
+                        level.setTempCardinal(Board.Cardinals.BOTTOM);
                         event.consume();
                     });
                 }
