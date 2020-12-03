@@ -1,5 +1,5 @@
 Ashley,Reece,James,Gorden
-LOLCATSAMIRITE
+WeNeedHelp
 20
 3,3
 2,2,2,2,2,2,2,2
@@ -18,7 +18,7 @@ true,false,false,false
 2,0,Corner,90,Normal,false
 0,2,Straight,0,Normal,false
 Ashley,Reece,James,Gorden
-TEST
+IMNOTLYINGWEAREDOOMED
 20
 3,3
 2,2,2,2,2,2,2,2

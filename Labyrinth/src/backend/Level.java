@@ -22,7 +22,6 @@ public class Level {
     public boolean drawTileFlag;
     public boolean arrowFlagPressedVert;
     public boolean arrowFlagPressedHorz;
-    public boolean endTurnButton;
     public boolean playerHasMovedFlag;
     public boolean endTurnFlag;
 

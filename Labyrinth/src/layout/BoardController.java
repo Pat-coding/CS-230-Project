@@ -97,6 +97,7 @@ public class BoardController implements Initializable {
                 tileGrid.add(tile, j,k);
             }
         }
+
     }
 
     public void refreshBoard() {
@@ -116,20 +117,33 @@ public class BoardController implements Initializable {
                 tileGrid.add(tile, j,k);
             }
         }
+
+        for (int j = 0; j < level.getBoardData().getColumnSize(); j++) {
+            for (int k = 0; k < level.getBoardData().getRowSize(); k++) {
+
+                //Loads tiles from SavedLevel.txt file
+                //System.out.println(level.getBoardData().getTileFromBoard(j,k).getType());
+                ImageView tile = new ImageView("resources/playerImg.png");
+
+                //sets tiles to specified size
+                tile.setFitHeight(size);
+                tile.setFitWidth(size);
+
+                //rotates the tile depending on orientation
+                tileGrid.add(tile, j,k);
+            }
+        }
+
     }
 
     /**
      * the arrow is clicked
      */
     private void onClickArrow(int x, int y, Image arrow){
-        Board.Cardinals c = Board.Cardinals.BOTTOM;
-        if (arrow == arrowDown){
-            c = Board.Cardinals.LEFT;
-        }else if (arrow == arrowLeft){
-            c = Board.Cardinals.RIGHT;
-        }else if (arrow == arrowDown){
-            c = Board.Cardinals.TOP;
-        }
+        //  Removes every thing on the screen
+        tileGrid.getChildren().removeAll();
+
+        //  For debugging
         System.out.println(x + "," + y);
 
         level.setTempX(x);
@@ -148,17 +162,15 @@ public class BoardController implements Initializable {
                     ImageView tileImg = new ImageView();
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
-                    tileImg.setImage(arrowRight);
-                    leftGrid.add(tileImg, x, y);
+                    tileImg.setImage(arrowLeft);
+                    rightGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
 
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                        System.out.println("arrowRight pressed ");
+                        refreshBoard();
+                        System.out.println("arrow facing left pressed ");
                         onClickArrow(xx, yy, arrowRight);
-
-                        level.arrowFlagPressedVert = true;
-                        level.setTempCardinal(Board.Cardinals.RIGHT);
                         event.consume();
                     });
 
@@ -166,41 +178,21 @@ public class BoardController implements Initializable {
                     ImageView tileImg = new ImageView();
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
-                    tileImg.setImage(arrowLeft);
-                    rightGrid.add(tileImg, x, y);
+                    tileImg.setImage(arrowRight);
+                    leftGrid.add(tileImg, x, y);
 
                     final int xx = x, yy = y;
 
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                        System.out.println("arrowLeft pressed ");
+                        refreshBoard();
+                        System.out.println("arrow facing right pressed");
                         onClickArrow(xx, yy, arrowLeft);
-
-                        level.arrowFlagPressedVert = true;
-                        level.setTempCardinal(Board.Cardinals.LEFT);
+                        level.setTempCardinal(Board.Cardinals.RIGHT);
                         event.consume();
                     });
 
                 }
                 if (y == 0) {
-                    ImageView tileImg = new ImageView();
-                    tileImg.setFitHeight(size);
-                    tileImg.setFitWidth(size);
-                    tileImg.setImage(arrowUp);
-                    bottomGrid.add(tileImg, x, y);
-
-                    final int xx = x, yy = y;
-
-                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                        System.out.println("arrowUp pressed ");
-                        onClickArrow(xx, yy, arrowUp);
-
-                        level.arrowFlagPressedHorz = true;
-
-                        level.setTempCardinal(Board.Cardinals.TOP);
-                        event.consume();
-                    });
-
-                } else if (y == level.getBoardData().getColumnSize() - 1) { //4 is the board size, we will get board size from save files, this is just for testing right now.
                     ImageView tileImg = new ImageView();
                     tileImg.setFitHeight(size);
                     tileImg.setFitWidth(size);
@@ -210,11 +202,27 @@ public class BoardController implements Initializable {
                     final int xx = x, yy = y;
 
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                        System.out.println("arrowDown pressed ");
-                        onClickArrow(xx, yy, arrowDown);
-                        level.arrowFlagPressedHorz = true;
-
+                        refreshBoard();
+                        System.out.println("arrow facing down pressed");
+                        onClickArrow(xx, yy, arrowUp);
                         level.setTempCardinal(Board.Cardinals.BOTTOM);
+                        event.consume();
+                    });
+
+                } else if (y == level.getBoardData().getColumnSize() - 1) { //4 is the board size, we will get board size from save files, this is just for testing right now.
+                    ImageView tileImg = new ImageView();
+                    tileImg.setFitHeight(size);
+                    tileImg.setFitWidth(size);
+                    tileImg.setImage(arrowUp);
+                    bottomGrid.add(tileImg, x, y);
+
+                    final int xx = x, yy = y;
+
+                    tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                        refreshBoard();
+                        System.out.println("arrow facing up pressed");
+                        onClickArrow(xx, yy, arrowDown);
+                        level.setTempCardinal(Board.Cardinals.TOP);
                         event.consume();
                     });
                 }
