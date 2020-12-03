@@ -228,6 +228,9 @@ public class FileManager {
                     }
                 }
 
+                // Player Turn
+                levelWriter.write("\n" + player[0].getPlayerTurn() + "," + player[1].getPlayerTurn() + ","
+                        + player[2].getPlayerTurn() + "," + player[3].getPlayerTurn());
                 //  Backtrack
                 levelWriter.write("\n" + player[0].getBackTrackCheck() + "," + player[1].getBackTrackCheck() + ","
                         + player[2].getBackTrackCheck() + "," + player[3].getBackTrackCheck() + "\n");
