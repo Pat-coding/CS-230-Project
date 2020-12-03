@@ -45,9 +45,9 @@ public class BoardController implements Initializable {
     private EventHandler<KeyEvent> keyListener = event -> {
         if (event.getCode() == KeyCode.UP) {
             level.pressUpFlag = true;
+            System.out.println("UP");
             gameFlow.flow();
             refreshBoard();
-            System.out.println("UP");
         } else if (event.getCode() == KeyCode.DOWN) {
             level.pressDownFlag = true;
             System.out.println("DOWN");
@@ -130,14 +130,6 @@ public class BoardController implements Initializable {
     }
 
     private void checkPlayerNull(int j, int k, ImageView tile) {
-//        Player aPlayer = null;
-//        //players
-//        for (Player player : level.getPlayerData()) {
-//            if (player.getPlayerCordX() == j && player.getPlayerCordY() == k) {
-//                aPlayer = player;
-//                break;
-//            }
-//        }
 
         if (level.getBoardData().getPlayerFromBoard(j, k) != null) {
             ImageView playerIv = new ImageView("/resources/playerImg.png");
@@ -177,19 +169,13 @@ public class BoardController implements Initializable {
      * the arrow is clicked
      */
     private void onClickArrow(int x, int y, Image arrow){
-        refreshBoard();
-
-        //  For debugging
         System.out.println(x + "," + y);
-
         level.setTempX(x);
         level.setTempY(y);
         gameFlow.flow();
-
         //  Removes every thing on the screen
-        tileGrid.getChildren().removeAll();
-
         refreshBoard();
+        tileGrid.getChildren().removeAll();
     }
 
     public void setupArrows() {
