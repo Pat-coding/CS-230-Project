@@ -17,4 +17,9 @@ public class DoubleMoveTile extends ActionTile {
         return typeOfTile;
     }
 
+    @Override
+    public int getOrientation() {
+        return 0;
+    }
+
 }

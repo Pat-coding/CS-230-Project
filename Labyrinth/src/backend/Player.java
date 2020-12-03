@@ -11,7 +11,10 @@ import Tiles.Tile;
  */
 
 
-
+/**
+ * A model a player. Each player has a profile, coordinates,
+ * inventory, coordinate history, history and a turn
+ */
 public class Player {
 
     private Profile profile;
@@ -23,6 +26,16 @@ public class Player {
     private boolean isPlayerTurn;
     private FloorTile tileHand;
 
+    /**
+     * Player instance constructor
+     * @param profile
+     * @param playerCordX
+     * @param playerCordY
+     * @param profileCordHistory
+     * @param playerInventory
+     * @param backTrackCheck
+     * @param isPlayerTurn
+     */
     public Player(Profile profile, int playerCordX,int playerCordY,int[] profileCordHistory,
                   ArrayList<Tile> playerInventory, boolean backTrackCheck, boolean isPlayerTurn){
         this.profile = profile;
@@ -34,61 +47,98 @@ public class Player {
         this.isPlayerTurn = isPlayerTurn;
     }
 
+    /**
+     * Getter for the profile
+     * @return profile
+     */
     public Profile getProfile() {
         return this.profile;
     }
 
+    /**
+     * Getter for the player's X coordinate
+     * @return X coordinate
+     */
     public int getPlayerCordX() {
         return this.playerCordX;
     }
 
+    /**
+     * Getter for the player's Y coordinate
+     * @return Y coordinate
+     */
     public int getPlayerCordY() {
         return this.playerCordY;
     }
 
+    /**
+     * Getter for the player's coordinate history
+     * @return coordinate history
+     */
     public int[] getProfileCordHistory() {
         return this.profileCordHistory;
     }
 
+    /**
+     * Getter for the player's inventory
+     * @return player's inventory
+     */
     public ArrayList<Tile> getPlayerInventory() {
         return this.playerInventory;
     }
 
+    /**
+     * Getter the back track check
+     * @return back track check
+     */
     public boolean getBackTrackCheck() {
         return this.backTrackCheck;
     }
 
+    /**
+     * Gets the player's turn
+     * @return True if it's the player's turn
+     */
     public boolean getPlayerTurn() {
         return this.isPlayerTurn;
     }
 
     /**
-     * This Method check if player is at win coords and if so increments that players win stat
-     *
+     * Checks if player is at win coords and
+     * if so increments that players win stat
      */
-
     public void incPlayerWin() {
         profile.incrementWinCount();
     }
 
+    /**
+     * Increments players loss stat if the
+     * player isn't on win coords
+     */
     public void incPlayerLoss() {
         profile.incrementLoseCount();
     }
 
     /**
      * This Method flips player turn after they have finished their turn
-     *
      * @return Boolean result
      */
     public void playerTurn(){
         isPlayerTurn = !isPlayerTurn;
     }
 
-
+    /**
+     * Getter for the tile's in hand
+     * @return tile's in hand
+     */
     public FloorTile getTileHand() {
         return tileHand;
     }
 
+    /**
+     * Setter for tile hand
+     * @param tileHand
+     */
     public void setTileHand(FloorTile tileHand) {
         this.tileHand = tileHand;
     }

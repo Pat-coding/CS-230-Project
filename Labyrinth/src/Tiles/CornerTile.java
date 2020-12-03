@@ -11,7 +11,7 @@ public class CornerTile extends FloorTile {
     private boolean accessFromRight = true;
     private boolean isFixed;
     private int orientation;
-    private String typeOfTile = "CornerTile";
+    private String typeOfTile = "Corner";
     private String image = "PATH";
 
     public CornerTile(int orientation, String state, Boolean isFixed) {
