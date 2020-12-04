@@ -16,16 +16,14 @@ public class Level {
             FileManager.readLevelDataFile("SavedLevel.txt", "Saved Level");
 
     public boolean saveButtonFlag;
-    public boolean movementFlag;
     public boolean pressLeftFlag;
     public boolean pressRightFlag;
     public boolean pressDownFlag;
     public boolean pressUpFlag;
     public boolean drawTileFlag;
-    public boolean arrowFlagPressedVert;
-    public boolean arrowFlagPressedHorz;
     public boolean playerHasMovedFlag;
     public boolean endTurnFlag;
+    public boolean playerWinFlag;
 
 
     private int tempX;

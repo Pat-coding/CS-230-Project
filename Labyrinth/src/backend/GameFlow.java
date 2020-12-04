@@ -148,6 +148,8 @@ public class GameFlow {
             if (checkWin()) {
                 declareWinner(playerIndex);
                 endGame();
+                level.playerWinFlag = true;
+
             } else {
                 incPlayerTurn();
             }
