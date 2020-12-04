@@ -33,6 +33,7 @@ public class Board {
     private FloorTile[][] tileCoordinates;
     private Player[][] playerCoordinates;
     private HashMap<FloorTile, Integer> statusTime = new HashMap<>();
+    public Player tempPlayer;
 
     /**
      * Constructor for a saved level format.
@@ -200,10 +201,15 @@ public class Board {
 //                        getTileFromBoard(x, row - 1).getState().equals("FIRE")) {
 //                    updateStatusKey(x, row, getTileFromBoard(x, row - 1));
 //                } else {
+                slidePlayerWithBoard(c, x, row);
                 insertTile(x, row, getTileFromBoard(x, row - 1));
 //                }
             }
             insertTile(x, 0, tile);
+            if(tempPlayer != null) {
+                insertPlayer(x, 0, tempPlayer);
+                tempPlayer = null;
+            }
             return discardedTile;
         } else if (c == Cardinals.BOTTOM) {//push from bottom to up
             FloorTile discardedTile = getTileFromBoard(x, getRowSize() - 1);
@@ -212,10 +218,16 @@ public class Board {
 //                        getTileFromBoard(x, row + 1).getState().equals("FIRE")) {
 //                    updateStatusKey(x, row, getTileFromBoard(x, row + 1));
 //                } else {
+                slidePlayerWithBoard(c, x, row);
                 insertTile(x, row, getTileFromBoard(x, row + 1));
+
 //                }
             }
             insertTile(x, getRowSize() - 1, tile);
+            if(tempPlayer != null) {
+                insertPlayer(x, getRowSize() - 1, tempPlayer);
+                tempPlayer = null;
+            }
             return discardedTile;
         } else if (c == Cardinals.LEFT) { //push from left -> right
             FloorTile discardedTile = getTileFromBoard(x, getColumnSize() - 1);
@@ -224,10 +236,16 @@ public class Board {
 //                        getTileFromBoard(col - 1, y).getState().equals("FIRE")) {
 //                    updateStatusKey(col, y, getTileFromBoard(col - 1, y));
 //                } else {
+                slidePlayerWithBoard(c, col, y);
                 insertTile(col, y, getTileFromBoard(col - 1, y));
+
 //                }
             }
             insertTile(0, y, tile);
+            if(tempPlayer != null) {
+                insertPlayer(0, y, tempPlayer);
+                tempPlayer = null;
+            }
             return discardedTile;
         } else if (c == Cardinals.RIGHT) { //push from right -> left
             FloorTile discardedTile = getTileFromBoard(getColumnSize() - 1, y);
@@ -236,10 +254,16 @@ public class Board {
 //                        getTileFromBoard(col + 1, y).getState().equals("FIRE")) {
 //                    updateStatusKey(col, y, getTileFromBoard(col + 1, y));
 //                } else {
+                slidePlayerWithBoard(c, col, y);
                 insertTile(col, y, getTileFromBoard(col + 1, y));
+
 //                }
             }
             insertTile(getColumnSize() - 1, y, tile);
+            if(tempPlayer != null) {
+                insertPlayer(getColumnSize() - 1, y, tempPlayer);
+                tempPlayer = null;
+            }
             return discardedTile;
         }
         return null;
@@ -268,8 +292,71 @@ public class Board {
         return null;
     }
 
+    public void slidePlayerWithBoard(Cardinals c, int x, int y) {
+        //if there is no player on the next tile or a player at the end of the tile
+        if(getPlayerFromBoard(x, y) == null || !checkIfPlayerEndTile(x, y, c)) {
+            if (c == Cardinals.TOP && getPlayerFromBoard(x, y) != null ) {
+                movePlayer(x, y - 1, x, y);
+            } else if (c == Cardinals.BOTTOM || getPlayerFromBoard(x, y) != null) {
+                movePlayer(x, y + 1, x, y);
+            } else if (c == Cardinals.LEFT || getPlayerFromBoard(x, y) != null) {
+                movePlayer(x - 1, y, x, y);
+            } else if (c == Cardinals.RIGHT || getPlayerFromBoard(x, y) != null) {
+                movePlayer(x + 1, y, x, y);
+            }
+            //if there is a player at the end of the tile or there is no player on the next tile
+        } else if(getPlayerFromBoard(x, y) == null || checkIfPlayerEndTile(x, y, c)) {
+            movePlayerFromEndTile(c, x, y);
+            //
+        } else if(getPlayerFromBoard(x, y) != null || !checkIfPlayerEndTile(x, y, c)) {
+            System.out.println("hello123");
+        }
+    }
 
+    /**
+     * Method checks if there is a player at the end of the tile.
+     *
+     * @param x
+     * @param y
+     * @param c
+     * @return
+     */
+    private boolean checkIfPlayerEndTile(int x, int y, Cardinals c) {
+        if (c == Cardinals.TOP) {
+            return getPlayerFromBoard(x, getColumnSize() - 1) != null;
+        } else if (c == Cardinals.BOTTOM) {
+            return getPlayerFromBoard(x, 0) != null;
+        } else if (c == Cardinals.LEFT) {
+            return getPlayerFromBoard(getRowSize() - 1, y) != null;
+        } else if (c == Cardinals.RIGHT) {
+            return getPlayerFromBoard(0, y) != null;
+        }
+        return false;
 
+    }
+
+    /**
+     * Move player when their player piece is at the end of the tile placement.
+     *
+     * @param x The x co-ordinate of the new position of the player.
+     * @param y The y co-ordinate of the new position of the player.
+     * @param c The cardinal place of the tile insertion.
+     */
+    public void movePlayerFromEndTile(Cardinals c, int x, int y) {
+        if (c == Cardinals.TOP && getPlayerFromBoard(x, 0) == null ) {
+            tempPlayer = getPlayerFromBoard(x, y);
+            movePlayer(x, y - 1, x, y);
+        } else if (c == Cardinals.BOTTOM && getPlayerFromBoard(x, getColumnSize() - 1) == null) {
+            tempPlayer = getPlayerFromBoard(x, y);
+            movePlayer(x, y + 1, x, y);
+        } else if (c == Cardinals.LEFT && getPlayerFromBoard(0, y) == null) {
+            tempPlayer = getPlayerFromBoard(x , y);
+            movePlayer(x - 1, y, x, y);
+        } else if (c == Cardinals.RIGHT && getPlayerFromBoard(getRowSize() - 1, y) == null) {
+            tempPlayer = getPlayerFromBoard(x, y);
+            movePlayer(x + 1, y, x, y);
+        }
+    }
 
     /**
      * @param x      The x co-ordinate of the player.

@@ -1,6 +1,8 @@
 package backend;
 
 
+import Tiles.FloorTile;
+
 import java.util.ArrayList;
 
 public class Level {
@@ -24,6 +26,7 @@ public class Level {
     public boolean arrowFlagPressedHorz;
     public boolean playerHasMovedFlag;
     public boolean endTurnFlag;
+
 
     private int tempX;
     private int tempY;
