@@ -269,9 +269,6 @@ public class Board {
         return null;
     }
 
-
-
-
     /**
      * Search and store the goal co-ordinate on the board.
      *
@@ -307,9 +304,6 @@ public class Board {
             //if there is a player at the end of the tile or there is no player on the next tile
         } else if(getPlayerFromBoard(x, y) == null || checkIfPlayerEndTile(x, y, c)) {
             movePlayerFromEndTile(c, x, y);
-            //
-        } else if(getPlayerFromBoard(x, y) != null || !checkIfPlayerEndTile(x, y, c)) {
-            System.out.println("hello123");
         }
     }
 

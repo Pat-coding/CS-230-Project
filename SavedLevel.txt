@@ -15,7 +15,7 @@ true,false,false,false
 1,2,Straight,270,Normal,false
 2,1,Straight,90,Normal,false
 2,2,Straight,90,Normal,false
-2,0,Corner,90,Normal,false
+2,0,Corner,0,Normal,false
 0,2,Straight,0,Normal,false
 Ashley,Reece,James,Gorden
 TEST

@@ -146,7 +146,6 @@ public class GameFlow {
                 level.getPlayerData()[playerIndex].setPlayerCordY((y - 1));
                 level.playerHasMovedFlag = true;
             }
-
         }
 
         if(level.pressDownFlag && !level.playerHasMovedFlag) {
@@ -159,8 +158,8 @@ public class GameFlow {
         }
 
         if(level.pressLeftFlag && !level.playerHasMovedFlag) {
-            if(checkPlayerBounds(x - 1, y) && checkPlayerMovement(x - 1, y, playerIndex)) {
-                movePlayer(x - 1, y, playerIndex);
+            if(checkPlayerBounds((x - 1), y) && checkPlayerMovement((x - 1), y, playerIndex)) {
+                movePlayer((x - 1), y, playerIndex);
                 level.pressLeftFlag = false;
                 level.getPlayerData()[playerIndex].setPlayerCordX(x - 1);
                 level.playerHasMovedFlag = true;
@@ -168,8 +167,8 @@ public class GameFlow {
         }
 
         if(level.pressRightFlag && !level.playerHasMovedFlag) {
-            if(checkPlayerBounds(x + 1, y) && checkPlayerMovement(x + 1, y, playerIndex)) {
-                movePlayer(x + 1, y, playerIndex);
+            if(checkPlayerBounds((x + 1), y) && checkPlayerMovement((x + 1), y, playerIndex)) {
+                movePlayer((x + 1), y, playerIndex);
                 level.pressRightFlag = false;
                 level.getPlayerData()[playerIndex].setPlayerCordX(x + 1);
                 level.playerHasMovedFlag = true;
@@ -263,24 +262,26 @@ public class GameFlow {
     }
 
     public boolean checkPlayerMovement(int x, int y, int playerIndex) {
-        int px = level.getPlayerData()[playerIndex].getPlayerCordX();
-        int py = level.getPlayerData()[playerIndex].getPlayerCordY();
+        int px = player[playerIndex].getPlayerCordX();
+        int py = player[playerIndex].getPlayerCordY();
 
-        if(level.getBoardData().getTileFromBoard(x, y) == null) {
+        //  if the tile is out of bounds
+        if(board.getTileFromBoard(x, y) == null) {
             return false;
         } else {
             if(x == px - 1) {
-                return level.getBoardData().getTileFromBoard(px, py).isAccessFromLeft() ==
-                        level.getBoardData().getTileFromBoard(x, y).isAccessFromRight();
+                //  if there are both false then that mean it returns true?
+                return board.getTileFromBoard(px, py).isAccessFromLeft() &&
+                        board.getTileFromBoard(x, y).isAccessFromRight();
             } else if(x == px + 1) {
-                return level.getBoardData().getTileFromBoard(px, py).isAccessFromRight() ==
-                        level.getBoardData().getTileFromBoard(x, y).isAccessFromLeft();
+                return board.getTileFromBoard(px, py).isAccessFromRight() &&
+                        board.getTileFromBoard(x, y).isAccessFromLeft();
             } else if(y == py - 1) {
-                return level.getBoardData().getTileFromBoard(px, py).isAccessFromTop() ==
-                        level.getBoardData().getTileFromBoard(x, y).isAccessFromBottom();
+                return board.getTileFromBoard(px, py).isAccessFromTop() &&
+                        board.getTileFromBoard(x, y).isAccessFromBottom();
             } else if(y == py + 1) {
-                return level.getBoardData().getTileFromBoard(px, py).isAccessFromBottom() ==
-                        level.getBoardData().getTileFromBoard(x, y).isAccessFromTop();
+                return board.getTileFromBoard(px, py).isAccessFromBottom() &&
+                        board.getTileFromBoard(x, y).isAccessFromTop();
             }
         }
         return false;
