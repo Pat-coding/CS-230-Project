@@ -18,6 +18,7 @@ public class LeaderboardController implements Initializable {
     @FXML private MenuItem sortWins;
     @FXML private MenuItem sortLoss;
     @FXML private MenuItem sortGamesPlayed;
+    @FXML private MenuItem sortWinRatio;
     @FXML private ListView<String> profileList;
 
     private Leaderboard leaderboard;
@@ -27,12 +28,14 @@ public class LeaderboardController implements Initializable {
     private ArrayList<Profile> sortedWins;
     private ArrayList<Profile> sortedLosses;
     private ArrayList<Profile> sortedGamesPlayed;
+    private ArrayList<Profile> sortedWinRatio;
 
     public LeaderboardController(Stage stage, ArrayList<Profile> profiles){
         this.profiles = profiles;
         this.stage = stage;
         sortedWins = new Leaderboard(profiles, 0, false).getLeaderboard();
         sortedLosses = new Leaderboard(profiles, 1, false).getLeaderboard();
+        sortedWinRatio = new Leaderboard(profiles, 2, false).getLeaderboard();
         sortedGamesPlayed = new Leaderboard(profiles, 3, false).getLeaderboard();
     }
 
@@ -44,6 +47,8 @@ public class LeaderboardController implements Initializable {
         sortWins.setOnAction(e -> sortByWins());
 
         sortLoss.setOnAction(event -> sortByLoss());
+
+        sortWinRatio.setOnAction(event -> sortByWinRatio());
 
         sortGamesPlayed.setOnAction(e -> sortGamesPlayed());
 
@@ -57,9 +62,6 @@ public class LeaderboardController implements Initializable {
         }
     }
 
-    public void displayProfiles() {
-
-    }
 
     public void sortByWins() {
         profileList.getItems().clear();
@@ -80,6 +82,13 @@ public class LeaderboardController implements Initializable {
         profileList.getItems().clear();
         System.out.println("Sorting by losses");
         for (Profile i : sortedLosses)
+            profileList.getItems().add(i.getProfileName());
+    }
+
+    private void sortByWinRatio(){
+        profileList.getItems().clear();
+        System.out.println("Sorting by winratio");
+        for (Profile i : sortedWinRatio)
             profileList.getItems().add(i.getProfileName());
     }
 

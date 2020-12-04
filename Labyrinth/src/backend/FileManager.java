@@ -538,9 +538,8 @@ public class FileManager {
             case "BackTrack"    :
                 tempTile = new BacktrackTile();
                 break;
-
             default:
-                System.out.println("An error has occurred createPlayerInv");
+                System.out.println("Why hello there ;)");
         }
         return tempTile;
     }
