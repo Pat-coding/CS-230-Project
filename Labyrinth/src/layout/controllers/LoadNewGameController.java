@@ -58,7 +58,14 @@ public class LoadNewGameController implements Initializable {
             //displays the selected level
             selectedIndex = mapList.getSelectionModel().getSelectedIndex();
             System.out.println(selectedIndex);
-            newLevel.get(selectedIndex).getSilkBag().populateRandomBoardTiles();
+
+            for(int i = 0; i < newLevel.get(selectedIndex).getBoardData().getColumnSize(); i++) {
+                for (int j = 0; j < newLevel.get(selectedIndex).getBoardData().getRowSize(); j++) {
+                    if (newLevel.get(selectedIndex).getBoardData().getTileFromBoard(i, j) == null) {
+                        newLevel.get(selectedIndex).getBoardData().insertTile(i, j, newLevel.get(selectedIndex).getSilkBag().populateRandomBoardTiles());
+                    }
+                }
+            }
             GameFlow.initiatePlayers(profiles , newLevel.get(selectedIndex));
             BoardLoader game = new BoardLoader(stage, newLevel.get(selectedIndex));
         }

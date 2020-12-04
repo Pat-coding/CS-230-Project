@@ -2,6 +2,7 @@ package backend;
 import java.util.Random;
 import Tiles.*;
 
+
 /**
  * @author Diana
  */
@@ -10,6 +11,7 @@ public class SilkBag {
 
     Random rand;
     private int[] silkBagContent;
+    private FloorTile tempTile;
 
     /**
      * @param silkBagContent 0th = Straight
@@ -72,24 +74,30 @@ public class SilkBag {
 
 
     public FloorTile populateRandomBoardTiles() {
-        int rnd = new Random().nextInt(silkBagContent.length);
-
-        if (silkBagContent[rnd] <= 0) {
+        int rnd = new Random().nextInt(4);
+        if (silkBagContent[rnd] < 1) {
             populateRandomBoardTiles();
         } else {
             silkBagContent[rnd] = silkBagContent[rnd] - 1;
             switch (rnd) {
                 case 0:
-                    return new StraightTile(randomOrientation(), "NORMAL", false);
+                    tempTile = new StraightTile(randomOrientation(), "NORMAL", false);
+                    break;
                 case 1:
-                    return new CornerTile(randomOrientation(), "NORMAL", false);
+                    tempTile = new CornerTile(randomOrientation(), "NORMAL", false);
+                    break;
                 case 2:
-                    return new TShapedTile(randomOrientation(), "NORMAL", false);
+                    tempTile = new TShapedTile(randomOrientation(), "NORMAL", false);
+                    break;
                 case 3:
-                    return new GoalTile(randomOrientation(), "NORMAL", false);
+                    tempTile = new GoalTile(randomOrientation(), "NORMAL", false);
+                    break;
+                default:
+                    tempTile = null;
+                    break;
             }
         }
-        return null;
+        return tempTile;
     }
 
     public int randomOrientation() {

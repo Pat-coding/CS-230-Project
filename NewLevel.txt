@@ -1,7 +1,8 @@
 Escape!!
 10,10
-0,0,10,0,0,10,10,10
+0,0,9,0,0,9,9,9
 100,100,100,0,100,100,100,100
-2
+3
+5,4,Straight,90,Normal
 5,5,Straight,90,Normal
-5,5,Straight,90,Normal
+6,6,Goal,0,Normal

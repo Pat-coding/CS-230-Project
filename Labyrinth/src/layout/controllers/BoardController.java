@@ -62,7 +62,7 @@ public class BoardController implements Initializable {
         }
         event.consume();
     };
-    int size = 80;
+    int size = 100;
     Image arrowDown = new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
     Image arrowUp = new Image(getClass().getResourceAsStream("/resources/arrowUP.png"));
     Image arrowLeft = new Image(getClass().getResourceAsStream("/resources/arrowLeft.png"));

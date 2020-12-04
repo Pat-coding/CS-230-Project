@@ -18,6 +18,7 @@ public class GameFlow {
     private boolean hasDrawn;
     private Board board;
     private SilkBag silkBag;
+    private static Player tempPlayer;
 
 
     /**
@@ -38,12 +39,17 @@ public class GameFlow {
 
     public static void initiatePlayers(ArrayList<Profile> profiles, Level level) {
         System.out.println("profile size: " + profiles.size());
-        Player[] tempPlayerArray = new Player[profiles.size() - 1];
+        Player[] tempPlayerArray = new Player[profiles.size() + 1];
         int[] spawnPoints = level.getSpawnPoints();
 
-        for (int i = 0; i < profiles.size() - 1; i++) {
-            Player tempPlayer = new Player(profiles.get(i), spawnPoints[i * 2], spawnPoints[(i * 2) + 1], new int[6],
-                    new ArrayList<>(), false, false);
+        for (int i = 0; i < profiles.size(); i++) {
+            if (i == 0) {
+                tempPlayer = new Player(profiles.get(i), spawnPoints[i * 2], spawnPoints[(i * 2) + 1], new int[6],
+                        new ArrayList<>(), false, true);
+            } else {
+                tempPlayer = new Player(profiles.get(i), spawnPoints[i * 2], spawnPoints[(i * 2) + 1], new int[6],
+                        new ArrayList<>(), false, false);
+            }
             tempPlayerArray[i] = tempPlayer;
             level.getBoardData().insertPlayer(spawnPoints[i * 2], spawnPoints[(i * 2) + 1], tempPlayer);
         }
