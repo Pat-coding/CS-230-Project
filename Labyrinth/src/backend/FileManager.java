@@ -249,28 +249,49 @@ public class FileManager {
 
                 //  Player inventory
                 for (int j = 0; j < player.length; j++) {
-                    //  If this is the last player
-                    if (j < player.length - 1) {
-                        //  If player inventory size is equal to 0
-                        if (player[j].getPlayerInventory().size() == 0) {
-                            levelWriter.write("NA;");
-                        } else {
-                            for (int k = 0; k < player[j].getPlayerInventory().size(); k++) {
-                                if (k ==  player[j].getPlayerInventory().size() - 1) {
-                                    levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0");
-                                } else if (k < player[j].getPlayerInventory().size()) {
-                                    levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0,");
-                                } else {
-                                    levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0;");
-                                }
-                            }
-                        }
-                    } else {
+                    System.out.println("This is the value of j " + j);
+                    if (j == player.length - 1) {
                         if (player[j].getPlayerInventory().size() == 0) {
                             levelWriter.write("NA\n");
                         } else {
                             for (int k = 0; k < player[j].getPlayerInventory().size(); k++) {
-                                levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0\n");
+                                if (player[j].getPlayerInventory().size() == 0) {
+                                    levelWriter.write("NA;");
+                                } else {
+                                    if (k == player[j].getPlayerInventory().size() - 1) {
+                                        levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0;");
+                                    } else {
+                                        levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0,");
+                                    }
+                                }
+                            }
+                        }
+                    } else if (player[j].getPlayerInventory().size() == 0) {
+                        levelWriter.write("NA;");
+                    }
+                    for (int k = 0; k < player[j].getPlayerInventory().size(); k++) {
+                        System.out.println("This is the value of k " + k);
+                        //  if j player is the last player
+                        if (j == player.length - 1) {
+                            //  will not write ; if j is the last element
+                            if (player[j].getPlayerInventory().size() == 0) {
+                                levelWriter.write("NA\n");
+                            } else {
+                                if (k == player[j].getPlayerInventory().size() - 1) {
+                                    levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0\n");
+                                } else {
+                                    levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0");
+                                }
+                            }
+                        } else {
+                            if (player[j].getPlayerInventory().size() == 0) {
+                                levelWriter.write("NA;");
+                            } else {
+                                if (k == player[j].getPlayerInventory().size() - 1) {
+                                    levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0;");
+                                } else {
+                                    levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0,");
+                                }
                             }
                         }
                     }
