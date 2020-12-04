@@ -1,4 +1,4 @@
-package layout;
+package layout.controllers;
 
 import Tiles.*;
 import backend.*;

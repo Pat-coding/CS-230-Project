@@ -1,15 +1,18 @@
-package layout;
+package layout.controllers;
 import backend.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import layout.loaders.LeaderboardLoader;
+import layout.loaders.LoadMenuLoader;
+import layout.loaders.ProfileSelectLoader;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainMenu {
+public class MainMenuController {
 
     private Stage primaryStage;
 
@@ -36,7 +39,7 @@ public class MainMenu {
 
     //Opens new LaunchNewGame window
     public void launchNewGame(){
-        ProfileSelectLoader loader = new ProfileSelectLoader(primaryStage, Level.profileArray);
+        ProfileSelectLoader loader = new ProfileSelectLoader(primaryStage, Level.profileArray, Level.newLevels);
         //Game game = new Game(primaryStage, savedLevels.get(0));
     }
 
