@@ -295,7 +295,7 @@ public class Board {
     public void slidePlayerWithBoard(Cardinals c, int x, int y) {
         //if there is no player on the next tile or a player at the end of the tile
         if(getPlayerFromBoard(x, y) == null || !checkIfPlayerEndTile(x, y, c)) {
-            if (c == Cardinals.TOP && getPlayerFromBoard(x, y) != null ) {
+            if (c == Cardinals.TOP || getPlayerFromBoard(x, y) != null ) {
                 movePlayer(x, y - 1, x, y);
             } else if (c == Cardinals.BOTTOM || getPlayerFromBoard(x, y) != null) {
                 movePlayer(x, y + 1, x, y);
