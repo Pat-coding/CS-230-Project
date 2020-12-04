@@ -37,11 +37,10 @@ public class BoardController implements Initializable {
     @FXML private ImageView doubleMoveImg;
 
     private Level level;
-    private Player[] player;
-    private int gameTurn;
-    private SilkBag silkBag;
     private int playerIndex;
     private GameFlow gameFlow;
+
+
     private EventHandler<KeyEvent> keyListener = event -> {
         if (event.getCode() == KeyCode.UP) {
             level.pressUpFlag = true;
@@ -74,11 +73,20 @@ public class BoardController implements Initializable {
     public BoardController(Level level) {
         this.level = level;
         //  This sets the turn to the player who is playing.
-        this.playerIndex = 0;
+        this.playerIndex = setPlayerIndex();
+        System.out.println("This is the player index " + this.playerIndex);
         //  Provides gameFlow with the level information as well as the information regarding the who's turn it is.
         this.gameFlow = new GameFlow(this.level, this.playerIndex);
     }
 
+    public int setPlayerIndex() {
+        for (int i = 0; i < level.getPlayerData().length; i++) {
+            if (level.getPlayerData()[i].getPlayerTurn() == true) {
+                return i;
+            }
+        }
+        return 0;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -125,6 +133,8 @@ public class BoardController implements Initializable {
             }
         }
     }
+
+
 
     private void setTiles(ImageView tile, int x, int y) {
         tile.setFitHeight(size);

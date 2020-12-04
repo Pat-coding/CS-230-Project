@@ -29,7 +29,7 @@ public class SilkBag {
     public void giveTile(Player player) {
         int rnd = new Random().nextInt(silkBagContent.length);
 
-        if (silkBagContent[rnd] < 0) {
+        if (silkBagContent[rnd] < 1) {
             giveTile(player);
         } else {
             silkBagContent[rnd] = silkBagContent[rnd] - 1;

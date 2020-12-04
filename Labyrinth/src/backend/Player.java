@@ -142,7 +142,7 @@ public class Player {
      * @return Boolean result
      */
     public void playerTurn(){
-        isPlayerTurn = !isPlayerTurn;
+        this.isPlayerTurn = !this.isPlayerTurn;
     }
 
     /**

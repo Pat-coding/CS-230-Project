@@ -205,12 +205,14 @@ public class GameFlow {
     public void incPlayerTurn() {
         // set the next player's turn to true (playerTurn method)
         // set the previous player's turn to false (playerTurn method)
-        this.player[this.playerIndex].playerTurn(); // set current players turn to false
-        this.playerIndex ++; // increment which players turn it is
-        if (this.playerIndex == this.player.length) { // loop back to first player if at end of player array
-            this.playerIndex = 0;
+        System.out.println("This player before switching" + player[playerIndex].getPlayerTurn());
+        player[playerIndex].playerTurn(); // set current players turn to false
+        System.out.println("This player after switching" + player[playerIndex].getPlayerTurn());
+        playerIndex ++; // increment which players turn it is
+        if (this.playerIndex == player.length) { // loop back to first player if at end of player array
+            playerIndex = 0;
         }
-        this.player[this.playerIndex].playerTurn(); // set next players turn to true
+        player[playerIndex].playerTurn(); // set next players turn to true
     }
 
 

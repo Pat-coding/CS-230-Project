@@ -19,7 +19,6 @@ public class FileManager {
      */
 
     private static Level loadSaveLevel(Scanner in) {
-        System.out.println("I am running -------------");
         //  Reads in lines as Strings
         String stringProfileName = in.next();
         String nameOfBoard = in.next();
@@ -35,12 +34,12 @@ public class FileManager {
 
         //  Changes the types of some Strings to more useful types.
         String[] profileName = stringToStringArray(stringProfileName);
-        String[] isPlayerTurn = stringToStringArray(stringIsPlayerTurn);
         int[] sizeOfBoard = stringToIntArray(stringSizeOfBoard);
         int[] profileCord = stringToIntArray(stringProfileCord);
         int[] profileCordHistory = stringToIntArray(stringProfileCordHistory);
         int[] silkBagContent = stringToIntArray(stringSilkBagContent);
-        Boolean backTrackCheck = Boolean.parseBoolean(stringBackTrackCheck);
+        Boolean[] backTrackCheck = stringToBooleanArray(stringBackTrackCheck);
+        Boolean[] isPlayerTurn = stringToBooleanArray(stringIsPlayerTurn);
 
         //  Reads in Profiles
         ArrayList<Profile> profiles;
@@ -118,15 +117,12 @@ public class FileManager {
                 }
                 arrayOfList[i].add(createPlayerInventoryTiles(playerInventoryTemp[j], Integer.parseInt(playerInventoryTemp[j+1])));
             }
-
-            System.out.println("Hello World " + i);
             Player tempPlayer = new Player(usedProfile.get(i), profileCordX[i], profileCordY[i], profileCordHistory,
-                    (ArrayList<Tile>) arrayOfList[i], backTrackCheck, Boolean.parseBoolean(isPlayerTurn[i]));
+                    (ArrayList<Tile>) arrayOfList[i], backTrackCheck[i], isPlayerTurn[i]);
 
             players[i] = tempPlayer;
-
-            System.out.println("X : " + profileCordX[i] + " Y : " + profileCordY[i]);
             tempBoard.insertPlayer(profileCordX[i], profileCordY[i], tempPlayer);
+
             playerInventoryArrayListTemp.clear();
         }
 
@@ -202,6 +198,7 @@ public class FileManager {
 
     public static void createNewSaveFile(ArrayList<Level> levelArray) {
 
+        //  Clear the file.
         try(PrintWriter dumpFile = new PrintWriter("SavedLevel.txt")) {
             dumpFile.print("");
         } catch (FileNotFoundException e) {
@@ -228,11 +225,12 @@ public class FileManager {
                 levelWriter.write(gameTurn + "\n");
                 levelWriter.write(board.getRowSize() + "," + board.getColumnSize() + "\n");
 
+                //  Prints X and Y cords for player
                 for (int j = 0; j < player.length; j++) {
                     if (j < player.length - 1) {
-                        levelWriter.write(player[j].getPlayerCordX() + "," + player[0].getPlayerCordY() + ",");
+                        levelWriter.write(player[j].getPlayerCordX() + "," + player[j].getPlayerCordY() + ",");
                     } else {
-                        levelWriter.write(player[j].getPlayerCordX() + "," + player[0].getPlayerCordY() + "\n");
+                        levelWriter.write(player[j].getPlayerCordX() + "," + player[j].getPlayerCordY() + "\n");
                     }
                 }
 
@@ -251,31 +249,76 @@ public class FileManager {
 
                 //  Player inventory
                 for (int j = 0; j < player.length; j++) {
-                    if (player[j].getPlayerInventory().size() == 0) {
-                        // levelWriter.write(player[j].getPlayerInventory().get(k).getType());
-                        levelWriter.write("NA;");
-                    }
-                    for (int k = 0; k < player[j].getPlayerInventory().size(); k++) {
-                        if (k < player[j].getPlayerInventory().size() - 1) {
-                            levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0,");
+                    //  If this is the last player
+                    if (j < player.length - 1) {
+                        //  If player inventory size is equal to 0
+                        if (player[j].getPlayerInventory().size() == 0) {
+                            levelWriter.write("NA;");
                         } else {
-                            levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0;");
+                            for (int k = 0; k < player[j].getPlayerInventory().size(); k++) {
+                                if (k ==  player[j].getPlayerInventory().size() - 1) {
+                                    levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0");
+                                } else if (k < player[j].getPlayerInventory().size()) {
+                                    levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0,");
+                                } else {
+                                    levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0;");
+                                }
+                            }
+                        }
+                    } else {
+                        if (player[j].getPlayerInventory().size() == 0) {
+                            levelWriter.write("NA\n");
+                        } else {
+                            for (int k = 0; k < player[j].getPlayerInventory().size(); k++) {
+                                levelWriter.write(player[j].getPlayerInventory().get(k).getType() + ",0\n");
+                            }
                         }
                     }
                 }
 
-                // Player Turn
-                levelWriter.write("\n" + player[0].getPlayerTurn() + "," + player[1].getPlayerTurn() + ","
-                        + player[2].getPlayerTurn() + "," + player[3].getPlayerTurn());
-                //  Backtrack
-                levelWriter.write("\n" + player[0].getBackTrackCheck() + "," + player[1].getBackTrackCheck() + ","
-                        + player[2].getBackTrackCheck() + "," + player[3].getBackTrackCheck() + "\n");
+                //  BackTrack check
+                for (int j = 0; j < player.length; j++) {
+                    if (j < player.length - 1) {
+                        levelWriter.write(player[i].getBackTrackCheck() + ",");
+                    } else {
+                        levelWriter.write(player[i].getBackTrackCheck() + "\n");
+                    }
+                }
+
+                //  Player Turn Check
+                for (int j = 0; j < player.length; j++) {
+                    System.out.println(board.getNameOfBoard() + " " + player[j].getPlayerTurn());
+                    if (j < player.length - 1) {
+                        levelWriter.write(player[j].getPlayerTurn() + ",");
+                    } else {
+                        levelWriter.write(player[j].getPlayerTurn() + "\n");
+                    }
+                }
+
                 //  ENTIRE BOARD
                 for (int j = 0; j < board.getRowSize(); j++) {
                     for (int k = 0; k < board.getColumnSize(); k++) {
-                        levelWriter.write(j + "," + k + "," + board.getTileFromBoard(j,k).getType()
-                        + "," + board.getTileFromBoard(j,k).getOrientation() + ",Normal,"
-                        + board.getTileFromBoard(j,k).isFixed() + "\n");
+                        //  is this the last board in the array
+                        if (i == levelArray.size() - 1) {
+                            //  Last element in last board array
+                            if (j == board.getRowSize() - 1 &&
+                                    k == board.getColumnSize() - 1) {
+
+                                levelWriter.write(j + "," + k + "," + board.getTileFromBoard(j,k).getType()
+                                        + "," + board.getTileFromBoard(j,k).getOrientation() + ",Normal,"
+                                        + board.getTileFromBoard(j,k).isFixed());
+                            } else {
+                                levelWriter.write(j + "," + k + "," + board.getTileFromBoard(j, k).getType()
+                                        + "," + board.getTileFromBoard(j, k).getOrientation() + ",Normal,"
+                                        + board.getTileFromBoard(j, k).isFixed() + "\n" + "");
+                            }
+
+                        } else {
+                            levelWriter.write(j + "," + k + "," + board.getTileFromBoard(j,k).getType()
+                                    + "," + board.getTileFromBoard(j,k).getOrientation() + ",Normal,"
+                                    + board.getTileFromBoard(j,k).isFixed() + "\n");
+                        }
+
                     }
                 }
             } catch (IOException e) {
@@ -290,7 +333,7 @@ public class FileManager {
      * @param profileArray takes in an ArrayList of profiles
      */
     public static void createNewProfile (ArrayList<Profile> profileArray) {
-
+        //  Clear the file
         try(PrintWriter dumpFile = new PrintWriter("Profiles.txt")) {
             dumpFile.print("");
         } catch (FileNotFoundException e) {
@@ -529,5 +572,22 @@ public class FileManager {
         }
         return returnVal;
     }
+
+    private static Boolean[] stringToBooleanArray(String a) {
+        String[] item = a.split("[,]");
+
+        Boolean [] returnVal = new Boolean[item.length];
+
+        for (int i = 0; i < item.length; i++) {
+            try {
+                returnVal[i] = Boolean.parseBoolean(item[i]);
+            } catch (NumberFormatException e) {
+                System.out.println(e);
+            }
+        }
+        return returnVal;
+    }
+
+
 
 }
