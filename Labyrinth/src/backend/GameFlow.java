@@ -215,7 +215,14 @@ public class GameFlow {
         player[playerIndex].playerTurn(); // set next players turn to true
     }
 
-
+    public void updatePlayer() {
+        for (int i = 0; i < player.length; i++) {
+            int x = level.getBoardData().playerLocationOnBoard(player[i])[0];
+            int y = level.getBoardData().playerLocationOnBoard(player[i])[1];
+            player[i].setPlayerCordX(x);
+            player[i].setPlayerCordY(y);
+        }
+    }
     /**
      * Prepare the game to finish, either for saving or at a win.
      *
@@ -239,6 +246,7 @@ public class GameFlow {
 
     public void saveGame() {
         //  Override previous save game
+        updatePlayer();
         System.out.println("Saving Game : Stage 1");
         if (!saveGameCheck()) {
             System.out.println("Saving Game : Stage 2");

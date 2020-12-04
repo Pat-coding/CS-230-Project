@@ -31,10 +31,7 @@ public class BoardController implements Initializable {
     @FXML private Button quitBtn;
     @FXML private Button drawTileBtn;
     @FXML private Button endTurnBtn;
-    @FXML private ImageView backTrackImg;
-    @FXML private ImageView FireTileImg;
-    @FXML private ImageView IceTileImg;
-    @FXML private ImageView doubleMoveImg;
+    @FXML private Pane pane;
 
     private Level level;
     private int playerIndex;
@@ -65,7 +62,7 @@ public class BoardController implements Initializable {
         }
         event.consume();
     };
-    int size = 100;
+    int size = 80;
     Image arrowDown = new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
     Image arrowUp = new Image(getClass().getResourceAsStream("/resources/arrowUP.png"));
     Image arrowLeft = new Image(getClass().getResourceAsStream("/resources/arrowLeft.png"));
@@ -90,10 +87,6 @@ public class BoardController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        IceTileImg.setImage(arrowDown);
-        FireTileImg.setImage(arrowDown);
-        backTrackImg.setImage(arrowDown);
-        doubleMoveImg.setImage(arrowDown);
         saveGameBtn.setOnAction(event -> {
             level.saveButtonFlag = true;
             gameFlow.flow();
@@ -117,6 +110,7 @@ public class BoardController implements Initializable {
         setupBoard();
         setupArrows();
     }
+
 
     private void setupBoard() {
         for (int x = 0; x < level.getBoardData().getRowSize(); x++) {
@@ -151,8 +145,8 @@ public class BoardController implements Initializable {
             System.out.println("x: " + j + "y: " + k);
             ImageView playerIv = new ImageView("/resources/playerImg.png");
             //sets tiles to specified size
-            playerIv.setFitHeight(size);
-            playerIv.setFitWidth(size);
+            playerIv.setFitHeight(size/2);
+            playerIv.setFitWidth(size/ 2);
             StackPane pane = new StackPane();
             pane.getChildren().add(tile);
             pane.getChildren().add(playerIv);
@@ -194,7 +188,6 @@ public class BoardController implements Initializable {
 
                     if (!level.getBoardData().checkTileInsertionRow(y)) {
                         rightGrid.getChildren().get(y + 1).setVisible(false);
-                        System.out.println("label og" + y);
                     }
 
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -220,7 +213,6 @@ public class BoardController implements Initializable {
                     final int xx = x, yy = y;
                     if (!level.getBoardData().checkTileInsertionRow(y)) {
                         leftGrid.getChildren().get(y + 1).setVisible(false);
-                        System.out.println("label" + y);
                     }
                     tileImg.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 
