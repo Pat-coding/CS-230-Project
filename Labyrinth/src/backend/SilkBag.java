@@ -39,7 +39,7 @@ public class SilkBag {
                     player.setTileHand(StraightTile);
                     break;
                 case 1:
-                    FloorTile CornerTile = new CornerTile(randomOrientation(), "NORMAL", true);
+                    FloorTile CornerTile = new CornerTile(randomOrientation(), "NORMAL", false);
                     player.setTileHand(CornerTile);
                     break;
                 case 2:

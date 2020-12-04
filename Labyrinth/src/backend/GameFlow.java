@@ -105,7 +105,6 @@ public class GameFlow {
                 board.placeOnNewTile(level.getTempCardinal(), level.getTempX(), level.getTempY()
                 ,player[playerIndex].getTileHand());
 
-
             } else {
 
                 board.placeOnNewTile(level.getTempCardinal(), level.getTempX(), level.getTempY()
