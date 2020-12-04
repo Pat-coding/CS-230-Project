@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *
+ *This method creates leaderboards for the game specified by how the user
+ * wants them to be sorted
  * @author
  * @version 1.0.0
  */

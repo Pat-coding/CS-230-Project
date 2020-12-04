@@ -22,8 +22,8 @@ public class SilkBag {
     }
 
     /**
-     *
-     *
+     * this method pulls a random tile from the silk bag and adds it to inventory
+     * @param player
      */
 
     public void giveTile(Player player) {
@@ -70,7 +70,10 @@ public class SilkBag {
         }
     }
 
-
+    /**
+     * this method pulls random tiles from silk bag and adds them to the board
+     * @return random FloorTile
+     */
     public FloorTile populateRandomBoardTiles() {
         int randomNum = rand.nextInt(silkBagContent.length);
 
@@ -93,16 +96,28 @@ public class SilkBag {
         return null;
     }
 
+    /**
+     * this method returns a random oreintation for a tile
+     * @return degrees in in for oreintation
+     */
     public int randomOrientation() {
         int[] orientation = new int[]{0, 90, 180, 270};
         int rnd = new Random().nextInt(orientation.length);
         return orientation[rnd];
     }
 
+    /**
+     * this method gives contents of silk bag
+     * @return array of ints from silkbag
+     */
     public int[] getSilkBagContent() {
         return silkBagContent;
     }
 
+    /**
+     * this method takes a tile as an input and puts it back in silk bag
+     * @param type the tile being inputted
+     */
     public void insertTileToBag(Tile type) {
 
         switch (type.getType()) {
