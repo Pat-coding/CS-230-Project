@@ -1,12 +1,12 @@
-package layout.controllers;
+package frontend.controllers;
 
 import backend.Level;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import layout.loaders.BoardLoader;
-import layout.Main;
+import frontend.loaders.BoardLoader;
+import frontend.Main;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;

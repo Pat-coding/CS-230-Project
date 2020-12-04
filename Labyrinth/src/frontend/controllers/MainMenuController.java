@@ -1,16 +1,15 @@
-package layout.controllers;
+package frontend.controllers;
 import backend.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import layout.loaders.LeaderboardLoader;
-import layout.loaders.LoadMenuLoader;
-import layout.loaders.ProfileSelectLoader;
+import frontend.loaders.LeaderboardLoader;
+import frontend.loaders.LoadMenuLoader;
+import frontend.loaders.ProfileSelectLoader;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MainMenuController {
 

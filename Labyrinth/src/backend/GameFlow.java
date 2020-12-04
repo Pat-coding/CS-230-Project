@@ -1,6 +1,7 @@
 package backend;
 
-import Tiles.Tile;
+import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ public class GameFlow {
     private Board board;
     private SilkBag silkBag;
     private static Player tempPlayer;
+    private Stage stage;
 
 
     /**
@@ -147,9 +149,9 @@ public class GameFlow {
         if (level.playerHasMovedFlag) {
             if (checkWin()) {
                 declareWinner(playerIndex);
+                winnerAlert();
                 endGame();
-                level.playerWinFlag = true;
-
+                //level.playerWinFlag = true;
             } else {
                 incPlayerTurn();
             }
@@ -230,7 +232,7 @@ public class GameFlow {
         player[playerIndex].playerTurn(); // set current players turn to false
         System.out.println("This player after switching" + player[playerIndex].getPlayerTurn());
         playerIndex ++; // increment which players turn it is
-        if (this.playerIndex == player.length) { // loop back to first player if at end of player array
+        if (playerIndex <= player.length) { // loop back to first player if at end of player array
             playerIndex = 0;
         }
         player[playerIndex].playerTurn(); // set next players turn to true
@@ -338,6 +340,12 @@ public class GameFlow {
         }
     }
 
+    private void winnerAlert(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Player " + playerIndex + " has won!");
+        alert.showAndWait();
+        System.exit(404);
+    }
+
     /**
      * Announces that a player has won.
      *
@@ -354,5 +362,4 @@ public class GameFlow {
         }
         System.out.println("player " + i + " has won!");
     }
-
 }

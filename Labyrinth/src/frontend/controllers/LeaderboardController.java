@@ -1,4 +1,4 @@
-package layout.controllers;
+package frontend.controllers;
 
 import backend.Leaderboard;
 import backend.Profile;
@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import layout.Main;
+import frontend.Main;
 
 import java.net.URL;
 import java.util.ArrayList;

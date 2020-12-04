@@ -1,11 +1,11 @@
-package layout.loaders;
+package frontend.loaders;
 
 import backend.Profile;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import layout.controllers.LeaderboardController;
+import frontend.controllers.LeaderboardController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class LeaderboardLoader {
             FXMLLoader loader = new FXMLLoader();
             LeaderboardController controller = new LeaderboardController(stage, profiles);
             loader.setController(controller);
-            Parent root = loader.load(getClass().getClassLoader().getResource("layout/fxml/Leaderboards.fxml").openStream());
+            Parent root = loader.load(getClass().getClassLoader().getResource("frontend/fxml/Leaderboards.fxml").openStream());
             Scene scene = new Scene(root, 600, 400);
             stage.setScene(scene);
             stage.show();

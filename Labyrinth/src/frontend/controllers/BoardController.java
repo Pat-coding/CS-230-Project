@@ -1,11 +1,12 @@
-package layout.controllers;
+package frontend.controllers;
 
-import Tiles.*;
 import backend.*;
 
+import frontend.loaders.LeaderboardLoader;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,10 +14,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
-import java.awt.*;
-
 import javafx.scene.input.KeyEvent;
-import java.awt.event.KeyListener;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -36,7 +35,6 @@ public class BoardController implements Initializable {
     private Level level;
     private int playerIndex;
     private GameFlow gameFlow;
-
 
     private EventHandler<KeyEvent> keyListener = event -> {
         if (event.getCode() == KeyCode.UP) {
@@ -62,6 +60,7 @@ public class BoardController implements Initializable {
         }
         event.consume();
     };
+
     int size = 100;
     Image arrowDown = new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
     Image arrowUp = new Image(getClass().getResourceAsStream("/resources/arrowUP.png"));
@@ -106,6 +105,7 @@ public class BoardController implements Initializable {
             level.endTurnFlag = true;
             level.playerHasMovedFlag = false;
             gameFlow.flow();
+            event.consume();
         });
         setupBoard();
         setupArrows();
@@ -129,7 +129,6 @@ public class BoardController implements Initializable {
     }
 
 
-
     private void setTiles(ImageView tile, int x, int y) {
         tile.setFitHeight(size);
         tile.setFitWidth(size);
@@ -140,7 +139,6 @@ public class BoardController implements Initializable {
     }
 
     private void checkPlayerNull(int j, int k, ImageView tile) {
-
         if (level.getBoardData().getPlayerFromBoard(j, k) != null) {
             System.out.println("x: " + j + "y: " + k);
             ImageView playerIv = new ImageView("/resources/playerImg.png");
@@ -151,9 +149,9 @@ public class BoardController implements Initializable {
             pane.getChildren().add(tile);
             pane.getChildren().add(playerIv);
             tileGrid.add(pane, j, k);
-
         }
     }
+
 
     public void refreshBoard() {
         tileGrid.getChildren().clear();
@@ -171,6 +169,7 @@ public class BoardController implements Initializable {
             }
         }
     }
+
 
     public void setupArrows() {
         topGrid.setTranslateX(size);

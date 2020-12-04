@@ -1,11 +1,11 @@
-package layout;
+package frontend;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import layout.controllers.MainMenuController;
+import frontend.controllers.MainMenuController;
 
 public class Main extends Application {
 
@@ -17,7 +17,7 @@ public class Main extends Application {
         primaryStage.setTitle("Labyrinth");
         try {
             FXMLLoader loader = new FXMLLoader();
-            Parent root = loader.load(getClass().getClassLoader().getResource("layout/fxml/MainMenu.fxml").openStream());
+            Parent root = loader.load(getClass().getClassLoader().getResource("frontend/fxml/MainMenu.fxml").openStream());
             MainMenuController menu = loader.getController();
             menu.setStage(primaryStage);
             Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);

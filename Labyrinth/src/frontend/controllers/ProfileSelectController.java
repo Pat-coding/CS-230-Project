@@ -1,4 +1,4 @@
-package layout.controllers;
+package frontend.controllers;
 
 import backend.Level;
 import backend.Profile;
@@ -7,8 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import layout.Main;
-import layout.loaders.NewGameLoader;
+import frontend.Main;
+import frontend.loaders.NewGameLoader;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -55,6 +55,7 @@ public class ProfileSelectController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR,"Select a profile.");
                 alert.showAndWait();
             } else {
+//                selectedProfiles
                 loadedProfiles.setText(getSelectedProfiles().size()+1+" Profile(s) loaded");
                 loadedProfiles.setTextFill(Color.web("#008000", 0.8));
                 getSelectedProfiles().add(profiles.get(selectedIndex));
