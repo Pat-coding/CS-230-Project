@@ -39,7 +39,7 @@ public class GameFlow {
 
     public static void initiatePlayers(ArrayList<Profile> profiles, Level level) {
         System.out.println("profile size: " + profiles.size());
-        Player[] tempPlayerArray = new Player[profiles.size() + 1];
+        Player[] tempPlayerArray = new Player[profiles.size()];
         int[] spawnPoints = level.getSpawnPoints();
 
         for (int i = 0; i < profiles.size(); i++) {
@@ -235,7 +235,7 @@ public class GameFlow {
     }
 
     public void updatePlayer() {
-        for (int i = 0; i < player.length; i++) {
+        for (int i = 0; i < player.length - 1; i++) {
             int x = level.getBoardData().playerLocationOnBoard(player[i])[0];
             int y = level.getBoardData().playerLocationOnBoard(player[i])[1];
             player[i].setPlayerCordX(x);

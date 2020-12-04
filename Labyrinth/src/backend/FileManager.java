@@ -80,7 +80,7 @@ public class FileManager {
 
         //  Reads in profiles
         profiles = readProfileDataFile("Profiles.txt");
-        for (int i = 0; i < profileName.length; i++) {
+        for (int i = 0; i < profiles.size(); i++) {
             if (Arrays.asList(profileName).contains(profiles.get(i).getProfileName())) {
                 usedProfile.add(profiles.get(i));
             }
@@ -213,7 +213,9 @@ public class FileManager {
             Player[] player = levelArray.get(i).getPlayerData();
 
             try (FileWriter levelWriter = new FileWriter("SavedLevel.txt", true)) {
+
                 //  This is used to write the profile names
+
                 for (int j = 0; j < player.length; j++) {
                     if (j < player.length - 1) {
                         levelWriter.write(player[j].getProfile().getProfileName() + ",");
@@ -235,11 +237,11 @@ public class FileManager {
                 }
 
                 //  Profile Coordinate History
-                String x = Arrays.toString(player[0].getProfileCordHistory())
-                        .replace("[", "")
-                        .replace("]", "")
-                        .replace(" ", "");
-                    levelWriter.write(x + "\n");
+//                String x = Arrays.toString(player[0].getProfileCordHistory())
+//                        .replace("[", "")
+//                        .replace("]", "")
+//                        .replace(" ", "");
+                    levelWriter.write("2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2" + "\n");
 
                 //  Contents of the Silk Bag
                 levelWriter.write(Arrays.toString(silkBag.getSilkBagContent())
@@ -300,9 +302,9 @@ public class FileManager {
                 //  BackTrack check
                 for (int j = 0; j < player.length; j++) {
                     if (j < player.length - 1) {
-                        levelWriter.write(player[i].getBackTrackCheck() + ",");
+                        levelWriter.write(player[j].getBackTrackCheck() + ",");
                     } else {
-                        levelWriter.write(player[i].getBackTrackCheck() + "\n");
+                        levelWriter.write(player[j].getBackTrackCheck() + "\n");
                     }
                 }
 
