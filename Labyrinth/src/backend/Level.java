@@ -73,7 +73,6 @@ public class Level {
 
 
 
-
     public Board getBoardData() {
         return boardData;
     }

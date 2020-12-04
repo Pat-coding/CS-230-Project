@@ -1,5 +1,6 @@
 package layout.controllers;
 
+import backend.GameFlow;
 import backend.Level;
 import backend.Profile;
 import javafx.fxml.FXML;
@@ -29,6 +30,7 @@ public class LoadNewGameController implements Initializable {
         this.profiles = profiles;
         this.newLevel = newLevel;
         this.stage = stage;
+
     }
 
     @Override
@@ -56,6 +58,8 @@ public class LoadNewGameController implements Initializable {
             //displays the selected level
             selectedIndex = mapList.getSelectionModel().getSelectedIndex();
             System.out.println(selectedIndex);
+            newLevel.get(selectedIndex).getSilkBag().populateRandomBoardTiles();
+            GameFlow.initiatePlayers(profiles , newLevel.get(selectedIndex));
             BoardLoader game = new BoardLoader(stage, newLevel.get(selectedIndex));
         }
     }

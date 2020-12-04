@@ -1,5 +1,9 @@
 package backend;
 
+import Tiles.Tile;
+
+import java.util.ArrayList;
+
 /**
  * @author Ben Dodd
  * @version 1.0.0
@@ -30,6 +34,20 @@ public class GameFlow {
         this.hasDrawn = false;
         this.board = level.getBoardData();
         this.silkBag = level.getSilkBag();
+    }
+
+    public static void initiatePlayers(ArrayList<Profile> profiles, Level level) {
+        System.out.println("profile size: " + profiles.size());
+        Player[] tempPlayerArray = new Player[profiles.size() - 1];
+        int[] spawnPoints = level.getSpawnPoints();
+
+        for (int i = 0; i < profiles.size() - 1; i++) {
+            Player tempPlayer = new Player(profiles.get(i), spawnPoints[i * 2], spawnPoints[(i * 2) + 1], new int[6],
+                    new ArrayList<>(), false, false);
+            tempPlayerArray[i] = tempPlayer;
+            level.getBoardData().insertPlayer(spawnPoints[i * 2], spawnPoints[(i * 2) + 1], tempPlayer);
+        }
+        level.setPlayerArray(tempPlayerArray);
     }
 
     public void flow() {

@@ -55,17 +55,17 @@ public class ProfileSelectController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR,"Select a profile.");
                 alert.showAndWait();
             } else {
-                loadedProfiles.setText(selectedProfiles.size()+1+" Profile(s) loaded");
+                loadedProfiles.setText(getSelectedProfiles().size()+1+" Profile(s) loaded");
                 loadedProfiles.setTextFill(Color.web("#008000", 0.8));
-                selectedProfiles.add(profiles.get(selectedIndex));
-                if (twoPlayers.isSelected() && selectedProfiles.size() == 2){
+                getSelectedProfiles().add(profiles.get(selectedIndex));
+                if (twoPlayers.isSelected() && getSelectedProfiles().size() == 2){
                     selectProfileBtn.setDisable(true);
                     System.out.println("2 Profiles loaded");
-                    NewGameLoader newGame = new NewGameLoader(stage, profiles, newLevel);
-                } else if (fourPlayers.isSelected() && selectedProfiles.size() == 4){
+                    NewGameLoader newGame = new NewGameLoader(stage, selectedProfiles, newLevel);
+                } else if (fourPlayers.isSelected() && getSelectedProfiles().size() == 4){
                     selectProfileBtn.setDisable(true);
                     System.out.println("4 Profiles loaded");
-                    NewGameLoader newGame = new NewGameLoader(stage, profiles, newLevel);
+                    NewGameLoader newGame = new NewGameLoader(stage, selectedProfiles, newLevel);
                 }
             }
         });
@@ -103,4 +103,9 @@ public class ProfileSelectController implements Initializable {
             profileList.getItems().add(i.getProfileName());
         }
     }
+
+    public ArrayList<Profile> getSelectedProfiles() {
+        return selectedProfiles;
+    }
+
 }
