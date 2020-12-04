@@ -64,11 +64,29 @@ public class Player {
     }
 
     /**
+     * Sets the location of the Player's current x position
+     * @param x position
+     */
+
+    public void setPlayerCordX(int x) {
+        this.playerCordX = x;
+    }
+
+    /**
      * Getter for the player's Y coordinate
      * @return Y coordinate
      */
     public int getPlayerCordY() {
         return this.playerCordY;
+    }
+
+    /**
+     * Sets the location of the Player's current y position
+     * @param y position
+     */
+
+    public void setPlayerCordY(int y) {
+        this.playerCordY = y;
     }
 
     /**
@@ -124,7 +142,7 @@ public class Player {
      * @return Boolean result
      */
     public void playerTurn(){
-        isPlayerTurn = !isPlayerTurn;
+        this.isPlayerTurn = !this.isPlayerTurn;
     }
 
     /**

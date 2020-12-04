@@ -1,16 +1,18 @@
 package backend;
 
 
+import Tiles.FloorTile;
+
 import java.util.ArrayList;
 
 public class Level {
 
 
-    private static ArrayList<Profile>  profileArray =
+    public static ArrayList<Profile>  profileArray =
             FileManager.readProfileDataFile("Profiles.txt");
-    private static ArrayList<Level> newLevels =
+    public static ArrayList<Level> newLevels =
             FileManager.readLevelDataFile("NewLevel.txt", "New Level");
-    private static ArrayList<Level>  savedLevels =
+    public static ArrayList<Level>  savedLevels =
             FileManager.readLevelDataFile("SavedLevel.txt", "Saved Level");
 
     public boolean saveButtonFlag;
@@ -25,6 +27,7 @@ public class Level {
     public boolean playerHasMovedFlag;
     public boolean endTurnFlag;
 
+
     private int tempX;
     private int tempY;
     private Board.Cardinals tempCardinal;
@@ -34,9 +37,6 @@ public class Level {
     private SilkBag silkBag;
     private Player[] playerData;
     private int[] spawnPoints;
-
-
-
 
     /**
      * Template for a Saved Level
@@ -104,10 +104,6 @@ public class Level {
 
     public void setGameTurn (int gameTurn) {this.gameTurnData = gameTurn;}
 
-
-
-
-
     public static ArrayList<Profile> getProfileArray() {
         return profileArray;
     }
@@ -119,8 +115,6 @@ public class Level {
     public static ArrayList<Level> getSavedLevels() {
         return savedLevels;
     }
-
-
 
     public int getTempX() {
         return tempX;

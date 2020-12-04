@@ -1,22 +1,17 @@
-package layout.controllers;
+package layout;
 import backend.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import layout.loaders.ProfileSelectLoader;
-import layout.loaders.LeaderboardLoader;
-import layout.loaders.LoadMenuLoader;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainMenuController {
+public class MainMenu {
 
     private Stage primaryStage;
-
-    Level level;
 
     public void setStage(Stage stage){
 
@@ -31,22 +26,23 @@ public class MainMenuController {
     @FXML
     private BorderPane rootPane;
 
-
     //when menu is launched, initialize motd and display it
     @FXML
     private void initialize(){
-        motdText.setText(Motd.getMessage());
+        Motd motd = new Motd();
+        motdText.setText(motd.getMessage());
         System.out.println("Motd loaded");
     }
 
     //Opens new LaunchNewGame window
     public void launchNewGame(){
-        ProfileSelectLoader loader = new ProfileSelectLoader(primaryStage, Level.getProfileArray(), Level.getNewLevels());
+        ProfileSelectLoader loader = new ProfileSelectLoader(primaryStage, Level.profileArray);
+        //Game game = new Game(primaryStage, savedLevels.get(0));
     }
 
     //Opens new launchLoadGame window
     public void launchLoadGame() {
-        LoadMenuLoader loadMenuLoader = new LoadMenuLoader(primaryStage, Level.getSavedLevels());
+        LoadMenuLoader loadMenuLoader = new LoadMenuLoader(primaryStage, Level.savedLevels);
 
     }
 
@@ -54,7 +50,7 @@ public class MainMenuController {
     public void launchLeaderBoards() {
 //        BorderPane pane = FXMLLoader.load(getClass().getResource("Leaderboards.fxml"));
 //        rootPane.getChildren().setAll(pane);
-          LeaderboardLoader leaderboards = new LeaderboardLoader(primaryStage, Level.getProfileArray());
+          LeaderboardLoader leaderboards = new LeaderboardLoader(primaryStage, Level.profileArray);
 
     }
     public void launchInventory() throws IOException{

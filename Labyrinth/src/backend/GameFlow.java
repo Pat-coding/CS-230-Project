@@ -100,7 +100,6 @@ public class GameFlow {
                 board.placeOnNewTile(level.getTempCardinal(), level.getTempX(), level.getTempY()
                 ,player[playerIndex].getTileHand());
 
-
             } else {
 
                 board.placeOnNewTile(level.getTempCardinal(), level.getTempX(), level.getTempY()
@@ -114,33 +113,6 @@ public class GameFlow {
             level.setTempY(-1);
         }
 
-        if(level.pressUpFlag) {
-            System.out.println("B: " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
-            movePlayer(level.getPlayerData()[playerIndex].getPlayerCordX(), (level.getPlayerData()[playerIndex].getPlayerCordX() + 1), playerIndex);
-            level.pressUpFlag = false;
-            System.out.println("A: " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
-        }
-
-        if(level.pressDownFlag) {
-            System.out.println("B " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
-            movePlayer(level.getPlayerData()[playerIndex].getPlayerCordX(), (level.getPlayerData()[playerIndex].getPlayerCordX() - 1), playerIndex);
-            level.pressDownFlag = false;
-            System.out.println("A " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
-        }
-
-        if(level.pressLeftFlag) {
-            System.out.println("B " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
-            movePlayer(level.getPlayerData()[playerIndex].getPlayerCordX() - 1, level.getPlayerData()[playerIndex].getPlayerCordX(), playerIndex);
-            level.pressLeftFlag = false;
-            System.out.println("A " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
-        }
-
-        if(level.pressRightFlag) {
-            System.out.println("B " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
-            movePlayer(level.getPlayerData()[playerIndex].getPlayerCordX() + 1, level.getPlayerData()[playerIndex].getPlayerCordX(), playerIndex);
-            level.pressRightFlag = false;
-            System.out.println("A " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[0] + " " + level.getBoardData().playerLocationOnBoard(player[playerIndex])[1]);
-        }
         //  Need to implement constrain to see if the player has moved or not.
         if (level.endTurnFlag) {
             hasDrawn = false;
@@ -159,11 +131,49 @@ public class GameFlow {
     }
 
 
+    public void movePlayerOnBoard() {
+        int x = level.getPlayerData()[playerIndex].getPlayerCordX();
+        int y = level.getPlayerData()[playerIndex].getPlayerCordY();
+        if(level.pressUpFlag && !level.playerHasMovedFlag) {
+            if(checkPlayerBounds(x, (y - 1)) && checkPlayerMovement(x,(y - 1), playerIndex)) {
+                movePlayer(x, (y - 1), playerIndex);
+                level.pressUpFlag = false;
+                level.getPlayerData()[playerIndex].setPlayerCordY((y - 1));
+                level.playerHasMovedFlag = true;
+            }
+        }
+
+        if(level.pressDownFlag && !level.playerHasMovedFlag) {
+            if(checkPlayerBounds(x, (y + 1)) && checkPlayerMovement(x, (y + 1), playerIndex)) {
+                movePlayer(x, (y + 1), playerIndex);
+                level.pressDownFlag = false;
+                level.getPlayerData()[playerIndex].setPlayerCordY((y + 1));
+                level.playerHasMovedFlag = true;
+            }
+        }
+
+        if(level.pressLeftFlag && !level.playerHasMovedFlag) {
+            if(checkPlayerBounds((x - 1), y) && checkPlayerMovement((x - 1), y, playerIndex)) {
+                movePlayer((x - 1), y, playerIndex);
+                level.pressLeftFlag = false;
+                level.getPlayerData()[playerIndex].setPlayerCordX(x - 1);
+                level.playerHasMovedFlag = true;
+            }
+        }
+
+        if(level.pressRightFlag && !level.playerHasMovedFlag) {
+            if(checkPlayerBounds((x + 1), y) && checkPlayerMovement((x + 1), y, playerIndex)) {
+                movePlayer((x + 1), y, playerIndex);
+                level.pressRightFlag = false;
+                level.getPlayerData()[playerIndex].setPlayerCordX(x + 1);
+                level.playerHasMovedFlag = true;
+            }
+        }
+    }
 
     public void drawTile() {
         level.getSilkBag().giveTile(player[playerIndex]);
     }
-
 
 
     /**
@@ -184,23 +194,30 @@ public class GameFlow {
         return false;
     }
 
-
-
     /**
      * Go to the next turn of the board.
      */
     public void incPlayerTurn() {
         // set the next player's turn to true (playerTurn method)
         // set the previous player's turn to false (playerTurn method)
-        this.player[this.playerIndex].playerTurn(); // set current players turn to false
-        this.playerIndex ++; // increment which players turn it is
-        if (this.playerIndex == this.player.length) { // loop back to first player if at end of player array
-            this.playerIndex = 0;
+        System.out.println("This player before switching" + player[playerIndex].getPlayerTurn());
+        player[playerIndex].playerTurn(); // set current players turn to false
+        System.out.println("This player after switching" + player[playerIndex].getPlayerTurn());
+        playerIndex ++; // increment which players turn it is
+        if (this.playerIndex == player.length) { // loop back to first player if at end of player array
+            playerIndex = 0;
         }
-        this.player[this.playerIndex].playerTurn(); // set next players turn to true
+        player[playerIndex].playerTurn(); // set next players turn to true
     }
 
-
+    public void updatePlayer() {
+        for (int i = 0; i < player.length; i++) {
+            int x = level.getBoardData().playerLocationOnBoard(player[i])[0];
+            int y = level.getBoardData().playerLocationOnBoard(player[i])[1];
+            player[i].setPlayerCordX(x);
+            player[i].setPlayerCordY(y);
+        }
+    }
     /**
      * Prepare the game to finish, either for saving or at a win.
      *
@@ -224,6 +241,7 @@ public class GameFlow {
 
     public void saveGame() {
         //  Override previous save game
+        updatePlayer();
         System.out.println("Saving Game : Stage 1");
         if (!saveGameCheck()) {
             System.out.println("Saving Game : Stage 2");
@@ -249,24 +267,26 @@ public class GameFlow {
     }
 
     public boolean checkPlayerMovement(int x, int y, int playerIndex) {
-        int px = level.getPlayerData()[playerIndex].getPlayerCordX();
-        int py = level.getPlayerData()[playerIndex].getPlayerCordY();
+        int px = player[playerIndex].getPlayerCordX();
+        int py = player[playerIndex].getPlayerCordY();
 
-        if(level.getBoardData().getTileFromBoard(x, y) == null) {
+        //  if the tile is out of bounds
+        if(board.getTileFromBoard(x, y) == null) {
             return false;
         } else {
             if(x == px - 1) {
-                return level.getBoardData().getTileFromBoard(px, py).isAccessFromLeft() ==
-                        level.getBoardData().getTileFromBoard(x, y).isAccessFromRight();
+                //  if there are both false then that mean it returns true?
+                return board.getTileFromBoard(px, py).isAccessFromLeft() &&
+                        board.getTileFromBoard(x, y).isAccessFromRight();
             } else if(x == px + 1) {
-                return level.getBoardData().getTileFromBoard(px, py).isAccessFromRight() ==
-                        level.getBoardData().getTileFromBoard(x, y).isAccessFromLeft();
+                return board.getTileFromBoard(px, py).isAccessFromRight() &&
+                        board.getTileFromBoard(x, y).isAccessFromLeft();
             } else if(y == py - 1) {
-                return level.getBoardData().getTileFromBoard(px, py).isAccessFromTop() ==
-                        level.getBoardData().getTileFromBoard(x, y).isAccessFromBottom();
+                return board.getTileFromBoard(px, py).isAccessFromTop() &&
+                        board.getTileFromBoard(x, y).isAccessFromBottom();
             } else if(y == py + 1) {
-                return level.getBoardData().getTileFromBoard(px, py).isAccessFromBottom() ==
-                        level.getBoardData().getTileFromBoard(x, y).isAccessFromTop();
+                return board.getTileFromBoard(px, py).isAccessFromBottom() &&
+                        board.getTileFromBoard(x, y).isAccessFromTop();
             }
         }
         return false;
@@ -283,6 +303,15 @@ public class GameFlow {
         checkWin();
     }
 
+    private boolean checkPlayerBounds(int x, int y) {
+        if((x < 0) || (x > level.getBoardData().getRowSize() - 1)|| (y < 0) || (y > level.getBoardData().getColumnSize() - 1) || (level.getBoardData().getPlayerFromBoard(x, y) != null)) {
+            System.out.println("Player out of bounds");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     /**
      * Announces that a player has won.
      *
@@ -297,6 +326,7 @@ public class GameFlow {
                 players[i].incPlayerLoss();
             }
         }
+        System.out.println("player " + i + " has won!");
     }
 
 }
