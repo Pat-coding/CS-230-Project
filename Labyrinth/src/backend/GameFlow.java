@@ -20,7 +20,6 @@ public class GameFlow {
     private Board board;
     private SilkBag silkBag;
     private static Player tempPlayer;
-    private Stage stage;
 
 
     /**
@@ -40,7 +39,6 @@ public class GameFlow {
     }
 
     public static void initiatePlayers(ArrayList<Profile> profiles, Level level) {
-        System.out.println("profile size: " + profiles.size());
         Player[] tempPlayerArray = new Player[profiles.size()];
         int[] spawnPoints = level.getSpawnPoints();
 
@@ -59,48 +57,43 @@ public class GameFlow {
     }
 
     public void flow() {
-        for(int x = 0; x < level.getBoardData().getRowSize(); x++) {
-            for(int y = 0; y < level.getBoardData().getColumnSize(); y++) {
-                System.out.println(level.getBoardData().getPlayerFromBoard(x, y));
-            }
-        }
-
 
         //  Check to see if the player is allowed to save the game.
         if (level.saveButtonFlag && !hasDrawn) {
-            System.out.println("Player " + playerIndex + " has pressed the save game button!");
+            System.out.println("Player " + this.playerIndex + " has pressed the save game button!");
             saveGame();
             level.saveButtonFlag = false;
         }
+
 
         //  Allows the player to draw a tile.
         if (level.drawTileFlag && !hasDrawn) {
             hasDrawn = true;
             drawTile();
-            System.out.println("Player " + playerIndex + " has drawn the " +
-                    player[playerIndex].getTileHand() + " tile!");
-            System.out.println("Player " + playerIndex + " has drawn the " +
-                    player[playerIndex].getPlayerInventory());
+            System.out.println("Player " + this.playerIndex + " has drawn the " +
+                    player[this.playerIndex].getTileHand() + " tile!");
+            System.out.println("Player " + this.playerIndex + " has drawn the " +
+                    player[this.playerIndex].getPlayerInventory());
             level.drawTileFlag = false;
         }
 
         //  Throws failed to save error
         if (level.saveButtonFlag && hasDrawn) {
-            System.out.println("Player " + playerIndex + " has attempted to save the game after drawing!");
+            System.out.println("Player " + this.playerIndex + " has attempted to save the game after drawing!");
             level.saveButtonFlag = false;
         }
 
 
         //  Throws failed tile draw message
         if (level.drawTileFlag && hasDrawn) {
-            System.out.println("Player " + playerIndex + " attempted to draw another tile!!!");
+            System.out.println("Player " + this.playerIndex + " attempted to draw another tile!!!");
             level.drawTileFlag = false;
         }
 
         //  Throws multiple attempts of placing tile error
-        if (player[playerIndex].getTileHand() == null && hasDrawn) {
+        if (player[this.playerIndex].getTileHand() == null && hasDrawn) {
 
-            System.out.println("Player " + playerIndex + " has attempted placed another tile this turn!");
+            System.out.println("Player " + this.playerIndex + " has attempted placed another tile this turn!");
             level.setTempCardinal(null);
             level.setTempX(-1);
             level.setTempY(-1);
@@ -109,7 +102,7 @@ public class GameFlow {
         //  Throws error for not drawing a tile
         if (level.getTempCardinal() != null && !hasDrawn) {
 
-            System.out.println("Player " + playerIndex + " needs to draw before slotting a tile!");
+            System.out.println("Player " + this.playerIndex + " needs to draw before slotting a tile!");
             level.setTempCardinal(null);
             level.setTempX(-1);
             level.setTempY(-1);
@@ -118,22 +111,22 @@ public class GameFlow {
 
         //  This means player has placed a tile.
         if (level.getTempCardinal() != null && level.getTempX() != -1
-                && level.getTempY() != -1 && player[playerIndex].getTileHand() != null) {
+                && level.getTempY() != -1 && player[this.playerIndex].getTileHand() != null) {
 
             if (level.getTempCardinal() == Board.Cardinals.LEFT ||
                     level.getTempCardinal() == Board.Cardinals.RIGHT) {
 
                 board.placeOnNewTile(level.getTempCardinal(), level.getTempX(), level.getTempY()
-                ,player[playerIndex].getTileHand());
+                ,player[this.playerIndex].getTileHand());
 
             } else {
 
                 board.placeOnNewTile(level.getTempCardinal(), level.getTempX(), level.getTempY()
-                        ,player[playerIndex].getTileHand());
+                        ,player[this.playerIndex].getTileHand());
 
             }
 
-            System.out.println("Player " + playerIndex + " has slotted a tile in the board!");
+            System.out.println("Player " + this.playerIndex + " has slotted a tile in the board!");
             level.setTempCardinal(null);
             level.setTempX(-1);
             level.setTempY(-1);
@@ -148,59 +141,60 @@ public class GameFlow {
 
         if (level.playerHasMovedFlag) {
             if (checkWin()) {
-                declareWinner(playerIndex);
+                declareWinner(this.playerIndex);
                 winnerAlert();
                 endGame();
                 //level.playerWinFlag = true;
             } else {
                 incPlayerTurn();
+                level.playerHasMovedFlag = false;
             }
         }
     }
 
 
     public void movePlayerOnBoard() {
-        int x = level.getPlayerData()[playerIndex].getPlayerCordX();
-        int y = level.getPlayerData()[playerIndex].getPlayerCordY();
+        int x = level.getPlayerData()[this.playerIndex].getPlayerCordX();
+        int y = level.getPlayerData()[this.playerIndex].getPlayerCordY();
         if(level.pressUpFlag && !level.playerHasMovedFlag) {
-            if(checkPlayerBounds(x, (y - 1)) && checkPlayerMovement(x,(y - 1), playerIndex)) {
-                movePlayer(x, (y - 1), playerIndex);
+            if(checkPlayerBounds(x, (y - 1)) && checkPlayerMovement(x,(y - 1), this.playerIndex)) {
+                movePlayer(x, (y - 1), this.playerIndex);
                 level.pressUpFlag = false;
-                level.getPlayerData()[playerIndex].setPlayerCordY((y - 1));
+                level.getPlayerData()[this.playerIndex].setPlayerCordY((y - 1));
                 level.playerHasMovedFlag = true;
             }
         }
 
         if(level.pressDownFlag && !level.playerHasMovedFlag) {
-            if(checkPlayerBounds(x, (y + 1)) && checkPlayerMovement(x, (y + 1), playerIndex)) {
-                movePlayer(x, (y + 1), playerIndex);
+            if(checkPlayerBounds(x, (y + 1)) && checkPlayerMovement(x, (y + 1), this.playerIndex)) {
+                movePlayer(x, (y + 1), this.playerIndex);
                 level.pressDownFlag = false;
-                level.getPlayerData()[playerIndex].setPlayerCordY((y + 1));
+                level.getPlayerData()[this.playerIndex].setPlayerCordY((y + 1));
                 level.playerHasMovedFlag = true;
             }
         }
 
         if(level.pressLeftFlag && !level.playerHasMovedFlag) {
-            if(checkPlayerBounds((x - 1), y) && checkPlayerMovement((x - 1), y, playerIndex)) {
-                movePlayer((x - 1), y, playerIndex);
+            if(checkPlayerBounds((x - 1), y) && checkPlayerMovement((x - 1), y, this.playerIndex)) {
+                movePlayer((x - 1), y, this.playerIndex);
                 level.pressLeftFlag = false;
-                level.getPlayerData()[playerIndex].setPlayerCordX(x - 1);
+                level.getPlayerData()[this.playerIndex].setPlayerCordX(x - 1);
                 level.playerHasMovedFlag = true;
             }
         }
 
         if(level.pressRightFlag && !level.playerHasMovedFlag) {
-            if(checkPlayerBounds((x + 1), y) && checkPlayerMovement((x + 1), y, playerIndex)) {
-                movePlayer((x + 1), y, playerIndex);
+            if(checkPlayerBounds((x + 1), y) && checkPlayerMovement((x + 1), y, this.playerIndex)) {
+                movePlayer((x + 1), y, this.playerIndex);
                 level.pressRightFlag = false;
-                level.getPlayerData()[playerIndex].setPlayerCordX(x + 1);
+                level.getPlayerData()[this.playerIndex].setPlayerCordX(x + 1);
                 level.playerHasMovedFlag = true;
             }
         }
     }
 
     public void drawTile() {
-        level.getSilkBag().giveTile(player[playerIndex]);
+        level.getSilkBag().giveTile(player[this.playerIndex]);
     }
 
 
@@ -228,14 +222,17 @@ public class GameFlow {
     public void incPlayerTurn() {
         // set the next player's turn to true (playerTurn method)
         // set the previous player's turn to false (playerTurn method)
-        System.out.println("This player before switching" + player[playerIndex].getPlayerTurn());
-        player[playerIndex].playerTurn(); // set current players turn to false
-        System.out.println("This player after switching" + player[playerIndex].getPlayerTurn());
-        playerIndex ++; // increment which players turn it is
-        if (playerIndex <= player.length) { // loop back to first player if at end of player array
-            playerIndex = 0;
+        System.out.println("Player " + playerIndex +  "before switching" + player[this.playerIndex].getPlayerTurn());
+        player[this.playerIndex].playerTurn(); // set current players turn to false
+        // increment which players turn it is
+
+        if (this.playerIndex == player.length - 1) { // loop back to first player if at end of player array
+            this.playerIndex = 0;
+        } else {
+            this.playerIndex = this.playerIndex + 1;
         }
-        player[playerIndex].playerTurn(); // set next players turn to true
+        System.out.println("Player " + playerIndex +  "before switching"+ player[this.playerIndex].getPlayerTurn());
+        player[this.playerIndex].playerTurn(); // set next players turn to true
     }
 
     public void updatePlayer() {
@@ -341,7 +338,7 @@ public class GameFlow {
     }
 
     private void winnerAlert(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Player " + playerIndex + " has won!");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Player " + this.playerIndex + " has won!");
         alert.showAndWait();
         System.exit(404);
     }
