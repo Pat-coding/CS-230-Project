@@ -152,6 +152,7 @@ public class BoardController implements Initializable {
     }
 
     public void refreshBoard() {
+        tileGrid.getChildren().clear();
         for (int x = 0; x < level.getBoardData().getColumnSize(); x++) {
             for (int y = 0; y < level.getBoardData().getRowSize(); y++) {
                 if(level.getBoardData().getTileFromBoard(x, y).isFixed()) {
@@ -193,6 +194,8 @@ public class BoardController implements Initializable {
                         level.setTempX(xx);
                         level.setTempY(yy);
                         gameFlow.flow();
+                        tileGrid.getChildren().clear();
+
                         refreshBoard();
                         event.consume();
                     });
@@ -216,6 +219,7 @@ public class BoardController implements Initializable {
                         level.setTempX(xx);
                         level.setTempY(yy);
                         gameFlow.flow();
+                        tileGrid.getChildren().clear();
                         refreshBoard();
                         event.consume();
                     });
@@ -240,6 +244,7 @@ public class BoardController implements Initializable {
                         level.setTempX(xx);
                         level.setTempY(yy);
                         gameFlow.flow();
+                        tileGrid.getChildren().clear();
                         refreshBoard();
                         event.consume();
                     });
@@ -261,6 +266,7 @@ public class BoardController implements Initializable {
                         level.setTempX(xx);
                         level.setTempY(yy);
                         gameFlow.flow();
+                        tileGrid.getChildren().clear();
                         refreshBoard();
                         event.consume();
                     });
