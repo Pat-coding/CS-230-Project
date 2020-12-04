@@ -21,6 +21,7 @@ public class Main extends Application {
             MainMenuController menu = loader.getController();
             menu.setStage(primaryStage);
             Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+            scene.getStylesheets().add("Style.css");
             primaryStage.setScene(scene);
             primaryStage.show();
 

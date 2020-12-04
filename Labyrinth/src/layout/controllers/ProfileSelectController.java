@@ -65,7 +65,7 @@ public class ProfileSelectController implements Initializable {
                 } else if (fourPlayers.isSelected() && selectedProfiles.size() == 4){
                     selectProfileBtn.setDisable(true);
                     System.out.println("4 Profiles loaded");
-                    //LoadNewGame newGame = new LoadNewGame(stage, selectedProfiles);
+                    NewGameLoader newGame = new NewGameLoader(stage, profiles, newLevel);
                 }
             }
         });
