@@ -272,7 +272,7 @@ public class Board {
     /**
      * Search and store the goal co-ordinate on the board.
      *
-     * @return
+     * @return co-ordinates of the goal tile
      */
 
     public int[] getGoal() {
@@ -313,7 +313,7 @@ public class Board {
      * @param x
      * @param y
      * @param c
-     * @return
+     * @return Boolean depending on if tile has player
      */
     private boolean checkIfPlayerEndTile(int x, int y, Cardinals c) {
         if (c == Cardinals.TOP) {
@@ -353,6 +353,7 @@ public class Board {
     }
 
     /**
+     * Inserts player at specified cootdinates
      * @param x      The x co-ordinate of the player.
      * @param y      The y co-ordinate of the player.
      * @param player The player at the position.
@@ -363,9 +364,10 @@ public class Board {
     }
 
     /**
+     * gets the player at a specific coordinate on the board
      * @param x
      * @param y
-     * @return
+     * @return player at coords
      */
     public Player getPlayerFromBoard(int x, int y) {
         return playerCoordinates[x][y];

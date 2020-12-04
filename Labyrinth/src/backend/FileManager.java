@@ -192,8 +192,8 @@ public class FileManager {
     }
 
     /**
-     *
-     * @param ArrayList<Level> levelArray
+     * creates a mew save file
+     * @param levelArray<Level> levelArray
      */
 
     public static void createNewSaveFile(ArrayList<Level> levelArray) {
@@ -594,6 +594,11 @@ public class FileManager {
         return returnVal;
     }
 
+    /**
+     * This method takes in a string containing true and false and returns it as boolean values in a list
+     * @param a string o true false
+     * @return array of booleans
+     */
     private static Boolean[] stringToBooleanArray(String a) {
         String[] item = a.split("[,]");
 

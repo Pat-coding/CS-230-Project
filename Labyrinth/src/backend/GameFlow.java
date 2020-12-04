@@ -22,9 +22,10 @@ public class GameFlow {
 
 
     /**
-     * Continue Level
+     * Construcot for this class
      *
      * @param level Level to play.
+     * @param  playerIndex index of the player whos turn it is
      */
 
     public GameFlow(Level level, int playerIndex) {
@@ -36,6 +37,12 @@ public class GameFlow {
         this.board = level.getBoardData();
         this.silkBag = level.getSilkBag();
     }
+
+    /**
+     * This method  checks if the player can save the game in its current state,
+     * allows the player to draw tiles, throws errors if the user tries an incorrect
+     * button press and checks if the player has won the game
+     */
 
     public void flow() {
         for(int x = 0; x < level.getBoardData().getRowSize(); x++) {
@@ -124,7 +131,7 @@ public class GameFlow {
             level.endTurnFlag = false;
             incPlayerTurn();
         }
-
+        //checks if player has won
         if (level.playerHasMovedFlag) {
             if (checkWin()) {
                 declareWinner(playerIndex);
@@ -136,6 +143,11 @@ public class GameFlow {
     }
 
 
+    /**
+     * this method takes in the current player position and a button press,
+     * checks if the move is legal then moves the current player on the board
+     *
+     */
     public void movePlayerOnBoard() {
         int x = level.getPlayerData()[playerIndex].getPlayerCordX();
         int y = level.getPlayerData()[playerIndex].getPlayerCordY();
@@ -175,6 +187,10 @@ public class GameFlow {
             }
         }
     }
+
+    /**
+     * this method gets a tile from silk bag and adds to the players inventory
+     */
 
     public void drawTile() {
         level.getSilkBag().giveTile(player[playerIndex]);
@@ -232,11 +248,20 @@ public class GameFlow {
         }
     }
 
+    /**
+     * This method creates an array of all current players in the game
+     * and creates a save file for the current game and state
+     */
+
     public void exportGames() {
         FileManager.createNewProfile(Level.getProfileArray());
         FileManager.createNewSaveFile(Level.getSavedLevels());
     }
 
+    /**
+     * this saves the file that has just been created and overwrites any previous
+     * versions of this game
+     */
     public void saveGame() {
         //  Override previous save game
         System.out.println("Saving Game : Stage 1");
@@ -247,6 +272,11 @@ public class GameFlow {
         exportGames();
 
     }
+
+    /**
+     * this method insure the game has been saved correctly
+     * @return boolean depending on result of checks
+     */
 
     public boolean saveGameCheck() {
         System.out.println("Saving Game : Stage 3");
@@ -262,6 +292,14 @@ public class GameFlow {
         }
         return false;
     }
+
+    /**
+     * this method checks if the move the player is trying to make is legal
+     * @param x coordiate trying to move
+     * @param y coordinate trying to move
+     * @param playerIndex
+     * @return boolean depending if move is legal
+     */
 
     public boolean checkPlayerMovement(int x, int y, int playerIndex) {
         int px = player[playerIndex].getPlayerCordX();
@@ -290,9 +328,10 @@ public class GameFlow {
     }
 
     /**
-     * @param x
-     * @param y
-     * @param player
+     * this method moves the player to specific coords and then checks if this is a winning move
+     * @param x x coordinate to move to
+     * @param y y coordinate to mvoe to
+     * @param player specifies player being moved
      */
     public void movePlayer(int x, int y, int player) {
         level.getBoardData().movePlayer(level.getPlayerData()[player].getPlayerCordX(), level.getPlayerData()[player].getPlayerCordY(),
@@ -300,6 +339,12 @@ public class GameFlow {
         checkWin();
     }
 
+    /**
+     * this method checks if player is on valid coordinates
+     * @param x x coordinate of player
+     * @param y y coordinate of player
+     * @return true of false depening if x and y are on the current board
+     */
     private boolean checkPlayerBounds(int x, int y) {
         if((x < 0) || (x > level.getBoardData().getRowSize() - 1)|| (y < 0) || (y > level.getBoardData().getColumnSize() - 1) || (level.getBoardData().getPlayerFromBoard(x, y) != null)) {
             System.out.println("Player out of bounds");
@@ -311,7 +356,7 @@ public class GameFlow {
 
     /**
      * Announces that a player has won.
-     *
+     * @param i index of player that has won
      * @return Player that won.
      */
     public void declareWinner(int i) {
