@@ -2,8 +2,6 @@ package backend; /**
  * @author Ryan Humphreys 1903246
  */
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class Profile {
 
     public double winRatio;
@@ -56,7 +54,11 @@ public class Profile {
      * @return ratio of wins/losses
      */
     public double getWinRatio() {
-        return winRatio;
+        if (profileWinCount == 0 | profileLossCount == 0) {
+            return this.winRatio = 0;
+        } else {
+            return this.winRatio = profileWinCount / profileLossCount;
+        }
     }
 
     /**
@@ -86,11 +88,7 @@ public class Profile {
     public void incrementWinCount() {
         this.profileWinCount++;
         this.profileGamesPlayed++;
-        if (profileWinCount == 0 | profileLossCount == 0) {
-            this.winRatio = 0;
-        } else {
-            this.winRatio = profileWinCount / profileLossCount;
-        }
+
     }
 
     /**
@@ -99,10 +97,5 @@ public class Profile {
     public void incrementLoseCount() {
         this.profileLossCount++;
         this.profileGamesPlayed++;
-        if (profileWinCount == 0 | profileLossCount == 0) {
-            this.winRatio = 0;
-        } else {
-            this.winRatio = profileWinCount / profileLossCount;
-        }
     }
 }

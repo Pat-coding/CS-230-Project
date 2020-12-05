@@ -25,6 +25,7 @@ public class BoardController implements Initializable {
     Image arrowUp = new Image(getClass().getResourceAsStream("/resources/arrowUP.png"));
     Image arrowLeft = new Image(getClass().getResourceAsStream("/resources/arrowLeft.png"));
     Image arrowRight = new Image(getClass().getResourceAsStream("/resources/arrowRight.png"));
+
     @FXML
     private GridPane topGrid;
     @FXML

@@ -189,7 +189,6 @@ public class FileManager {
         int profileWinCount = stringToInt(stringProfileWinCount);
         int profileLossCount = stringToInt(stringProfileLossCount);
 
-
         return new Profile(profileName, profileWinCount, profileLossCount);
     }
 
@@ -249,7 +248,6 @@ public class FileManager {
 
                 //  Player inventory
                 for (int j = 0; j < player.length; j++) {
-                    System.out.println("This is the value of j " + j);
                     if (j == player.length - 1) {
                         if (player[j].getPlayerInventory().size() == 0) {
                             levelWriter.write("NA\n");
@@ -270,7 +268,6 @@ public class FileManager {
                         levelWriter.write("NA;");
                     }
                     for (int k = 0; k < player[j].getPlayerInventory().size(); k++) {
-                        System.out.println("This is the value of k " + k);
                         //  if j player is the last player
                         if (j == player.length - 1) {
                             //  will not write ; if j is the last element
@@ -308,7 +305,6 @@ public class FileManager {
 
                 //  Player Turn Check
                 for (int j = 0; j < player.length; j++) {
-                    System.out.println(board.getNameOfBoard() + " " + player[j].getPlayerTurn());
                     if (j < player.length - 1) {
                         levelWriter.write(player[j].getPlayerTurn() + ",");
                     } else {
@@ -363,7 +359,6 @@ public class FileManager {
         }
 
         for (int i = 0; i < profileArray.size(); i++) {
-            System.out.println("Number of times iterated : " + i);
             try (FileWriter profileWriter = new FileWriter("Profiles.txt", true)) {
 
                 profileWriter.write(profileArray.get(i).getProfileName() + "\n");

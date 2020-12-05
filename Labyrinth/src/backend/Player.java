@@ -136,9 +136,8 @@ public class Player {
      * if so increments that players win stat
      */
     public void incPlayerWin() {
-        System.out.println(profile.getProfileName());
         for (int i = 0; i < Level.getProfileArray().size(); i++) {
-            if (Level.getProfileArray().get(i).equals(profile)) {
+            if (Level.getProfileArray().get(i).getProfileName().equals(this.profile.getProfileName())) {
                 Level.getProfileArray().get(i).incrementWinCount();
             }
         }
@@ -150,7 +149,7 @@ public class Player {
      */
     public void incPlayerLoss() {
         for (int i = 0; i < Level.getProfileArray().size(); i++) {
-            if (Level.getProfileArray().get(i).equals(profile)) {
+            if (Level.getProfileArray().get(i).getProfileName().equals(this.profile.getProfileName())) {
                 Level.getProfileArray().get(i).incrementLoseCount();
             }
         }
