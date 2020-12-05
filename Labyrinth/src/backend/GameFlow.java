@@ -221,7 +221,7 @@ public class GameFlow {
         System.out.println("Player " + playerIndex + "before switching" + player[this.playerIndex].getPlayerTurn());
         player[this.playerIndex].playerTurn(); // set current players turn to false
         // increment which players turn it is
-
+        System.out.println("Player " + playerIndex + "after switching" + player[this.playerIndex].getPlayerTurn());
         if (this.playerIndex == player.length - 1) { // loop back to first player if at end of player array
             this.playerIndex = 0;
         } else {
@@ -326,7 +326,9 @@ public class GameFlow {
     }
 
     private boolean checkPlayerBounds(int x, int y) {
-        if ((x < 0) || (x > level.getBoardData().getRowSize() - 1) || (y < 0)
+        if ((x < 0)
+                || (x > level.getBoardData().getRowSize() - 1)
+                || (y < 0)
                 || (y > level.getBoardData().getColumnSize() - 1)
                 || (level.getBoardData().getPlayerFromBoard(x, y) != null)) {
             System.out.println("Player out of bounds");

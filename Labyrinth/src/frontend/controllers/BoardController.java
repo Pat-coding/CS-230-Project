@@ -54,41 +54,49 @@ public class BoardController implements Initializable {
             level.pressUpFlag = true;
             System.out.println("UP");
             gameFlow.movePlayerOnBoard();
-            refreshBoard();
+
             if (level.playerHasMovedFlag) {
                 moveButton.setVisible(false);
+                refreshBoard();
+                gameFlow.flow();
             }
         } else if (event.getCode() == KeyCode.DOWN) {
             level.pressDownFlag = true;
             System.out.println("DOWN");
             gameFlow.movePlayerOnBoard();
-            refreshBoard();
+
             if (level.playerHasMovedFlag) {
                 moveButton.setVisible(false);
+                refreshBoard();
+                gameFlow.flow();
             }
         } else if (event.getCode() == KeyCode.LEFT) {
             level.pressLeftFlag = true;
             System.out.println("LEFT");
             gameFlow.movePlayerOnBoard();
-            refreshBoard();
+
             if (level.playerHasMovedFlag) {
                 moveButton.setVisible(false);
+                refreshBoard();
+                gameFlow.flow();
             }
         } else if (event.getCode() == KeyCode.RIGHT) {
             level.pressRightFlag = true;
             System.out.println("RIGHT");
             gameFlow.movePlayerOnBoard();
-            refreshBoard();
+
             if (level.playerHasMovedFlag) {
                 moveButton.setVisible(false);
+                refreshBoard();
+                gameFlow.flow();
             }
         }
-        gameFlow.flow();
         event.consume();
     };
 
     public BoardController(Level level) {
         this.level = level;
+        Level.setPlayerIndex(setPlayerIndex());
         //  Provides gameFlow with the level information as well as the information regarding the who's turn it is.
         this.gameFlow = new GameFlow(this.level, Level.getPlayerIndex());
     }
@@ -108,14 +116,12 @@ public class BoardController implements Initializable {
             level.playerHasMovedFlag = false;
             gameFlow.flow();
             floorTileCommands();
-            refreshBoard();
             displayInventory();
             caseActionTileDrawn();
             drawTileBtn.setVisible(false);
             event.consume();
         });
         endTurnBtn.setOnAction(event -> {
-            gameFlow.flow();
             level.endTurnFlag = true;
             level.playerHasMovedFlag = false;
             gameFlow.flow();
@@ -168,6 +174,15 @@ public class BoardController implements Initializable {
                 handTile.getChildren().add(tile);
             });
         }
+    }
+
+    public int setPlayerIndex() {
+        for (int i = 0; i < level.getPlayerData().length; i++) {
+            if (level.getPlayerData()[i].getPlayerTurn() == true) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     public void caseActionTileDrawn() {
