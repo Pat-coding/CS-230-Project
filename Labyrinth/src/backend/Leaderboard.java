@@ -12,11 +12,13 @@ import java.util.Collections;
 
 public class Leaderboard {
 
+    ArrayList<Profile> profileCopy;
     private ArrayList<Profile> profileList;
     private int sortType;
 
-    public Leaderboard(ArrayList<Profile> profiles, int sortType, boolean asc){
-        this.profileList = sort(profiles, sortType, asc);
+    public Leaderboard(ArrayList<Profile> profiles, int sortType, boolean asc) {
+        this.profileCopy = new ArrayList<>(profiles);
+        this.profileList = sort(profileCopy, sortType, asc);
     }
 
     public int getSortType() {
@@ -61,17 +63,17 @@ public class Leaderboard {
      * @return array list of players in winning order
      */
     private ArrayList<Profile> sortWins(ArrayList<Profile> profileList, boolean asc) {
-        for(int i = 1; i < profileList.size(); i++) {
+        for (int i = 1; i < profileList.size(); i++) {
             Profile key = profileList.get(i);
             int j = i - 1;
 
             while (j >= 0 && (profileList.get(j).getWinCount() > key.getWinCount())) {
-                profileList.set((j+1), profileList.get(j));
+                profileList.set((j + 1), profileList.get(j));
                 j--;
             }
-            profileList.set((j+1), key);
+            profileList.set((j + 1), key);
         }
-        if(asc){
+        if (asc) {
             return profileList;
         } else {
             Collections.reverse(profileList);
@@ -87,17 +89,17 @@ public class Leaderboard {
      */
 
     private ArrayList<Profile> sortLosses(ArrayList<Profile> profileList, boolean asc) {
-        for(int i = 1; i < profileList.size(); i++) {
+        for (int i = 1; i < profileList.size(); i++) {
             Profile key = profileList.get(i);
             int j = i - 1;
 
             while (j >= 0 && (profileList.get(j).getLoseCount() > key.getLoseCount())) {
-                profileList.set((j+1), profileList.get(j));
+                profileList.set((j + 1), profileList.get(j));
                 j--;
             }
-            profileList.set((j+1), key);
+            profileList.set((j + 1), key);
         }
-        if(asc){
+        if (asc) {
             return profileList;
         } else {
             Collections.reverse(profileList);
@@ -113,17 +115,17 @@ public class Leaderboard {
      */
 
     private ArrayList<Profile> sortWinRatio(ArrayList<Profile> profileList, boolean asc) {
-        for(int i = 1; i < profileList.size(); i++) {
+        for (int i = 1; i < profileList.size(); i++) {
             Profile key = profileList.get(i);
             int j = i - 1;
 
             while (j >= 0 && (profileList.get(j).getWinRatio() > key.getWinRatio())) {
-                profileList.set((j+1), profileList.get(j));
+                profileList.set((j + 1), profileList.get(j));
                 j--;
             }
-            profileList.set((j+1), key);
+            profileList.set((j + 1), key);
         }
-        if(asc){
+        if (asc) {
             return profileList;
         } else {
             Collections.reverse(profileList);
@@ -138,17 +140,17 @@ public class Leaderboard {
      * @return sorted array list by number of games played
      */
     private ArrayList<Profile> sortGamesPlayed(ArrayList<Profile> profileList, boolean asc) {
-        for(int i = 1; i < profileList.size(); i++) {
+        for (int i = 1; i < profileList.size(); i++) {
             Profile key = profileList.get(i);
             int j = i - 1;
 
             while (j >= 0 && (profileList.get(j).getGamesPlayed() > key.getGamesPlayed())) {
-                profileList.set((j+1), profileList.get(j));
+                profileList.set((j + 1), profileList.get(j));
                 j--;
             }
-            profileList.set((j+1), key);
+            profileList.set((j + 1), key);
         }
-        if(asc){
+        if (asc) {
             return profileList;
         } else {
             Collections.reverse(profileList);

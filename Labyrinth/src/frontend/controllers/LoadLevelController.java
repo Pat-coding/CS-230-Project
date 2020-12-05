@@ -1,12 +1,12 @@
-package layout;
+package frontend.controllers;
 
 import backend.Level;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import layout.Game;
-import layout.Main;
+import frontend.loaders.BoardLoader;
+import frontend.Main;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
  * @author
  * @version 1.0
  */
-public class LoadGame implements Initializable {
+public class LoadLevelController implements Initializable {
 
     //ListView to view all of the save games
     @FXML ListView<String> savedLevels;
@@ -36,7 +36,7 @@ public class LoadGame implements Initializable {
      * @param stage
      * @param level
      */
-    public LoadGame(Stage stage, ArrayList<Level> level) {
+    public LoadLevelController(Stage stage, ArrayList<Level> level) {
         this.level = level;
         this.stage = stage;
     }
@@ -104,7 +104,6 @@ public class LoadGame implements Initializable {
     /**
      * Handles the transition back to the menu
      */
-    //TODO find a better way
     public void goToMenu() {
         try {
             Main main = new Main();
@@ -132,7 +131,7 @@ public class LoadGame implements Initializable {
             //displays the selected level
             selectedIndex = savedLevels.getSelectionModel().getSelectedIndex();
             System.out.println(selectedIndex);
-            Game game = new Game(stage, level.get(selectedIndex));
+            BoardLoader game = new BoardLoader(stage, level.get(selectedIndex));
         }
     }
 }

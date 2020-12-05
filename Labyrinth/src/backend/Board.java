@@ -2,6 +2,7 @@ package backend;
 
 import Tiles.FloorTile;
 import Tiles.GoalTile;
+
 import java.util.HashMap;
 
 
@@ -15,26 +16,14 @@ import java.util.HashMap;
 
 public class Board {
 
-    /**
-     * The cardinal directions of the board
-     */
-    public enum Cardinals {
-        TOP,
-        BOTTOM,
-        LEFT,
-        RIGHT,
-        NULL
-    }
-
     private final int rowSize;
     private final int columnSize;
+    public Player tempPlayer;
     private String[] profileNames;
     private String nameOfBoard;
     private FloorTile[][] tileCoordinates;
     private Player[][] playerCoordinates;
     private HashMap<FloorTile, Integer> statusTime = new HashMap<>();
-    public Player tempPlayer;
-
     /**
      * Constructor for a saved level format.
      *
@@ -66,6 +55,7 @@ public class Board {
 
     /**
      * Gets the names of the profiles playing the current board.
+     *
      * @return as String[] names
      */
 
@@ -75,6 +65,7 @@ public class Board {
 
     /**
      * Sets the name of the profiles playing the board
+     *
      * @param profileNames names of profile array
      */
 
@@ -84,6 +75,7 @@ public class Board {
 
     /**
      * Method is used to retrieve the name of the board.
+     *
      * @return The name of the board.
      */
     public String getNameOfBoard() {
@@ -92,31 +84,30 @@ public class Board {
 
     /**
      * Method is used to set the name of the board.
+     *
      * @param nameOfBoard Name of Board.
      */
     public void setNameOfBoard(String nameOfBoard) {
         this.nameOfBoard = nameOfBoard;
     }
 
-
-
     /**
      * Returns the Size of the Row in the table.
+     *
      * @return Integer of size of row.
      */
     public int getRowSize() {
         return rowSize;
     }
 
-
     /**
      * Returns the Size of the Column in the table.
+     *
      * @return Integer of size of Column.
      */
     public int getColumnSize() {
         return columnSize;
     }
-
 
     /**
      * @param x    The x co-ordinate of the tile.
@@ -135,7 +126,6 @@ public class Board {
     public FloorTile getTileFromBoard(int x, int y) {
         return tileCoordinates[x][y];
     }
-
 
     /**
      * Check to see if any Fixed Tiles are present inside of a particular row of the board.
@@ -176,13 +166,10 @@ public class Board {
      * @param oldY The x co-ordinate of the old position.
      */
     public void movePlayer(int oldX, int oldY, int newX, int newY) {
-            insertPlayer(newX, newY, getPlayerFromBoard(oldX, oldY));
-            insertPlayer(oldX, oldY, null);
+        insertPlayer(newX, newY, getPlayerFromBoard(oldX, oldY));
+        insertPlayer(oldX, oldY, null);
 
     }
-
-
-
 
     /**
      * Shift tiles depending on their cardinal direction placement.
@@ -206,7 +193,7 @@ public class Board {
 //                }
             }
             insertTile(x, 0, tile);
-            if(tempPlayer != null) {
+            if (tempPlayer != null) {
                 insertPlayer(x, 0, tempPlayer);
                 tempPlayer = null;
             }
@@ -224,7 +211,7 @@ public class Board {
 //                }
             }
             insertTile(x, getRowSize() - 1, tile);
-            if(tempPlayer != null) {
+            if (tempPlayer != null) {
                 insertPlayer(x, getRowSize() - 1, tempPlayer);
                 tempPlayer = null;
             }
@@ -242,7 +229,7 @@ public class Board {
 //                }
             }
             insertTile(0, y, tile);
-            if(tempPlayer != null) {
+            if (tempPlayer != null) {
                 insertPlayer(0, y, tempPlayer);
                 tempPlayer = null;
             }
@@ -260,7 +247,7 @@ public class Board {
 //                }
             }
             insertTile(getColumnSize() - 1, y, tile);
-            if(tempPlayer != null) {
+            if (tempPlayer != null) {
                 insertPlayer(getColumnSize() - 1, y, tempPlayer);
                 tempPlayer = null;
             }
@@ -291,8 +278,8 @@ public class Board {
 
     public void slidePlayerWithBoard(Cardinals c, int x, int y) {
         //if there is no player on the next tile or a player at the end of the tile
-        if(getPlayerFromBoard(x, y) == null || !checkIfPlayerEndTile(x, y, c)) {
-            if (c == Cardinals.TOP || getPlayerFromBoard(x, y) != null ) {
+        if (getPlayerFromBoard(x, y) == null || !checkIfPlayerEndTile(x, y, c)) {
+            if (c == Cardinals.TOP || getPlayerFromBoard(x, y) != null) {
                 movePlayer(x, y - 1, x, y);
             } else if (c == Cardinals.BOTTOM || getPlayerFromBoard(x, y) != null) {
                 movePlayer(x, y + 1, x, y);
@@ -302,7 +289,7 @@ public class Board {
                 movePlayer(x + 1, y, x, y);
             }
             //if there is a player at the end of the tile or there is no player on the next tile
-        } else if(getPlayerFromBoard(x, y) == null || checkIfPlayerEndTile(x, y, c)) {
+        } else if (getPlayerFromBoard(x, y) == null || checkIfPlayerEndTile(x, y, c)) {
             movePlayerFromEndTile(c, x, y);
         }
     }
@@ -337,14 +324,14 @@ public class Board {
      * @param c The cardinal place of the tile insertion.
      */
     public void movePlayerFromEndTile(Cardinals c, int x, int y) {
-        if (c == Cardinals.TOP && getPlayerFromBoard(x, 0) == null ) {
+        if (c == Cardinals.TOP && getPlayerFromBoard(x, 0) == null) {
             tempPlayer = getPlayerFromBoard(x, y);
             movePlayer(x, y - 1, x, y);
         } else if (c == Cardinals.BOTTOM && getPlayerFromBoard(x, getColumnSize() - 1) == null) {
             tempPlayer = getPlayerFromBoard(x, y);
             movePlayer(x, y + 1, x, y);
         } else if (c == Cardinals.LEFT && getPlayerFromBoard(0, y) == null) {
-            tempPlayer = getPlayerFromBoard(x , y);
+            tempPlayer = getPlayerFromBoard(x, y);
             movePlayer(x - 1, y, x, y);
         } else if (c == Cardinals.RIGHT && getPlayerFromBoard(getRowSize() - 1, y) == null) {
             tempPlayer = getPlayerFromBoard(x, y);
@@ -391,6 +378,17 @@ public class Board {
             }
         }
         return null;
+    }
+
+    /**
+     * The cardinal directions of the board
+     */
+    public enum Cardinals {
+        TOP,
+        BOTTOM,
+        LEFT,
+        RIGHT,
+        NULL
     }
 
 

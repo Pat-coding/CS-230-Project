@@ -22,18 +22,17 @@ public class Level {
             FileManager.readLevelDataFile("SavedLevel.txt", "Saved Level");
 
     public boolean saveButtonFlag;
-    public boolean movementFlag;
     public boolean pressLeftFlag;
     public boolean pressRightFlag;
     public boolean pressDownFlag;
     public boolean pressUpFlag;
     public boolean drawTileFlag;
-    public boolean arrowFlagPressedVert;
-    public boolean arrowFlagPressedHorz;
     public boolean playerHasMovedFlag;
     public boolean endTurnFlag;
+    public boolean playerWinFlag;
+    public boolean playerHandFlag;
 
-
+    private static int playerIndex;
     private int tempX;
     private int tempY;
     private Board.Cardinals tempCardinal;
@@ -77,7 +76,13 @@ public class Level {
         this.playerData = null;
     }
 
+    public static int getPlayerIndex() {
+        return playerIndex;
+    }
 
+    public static void setPlayerIndex(int playerIndex) {
+        Level.playerIndex = playerIndex;
+    }
 
 
     public Board getBoardData() {

@@ -1,9 +1,5 @@
 package Tiles;
 
-import Tiles.FloorTile;
-
-import java.awt.*;
-
 public class CornerTile extends FloorTile {
     private boolean accessFromTop = true;
     private boolean accessFromBottom = true;
@@ -17,7 +13,7 @@ public class CornerTile extends FloorTile {
     public CornerTile(int orientation, String state, Boolean isFixed) {
         super(orientation, state, isFixed);
         this.isFixed = isFixed;
-        this.orientation = orientation;
+        this.setOrientation(orientation);
         if(orientation == 0) {
             this.accessFromLeft = false;
             this.accessFromBottom = false;
@@ -99,4 +95,8 @@ public class CornerTile extends FloorTile {
         return state;
     }
 
+    @Override
+    public void setOrientation(int orientation) {
+        this.orientation = orientation;
+    }
 }

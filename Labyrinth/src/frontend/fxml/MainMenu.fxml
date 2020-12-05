@@ -12,7 +12,7 @@ For example, fx:controller="sample.MainMenu", as shown below.
 Sample is the package name hence why we use sample.ClassName.
 It will be changed to more sensible name when programs are put together. -->
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="layout.MainMenu">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.controllers.MainMenuController">
    <top>
       <VBox alignment="TOP_CENTER" style="-fx-background-color: #202020;" BorderPane.alignment="CENTER">
          <children>

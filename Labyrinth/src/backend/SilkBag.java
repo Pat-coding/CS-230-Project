@@ -2,6 +2,7 @@ package backend;
 import java.util.Random;
 import Tiles.*;
 
+
 /**
  * this class holds the tiles in the silk bag for the game and can take and give tiles to the user and board
  * @author Diana
@@ -12,6 +13,7 @@ public class SilkBag {
 
     Random rand;
     private int[] silkBagContent;
+    private FloorTile tempTile;
 
     /**
      * @param silkBagContent 0th = Straight
@@ -77,25 +79,30 @@ public class SilkBag {
      * @return random FloorTile
      */
     public FloorTile populateRandomBoardTiles() {
-        int randomNum = rand.nextInt(silkBagContent.length);
-
-        if (silkBagContent[randomNum] <= 0) {
+        int rnd = new Random().nextInt(4);
+        if (silkBagContent[rnd] < 1) {
             populateRandomBoardTiles();
         } else {
-            silkBagContent[randomNum] = silkBagContent[randomNum] - 1;
-
-            switch (randomNum) {
+            silkBagContent[rnd] = silkBagContent[rnd] - 1;
+            switch (rnd) {
                 case 0:
-                    return new StraightTile(randomOrientation(), "NORMAL", false);
+                    tempTile = new StraightTile(randomOrientation(), "NORMAL", false);
+                    break;
                 case 1:
-                    return new CornerTile(randomOrientation(), "NORMAL", false);
+                    tempTile = new CornerTile(randomOrientation(), "NORMAL", false);
+                    break;
                 case 2:
-                    return new TShapedTile(randomOrientation(), "NORMAL", false);
+                    tempTile = new TShapedTile(randomOrientation(), "NORMAL", false);
+                    break;
                 case 3:
-                    return new GoalTile(randomOrientation(), "NORMAL", false);
+                    tempTile = new GoalTile(randomOrientation(), "NORMAL", false);
+                    break;
+                default:
+                    tempTile = null;
+                    break;
             }
         }
-        return null;
+        return tempTile;
     }
 
     /**

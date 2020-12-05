@@ -1,5 +1,7 @@
-package backend;
-
+package backend; /**
+ * @author Deniz Oral 1915691
+ * @version 1.0
+ */
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,8 +12,6 @@ import java.net.URLConnection;
 /**
  * Message of the day model. Will get the message from url,
  * decode the message.
- * @author Deniz Oral
- * @version 1.0
  */
 public class Motd {
 
@@ -48,7 +48,7 @@ public class Motd {
             }
             //closing the input stream
             in.close();
-        } catch (IOException e){
+        } catch (IOException e) {
             //displays error message
             System.out.println(e);
         }
@@ -60,7 +60,7 @@ public class Motd {
      * into a suitable string
      * @return MOTD string
      */
-    private static String decodeMotd(){
+    private static String decodeMotd() {
 
         String motd = getMotd("http://cswebcat.swansea.ac.uk/puzzle");
         String decodedMotd = "";
@@ -69,12 +69,12 @@ public class Motd {
         int direction = 0;
         char characters;
 
-        for (int i = 0; i<motd.length(); i++) {
+        for (int i = 0; i < motd.length(); i++) {
             if (direction == 0) {
-                characters = (char)(((int)motd.charAt(i) - shift + 26 - 65) % 26 + 65);
+                characters = (char) (((int) motd.charAt(i) - shift + 26 - 65) % 26 + 65);
                 direction = 1;
             } else {
-                characters = (char)(((int)motd.charAt(i) + shift - 65) % 26 + 65);
+                characters = (char) (((int) motd.charAt(i) + shift - 65) % 26 + 65);
                 direction = 0;
             }
             shift++;

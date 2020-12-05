@@ -1,23 +1,18 @@
-package backend;
-
-import java.util.concurrent.atomic.AtomicInteger;
-
-
-/**
- * this class stores the profile information including results of all their games
+package backend; /**
  * @author Ryan Humphreys 1903246
- * @version 1.0
  */
+
 public class Profile {
 
+    public double winRatio;
     private String profileName;
     private int profileWinCount;
     private int profileLossCount;
     private int profileGamesPlayed;
-    public double winRatio;
 
     /**
      * Constructor for new profiles made during runtime
+     *
      * @param profileName profile name
      */
     public Profile(String profileName) {
@@ -29,11 +24,12 @@ public class Profile {
 
     /**
      * Constructor for importing profiles from file
-     * @param profileName profile name
-     * @param profileWinCount number of wins
+     *
+     * @param profileName      profile name
+     * @param profileWinCount  number of wins
      * @param profileLossCount number of losses
      */
-    public Profile(String profileName, int profileWinCount, int profileLossCount){
+    public Profile(String profileName, int profileWinCount, int profileLossCount) {
         this.profileName = profileName;
         this.profileWinCount = profileWinCount;
         this.profileLossCount = profileLossCount;
@@ -43,22 +39,26 @@ public class Profile {
     /**
      * @return number of wins
      */
-    public int getWinCount(){
+    public int getWinCount() {
         return profileWinCount;
     }
 
     /**
      * @return number of losses
      */
-    public int getLoseCount(){
+    public int getLoseCount() {
         return profileLossCount;
     }
 
     /**
      * @return ratio of wins/losses
      */
-    public double getWinRatio(){
-        return winRatio;
+    public double getWinRatio() {
+        if (profileWinCount == 0 | profileLossCount == 0) {
+            return this.winRatio = 0;
+        } else {
+            return this.winRatio = profileWinCount / profileLossCount;
+        }
     }
 
     /**
@@ -85,14 +85,10 @@ public class Profile {
     /**
      * Adds 1 to profile win count
      */
-    public void incrementWinCount(){
+    public void incrementWinCount() {
         this.profileWinCount++;
         this.profileGamesPlayed++;
-        if (profileWinCount == 0 | profileLossCount == 0) {
-            this.winRatio = 0;
-        } else{
-            this.winRatio = profileWinCount / profileLossCount;
-        }
+
     }
 
     /**
@@ -101,10 +97,5 @@ public class Profile {
     public void incrementLoseCount() {
         this.profileLossCount++;
         this.profileGamesPlayed++;
-        if (profileWinCount == 0 | profileLossCount == 0) {
-            this.winRatio = 0;
-        } else {
-            this.winRatio = profileWinCount / profileLossCount;
-        }
     }
 }

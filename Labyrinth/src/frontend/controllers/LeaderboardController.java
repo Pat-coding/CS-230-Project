@@ -1,32 +1,24 @@
-package layout;
+package frontend.controllers;
 
 import backend.Leaderboard;
 import backend.Profile;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import backend.Leaderboard;
+import frontend.Main;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-/**
- * this class handles the leaderboard UI and allows users to switch between leaderboards
- * @author
- * @version 1.0
- */
-public class Leaderboards implements Initializable {
+public class LeaderboardController implements Initializable {
 
     @FXML private Button backToMenuBtn;
     @FXML private MenuItem sortWins;
     @FXML private MenuItem sortLoss;
     @FXML private MenuItem sortGamesPlayed;
+    @FXML private MenuItem sortWinRatio;
     @FXML private ListView<String> profileList;
 
     private Leaderboard leaderboard;
@@ -36,33 +28,29 @@ public class Leaderboards implements Initializable {
     private ArrayList<Profile> sortedWins;
     private ArrayList<Profile> sortedLosses;
     private ArrayList<Profile> sortedGamesPlayed;
+    private ArrayList<Profile> sortedWinRatio;
 
-    public Leaderboards(Stage stage, ArrayList<Profile> profiles){
+    public LeaderboardController(Stage stage, ArrayList<Profile> profiles){
         this.profiles = profiles;
         this.stage = stage;
-        sortedWins = new Leaderboard(profiles, 0, true).getLeaderboard();
-        sortedLosses = new Leaderboard(profiles, 1, true).getLeaderboard();
-        sortedGamesPlayed = new Leaderboard(profiles, 3, true).getLeaderboard();
+        sortedWins = new Leaderboard(profiles, 0, false).getLeaderboard();
+        sortedLosses = new Leaderboard(profiles, 1, false).getLeaderboard();
+        sortedWinRatio = new Leaderboard(profiles, 2, false).getLeaderboard();
+        sortedGamesPlayed = new Leaderboard(profiles, 3, false).getLeaderboard();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        backToMenuBtn.setOnAction(e -> {
-            goBackToMenu();
-        });
+        backToMenuBtn.setOnAction(e -> goBackToMenu());
 
-        sortWins.setOnAction(e -> {
-            sortByWins();
-        });
+        sortWins.setOnAction(e -> sortByWins());
 
-        sortLoss.setOnAction(event -> {
-            sortByLoss();
-        });
+        sortLoss.setOnAction(event -> sortByLoss());
 
-        sortGamesPlayed.setOnAction(e -> {
-            sortGamesPlayed();
-        });
+        sortWinRatio.setOnAction(event -> sortByWinRatio());
+
+        sortGamesPlayed.setOnAction(e -> sortGamesPlayed());
 
         refreshLeaderboard();
     }
@@ -74,9 +62,6 @@ public class Leaderboards implements Initializable {
         }
     }
 
-    public void displayProfiles() {
-
-    }
 
     public void sortByWins() {
         profileList.getItems().clear();
@@ -97,6 +82,13 @@ public class Leaderboards implements Initializable {
         profileList.getItems().clear();
         System.out.println("Sorting by losses");
         for (Profile i : sortedLosses)
+            profileList.getItems().add(i.getProfileName());
+    }
+
+    private void sortByWinRatio(){
+        profileList.getItems().clear();
+        System.out.println("Sorting by winratio");
+        for (Profile i : sortedWinRatio)
             profileList.getItems().add(i.getProfileName());
     }
 

@@ -1,21 +1,17 @@
-package layout;
+package frontend.controllers;
 import backend.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import frontend.loaders.LeaderboardLoader;
+import frontend.loaders.LoadMenuLoader;
+import frontend.loaders.ProfileSelectLoader;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-/**
- * This class creates the menu where users can decide what they want to do
- * @author
- * @version 1.0
- */
-
-public class MainMenu {
+public class MainMenuController {
 
     private Stage primaryStage;
 
@@ -42,8 +38,7 @@ public class MainMenu {
 
     //Opens new LaunchNewGame window
     public void launchNewGame(){
-        ProfileSelectLoader loader = new ProfileSelectLoader(primaryStage, Level.profileArray);
-        //Game game = new Game(primaryStage, savedLevels.get(0));
+        ProfileSelectLoader loader = new ProfileSelectLoader(primaryStage, Level.profileArray, Level.newLevels);
     }
 
     //Opens new launchLoadGame window

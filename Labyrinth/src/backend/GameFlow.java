@@ -1,18 +1,15 @@
 package backend;
-import Tiles.*;
-import layout.BoardController;
-
+import javafx.scene.control.Alert;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
- * this class handles game logic while players are in a game
  * @author Ben Dodd
  * @version 1.0.0
  */
 
 public class GameFlow {
 
+    private static Player tempPlayer;
     private Level level;
     private Player[] player;
     private int playerIndex;
@@ -23,10 +20,9 @@ public class GameFlow {
 
 
     /**
-     * Construcot for this class
+     * Continue Level
      *
      * @param level Level to play.
-     * @param  playerIndex index of the player whos turn it is
      */
 
     public GameFlow(Level level, int playerIndex) {
@@ -39,23 +35,30 @@ public class GameFlow {
         this.silkBag = level.getSilkBag();
     }
 
-    /**
-     * This method  checks if the player can save the game in its current state,
-     * allows the player to draw tiles, throws errors if the user tries an incorrect
-     * button press and checks if the player has won the game
-     */
+    public static void initiatePlayers(ArrayList<Profile> profiles, Level level) {
+        Player[] tempPlayerArray = new Player[profiles.size()];
+        int[] spawnPoints = level.getSpawnPoints();
+
+        for (int i = 0; i < profiles.size(); i++) {
+            if (i == 0) {
+                tempPlayer = new Player(profiles.get(i), spawnPoints[i * 2], spawnPoints[(i * 2) + 1], new int[6],
+                        new ArrayList<>(), false, true);
+            } else {
+                tempPlayer = new Player(profiles.get(i), spawnPoints[i * 2], spawnPoints[(i * 2) + 1], new int[6],
+                        new ArrayList<>(), false, false);
+            }
+            tempPlayerArray[i] = tempPlayer;
+            level.getBoardData().insertPlayer(spawnPoints[i * 2], spawnPoints[(i * 2) + 1], tempPlayer);
+        }
+        level.setPlayerArray(tempPlayerArray);
+    }
 
     public void flow() {
-        for(int x = 0; x < level.getBoardData().getRowSize(); x++) {
-            for(int y = 0; y < level.getBoardData().getColumnSize(); y++) {
-                System.out.println(level.getBoardData().getPlayerFromBoard(x, y));
-            }
-        }
-
+        updatePlayer();
 
         //  Check to see if the player is allowed to save the game.
         if (level.saveButtonFlag && !hasDrawn) {
-            System.out.println("Player " + playerIndex + " has pressed the save game button!");
+            System.out.println("Player " + this.playerIndex + " has pressed the save game button!");
             saveGame();
             level.saveButtonFlag = false;
         }
@@ -64,30 +67,34 @@ public class GameFlow {
         if (level.drawTileFlag && !hasDrawn) {
             hasDrawn = true;
             drawTile();
-            System.out.println("Player " + playerIndex + " has drawn the " +
-                    player[playerIndex].getTileHand() + " tile!");
-            System.out.println("Player " + playerIndex + " has drawn the " +
-                    player[playerIndex].getPlayerInventory());
+            System.out.println("Player " + this.playerIndex + " has drawn the " +
+                    player[this.playerIndex].getTileHand() + " tile!");
+            System.out.println("Player " + this.playerIndex + " has drawn the " +
+                    player[this.playerIndex].getPlayerInventory());
             level.drawTileFlag = false;
+        }
+
+        if (level.getPlayerData()[playerIndex].getTileHand() != null) {
+            level.playerHandFlag = true;
         }
 
         //  Throws failed to save error
         if (level.saveButtonFlag && hasDrawn) {
-            System.out.println("Player " + playerIndex + " has attempted to save the game after drawing!");
+            System.out.println("Player " + this.playerIndex + " has attempted to save the game after drawing!");
             level.saveButtonFlag = false;
         }
 
 
         //  Throws failed tile draw message
         if (level.drawTileFlag && hasDrawn) {
-            System.out.println("Player " + playerIndex + " attempted to draw another tile!!!");
+            System.out.println("Player " + this.playerIndex + " attempted to draw another tile!!!");
             level.drawTileFlag = false;
         }
 
         //  Throws multiple attempts of placing tile error
-        if (player[playerIndex].getTileHand() == null && hasDrawn) {
+        if (player[this.playerIndex].getTileHand() == null && hasDrawn) {
 
-            System.out.println("Player " + playerIndex + " has attempted placed another tile this turn!");
+            System.out.println("Player " + this.playerIndex + " has attempted placed another tile this turn!");
             level.setTempCardinal(null);
             level.setTempX(-1);
             level.setTempY(-1);
@@ -96,7 +103,7 @@ public class GameFlow {
         //  Throws error for not drawing a tile
         if (level.getTempCardinal() != null && !hasDrawn) {
 
-            System.out.println("Player " + playerIndex + " needs to draw before slotting a tile!");
+            System.out.println("Player " + this.playerIndex + " needs to draw before slotting a tile!");
             level.setTempCardinal(null);
             level.setTempX(-1);
             level.setTempY(-1);
@@ -105,22 +112,22 @@ public class GameFlow {
 
         //  This means player has placed a tile.
         if (level.getTempCardinal() != null && level.getTempX() != -1
-                && level.getTempY() != -1 && player[playerIndex].getTileHand() != null) {
+                && level.getTempY() != -1 && player[this.playerIndex].getTileHand() != null) {
 
             if (level.getTempCardinal() == Board.Cardinals.LEFT ||
                     level.getTempCardinal() == Board.Cardinals.RIGHT) {
 
                 board.placeOnNewTile(level.getTempCardinal(), level.getTempX(), level.getTempY()
-                ,player[playerIndex].getTileHand());
+                        , player[this.playerIndex].getTileHand());
 
             } else {
 
                 board.placeOnNewTile(level.getTempCardinal(), level.getTempX(), level.getTempY()
-                        ,player[playerIndex].getTileHand());
+                        , player[this.playerIndex].getTileHand());
 
             }
 
-            System.out.println("Player " + playerIndex + " has slotted a tile in the board!");
+            System.out.println("Player " + this.playerIndex + " has slotted a tile in the board!");
             level.setTempCardinal(null);
             level.setTempX(-1);
             level.setTempY(-1);
@@ -132,71 +139,66 @@ public class GameFlow {
             level.endTurnFlag = false;
             incPlayerTurn();
         }
-        //checks if player has won
+
+
+
         if (level.playerHasMovedFlag) {
             if (checkWin()) {
-                declareWinner(playerIndex);
+                declareWinner(this.playerIndex);
                 endGame();
+                winnerAlert();
+                //level.playerWinFlag = true;
             } else {
                 incPlayerTurn();
+                level.playerHasMovedFlag = false;
             }
         }
     }
 
 
-    /**
-     * this method takes in the current player position and a button press,
-     * checks if the move is legal then moves the current player on the board
-     *
-     */
     public void movePlayerOnBoard() {
-        int x = level.getPlayerData()[playerIndex].getPlayerCordX();
-        int y = level.getPlayerData()[playerIndex].getPlayerCordY();
-        if(level.pressUpFlag && !level.playerHasMovedFlag) {
-            if(checkPlayerBounds(x, (y - 1)) && checkPlayerMovement(x,(y - 1), playerIndex)) {
-                movePlayer(x, (y - 1), playerIndex);
+        int x = level.getPlayerData()[this.playerIndex].getPlayerCordX();
+        int y = level.getPlayerData()[this.playerIndex].getPlayerCordY();
+        if (level.pressUpFlag && !level.playerHasMovedFlag) {
+            if (checkPlayerBounds(x, (y - 1)) && checkPlayerMovement(x, (y - 1), this.playerIndex)) {
+                movePlayer(x, (y - 1), this.playerIndex);
                 level.pressUpFlag = false;
-                level.getPlayerData()[playerIndex].setPlayerCordY((y - 1));
+                level.getPlayerData()[this.playerIndex].setPlayerCordY((y - 1));
                 level.playerHasMovedFlag = true;
             }
         }
 
-        if(level.pressDownFlag && !level.playerHasMovedFlag) {
-            if(checkPlayerBounds(x, (y + 1)) && checkPlayerMovement(x, (y + 1), playerIndex)) {
-                movePlayer(x, (y + 1), playerIndex);
+        if (level.pressDownFlag && !level.playerHasMovedFlag) {
+            if (checkPlayerBounds(x, (y + 1)) && checkPlayerMovement(x, (y + 1), this.playerIndex)) {
+                movePlayer(x, (y + 1), this.playerIndex);
                 level.pressDownFlag = false;
-                level.getPlayerData()[playerIndex].setPlayerCordY((y + 1));
+                level.getPlayerData()[this.playerIndex].setPlayerCordY((y + 1));
                 level.playerHasMovedFlag = true;
             }
         }
 
-        if(level.pressLeftFlag && !level.playerHasMovedFlag) {
-            if(checkPlayerBounds((x - 1), y) && checkPlayerMovement((x - 1), y, playerIndex)) {
-                movePlayer((x - 1), y, playerIndex);
+        if (level.pressLeftFlag && !level.playerHasMovedFlag) {
+            if (checkPlayerBounds((x - 1), y) && checkPlayerMovement((x - 1), y, this.playerIndex)) {
+                movePlayer((x - 1), y, this.playerIndex);
                 level.pressLeftFlag = false;
-                level.getPlayerData()[playerIndex].setPlayerCordX(x - 1);
+                level.getPlayerData()[this.playerIndex].setPlayerCordX(x - 1);
                 level.playerHasMovedFlag = true;
             }
         }
 
-        if(level.pressRightFlag && !level.playerHasMovedFlag) {
-            if(checkPlayerBounds((x + 1), y) && checkPlayerMovement((x + 1), y, playerIndex)) {
-                movePlayer((x + 1), y, playerIndex);
+        if (level.pressRightFlag && !level.playerHasMovedFlag) {
+            if (checkPlayerBounds((x + 1), y) && checkPlayerMovement((x + 1), y, this.playerIndex)) {
+                movePlayer((x + 1), y, this.playerIndex);
                 level.pressRightFlag = false;
-                level.getPlayerData()[playerIndex].setPlayerCordX(x + 1);
+                level.getPlayerData()[this.playerIndex].setPlayerCordX(x + 1);
                 level.playerHasMovedFlag = true;
             }
         }
     }
-
-    /**
-     * this method gets a tile from silk bag and adds to the players inventory
-     */
 
     public void drawTile() {
-        level.getSilkBag().giveTile(player[playerIndex]);
+        level.getSilkBag().giveTile(player[this.playerIndex]);
     }
-
 
     /**
      * Check if the board is in a state where a player has won.
@@ -204,10 +206,10 @@ public class GameFlow {
      * @return True if there is a winning situation.
      */
     public boolean checkWin() {
-        if (level.getBoardData().getPlayerFromBoard(level.getBoardData().getGoal()[0],
-                level.getBoardData().getGoal()[1]) != null) {
-            for(int i = 0; i < player.length; i++) {
-                if(player[i] == level.getBoardData().getPlayerFromBoard(level.getBoardData().getGoal()[0],
+        if (board.getTileFromBoard(player[playerIndex].getPlayerCordX(),
+                (player[playerIndex].getPlayerCordY())).getType().equals("Goal")) {
+            for (int i = 0; i < player.length; i++) {
+                if (player[i] == level.getBoardData().getPlayerFromBoard(level.getBoardData().getGoal()[0],
                         level.getBoardData().getGoal()[1]))
                     declareWinner(i);
                 return true;
@@ -222,16 +224,28 @@ public class GameFlow {
     public void incPlayerTurn() {
         // set the next player's turn to true (playerTurn method)
         // set the previous player's turn to false (playerTurn method)
-        System.out.println("This player before switching" + player[playerIndex].getPlayerTurn());
-        player[playerIndex].playerTurn(); // set current players turn to false
-        System.out.println("This player after switching" + player[playerIndex].getPlayerTurn());
-        playerIndex ++; // increment which players turn it is
-        if (this.playerIndex == player.length) { // loop back to first player if at end of player array
-            playerIndex = 0;
+        System.out.println("Player " + playerIndex + "before switching" + player[this.playerIndex].getPlayerTurn());
+        player[this.playerIndex].playerTurn(); // set current players turn to false
+        // increment which players turn it is
+
+        if (this.playerIndex == player.length - 1) { // loop back to first player if at end of player array
+            this.playerIndex = 0;
+        } else {
+            this.playerIndex = this.playerIndex + 1;
         }
-        player[playerIndex].playerTurn(); // set next players turn to true
+        System.out.println("Player " + playerIndex + "before switching" + player[this.playerIndex].getPlayerTurn());
+        player[this.playerIndex].playerTurn(); // set next players turn to true
+        Level.setPlayerIndex(playerIndex);
     }
 
+    public void updatePlayer() {
+        for (int i = 0; i < player.length - 1; i++) {
+            int x = level.getBoardData().playerLocationOnBoard(player[i])[0];
+            int y = level.getBoardData().playerLocationOnBoard(player[i])[1];
+            player[i].setPlayerCordX(x);
+            player[i].setPlayerCordY(y);
+        }
+    }
 
     /**
      * Prepare the game to finish, either for saving or at a win.
@@ -244,43 +258,28 @@ public class GameFlow {
             if (Level.getSavedLevels().get(i).getBoardData().getNameOfBoard().equals
                     (this.level.getBoardData().getNameOfBoard())) {
                 Level.getSavedLevels().remove(i);
-                exportGames();
+
             }
         }
+        exportGames();
     }
-
-    /**
-     * This method creates an array of all current players in the game
-     * and creates a save file for the current game and state
-     */
 
     public void exportGames() {
         FileManager.createNewProfile(Level.getProfileArray());
         FileManager.createNewSaveFile(Level.getSavedLevels());
     }
 
-    /**
-     * this saves the file that has just been created and overwrites any previous
-     * versions of this game
-     */
     public void saveGame() {
         //  Override previous save game
-        System.out.println("Saving Game : Stage 1");
+        updatePlayer();
         if (!saveGameCheck()) {
-            System.out.println("Saving Game : Stage 2");
             level.getSavedLevels().add(this.level);
         }
         exportGames();
 
     }
 
-    /**
-     * this method insure the game has been saved correctly
-     * @return boolean depending on result of checks
-     */
-
     public boolean saveGameCheck() {
-        System.out.println("Saving Game : Stage 3");
         //  In range of amount of levels in saved levels
         for (int i = 0; i < level.getSavedLevels().size(); i++) {
             //  If name is equal to a level in saved level.
@@ -294,33 +293,25 @@ public class GameFlow {
         return false;
     }
 
-    /**
-     * this method checks if the move the player is trying to make is legal
-     * @param x coordiate trying to move
-     * @param y coordinate trying to move
-     * @param playerIndex
-     * @return boolean depending if move is legal
-     */
-
     public boolean checkPlayerMovement(int x, int y, int playerIndex) {
         int px = player[playerIndex].getPlayerCordX();
         int py = player[playerIndex].getPlayerCordY();
 
         //  if the tile is out of bounds
-        if(board.getTileFromBoard(x, y) == null) {
+        if (board.getTileFromBoard(x, y) == null) {
             return false;
         } else {
-            if(x == px - 1) {
+            if (x == px - 1) {
                 //  if there are both false then that mean it returns true?
                 return board.getTileFromBoard(px, py).isAccessFromLeft() &&
                         board.getTileFromBoard(x, y).isAccessFromRight();
-            } else if(x == px + 1) {
+            } else if (x == px + 1) {
                 return board.getTileFromBoard(px, py).isAccessFromRight() &&
                         board.getTileFromBoard(x, y).isAccessFromLeft();
-            } else if(y == py - 1) {
+            } else if (y == py - 1) {
                 return board.getTileFromBoard(px, py).isAccessFromTop() &&
                         board.getTileFromBoard(x, y).isAccessFromBottom();
-            } else if(y == py + 1) {
+            } else if (y == py + 1) {
                 return board.getTileFromBoard(px, py).isAccessFromBottom() &&
                         board.getTileFromBoard(x, y).isAccessFromTop();
             }
@@ -329,25 +320,21 @@ public class GameFlow {
     }
 
     /**
-     * this method moves the player to specific coords and then checks if this is a winning move
-     * @param x x coordinate to move to
-     * @param y y coordinate to mvoe to
-     * @param player specifies player being moved
+     * @param x
+     * @param y
+     * @param player
      */
-    public void movePlayer(int x, int y, int player) {
-        level.getBoardData().movePlayer(level.getPlayerData()[player].getPlayerCordX(), level.getPlayerData()[player].getPlayerCordY(),
+    public void movePlayer(int x, int y, int playerI) {
+        board.movePlayer(player[playerI].getPlayerCordX(), player[playerI].getPlayerCordY(),
                 x, y);
         checkWin();
     }
 
-    /**
-     * this method checks if player is on valid coordinates
-     * @param x x coordinate of player
-     * @param y y coordinate of player
-     * @return true of false depening if x and y are on the current board
-     */
     private boolean checkPlayerBounds(int x, int y) {
-        if((x < 0) || (x > level.getBoardData().getRowSize() - 1)|| (y < 0) || (y > level.getBoardData().getColumnSize() - 1) || (level.getBoardData().getPlayerFromBoard(x, y) != null)) {
+        if ((x < 0) || (x > level.getBoardData().getRowSize() - 1)
+                || (y < 0)
+                || (y > level.getBoardData().getColumnSize() - 1)
+                || (level.getBoardData().getPlayerFromBoard(x, y) != null)) {
             System.out.println("Player out of bounds");
             return false;
         } else {
@@ -355,21 +342,27 @@ public class GameFlow {
         }
     }
 
-    /**
-     * Announces that a player has won.
-     * @param i index of player that has won
-     * @return Player that won.
-     */
-    public void declareWinner(int i) {
-        Player[] players = level.getPlayerData();
-        for (int x = 0; x < players.length; x++) {
-            if (players[x] == players[i]) {
-                players[i].incPlayerWin();
-            } else {
-                players[i].incPlayerLoss();
-            }
-        }
-        System.out.println("player " + i + " has won!");
+    private void winnerAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Player " + this.playerIndex + " has won!");
+        alert.showAndWait();
+        System.exit(404);
     }
 
+    /**
+     * Announces that a player has won.
+     *
+     * @return Player that won.
+     */
+    public void declareWinner(int playerIndex) {
+        for (int i = 0; i < player.length; i++) {
+            if (player[i] == player[playerIndex]) {
+                player[i].incPlayerWin();
+                System.out.println("player " + i + " has won!");
+            } else {
+                player[i].incPlayerLoss();
+                System.out.println("player " + i + " has Lost");
+            }
+        }
+
+    }
 }

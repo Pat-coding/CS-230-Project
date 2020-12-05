@@ -29,6 +29,7 @@ public class Player {
 
     /**
      * Player instance constructor
+     *
      * @param profile
      * @param playerCordX
      * @param playerCordY
@@ -37,8 +38,8 @@ public class Player {
      * @param backTrackCheck
      * @param isPlayerTurn
      */
-    public Player(Profile profile, int playerCordX,int playerCordY,int[] profileCordHistory,
-                  ArrayList<Tile> playerInventory, boolean backTrackCheck, boolean isPlayerTurn){
+    public Player(Profile profile, int playerCordX, int playerCordY, int[] profileCordHistory,
+                  ArrayList<Tile> playerInventory, boolean backTrackCheck, boolean isPlayerTurn) {
         this.profile = profile;
         this.playerCordX = playerCordX;
         this.playerCordY = playerCordY;
@@ -50,6 +51,7 @@ public class Player {
 
     /**
      * Getter for the profile
+     *
      * @return profile
      */
     public Profile getProfile() {
@@ -58,6 +60,7 @@ public class Player {
 
     /**
      * Getter for the player's X coordinate
+     *
      * @return X coordinate
      */
     public int getPlayerCordX() {
@@ -66,6 +69,7 @@ public class Player {
 
     /**
      * Sets the location of the Player's current x position
+     *
      * @param x position
      */
 
@@ -75,6 +79,7 @@ public class Player {
 
     /**
      * Getter for the player's Y coordinate
+     *
      * @return Y coordinate
      */
     public int getPlayerCordY() {
@@ -83,6 +88,7 @@ public class Player {
 
     /**
      * Sets the location of the Player's current y position
+     *
      * @param y position
      */
 
@@ -92,6 +98,7 @@ public class Player {
 
     /**
      * Getter for the player's coordinate history
+     *
      * @return coordinate history
      */
     public int[] getProfileCordHistory() {
@@ -100,6 +107,7 @@ public class Player {
 
     /**
      * Getter for the player's inventory
+     *
      * @return player's inventory
      */
     public ArrayList<Tile> getPlayerInventory() {
@@ -108,6 +116,7 @@ public class Player {
 
     /**
      * Getter the back track check
+     *
      * @return back track check
      */
     public boolean getBackTrackCheck() {
@@ -116,6 +125,7 @@ public class Player {
 
     /**
      * Gets the player's turn
+     *
      * @return True if it's the player's turn
      */
     public boolean getPlayerTurn() {
@@ -127,7 +137,14 @@ public class Player {
      * if so increments that players win stat
      */
     public void incPlayerWin() {
-        profile.incrementWinCount();
+        for (int i = 0; i < Level.getProfileArray().size(); i++) {
+            if (Level.getProfileArray().get(i).getProfileName().equals(this.profile.getProfileName())) {
+                System.out.println(Level.getProfileArray().get(i));
+                Level.getProfileArray().get(i).incrementWinCount();
+                System.out.println(Level.getProfileArray().get(i).getProfileName() + " "
+                        + Level.getProfileArray().get(i).getWinCount());
+            }
+        }
     }
 
     /**
@@ -135,19 +152,25 @@ public class Player {
      * player isn't on win coords
      */
     public void incPlayerLoss() {
-        profile.incrementLoseCount();
+        for (int i = 0; i < Level.getProfileArray().size(); i++) {
+            if (Level.getProfileArray().get(i).getProfileName().equals(this.profile.getProfileName())) {
+                Level.getProfileArray().get(i).incrementLoseCount();
+            }
+        }
     }
 
     /**
      * This Method flips player turn after they have finished their turn
+     *
      * @return Boolean result
      */
-    public void playerTurn(){
+    public void playerTurn() {
         this.isPlayerTurn = !this.isPlayerTurn;
     }
 
     /**
      * Getter for the tile's in hand
+     *
      * @return tile's in hand
      */
     public FloorTile getTileHand() {
@@ -156,6 +179,7 @@ public class Player {
 
     /**
      * Setter for tile hand
+     *
      * @param tileHand
      */
     public void setTileHand(FloorTile tileHand) {
