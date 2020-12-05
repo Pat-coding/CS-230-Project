@@ -39,7 +39,6 @@ public class MainMenuController {
     //Opens new LaunchNewGame window
     public void launchNewGame(){
         ProfileSelectLoader loader = new ProfileSelectLoader(primaryStage, Level.profileArray, Level.newLevels);
-        //Game game = new Game(primaryStage, savedLevels.get(0));
     }
 
     //Opens new launchLoadGame window
