@@ -2,6 +2,7 @@ package frontend.controllers;
 import backend.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -10,8 +11,10 @@ import frontend.loaders.LoadMenuLoader;
 import frontend.loaders.ProfileSelectLoader;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MainMenuController {
+public class MainMenuController implements Initializable {
 
     private Stage primaryStage;
 
@@ -29,8 +32,8 @@ public class MainMenuController {
     private BorderPane rootPane;
 
     //when menu is launched, initialize motd and display it
-    @FXML
-    private void initialize(){
+    @Override
+    public void initialize(URL location, ResourceBundle resources){
         Motd motd = new Motd();
         motdText.setText(motd.getMessage());
         System.out.println("Motd loaded");
@@ -49,13 +52,7 @@ public class MainMenuController {
 
     //Opens new launchLeaderBoards window
     public void launchLeaderBoards() {
-//        BorderPane pane = FXMLLoader.load(getClass().getResource("Leaderboards.fxml"));
-//        rootPane.getChildren().setAll(pane);
           LeaderboardLoader leaderboards = new LeaderboardLoader(primaryStage, Level.profileArray);
 
-    }
-    public void launchInventory() throws IOException{
-        BorderPane pane = FXMLLoader.load(getClass().getResource("InventoryController.fxml"));
-        rootPane.getChildren().setAll(pane);
     }
 }
