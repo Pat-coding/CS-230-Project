@@ -23,7 +23,10 @@ public class ProfileSelectController implements Initializable {
     @FXML private Button menuBtn;
     @FXML private Label loadedProfiles;
     @FXML private RadioButton twoPlayers;
+    @FXML private RadioButton threePlayers;
     @FXML private RadioButton fourPlayers;
+    @FXML private ToggleGroup setOne;
+
 
     private int selectedIndex;
 
@@ -42,6 +45,10 @@ public class ProfileSelectController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //sets the toggle group for radio buttons.
+        twoPlayers.setSelected(true);
+
+        ArrayList<Integer> counter = new ArrayList<>();
         loadedProfiles.setText("No profiles selected");
         loadedProfiles.setTextFill(Color.web("#ff0000", 0.8));
 
@@ -49,24 +56,40 @@ public class ProfileSelectController implements Initializable {
 
         });
 
+        /**
+         * Selects player from the list provided to user
+         */
         selectProfileBtn.setOnAction(e -> {
             selectedIndex = profileList.getSelectionModel().getSelectedIndex();
+            //check if theres anything selected in a list
             if (selectedIndex<0){
-                Alert alert = new Alert(Alert.AlertType.ERROR,"Select a profile.");
+                Alert alert = new Alert(Alert.AlertType.ERROR,"Please select a profile");
                 alert.showAndWait();
             } else {
-//                selectedProfiles
-                loadedProfiles.setText(getSelectedProfiles().size()+1+" Profile(s) loaded");
-                loadedProfiles.setTextFill(Color.web("#008000", 0.8));
-                getSelectedProfiles().add(profiles.get(selectedIndex));
-                if (twoPlayers.isSelected() && getSelectedProfiles().size() == 2){
-                    selectProfileBtn.setDisable(true);
-                    System.out.println("2 Profiles loaded");
-                    NewGameLoader newGame = new NewGameLoader(stage, selectedProfiles, newLevel);
-                } else if (fourPlayers.isSelected() && getSelectedProfiles().size() == 4){
-                    selectProfileBtn.setDisable(true);
-                    System.out.println("4 Profiles loaded");
-                    NewGameLoader newGame = new NewGameLoader(stage, selectedProfiles, newLevel);
+                if (!counter.contains(selectedIndex)) {
+
+                    getSelectedProfiles().add(profiles.get(selectedIndex));
+                    if (twoPlayers.isSelected() && getSelectedProfiles().size() == 2) {
+                        selectProfileBtn.setDisable(true);
+                        System.out.println("2 Profiles loaded");
+                        NewGameLoader newGame = new NewGameLoader(stage, selectedProfiles, newLevel);
+                    } else if (threePlayers.isSelected() && getSelectedProfiles().size() == 3) {
+                        selectProfileBtn.setDisable(true);
+                        System.out.println("3 Profiles loaded");
+                        NewGameLoader newGame = new NewGameLoader(stage, selectedProfiles, newLevel);
+                    } else if (fourPlayers.isSelected() && getSelectedProfiles().size() == 4) {
+                        selectProfileBtn.setDisable(true);
+                        System.out.println("4 Profiles loaded");
+                        NewGameLoader newGame = new NewGameLoader(stage, selectedProfiles, newLevel);
+                    }
+                    loadedProfiles.setText(getSelectedProfiles().size()+" Profile(s) loaded");
+                    loadedProfiles.setTextFill(Color.web("#008000", 0.8));
+                    counter.add(selectedIndex);
+
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING, "This player is already in a list. " +
+                            "Please select another player!");
+                    alert.showAndWait();
                 }
             }
         });
