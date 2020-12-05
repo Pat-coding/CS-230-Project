@@ -23,7 +23,6 @@ public class NewGameLoader {
             Scene scene = new Scene(root, 600, 390);
             primaryStage.setScene(scene);
             primaryStage.show();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
