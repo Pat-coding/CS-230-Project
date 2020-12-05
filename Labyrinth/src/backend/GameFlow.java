@@ -150,6 +150,10 @@ public class GameFlow {
         }
     }
 
+    public int getPlayerIndex(){
+        return playerIndex;
+    }
+
     public void movePlayerOnBoard() {
         int x = level.getBoardData().playerLocationOnBoard(level.getPlayerData()[playerIndex])[0];
         int y = level.getBoardData().playerLocationOnBoard(level.getPlayerData()[playerIndex])[1];

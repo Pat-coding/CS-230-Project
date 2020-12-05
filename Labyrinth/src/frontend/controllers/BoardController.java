@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -26,38 +27,23 @@ public class BoardController implements Initializable {
     Image arrowLeft = new Image(getClass().getResourceAsStream("/resources/arrowLeft.png"));
     Image arrowRight = new Image(getClass().getResourceAsStream("/resources/arrowRight.png"));
 
-    @FXML
-    private GridPane topGrid;
-    @FXML
-    private GridPane rightGrid;
-    @FXML
-    private GridPane bottomGrid;
-    @FXML
-    private GridPane leftGrid;
-    @FXML
-    private GridPane tileGrid;
-    @FXML
-    private Button saveGameBtn;
-    @FXML
-    private Button quitBtn;
-    @FXML
-    private Button drawTileBtn;
-    @FXML
-    private Button endTurnBtn;
-    @FXML
-    private Pane pane;
-    @FXML
-    private HBox inventory;
-    @FXML
-    private StackPane invPane;
-    @FXML
-    private Button rotateLeft;
-    @FXML
-    private Button rotateRight;
-    @FXML
-    private Pane handTile;
-    @FXML
-    private Button moveButton;
+    @FXML private GridPane topGrid;
+    @FXML private GridPane rightGrid;
+    @FXML private GridPane bottomGrid;
+    @FXML private GridPane leftGrid;
+    @FXML private GridPane tileGrid;
+    @FXML private Button saveGameBtn;
+    @FXML private Button quitBtn;
+    @FXML private Button drawTileBtn;
+    @FXML private Button endTurnBtn;
+    @FXML private Pane pane;
+    @FXML private HBox inventory;
+    @FXML private StackPane invPane;
+    @FXML private Button rotateLeft;
+    @FXML private Button rotateRight;
+    @FXML private Pane handTile;
+    @FXML private Button moveButton;
+    @FXML private Label playerTurn;
 
     private Level level;
     private int playerCounter = 0;
@@ -138,6 +124,7 @@ public class BoardController implements Initializable {
             moveButton.setVisible(false);
             invPane.getChildren().clear();
             displayInventory();
+            updatePlayerTurn();
             event.consume();
         });
 
@@ -201,7 +188,6 @@ public class BoardController implements Initializable {
             inv.setTranslateX(i * size / 1.5);
             invPane.getChildren().add(inv);
         }
-
     }
 
     private void setupBoard() {
@@ -220,6 +206,7 @@ public class BoardController implements Initializable {
                 }
             }
         }
+        updatePlayerTurn();
     }
 
     private void setTiles(ImageView tile, int x, int y) {
@@ -264,6 +251,7 @@ public class BoardController implements Initializable {
                 }
             }
         }
+        updatePlayerTurn();
     }
 
     public void hideArrows() {
@@ -412,6 +400,10 @@ public class BoardController implements Initializable {
                 }
             }
         }
+    }
+
+    private void updatePlayerTurn(){
+        playerTurn.setText("Player " + level.getPlayerData()[level.getPlayerIndex()].getProfile().getProfileName() + "'s turn!");
     }
 }
 
