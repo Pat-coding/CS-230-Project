@@ -93,9 +93,9 @@ public class FileManager {
 
         //  Reads in profiles
         profiles = readProfileDataFile("Profiles.txt");
-        for (int i = 0; i < profiles.size(); i++) {
-            if (Arrays.asList(profileName).contains(profiles.get(i).getProfileName())) {
-                usedProfile.add(profiles.get(i));
+        for (Profile profile : profiles) {
+            if (Arrays.asList(profileName).contains(profile.getProfileName())) {
+                usedProfile.add(profile);
             }
         }
 
@@ -125,7 +125,7 @@ public class FileManager {
             }
 
             for (int j = 0; j < playerInventoryTemp.length - 1; j = j + 2) {
-                if (playerInventoryTemp[j] != "NA") {
+                if (!playerInventoryTemp[j].equals("NA")) {
                     arrayOfList[i].add(
                             createPlayerInventoryTiles(playerInventoryTemp[j],
                                     Integer.parseInt(playerInventoryTemp[j + 1])));
@@ -192,7 +192,7 @@ public class FileManager {
     }
 
     /**
-     * Creates a Profile object
+     * Creates a Profile object.
      *
      * @param in passes through the Scanner for the file.
      * @return a Profile object
@@ -379,7 +379,7 @@ public class FileManager {
     }
 
     /**
-     * Takes in ArrayList of profiles
+     * Takes in ArrayList of profiles.
      *
      * @param profileArray takes in an ArrayList of profiles
      */
@@ -391,12 +391,12 @@ public class FileManager {
             System.out.println(e);
         }
 
-        for (int i = 0; i < profileArray.size(); i++) {
+        for (Profile profile : profileArray) {
             try (FileWriter profileWriter = new FileWriter("Profiles.txt", true)) {
 
-                profileWriter.write(profileArray.get(i).getProfileName() + "\n");
-                profileWriter.write(profileArray.get(i).getWinCount() + "\n");
-                profileWriter.write(profileArray.get(i).getLoseCount() + "\n");
+                profileWriter.write(profile.getProfileName() + "\n");
+                profileWriter.write(profile.getWinCount() + "\n");
+                profileWriter.write(profile.getLoseCount() + "\n");
 
             } catch (IOException e) {
                 System.out.println("createNewProfile error has occurred");
@@ -413,7 +413,7 @@ public class FileManager {
      */
 
     private static ArrayList<Profile> readDataFileProfile(Scanner in) {
-        ArrayList<Profile> returnableArray = new ArrayList<Profile>();
+        ArrayList<Profile> returnableArray = new ArrayList<>();
 
         while (in.hasNext()) {
             try {
@@ -430,7 +430,7 @@ public class FileManager {
     /**
      * Method to read and turn an arraylist of profiles from this file. The
      * program should handle the file not found exception here and shut down
-     * the program elegantly
+     * the program elegantly.
      *
      * @param filename the name of the file
      * @return the ArrayList of Profiles from the file.
@@ -454,11 +454,12 @@ public class FileManager {
      * Reads the data file used by the program, and returns a constructed arraylist.
      *
      * @param in the scanner of the file
+     * @param loadType refers to whether its a new file or saved file
      * @return the arraylist represented by the data file
      */
 
     private static ArrayList<Level> readDataFileLevel(Scanner in, String loadType) {
-        ArrayList<Level> returnableArray = new ArrayList<Level>();
+        ArrayList<Level> returnableArray = new ArrayList<>();
         while (in.hasNext()) {
             switch (loadType) {
                 case "New Level":
@@ -535,7 +536,7 @@ public class FileManager {
     }
 
     /**
-     * Used to create Tiles for player Inventory
+     * Used to create Tiles for player Inventory.
      *
      * @param tile a string representation of the tile being created
      * @param orientation of the tile
@@ -609,12 +610,12 @@ public class FileManager {
      * Method takes a String, converts it into a Integer array, and handles
      * the NumberFormatException here and shut down the program elegantly.
      *
-     * @param a the string
+     * @param string the string
      * @return an array of type int with the contents of the string
      */
 
-    private static int[] stringToIntArray(String a) {
-        String[] item = a.split("[,]");
+    private static int[] stringToIntArray(String string) {
+        String[] item = string.split("[,]");
 
         int[] returnVal = new int[item.length];
 
@@ -632,12 +633,12 @@ public class FileManager {
      * Method takes a String, converts it into a Boolean array, and handles
      * the Exception here and shut down the program elegantly.
      *
-     * @param a the string
+     * @param string the string
      * @return an array of type int with the contents of the string
      */
 
-    private static Boolean[] stringToBooleanArray(String a) {
-        String[] item = a.split("[,]");
+    private static Boolean[] stringToBooleanArray(String string) {
+        String[] item = string.split("[,]");
 
         Boolean[] returnVal = new Boolean[item.length];
 
