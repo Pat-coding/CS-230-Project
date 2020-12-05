@@ -40,7 +40,10 @@ public class BoardController implements Initializable {
     private int playerIndex;
     private GameFlow gameFlow;
 
-
+    /**
+     * This method listents for any button presses of arrow keys which are used to move the player
+     *
+     */
     private EventHandler<KeyEvent> keyListener = event -> {
         if (event.getCode() == KeyCode.UP) {
             level.pressUpFlag = true;
@@ -79,6 +82,11 @@ public class BoardController implements Initializable {
         this.gameFlow = new GameFlow(this.level, this.playerIndex);
     }
 
+    /**
+     * this method sets the index for every player on the board
+     * @return index of each player
+     */
+
     public int setPlayerIndex() {
         for (int i = 0; i < level.getPlayerData().length; i++) {
             if (level.getPlayerData()[i].getPlayerTurn() == true) {
@@ -87,6 +95,12 @@ public class BoardController implements Initializable {
         }
         return 0;
     }
+
+    /**
+     * this is initializes the board creating the action tiles and added all the buttons, arrows and tiles to the board.
+     * @param location
+     * @param resources
+     */
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -118,6 +132,9 @@ public class BoardController implements Initializable {
         setupArrows();
     }
 
+    /**
+     * this method sets up the board depending on the determined size and fized tiles then fills the gaps with tiles from silk bag
+     */
     private void setupBoard() {
         for (int x = 0; x < level.getBoardData().getRowSize(); x++) {
             for (int y = 0; y < level.getBoardData().getColumnSize(); y++) {
@@ -134,7 +151,12 @@ public class BoardController implements Initializable {
         }
     }
 
-
+    /**
+     * this method takes in a tile and y and y for the board and sets that grid position to the tiles
+     * @param tile
+     * @param x
+     * @param y
+     */
 
     private void setTiles(ImageView tile, int x, int y) {
         tile.setFitHeight(size);
@@ -144,6 +166,13 @@ public class BoardController implements Initializable {
         checkPlayerNull(x, y, tile);
 
     }
+
+    /**
+     * ASK PAT
+     * @param j
+     * @param k
+     * @param tile
+     */
 
     private void checkPlayerNull(int j, int k, ImageView tile) {
 
@@ -161,6 +190,11 @@ public class BoardController implements Initializable {
         }
     }
 
+    /**
+     * This method refresshes the board after a tile or player move to make sure the front
+     * end is displaying the correct information
+     *
+     */
     public void refreshBoard() {
         tileGrid.getChildren().clear();
         for (int x = 0; x < level.getBoardData().getColumnSize(); x++) {
@@ -177,6 +211,11 @@ public class BoardController implements Initializable {
             }
         }
     }
+
+    /**
+     * this method sets up the arrows around the board and make sure
+     * rows with a fixed tile dont have an arrow
+     */
 
     public void setupArrows() {
         topGrid.setTranslateX(size);
