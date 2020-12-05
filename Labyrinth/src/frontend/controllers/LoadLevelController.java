@@ -102,7 +102,6 @@ public class LoadLevelController implements Initializable {
     /**
      * Handles the transition back to the menu
      */
-    //TODO find a better way
     public void goToMenu() {
         try {
             Main main = new Main();
