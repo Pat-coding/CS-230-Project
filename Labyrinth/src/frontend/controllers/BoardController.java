@@ -18,6 +18,13 @@ import javafx.scene.input.KeyEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * this class handles the leaderboard UI and allows users to switch between leaderboards
+ * @author Deniz
+ * @version 1.0
+ */
+
+
 public class BoardController implements Initializable {
 
     int size = 100;
@@ -62,6 +69,11 @@ public class BoardController implements Initializable {
     private Level level;
 
     private GameFlow gameFlow;
+
+    /**
+     * This method listents for any button presses of arrow keys which are used to move the player
+     *
+     */
     private EventHandler<KeyEvent> keyListener = event -> {
         if (event.getCode() == KeyCode.UP) {
             level.pressUpFlag = true;
@@ -88,13 +100,22 @@ public class BoardController implements Initializable {
         event.consume();
     };
 
+    /**
+     *This Constructor gives the gameflow the current player and the state of the board
+     * @param level
+     */
+
     public BoardController(Level level) {
         this.level = level;
         //  Provides gameFlow with the level information as well as the information regarding the who's turn it is.
         this.gameFlow = new GameFlow(this.level, Level.getPlayerIndex());
     }
 
-
+    /**
+     * this is initializes the board creating the action tiles and added all the buttons, arrows and tiles to the board.
+     * @param location  the location of the save file
+     * @param resources the .png being added to the board
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         saveGameBtn.setOnAction(event -> {
@@ -138,6 +159,11 @@ public class BoardController implements Initializable {
         rotateRight.setVisible(false);
     }
 
+    /**
+     * This method ensures the player has inserted a tile while it is there go and the tile is in the correct oreintation
+     * It shows the current tile in the users hand and lets them roate it before insertion
+     */
+
     public void floorTileCommands() {
         if (level.playerHandFlag) {
             endTurnBtn.setVisible(false);
@@ -170,6 +196,10 @@ public class BoardController implements Initializable {
         }
     }
 
+    /**
+     * this allows a player to place an action tile without needing to press an arrow
+     */
+
     public void caseActionTileDrawn() {
         FloorTile tilePresent = level.getPlayerData()[Level.getPlayerIndex()].getTileHand();
         if (tilePresent == null) {
@@ -177,6 +207,10 @@ public class BoardController implements Initializable {
             hideArrows();
         }
     }
+
+    /**
+     * this method displays the current players inventory
+     */
 
     private void displayInventory() {
         Player players = level.getPlayerData()[Level.getPlayerIndex()];
@@ -190,6 +224,11 @@ public class BoardController implements Initializable {
         }
 
     }
+
+    /**
+     * this method takes in the row and column size and fills the board with tiles for the user to see
+     * it also ensures fixed tiles are in the correct place
+     */
 
     private void setupBoard() {
         Board board = level.getBoardData();
@@ -208,6 +247,13 @@ public class BoardController implements Initializable {
         }
     }
 
+    /**
+     * this sets a x and y coordinate to a specific tile
+     * @param tile to be set
+     * @param x x coord of tile placement
+     * @param y y coord of tile placement
+     */
+
     private void setTiles(ImageView tile, int x, int y) {
         tile.setFitHeight(size);
         tile.setFitWidth(size);
@@ -216,6 +262,13 @@ public class BoardController implements Initializable {
         checkPlayerNull(x, y, tile);
 
     }
+
+    /**
+     * this checks if the player is displayed on board and if not displays it
+     * @param j x coord of player
+     * @param k y coord of player
+     * @param tile tile player is on
+     */
 
     private void checkPlayerNull(int j, int k, ImageView tile) {
         if (level.getBoardData().getPlayerFromBoard(j, k) != null) {
@@ -231,6 +284,11 @@ public class BoardController implements Initializable {
         }
     }
 
+    /**
+     * This method refresshes the board after a tile or player move to make sure the front
+     * end is displaying the correct information
+     *
+     */
 
     public void refreshBoard() {
         tileGrid.getChildren().clear();
@@ -249,6 +307,10 @@ public class BoardController implements Initializable {
         }
     }
 
+    /**
+     * this method hides the arrows on rows and columns where there is a fixed tile
+     */
+
     public void hideArrows() {
         for (int i = 1; i < level.getBoardData().getRowSize() + 1; i++) {
             if (level.getTempCardinal() == null || level.getPlayerData()[Level.getPlayerIndex()] == null) {
@@ -261,6 +323,10 @@ public class BoardController implements Initializable {
         slottedUnset();
     }
 
+    /**
+     * this method hides UI buttons after a tile has been slotted apart from end turn
+     */
+
     public void slottedUnset() {
         rotateRight.setVisible(false);
         rotateLeft.setVisible(false);
@@ -269,6 +335,10 @@ public class BoardController implements Initializable {
         level.playerHandFlag = false;
         endTurnBtn.setVisible(true);
     }
+
+    /**
+     * this method sets all arrows on the board to visable
+     */
 
     public void unHideArrows() {
         for (int x = 0; x < level.getBoardData().getRowSize(); x++) {
@@ -284,6 +354,10 @@ public class BoardController implements Initializable {
             }
         }
     }
+    /**
+     * this method sets up the arrows around the board and make sure
+     * rows with a fixed tile dont have an arrow
+     */
 
     public void setupArrows() {
         topGrid.setTranslateX(size);
