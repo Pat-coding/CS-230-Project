@@ -26,7 +26,7 @@ public class Level {
     public boolean playerWinFlag;
     public boolean playerHandFlag;
 
-    public int playerIndex;
+    private static int playerIndex;
     private int tempX;
     private int tempY;
     private Board.Cardinals tempCardinal;
@@ -70,6 +70,13 @@ public class Level {
         this.playerData = null;
     }
 
+    public static int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public static void setPlayerIndex(int playerIndex) {
+        Level.playerIndex = playerIndex;
+    }
 
 
     public Board getBoardData() {

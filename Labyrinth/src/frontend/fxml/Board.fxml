@@ -73,6 +73,9 @@
                                  <right>
                                     <Button fx:id="endTurnBtn" mnemonicParsing="false" text="End Turn" BorderPane.alignment="CENTER" />
                                  </right>
+                                 <center>
+                                    <Button fx:id="moveButton" mnemonicParsing="false" text="Move" BorderPane.alignment="CENTER" />
+                                 </center>
                               </BorderPane>
                            </children>
                         </HBox>

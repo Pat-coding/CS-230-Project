@@ -1,7 +1,10 @@
 package backend;
+
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
+
 /**
  * @author Ben Dodd
  * @version 1.0.0
@@ -139,7 +142,7 @@ public class GameFlow {
             incPlayerTurn();
         }
 
-        if (level.playerHasMovedFlag) {
+        if (level.playerHasMovedFlag || level.getTempCardinal() != null) {
             if (checkWin()) {
                 declareWinner(this.playerIndex);
                 winnerAlert();
@@ -233,7 +236,7 @@ public class GameFlow {
         }
         System.out.println("Player " + playerIndex + "before switching" + player[this.playerIndex].getPlayerTurn());
         player[this.playerIndex].playerTurn(); // set next players turn to true
-        level.playerIndex = playerIndex;
+        Level.setPlayerIndex(playerIndex);
     }
 
     public void updatePlayer() {

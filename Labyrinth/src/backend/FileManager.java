@@ -13,7 +13,8 @@ public class FileManager {
     private static int counter;
 
     /**
-     *  Creates a Level object for a pre-existing game.
+     * Creates a Level object for a pre-existing game.
+     *
      * @param in passes through the Scanner for the file.
      * @return a Level object
      */
@@ -67,14 +68,13 @@ public class FileManager {
         arrayOfList[3] = p3;
 
 
-
         //  Populates Board with Tiles
-        for (int i = 0; i < sizeOfBoard[0]*sizeOfBoard[1]; i++) {
+        for (int i = 0; i < sizeOfBoard[0] * sizeOfBoard[1]; i++) {
             //  Continues to read lines
             String stringTile = in.next();
             String[] sta = stringToStringArray(stringTile);
             FloorTile tempTile = createTempTile(sta[2], Integer.parseInt(sta[3]), sta[4], Boolean.parseBoolean(sta[5]));
-            tempBoard.insertTile(stringToInt(sta[0]),stringToInt(sta[1]), tempTile);
+            tempBoard.insertTile(stringToInt(sta[0]), stringToInt(sta[1]), tempTile);
         }
 
 
@@ -94,7 +94,7 @@ public class FileManager {
 
         //  Splits ProfileCord Y element from X elements.
         counter = 0;
-        for (int j = 1; j < (profileCord.length); j = j + 2, counter++){
+        for (int j = 1; j < (profileCord.length); j = j + 2, counter++) {
             profileCordY[counter] = profileCord[j];
         }
 
@@ -111,11 +111,11 @@ public class FileManager {
                 profileCordHistoryArray[j] = profileCordHistory[j + counter];
             }
 
-            for (int j = 0; j < playerInventoryTemp.length - 1; j = j+2) {
-                if (playerInventoryTemp[j] == "NA"){
+            for (int j = 0; j < playerInventoryTemp.length - 1; j = j + 2) {
+                if (playerInventoryTemp[j] == "NA") {
                     break;
                 }
-                arrayOfList[i].add(createPlayerInventoryTiles(playerInventoryTemp[j], Integer.parseInt(playerInventoryTemp[j+1])));
+                arrayOfList[i].add(createPlayerInventoryTiles(playerInventoryTemp[j], Integer.parseInt(playerInventoryTemp[j + 1])));
             }
             Player tempPlayer = new Player(usedProfile.get(i), profileCordX[i], profileCordY[i], profileCordHistory,
                     (ArrayList<Tile>) arrayOfList[i], backTrackCheck[i], isPlayerTurn[i]);
@@ -131,7 +131,8 @@ public class FileManager {
     }
 
     /**
-     *  Creates a Level object for a new game.
+     * Creates a Level object for a new game.
+     *
      * @param in passes through the Scanner for the file.
      * @return a Level object
      */
@@ -173,12 +174,13 @@ public class FileManager {
     }
 
     /**
-     *  Creates a Profile object
+     * Creates a Profile object
+     *
      * @param in passes through the Scanner for the file.
      * @return a Profile object
      */
     // throws ProfileNotCompleteException
-    private static Profile loadProfile(Scanner in){
+    private static Profile loadProfile(Scanner in) {
 
         String profileName = in.next();
         String stringProfileWinCount = in.next();
@@ -191,15 +193,11 @@ public class FileManager {
         return new Profile(profileName, profileWinCount, profileLossCount);
     }
 
-    /**
-     *
-     * @param ArrayList<Level> levelArray
-     */
 
     public static void createNewSaveFile(ArrayList<Level> levelArray) {
 
         //  Clear the file.
-        try(PrintWriter dumpFile = new PrintWriter("SavedLevel.txt")) {
+        try (PrintWriter dumpFile = new PrintWriter("SavedLevel.txt")) {
             dumpFile.print("");
         } catch (FileNotFoundException e) {
             System.out.println(e);
@@ -241,7 +239,7 @@ public class FileManager {
 //                        .replace("[", "")
 //                        .replace("]", "")
 //                        .replace(" ", "");
-                    levelWriter.write("2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2" + "\n");
+                levelWriter.write("2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2" + "\n");
 
                 //  Contents of the Silk Bag
                 levelWriter.write(Arrays.toString(silkBag.getSilkBagContent())
@@ -327,9 +325,9 @@ public class FileManager {
                             if (j == board.getRowSize() - 1 &&
                                     k == board.getColumnSize() - 1) {
 
-                                levelWriter.write(j + "," + k + "," + board.getTileFromBoard(j,k).getType()
-                                        + "," + board.getTileFromBoard(j,k).getOrientation() + ",Normal,"
-                                        + board.getTileFromBoard(j,k).isFixed());
+                                levelWriter.write(j + "," + k + "," + board.getTileFromBoard(j, k).getType()
+                                        + "," + board.getTileFromBoard(j, k).getOrientation() + ",Normal,"
+                                        + board.getTileFromBoard(j, k).isFixed());
                             } else {
                                 levelWriter.write(j + "," + k + "," + board.getTileFromBoard(j, k).getType()
                                         + "," + board.getTileFromBoard(j, k).getOrientation() + ",Normal,"
@@ -337,9 +335,9 @@ public class FileManager {
                             }
 
                         } else {
-                            levelWriter.write(j + "," + k + "," + board.getTileFromBoard(j,k).getType()
-                                    + "," + board.getTileFromBoard(j,k).getOrientation() + ",Normal,"
-                                    + board.getTileFromBoard(j,k).isFixed() + "\n");
+                            levelWriter.write(j + "," + k + "," + board.getTileFromBoard(j, k).getType()
+                                    + "," + board.getTileFromBoard(j, k).getOrientation() + ",Normal,"
+                                    + board.getTileFromBoard(j, k).isFixed() + "\n");
                         }
 
                     }
@@ -352,12 +350,13 @@ public class FileManager {
     }
 
     /**
-     *  Takes in ArrayList of profiles
+     * Takes in ArrayList of profiles
+     *
      * @param profileArray takes in an ArrayList of profiles
      */
-    public static void createNewProfile (ArrayList<Profile> profileArray) {
+    public static void createNewProfile(ArrayList<Profile> profileArray) {
         //  Clear the file
-        try(PrintWriter dumpFile = new PrintWriter("Profiles.txt")) {
+        try (PrintWriter dumpFile = new PrintWriter("Profiles.txt")) {
             dumpFile.print("");
         } catch (FileNotFoundException e) {
             System.out.println(e);
@@ -368,7 +367,7 @@ public class FileManager {
             try (FileWriter profileWriter = new FileWriter("Profiles.txt", true)) {
 
                 profileWriter.write(profileArray.get(i).getProfileName() + "\n");
-                profileWriter.write(profileArray.get(i).getWinCount() +"\n");
+                profileWriter.write(profileArray.get(i).getWinCount() + "\n");
                 profileWriter.write(profileArray.get(i).getLoseCount() + "\n");
 
             } catch (IOException e) {
@@ -379,7 +378,7 @@ public class FileManager {
     }
 
     /**
-     *  Reads the data file used by the program, and returns a constructed arraylist.
+     * Reads the data file used by the program, and returns a constructed arraylist.
      *
      * @param in the scanner of the file
      * @return the arraylist represented by the data file
@@ -401,9 +400,9 @@ public class FileManager {
     }
 
     /**
-     *  Method to read and turn an arraylist of profiles from this file. The
-     *  program should handle the file not found exception here and shut down
-     *  the program elegantly
+     * Method to read and turn an arraylist of profiles from this file. The
+     * program should handle the file not found exception here and shut down
+     * the program elegantly
      *
      * @param filename the name of the file
      * @return the ArrayList of Profiles from the file.
@@ -414,7 +413,7 @@ public class FileManager {
 
         Scanner in = null;
         try {
-            in = new Scanner (inputFile);
+            in = new Scanner(inputFile);
         } catch (FileNotFoundException e) {
             System.out.println("Cannot open " + filename);
             System.out.print(e);
@@ -424,7 +423,7 @@ public class FileManager {
     }
 
     /**
-     *  Reads the data file used by the program, and returns a constructed arraylist.
+     * Reads the data file used by the program, and returns a constructed arraylist.
      *
      * @param in the scanner of the file
      * @return the arraylist represented by the data file
@@ -454,9 +453,9 @@ public class FileManager {
     }
 
     /**
-     *  Method to read and turn an arraylist of level from this file. The
-     *  program should handle the file not found exception here and shut down
-     *  the program elegantly
+     * Method to read and turn an arraylist of level from this file. The
+     * program should handle the file not found exception here and shut down
+     * the program elegantly
      *
      * @param filename the name of the file
      * @return the ArrayList of Profiles from the file.
@@ -466,7 +465,7 @@ public class FileManager {
         File inputFile = new File(filename);
         Scanner in = null;
         try {
-            in = new Scanner (inputFile);
+            in = new Scanner(inputFile);
         } catch (FileNotFoundException e) {
             System.out.println("Cannot open " + filename);
             System.exit(0);
@@ -476,6 +475,7 @@ public class FileManager {
 
     /**
      * Used to create floor tiles for board.
+     *
      * @param typeOfTile
      * @param orientation
      * @param state
@@ -487,16 +487,16 @@ public class FileManager {
 
         FloorTile tempTile = null;
         switch (typeOfTile) {
-            case "Straight" :
+            case "Straight":
                 tempTile = new StraightTile(orientation, state, isFixed);
                 break;
-            case "TShaped"  :
+            case "TShaped":
                 tempTile = new TShapedTile(orientation, state, isFixed);
                 break;
-            case "Corner"   :
+            case "Corner":
                 tempTile = new CornerTile(orientation, state, isFixed);
                 break;
-            case "Goal"     :
+            case "Goal":
                 tempTile = new GoalTile(orientation, state, isFixed);
                 break;
             default:
@@ -507,6 +507,7 @@ public class FileManager {
 
     /**
      * Used to create Tiles for player Inventory
+     *
      * @param typeOfTile
      * @param orientation
      * @return
@@ -516,28 +517,28 @@ public class FileManager {
         Tile tempTile = null;
 
         switch (typeOfTile) {
-            case "Straight" :
+            case "Straight":
                 tempTile = new StraightTile(orientation, "normal", false);
                 break;
-            case "TShaped"  :
+            case "TShaped":
                 tempTile = new TShapedTile(orientation, "normal", false);
                 break;
-            case "Corner"   :
+            case "Corner":
                 tempTile = new CornerTile(orientation, "normal", false);
                 break;
-            case "Goal"     :
+            case "Goal":
                 tempTile = new GoalTile(orientation, "normal", false);
                 break;
-            case "Fire"     :
+            case "Fire":
                 tempTile = new FireTile();
                 break;
-            case "Ice"      :
+            case "Ice":
                 tempTile = new IceTile();
                 break;
-            case "DoubleMove"   :
+            case "DoubleMove":
                 tempTile = new DoubleMoveTile();
                 break;
-            case "BackTrack"    :
+            case "BackTrack":
                 tempTile = new BacktrackTile();
                 break;
             default:
@@ -547,7 +548,8 @@ public class FileManager {
     }
 
     /**
-     *  Method to convert a string into a string array, with a particular delimiter
+     * Method to convert a string into a string array, with a particular delimiter
+     *
      * @param a the string
      * @return an array with the contents of the string
      */
@@ -557,8 +559,9 @@ public class FileManager {
     }
 
     /**
-     *  Method takes a String, converts it into an Integer, and handles
-     *  the NumberFormatException here and shut down the program elegantly
+     * Method takes a String, converts it into an Integer, and handles
+     * the NumberFormatException here and shut down the program elegantly
+     *
      * @param string the string being converted
      * @return int value
      */
@@ -574,8 +577,9 @@ public class FileManager {
     }
 
     /**
-     *  Method takes a String, converts it into a Integer array, and handles
-     *  the NumberFormatException here and shut down the program elegantly
+     * Method takes a String, converts it into a Integer array, and handles
+     * the NumberFormatException here and shut down the program elegantly
+     *
      * @param a the string
      * @return an array of type int with the contents of the string
      */
@@ -583,7 +587,7 @@ public class FileManager {
     private static int[] stringToIntArray(String a) {
         String[] item = a.split("[,]");
 
-        int [] returnVal = new int[item.length];
+        int[] returnVal = new int[item.length];
 
         for (int i = 0; i < item.length; i++) {
             try {
@@ -598,7 +602,7 @@ public class FileManager {
     private static Boolean[] stringToBooleanArray(String a) {
         String[] item = a.split("[,]");
 
-        Boolean [] returnVal = new Boolean[item.length];
+        Boolean[] returnVal = new Boolean[item.length];
 
         for (int i = 0; i < item.length; i++) {
             try {
@@ -609,7 +613,6 @@ public class FileManager {
         }
         return returnVal;
     }
-
 
 
 }
