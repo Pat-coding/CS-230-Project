@@ -392,7 +392,7 @@ public class GameFlow {
     }
 
     /**
-     * Announces that a player has won.
+     * Announces that a player has won the game.
      *
      * @param playerIndex index of winning player
      */
