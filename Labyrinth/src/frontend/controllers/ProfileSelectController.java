@@ -1,5 +1,6 @@
 package frontend.controllers;
 
+import backend.FileManager;
 import backend.Level;
 import backend.Profile;
 import javafx.fxml.FXML;
@@ -113,6 +114,7 @@ public class ProfileSelectController implements Initializable {
             } else {
                 profileList.getItems().remove(selectedIndex);
                 profiles.remove(selectedIndex);
+                FileManager.createNewProfile(Level.getProfileArray());
             }
         });
 

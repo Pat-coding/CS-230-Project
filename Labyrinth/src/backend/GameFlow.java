@@ -254,12 +254,12 @@ public class GameFlow {
         exportGames();
     }
 
-    public void exportGames() {
+    private void exportGames() {
         FileManager.createNewProfile(Level.getProfileArray());
         FileManager.createNewSaveFile(Level.getSavedLevels());
     }
 
-    public void saveGame() {
+    private void saveGame() {
         //  Override previous save game
         updatePlayer();
         if (!saveGameCheck()) {
