@@ -54,7 +54,7 @@ public class GameFlow {
     }
 
     public void flow() {
-
+        updatePlayer();
         //  Check to see if the player is allowed to save the game.
         if (level.saveButtonFlag && !hasDrawn) {
             System.out.println("Player " + this.playerIndex + " has pressed the save game button!");

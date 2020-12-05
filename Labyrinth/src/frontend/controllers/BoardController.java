@@ -116,6 +116,7 @@ public class BoardController implements Initializable {
             event.consume();
         });
         endTurnBtn.setOnAction(event -> {
+            gameFlow.flow();
             level.endTurnFlag = true;
             level.playerHasMovedFlag = false;
             gameFlow.flow();
