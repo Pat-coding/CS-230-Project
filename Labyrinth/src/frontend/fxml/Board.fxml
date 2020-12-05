@@ -6,17 +6,18 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="709.0" prefWidth="1084.0" style="-fx-background-color: #202020;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <AnchorPane prefHeight="551.0" prefWidth="822.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="709.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
          <children>
             <HBox prefHeight="709.0" prefWidth="1084.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <VBox prefHeight="709.0" prefWidth="670.0">
+                  <VBox prefHeight="709.0" prefWidth="927.0">
                      <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox prefHeight="100.0" prefWidth="668.0">
                            <children>
                               <GridPane fx:id="topGrid" gridLinesVisible="true">
                               </GridPane>
@@ -44,35 +45,50 @@
                      <children>
                         <HBox prefHeight="162.0" prefWidth="430.0">
                            <children>
-                              <VBox alignment="CENTER" prefHeight="129.0" prefWidth="209.0">
+                              <VBox alignment="CENTER" prefHeight="162.0" prefWidth="250.0">
                                  <children>
-                                    <Button fx:id="saveGameBtn" mnemonicParsing="false" text="Save Game" />
-                                 </children>
-                              </VBox>
-                              <VBox alignment="CENTER" prefHeight="162.0" prefWidth="212.0">
-                                 <children>
-                                    <Button fx:id="quitBtn" mnemonicParsing="false" text="Quit" />
+                                    <BorderPane prefHeight="200.0" prefWidth="200.0">
+                                       <left>
+                                          <Button fx:id="saveGameBtn" mnemonicParsing="false" text="Save" BorderPane.alignment="CENTER" />
+                                       </left>
+                                       <right>
+                                          <Button fx:id="quitBtn" mnemonicParsing="false" text="Quit" BorderPane.alignment="CENTER" />
+                                       </right>
+                                    </BorderPane>
                                  </children>
                               </VBox>
                            </children>
                         </HBox>
                         <HBox fx:id="inventory" alignment="CENTER" prefHeight="105.0" prefWidth="418.0">
                            <children>
-                              <Pane fx:id="invPane" prefHeight="200.0" prefWidth="200.0" />
+                              <StackPane fx:id="invPane" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="105.0" prefWidth="286.0" />
                            </children>
                         </HBox>
                         <HBox prefHeight="151.0" prefWidth="430.0">
                            <children>
-                              <VBox alignment="CENTER" prefHeight="151.0" prefWidth="143.0">
-                                 <children>
-                                    <Button fx:id="drawTileBtn" mnemonicParsing="false" text="Draw Tile" />
-                                 </children>
-                              </VBox>
-                              <VBox alignment="CENTER" prefHeight="151.0" prefWidth="123.0" />
-                              <VBox alignment="CENTER" prefHeight="151.0" prefWidth="163.0">
-                                 <children>
-                                    <Button fx:id="endTurnBtn" mnemonicParsing="false" text="End Turn" />
-                                 </children></VBox>
+                              <BorderPane prefHeight="151.0" prefWidth="250.0">
+                                 <left>
+                                    <Button fx:id="drawTileBtn" mnemonicParsing="false" text="Draw" BorderPane.alignment="CENTER" />
+                                 </left>
+                                 <right>
+                                    <Button fx:id="endTurnBtn" mnemonicParsing="false" text="End Turn" BorderPane.alignment="CENTER" />
+                                 </right>
+                              </BorderPane>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="159.0" prefWidth="290.0">
+                           <children>
+                              <BorderPane prefHeight="156.0" prefWidth="250.0">
+                                 <left>
+                                    <Button fx:id="rotateLeft" mnemonicParsing="false" text="Left " BorderPane.alignment="CENTER" />
+                                 </left>
+                                 <right>
+                                    <Button fx:id="rotateRight" mnemonicParsing="false" text="Right" BorderPane.alignment="CENTER" />
+                                 </right>
+                                 <center>
+                                    <Pane fx:id="handTile" prefHeight="157.0" prefWidth="165.0" BorderPane.alignment="CENTER" />
+                                 </center>
+                              </BorderPane>
                            </children>
                         </HBox>
                      </children>

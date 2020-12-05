@@ -9,14 +9,14 @@ public abstract class FloorTile extends Tile {
     protected boolean accessFromRight;
     protected String typeOfTile;
     protected String image = "Path";
-    protected int orientation;
+    private int orientation;
     protected boolean isFixed;
     protected String state;
 
 
 
     protected FloorTile(int orientation, String state, Boolean isFixed) {
-        this.orientation = orientation;
+        this.setOrientation(orientation);
         this.state = state;
         this.isFixed = isFixed;
 
@@ -71,6 +71,10 @@ public abstract class FloorTile extends Tile {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public void setOrientation(int orientation) {
+        this.orientation = orientation;
     }
     /**
      *

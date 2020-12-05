@@ -24,8 +24,9 @@ public class Level {
     public boolean playerHasMovedFlag;
     public boolean endTurnFlag;
     public boolean playerWinFlag;
+    public boolean playerHandFlag;
 
-
+    public int playerIndex;
     private int tempX;
     private int tempY;
     private Board.Cardinals tempCardinal;

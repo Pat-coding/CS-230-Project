@@ -1,7 +1,5 @@
 package Tiles;
 
-import java.awt.*;
-
 public class StraightTile extends FloorTile {
     private boolean accessFromTop = true;
     private boolean accessFromBottom = true;
@@ -15,7 +13,7 @@ public class StraightTile extends FloorTile {
 
     public StraightTile(int orientation, String state, Boolean isFixed) {
         super(orientation, state, isFixed);
-        this.orientation = orientation;
+        this.setOrientation(orientation);
         this.isFixed = isFixed;
 
         if (orientation == 0 || orientation == 180) {
@@ -92,6 +90,8 @@ public class StraightTile extends FloorTile {
         return state;
     }
 
-
-
+    @Override
+    public void setOrientation(int orientation) {
+        this.orientation = orientation;
+    }
 }

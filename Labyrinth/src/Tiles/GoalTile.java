@@ -88,5 +88,8 @@ public class GoalTile extends FloorTile {
     }
 
 
-
+    @Override
+    public void setOrientation(int orientation) {
+        this.orientation = orientation;
+    }
 }

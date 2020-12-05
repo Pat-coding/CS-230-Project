@@ -1,19 +1,18 @@
 package frontend.controllers;
 
+import Tiles.FloorTile;
 import backend.*;
 
-import frontend.loaders.LeaderboardLoader;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import java.util.ArrayList;
+
 import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
@@ -21,22 +20,45 @@ import java.util.ResourceBundle;
 
 public class BoardController implements Initializable {
 
-    @FXML private GridPane topGrid;
-    @FXML private GridPane rightGrid;
-    @FXML private GridPane bottomGrid;
-    @FXML private GridPane leftGrid;
-    @FXML private GridPane tileGrid;
-    @FXML private Button saveGameBtn;
-    @FXML private Button quitBtn;
-    @FXML private Button drawTileBtn;
-    @FXML private Button endTurnBtn;
-    @FXML private Pane pane;
-    @FXML private HBox inventory;
-    @FXML private Pane invPane;
+    int size = 100;
+    Image arrowDown = new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
+    Image arrowUp = new Image(getClass().getResourceAsStream("/resources/arrowUP.png"));
+    Image arrowLeft = new Image(getClass().getResourceAsStream("/resources/arrowLeft.png"));
+    Image arrowRight = new Image(getClass().getResourceAsStream("/resources/arrowRight.png"));
+    @FXML
+    private GridPane topGrid;
+    @FXML
+    private GridPane rightGrid;
+    @FXML
+    private GridPane bottomGrid;
+    @FXML
+    private GridPane leftGrid;
+    @FXML
+    private GridPane tileGrid;
+    @FXML
+    private Button saveGameBtn;
+    @FXML
+    private Button quitBtn;
+    @FXML
+    private Button drawTileBtn;
+    @FXML
+    private Button endTurnBtn;
+    @FXML
+    private Pane pane;
+    @FXML
+    private HBox inventory;
+    @FXML
+    private StackPane invPane;
+    @FXML
+    private Button rotateLeft;
+    @FXML
+    private Button rotateRight;
+    @FXML
+    private Pane handTile;
+
     private Level level;
     private int playerIndex;
     private GameFlow gameFlow;
-
     private EventHandler<KeyEvent> keyListener = event -> {
         if (event.getCode() == KeyCode.UP) {
             level.pressUpFlag = true;
@@ -62,25 +84,18 @@ public class BoardController implements Initializable {
         event.consume();
     };
 
-    int size = 100;
-
-    Image arrowDown = new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
-    Image arrowUp = new Image(getClass().getResourceAsStream("/resources/arrowUP.png"));
-    Image arrowLeft = new Image(getClass().getResourceAsStream("/resources/arrowLeft.png"));
-    Image arrowRight = new Image(getClass().getResourceAsStream("/resources/arrowRight.png"));
-
     public BoardController(Level level) {
         this.level = level;
         //  This sets the turn to the player who is playing.
-        this.playerIndex = setPlayerIndex();
+        this.playerIndex = initialisePlayerIndex();
         System.out.println("This is the player index " + this.playerIndex);
         //  Provides gameFlow with the level information as well as the information regarding the who's turn it is.
         this.gameFlow = new GameFlow(this.level, this.playerIndex);
     }
 
-    public int setPlayerIndex() {
+    public int initialisePlayerIndex() {
         for (int i = 0; i < level.getPlayerData().length; i++) {
-            if (level.getPlayerData()[i].getPlayerTurn() == true) {
+            if (level.getPlayerData()[i].getPlayerTurn()) {
                 return i;
             }
         }
@@ -101,8 +116,9 @@ public class BoardController implements Initializable {
             level.playerHasMovedFlag = false;
             drawTileBtn.setOnKeyPressed(keyListener);
             gameFlow.flow();
+            floorTileCommands();
             refreshBoard();
-            setupInventory();
+            displayInventory();
             event.consume();
         });
         endTurnBtn.setOnAction(event -> {
@@ -110,31 +126,67 @@ public class BoardController implements Initializable {
             level.playerHasMovedFlag = false;
             gameFlow.flow();
             unHideArrows();
-            setupInventory();
+            playerIndex = level.playerIndex;
+            invPane.getChildren().clear();
+            displayInventory();
             event.consume();
         });
         setupBoard();
         setupArrows();
-        setupInventory();
+        displayInventory();
+        rotateLeft.setVisible(false);
+        rotateRight.setVisible(false);
     }
 
-    private void setupInventory() {
+    public void floorTileCommands() {
+        if(level.playerHandFlag) {
+            System.out.println("this is the boardcontroller player index: " + playerIndex);
+            FloorTile tileInHand = level.getPlayerData()[playerIndex].getTileHand();
+            rotateRight.setVisible(true);
+            rotateLeft.setVisible(true);
+            ImageView tile = new ImageView("resources/" + tileInHand.getType() + ".png");
+            tile.setFitHeight(size);
+            tile.setFitWidth(size);
+            handTile.getChildren().add(tile);
+            handTile.setVisible(true);
+            rotateLeft.setOnAction( event -> {
+                tileInHand.setOrientation(tileInHand.getOrientation() + 90);
+                tile.setRotate(tileInHand.getOrientation());
+                tile.setFitHeight(size);
+                tile.setFitWidth(size);
+                handTile.getChildren().clear();
+                handTile.getChildren().add(tile);
+            });
+
+            rotateRight.setOnAction( event -> {
+                tileInHand.setOrientation(tileInHand.getOrientation() - 90);
+                tile.setRotate(tileInHand.getOrientation());
+                tile.setFitHeight(size);
+                tile.setFitWidth(size);
+                handTile.getChildren().clear();
+                handTile.getChildren().add(tile);
+            });
+
+        }
+    }
+
+    private void displayInventory() {
 
         for (int i = 0; i < level.getPlayerData()[playerIndex].getPlayerInventory().size(); i++) {
             System.out.println("resources/" + level.getPlayerData()[playerIndex].getPlayerInventory().get(i).getType() + ".png");
             ImageView inv = new ImageView("resources/" + level.getPlayerData()[playerIndex].getPlayerInventory().get(i).getType() + ".png");
-            inv.setFitHeight(size);
-            inv.setFitHeight(size);
+            inv.setFitHeight(size / 2);
+            inv.setFitHeight(size / 2);
+            inv.setTranslateX(i * size / 1.5);
             invPane.getChildren().add(inv);
         }
 
     }
 
-
     private void setupBoard() {
         for (int x = 0; x < level.getBoardData().getRowSize(); x++) {
             for (int y = 0; y < level.getBoardData().getColumnSize(); y++) {
-                if(level.getBoardData().getTileFromBoard(x, y).isFixed()) {
+                if (level.getBoardData().getTileFromBoard(x, y).isFixed()) {
                     ImageView tileFixed = new ImageView("resources/" + level.getBoardData().getTileFromBoard(x, y).getType() + "_fixed.png");
                     setTiles(tileFixed, x, y);
                 } else {
@@ -162,8 +214,8 @@ public class BoardController implements Initializable {
             System.out.println("x: " + j + "y: " + k);
             ImageView playerIv = new ImageView("/resources/playerImg.png");
             //sets tiles to specified size
-            playerIv.setFitHeight(size/2);
-            playerIv.setFitWidth(size/ 2);
+            playerIv.setFitHeight(size / 2);
+            playerIv.setFitWidth(size / 2);
             StackPane pane = new StackPane();
             pane.getChildren().add(tile);
             pane.getChildren().add(playerIv);
@@ -176,7 +228,7 @@ public class BoardController implements Initializable {
         tileGrid.getChildren().clear();
         for (int x = 0; x < level.getBoardData().getColumnSize(); x++) {
             for (int y = 0; y < level.getBoardData().getRowSize(); y++) {
-                if(level.getBoardData().getTileFromBoard(x, y).isFixed()) {
+                if (level.getBoardData().getTileFromBoard(x, y).isFixed()) {
                     System.out.println(level.getBoardData().getTileFromBoard(x, y).isFixed());
                     ImageView tileFixed = new ImageView("resources/" + level.getBoardData().getTileFromBoard(x, y).getType() + "_fixed.png");
                     setTiles(tileFixed, x, y);
@@ -189,31 +241,39 @@ public class BoardController implements Initializable {
         }
     }
 
-    public void hideArrows () {
+    public void hideArrows() {
         for (int i = 1; i < level.getBoardData().getRowSize() + 1; i++) {
             rightGrid.getChildren().get(i).setVisible(false);
             leftGrid.getChildren().get(i).setVisible(false);
             topGrid.getChildren().get(i).setVisible(false);
             bottomGrid.getChildren().get(i).setVisible(false);
         }
+        slottedUnset();
+    }
 
+    public void slottedUnset() {
+        rotateRight.setVisible(false);
+        rotateLeft.setVisible(false);
+        handTile.setVisible(false);
+        level.getPlayerData()[playerIndex].setTileHand(null);
+        level.playerHandFlag = false;
     }
 
 
     public void unHideArrows() {
         for (int x = 0; x < level.getBoardData().getRowSize(); x++) {
-                if (level.getBoardData().checkTileInsertionCol(x)) {
-                    bottomGrid.getChildren().get(x + 1).setVisible(true);
-                    topGrid.getChildren().get(x + 1).setVisible(true);
-                }
-            }
-            for (int y = 0; y < level.getBoardData().getColumnSize(); y++) {
-                if(level.getBoardData().checkTileInsertionRow(y)) {
-                    rightGrid.getChildren().get(y + 1).setVisible(true);
-                    leftGrid.getChildren().get(y + 1).setVisible(true);
-                }
+            if (level.getBoardData().checkTileInsertionCol(x)) {
+                bottomGrid.getChildren().get(x + 1).setVisible(true);
+                topGrid.getChildren().get(x + 1).setVisible(true);
             }
         }
+        for (int y = 0; y < level.getBoardData().getColumnSize(); y++) {
+            if (level.getBoardData().checkTileInsertionRow(y)) {
+                rightGrid.getChildren().get(y + 1).setVisible(true);
+                leftGrid.getChildren().get(y + 1).setVisible(true);
+            }
+        }
+    }
 
 
     public void setupArrows() {
