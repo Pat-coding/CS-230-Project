@@ -1,5 +1,6 @@
 package frontend.controllers;
 
+import backend.FileManager;
 import backend.Level;
 import backend.Profile;
 import javafx.fxml.FXML;
@@ -25,7 +26,7 @@ public class ProfileSelectController implements Initializable {
     @FXML private RadioButton twoPlayers;
     @FXML private RadioButton threePlayers;
     @FXML private RadioButton fourPlayers;
-    @FXML private ToggleGroup setOne;
+    @FXML private TextField nameField;
 
 
     private int selectedIndex;
@@ -53,7 +54,14 @@ public class ProfileSelectController implements Initializable {
         loadedProfiles.setTextFill(Color.web("#ff0000", 0.8));
 
         newProfileBtn.setOnAction(e -> {
-
+            if (!nameField.getText().isEmpty()){
+                profiles.add(new Profile(nameField.getText()));
+                nameField.clear();
+                refreshProfiles();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter something inside the box.");
+                alert.showAndWait();
+            }
         });
 
         /**
@@ -105,6 +113,8 @@ public class ProfileSelectController implements Initializable {
                 alert.showAndWait();
             } else {
                 profileList.getItems().remove(selectedIndex);
+                profiles.remove(selectedIndex);
+                FileManager.createNewProfile(Level.getProfileArray());
             }
         });
 
@@ -123,6 +133,7 @@ public class ProfileSelectController implements Initializable {
 
 
     private void refreshProfiles(){
+        profileList.getItems().clear();
         for (Profile i : profiles){
             profileList.getItems().add(i.getProfileName());
         }

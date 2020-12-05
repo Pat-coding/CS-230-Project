@@ -1,8 +1,4 @@
-package backend; /**
- * @author Deniz Oral 1915691
- * @version 1.0
- */
-
+package backend;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,7 +8,10 @@ import java.net.URLConnection;
 /**
  * Message of the day model. Will get the message from url,
  * decode the message.
+ * @author Deniz Oral 1915691
+ * @version 1.0
  */
+
 public class Motd {
 
     /**

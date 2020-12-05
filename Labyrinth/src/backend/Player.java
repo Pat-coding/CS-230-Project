@@ -1,21 +1,16 @@
 package backend;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
 import Tiles.FloorTile;
 import Tiles.Tile;
+
 /**
- * this class Stpres information about they player in the current game
+ * A model a player. Each player has a profile, coordinates,
+ * inventory, coordinate history, history and a turn
  * @author Kane
  * @version 1.0
  */
 
 
-/**
- * A model a player. Each player has a profile, coordinates,
- * inventory, coordinate history, history and a turn
- */
 public class Player {
 
     private Profile profile;

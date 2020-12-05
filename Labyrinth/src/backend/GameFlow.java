@@ -1,7 +1,6 @@
 package backend;
 import javafx.scene.control.Alert;
 import java.util.ArrayList;
-
 /**
  * @author Ben Dodd
  * @version 1.0.0
@@ -17,7 +16,6 @@ public class GameFlow {
     private boolean hasDrawn;
     private Board board;
     private SilkBag silkBag;
-
 
     /**
      * Continue Level
@@ -109,7 +107,6 @@ public class GameFlow {
             level.setTempY(-1);
         }
 
-
         //  This means player has placed a tile.
         if (level.getTempCardinal() != null && level.getTempX() != -1
                 && level.getTempY() != -1 && player[this.playerIndex].getTileHand() != null) {
@@ -140,8 +137,6 @@ public class GameFlow {
             incPlayerTurn();
         }
 
-
-
         if (level.playerHasMovedFlag) {
             if (checkWin()) {
                 declareWinner(this.playerIndex);
@@ -155,10 +150,9 @@ public class GameFlow {
         }
     }
 
-
     public void movePlayerOnBoard() {
-        int x = level.getPlayerData()[this.playerIndex].getPlayerCordX();
-        int y = level.getPlayerData()[this.playerIndex].getPlayerCordY();
+        int x = level.getBoardData().playerLocationOnBoard(level.getPlayerData()[playerIndex])[0];
+        int y = level.getBoardData().playerLocationOnBoard(level.getPlayerData()[playerIndex])[1];
         if (level.pressUpFlag && !level.playerHasMovedFlag) {
             if (checkPlayerBounds(x, (y - 1)) && checkPlayerMovement(x, (y - 1), this.playerIndex)) {
                 movePlayer(x, (y - 1), this.playerIndex);
@@ -209,8 +203,8 @@ public class GameFlow {
         if (board.getTileFromBoard(player[playerIndex].getPlayerCordX(),
                 (player[playerIndex].getPlayerCordY())).getType().equals("Goal")) {
             for (int i = 0; i < player.length; i++) {
-                if (player[i] == level.getBoardData().getPlayerFromBoard(level.getBoardData().getGoal()[0],
-                        level.getBoardData().getGoal()[1]))
+                if (board.getTileFromBoard(player[playerIndex].getPlayerCordX(),
+                        (player[playerIndex].getPlayerCordY())).getType().equals("Goal"))
                     declareWinner(i);
                 return true;
             }
@@ -264,12 +258,12 @@ public class GameFlow {
         exportGames();
     }
 
-    public void exportGames() {
+    private void exportGames() {
         FileManager.createNewProfile(Level.getProfileArray());
         FileManager.createNewSaveFile(Level.getSavedLevels());
     }
 
-    public void saveGame() {
+    private void saveGame() {
         //  Override previous save game
         updatePlayer();
         if (!saveGameCheck()) {
@@ -320,9 +314,10 @@ public class GameFlow {
     }
 
     /**
-     * @param x
-     * @param y
-     * @param player
+     * Moves the player to desired location
+     * @param x coordinate
+     * @param y coordinate
+     * @param playerI object
      */
     public void movePlayer(int x, int y, int playerI) {
         board.movePlayer(player[playerI].getPlayerCordX(), player[playerI].getPlayerCordY(),

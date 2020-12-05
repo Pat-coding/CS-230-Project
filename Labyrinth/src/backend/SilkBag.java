@@ -4,11 +4,10 @@ import Tiles.*;
 
 
 /**
- * this class holds the tiles in the silk bag for the game and can take and give tiles to the user and board
- * @author Diana
- * @version 1.0
+ *  SilkBag stores the tiles in the Silk Bag, gives out tiles, and takes takes into it.
+ *
+ *  @author Diana
  */
-
 public class SilkBag {
 
     Random rand;
@@ -16,20 +15,18 @@ public class SilkBag {
     private FloorTile tempTile;
 
     /**
-     * @param silkBagContent 0th = Straight
-     *                       1st =
+     *  Constructor for Silk Bag.
+     *
+     *  @param silkBagContent The
      */
-
-
     public SilkBag(int[] silkBagContent) {
         this.silkBagContent = silkBagContent;
     }
 
     /**
-     * this method pulls a random tile from the silk bag and adds it to inventory
-     * @param player
+     *  Gives out tile to player.
+     *
      */
-
     public void giveTile(Player player) {
         int rnd = new Random().nextInt(silkBagContent.length);
 
@@ -75,8 +72,9 @@ public class SilkBag {
     }
 
     /**
-     * this method pulls random tiles from silk bag and adds them to the board
-     * @return random FloorTile
+     *  generate random assortment of tiles when loading new game.
+     *
+     *  @return random tiles
      */
     public FloorTile populateRandomBoardTiles() {
         int rnd = new Random().nextInt(4);
@@ -106,8 +104,9 @@ public class SilkBag {
     }
 
     /**
-     * this method returns a random oreintation for a tile
-     * @return degrees in in for oreintation
+     *  Generate random orientation for tiles.
+     *
+     *  @return
      */
     public int randomOrientation() {
         int[] orientation = new int[]{0, 90, 180, 270};
@@ -116,16 +115,18 @@ public class SilkBag {
     }
 
     /**
-     * this method gives contents of silk bag
-     * @return array of ints from silkbag
+     *  Getter for SilkBag content.
+     *
+     * @return
      */
     public int[] getSilkBagContent() {
         return silkBagContent;
     }
 
     /**
-     * this method takes a tile as an input and puts it back in silk bag
-     * @param type the tile being inputted
+     *
+     *
+     * @param type
      */
     public void insertTileToBag(Tile type) {
 
