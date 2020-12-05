@@ -19,15 +19,17 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * this class handles the leaderboard UI and allows users to switch between leaderboards
+ * this class creates the UI board,populates it and tracks user inputs
+ * for tile slotting and player moves.
  * @author Deniz
  * @version 1.0
+ *
  */
 
 
 public class BoardController implements Initializable {
 
-    int size = 100;
+    int size = 100; // size of tiles
     Image arrowDown = new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
     Image arrowUp = new Image(getClass().getResourceAsStream("/resources/arrowUP.png"));
     Image arrowLeft = new Image(getClass().getResourceAsStream("/resources/arrowLeft.png"));
@@ -71,7 +73,8 @@ public class BoardController implements Initializable {
     private GameFlow gameFlow;
 
     /**
-     * This method listents for any button presses of arrow keys which are used to move the player
+     * This method listents for any button presses of arrow keys which
+     * are used to move the player.
      *
      */
     private EventHandler<KeyEvent> keyListener = event -> {
@@ -101,8 +104,9 @@ public class BoardController implements Initializable {
     };
 
     /**
-     *This Constructor gives the gameflow the current player and the state of the board
-     * @param level
+     *This Constructor gives the gameflow the current
+     *  player and the state of the board.
+     * @param level level being loaded into board
      */
 
     public BoardController(Level level) {
@@ -112,7 +116,8 @@ public class BoardController implements Initializable {
     }
 
     /**
-     * this is initializes the board creating the action tiles and added all the buttons, arrows and tiles to the board.
+     * This is initializes the board creating the action tiles
+     * and added all the buttons, arrows and tiles to the board.
      * @param location  the location of the save file
      * @param resources the .png being added to the board
      */
