@@ -176,7 +176,7 @@ public class Board {
      * @param tile The tile that is being slided in.
      */
     public FloorTile placeOnNewTile(Cardinals c, int x, int y, FloorTile tile) { //use enum for access cardinals on tiles
-        if (c == Cardinals.TOP) {//shift index down from the second last (animations)
+        if (c == Cardinals.TOP) { //shift index down from the second last (animations)
             FloorTile discardedTile = getTileFromBoard(x, 0);
             for (int row = getRowSize() - 1; row > 0; row--) {
                 slidePlayerWithBoard(c, x, row);

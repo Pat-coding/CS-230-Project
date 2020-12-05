@@ -107,7 +107,6 @@ public class GameFlow {
             level.setTempY(-1);
         }
 
-
         //  This means player has placed a tile.
         if (level.getTempCardinal() != null && level.getTempX() != -1
                 && level.getTempY() != -1 && player[this.playerIndex].getTileHand() != null) {
@@ -138,8 +137,6 @@ public class GameFlow {
             incPlayerTurn();
         }
 
-
-
         if (level.playerHasMovedFlag) {
             if (checkWin()) {
                 declareWinner(this.playerIndex);
@@ -153,10 +150,9 @@ public class GameFlow {
         }
     }
 
-
     public void movePlayerOnBoard() {
-        int x = level.getPlayerData()[this.playerIndex].getPlayerCordX();
-        int y = level.getPlayerData()[this.playerIndex].getPlayerCordY();
+        int x = level.getBoardData().playerLocationOnBoard(level.getPlayerData()[playerIndex])[0];
+        int y = level.getBoardData().playerLocationOnBoard(level.getPlayerData()[playerIndex])[1];
         if (level.pressUpFlag && !level.playerHasMovedFlag) {
             if (checkPlayerBounds(x, (y - 1)) && checkPlayerMovement(x, (y - 1), this.playerIndex)) {
                 movePlayer(x, (y - 1), this.playerIndex);

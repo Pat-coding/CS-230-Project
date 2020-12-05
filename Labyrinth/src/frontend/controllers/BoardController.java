@@ -68,21 +68,33 @@ public class BoardController implements Initializable {
             System.out.println("UP");
             gameFlow.movePlayerOnBoard();
             refreshBoard();
+            if (level.playerHasMovedFlag) {
+                moveButton.setVisible(false);
+            }
         } else if (event.getCode() == KeyCode.DOWN) {
             level.pressDownFlag = true;
             System.out.println("DOWN");
             gameFlow.movePlayerOnBoard();
             refreshBoard();
+            if (level.playerHasMovedFlag) {
+                moveButton.setVisible(false);
+            }
         } else if (event.getCode() == KeyCode.LEFT) {
             level.pressLeftFlag = true;
             System.out.println("LEFT");
             gameFlow.movePlayerOnBoard();
             refreshBoard();
+            if (level.playerHasMovedFlag) {
+                moveButton.setVisible(false);
+            }
         } else if (event.getCode() == KeyCode.RIGHT) {
             level.pressRightFlag = true;
             System.out.println("RIGHT");
             gameFlow.movePlayerOnBoard();
             refreshBoard();
+            if (level.playerHasMovedFlag) {
+                moveButton.setVisible(false);
+            }
         }
         gameFlow.flow();
         event.consume();
