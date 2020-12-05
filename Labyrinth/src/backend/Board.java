@@ -137,6 +137,7 @@ public class Board {
     }
 
 
+
     /**
      * Check to see if any Fixed Tiles are present inside of a particular row of the board.
      *

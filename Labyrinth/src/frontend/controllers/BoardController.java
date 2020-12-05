@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-
+import java.util.ArrayList;
 import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
@@ -31,7 +31,8 @@ public class BoardController implements Initializable {
     @FXML private Button drawTileBtn;
     @FXML private Button endTurnBtn;
     @FXML private Pane pane;
-
+    @FXML private HBox inventory;
+    @FXML private Pane invPane;
     private Level level;
     private int playerIndex;
     private GameFlow gameFlow;
@@ -62,10 +63,12 @@ public class BoardController implements Initializable {
     };
 
     int size = 100;
+
     Image arrowDown = new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
     Image arrowUp = new Image(getClass().getResourceAsStream("/resources/arrowUP.png"));
     Image arrowLeft = new Image(getClass().getResourceAsStream("/resources/arrowLeft.png"));
     Image arrowRight = new Image(getClass().getResourceAsStream("/resources/arrowRight.png"));
+
     public BoardController(Level level) {
         this.level = level;
         //  This sets the turn to the player who is playing.
@@ -99,16 +102,32 @@ public class BoardController implements Initializable {
             drawTileBtn.setOnKeyPressed(keyListener);
             gameFlow.flow();
             refreshBoard();
+            setupInventory();
             event.consume();
         });
         endTurnBtn.setOnAction(event -> {
             level.endTurnFlag = true;
             level.playerHasMovedFlag = false;
             gameFlow.flow();
+            unHideArrows();
+            setupInventory();
             event.consume();
         });
         setupBoard();
         setupArrows();
+        setupInventory();
+    }
+
+    private void setupInventory() {
+
+        for (int i = 0; i < level.getPlayerData()[playerIndex].getPlayerInventory().size(); i++) {
+            System.out.println("resources/" + level.getPlayerData()[playerIndex].getPlayerInventory().get(i).getType() + ".png");
+            ImageView inv = new ImageView("resources/" + level.getPlayerData()[playerIndex].getPlayerInventory().get(i).getType() + ".png");
+            inv.setFitHeight(size);
+            inv.setFitHeight(size);
+            invPane.getChildren().add(inv);
+        }
+
     }
 
 
@@ -170,6 +189,32 @@ public class BoardController implements Initializable {
         }
     }
 
+    public void hideArrows () {
+        for (int i = 1; i < level.getBoardData().getRowSize() + 1; i++) {
+            rightGrid.getChildren().get(i).setVisible(false);
+            leftGrid.getChildren().get(i).setVisible(false);
+            topGrid.getChildren().get(i).setVisible(false);
+            bottomGrid.getChildren().get(i).setVisible(false);
+        }
+
+    }
+
+
+    public void unHideArrows() {
+        for (int x = 0; x < level.getBoardData().getRowSize(); x++) {
+                if (level.getBoardData().checkTileInsertionCol(x)) {
+                    bottomGrid.getChildren().get(x + 1).setVisible(true);
+                    topGrid.getChildren().get(x + 1).setVisible(true);
+                }
+            }
+            for (int y = 0; y < level.getBoardData().getColumnSize(); y++) {
+                if(level.getBoardData().checkTileInsertionRow(y)) {
+                    rightGrid.getChildren().get(y + 1).setVisible(true);
+                    leftGrid.getChildren().get(y + 1).setVisible(true);
+                }
+            }
+        }
+
 
     public void setupArrows() {
         topGrid.setTranslateX(size);
@@ -197,8 +242,8 @@ public class BoardController implements Initializable {
                         level.setTempY(yy);
                         gameFlow.flow();
                         tileGrid.getChildren().clear();
-
                         refreshBoard();
+                        hideArrows();
                         event.consume();
                     });
 
@@ -222,6 +267,7 @@ public class BoardController implements Initializable {
                         gameFlow.flow();
                         tileGrid.getChildren().clear();
                         refreshBoard();
+                        hideArrows();
                         event.consume();
                     });
 
@@ -247,6 +293,7 @@ public class BoardController implements Initializable {
                         gameFlow.flow();
                         tileGrid.getChildren().clear();
                         refreshBoard();
+                        hideArrows();
                         event.consume();
                     });
 
@@ -269,6 +316,7 @@ public class BoardController implements Initializable {
                         gameFlow.flow();
                         tileGrid.getChildren().clear();
                         refreshBoard();
+                        hideArrows();
                         event.consume();
                     });
                 }
