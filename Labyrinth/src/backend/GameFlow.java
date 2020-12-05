@@ -1,7 +1,6 @@
 package backend;
 import javafx.scene.control.Alert;
 import java.util.ArrayList;
-
 /**
  * @author Ben Dodd
  * @version 1.0.0
@@ -17,7 +16,6 @@ public class GameFlow {
     private boolean hasDrawn;
     private Board board;
     private SilkBag silkBag;
-
 
     /**
      * Continue Level

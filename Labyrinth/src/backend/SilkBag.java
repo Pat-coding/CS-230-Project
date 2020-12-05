@@ -4,9 +4,10 @@ import Tiles.*;
 
 
 /**
- * @author Diana
+ *  SilkBag stores the tiles in the Silk Bag, gives out tiles, and takes takes into it.
+ *
+ *  @author Diana
  */
-
 public class SilkBag {
 
     Random rand;
@@ -14,20 +15,18 @@ public class SilkBag {
     private FloorTile tempTile;
 
     /**
-     * @param silkBagContent 0th = Straight
-     *                       1st =
+     *  Constructor for Silk Bag.
+     *
+     *  @param silkBagContent The
      */
-
-
     public SilkBag(int[] silkBagContent) {
         this.silkBagContent = silkBagContent;
     }
 
     /**
-     *
+     *  Gives out tile to player.
      *
      */
-
     public void giveTile(Player player) {
         int rnd = new Random().nextInt(silkBagContent.length);
 
@@ -72,7 +71,11 @@ public class SilkBag {
         }
     }
 
-
+    /**
+     *  generate random assortment of tiles when loading new game.
+     *
+     *  @return random tiles
+     */
     public FloorTile populateRandomBoardTiles() {
         int rnd = new Random().nextInt(4);
         if (silkBagContent[rnd] < 1) {
@@ -100,16 +103,31 @@ public class SilkBag {
         return tempTile;
     }
 
+    /**
+     *  Generate random orientation for tiles.
+     *
+     *  @return
+     */
     public int randomOrientation() {
         int[] orientation = new int[]{0, 90, 180, 270};
         int rnd = new Random().nextInt(orientation.length);
         return orientation[rnd];
     }
 
+    /**
+     *  Getter for SilkBag content.
+     *
+     * @return
+     */
     public int[] getSilkBagContent() {
         return silkBagContent;
     }
 
+    /**
+     *
+     *
+     * @param type
+     */
     public void insertTileToBag(Tile type) {
 
         switch (type.getType()) {
