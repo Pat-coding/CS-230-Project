@@ -1,10 +1,13 @@
 package backend;
 import javafx.scene.control.Alert;
 import java.util.ArrayList;
+
 /**
+ * this class handles game logic while players are in a game
  * @author Ben Dodd
  * @version 1.0.0
  */
+
 
 public class GameFlow {
 
@@ -18,9 +21,9 @@ public class GameFlow {
     private SilkBag silkBag;
 
     /**
-     * Continue Level
-     *
-     * @param level Level to play.
+     * This Constructor keeps the game running until it is won or saved.
+     * @param level the current level being played
+     * @param playerIndex players in current game
      */
 
     public GameFlow(Level level, int playerIndex) {
@@ -32,6 +35,12 @@ public class GameFlow {
         this.board = level.getBoardData();
         this.silkBag = level.getSilkBag();
     }
+
+    /**
+     * Gets profiles of users and assigns them to players.
+     * @param profiles profiles of users being played
+     * @param level current game level
+     */
 
     public static void initiatePlayers(ArrayList<Profile> profiles, Level level) {
         Player[] tempPlayerArray = new Player[profiles.size()];
@@ -51,6 +60,10 @@ public class GameFlow {
         level.setPlayerArray(tempPlayerArray);
     }
 
+    /**
+     * This method handles drawing and placing a tiles and makes sure game
+     * cant be saved part way through.
+     */
     public void flow() {
         updatePlayer();
 
@@ -150,6 +163,11 @@ public class GameFlow {
         return playerIndex;
     }
 
+    /**
+     * This method handles player movement on board and makes sure
+     * it is legal.
+     */
+
     public void movePlayerOnBoard() {
         int x = level.getBoardData().playerLocationOnBoard(level.getPlayerData()[playerIndex])[0];
         int y = level.getBoardData().playerLocationOnBoard(level.getPlayerData()[playerIndex])[1];
@@ -190,6 +208,10 @@ public class GameFlow {
         }
     }
 
+    /**
+     * This method draws a random tile from silk bag and adds it
+     * to current players inventory.
+     */
     public void drawTile() {
         level.getSilkBag().giveTile(player[this.playerIndex]);
     }
@@ -232,6 +254,10 @@ public class GameFlow {
         Level.setPlayerIndex(playerIndex);
     }
 
+    /**
+     * This method finds the player location on board and stores it locally.
+     *
+     */
     public void updatePlayer() {
         for (int i = 0; i < player.length - 1; i++) {
             int x = level.getBoardData().playerLocationOnBoard(player[i])[0];
@@ -258,11 +284,18 @@ public class GameFlow {
         exportGames();
     }
 
+    /**
+     * This saves the current game state to files.
+     */
+
     private void exportGames() {
         FileManager.createNewProfile(Level.getProfileArray());
         FileManager.createNewSaveFile(Level.getSavedLevels());
     }
 
+    /**
+     * This methods overwrites any old save games of this instance.
+     */
     private void saveGame() {
         //  Override previous save game
         updatePlayer();
@@ -273,6 +306,10 @@ public class GameFlow {
 
     }
 
+    /**
+     * This method returns if the game saved correctly.
+     * @return true if saved correctly
+     */
     public boolean saveGameCheck() {
         //  In range of amount of levels in saved levels
         for (int i = 0; i < level.getSavedLevels().size(); i++) {
@@ -287,6 +324,13 @@ public class GameFlow {
         return false;
     }
 
+    /**
+     * This method checks if the player move is legal and returns if they can.
+     * @param x coord player wants to move to
+     * @param y coord player wants to move to
+     * @param playerIndex player wanting to move
+     * @return true if move is legal
+     */
     public boolean checkPlayerMovement(int x, int y, int playerIndex) {
         int px = player[playerIndex].getPlayerCordX();
         int py = player[playerIndex].getPlayerCordY();
@@ -345,9 +389,9 @@ public class GameFlow {
     }
 
     /**
-     * Announces that a player has won.
+     * Announces that a player has won the game.
      *
-     * @return Player that won.
+     * @param playerIndex index of winning player
      */
     public void declareWinner(int playerIndex) {
         for (int i = 0; i < player.length; i++) {

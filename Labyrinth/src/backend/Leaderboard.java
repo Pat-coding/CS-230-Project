@@ -3,6 +3,12 @@ package backend;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ *This class sorts the leaderboards after a game to make sure they are up to date
+ * wants them to be sorted
+ * @author
+ * @version 1.0.0
+ */
 
 public class Leaderboard {
 
@@ -19,11 +25,21 @@ public class Leaderboard {
         return sortType;
     }
 
-
+    /**
+     * this method returns the leaderboard
+     * @return array list of profiles
+     */
     public ArrayList<Profile> getLeaderboard() {
         return profileList;
     }
 
+    /**
+     * this method sorts a list of profiles depending on the type of sort requested
+     * @param profileList
+     * @param sortType
+     * @param asc
+     * @return sorted array list of profiles
+     */
     public ArrayList<Profile> sort(ArrayList<Profile> profileList, int sortType, boolean asc) {
         switch (sortType) {
             case 0:
@@ -40,6 +56,12 @@ public class Leaderboard {
         }
     }
 
+    /**
+     * this methods sorts an array list of players depending on players wins
+     * @param profileList
+     * @param asc
+     * @return array list of players in winning order
+     */
     private ArrayList<Profile> sortWins(ArrayList<Profile> profileList, boolean asc) {
         for (int i = 1; i < profileList.size(); i++) {
             Profile key = profileList.get(i);
@@ -58,6 +80,13 @@ public class Leaderboard {
             return profileList;
         }
     }
+
+    /**
+     * this method sorts profiles depending on number of losses they have
+     * @param profileList
+     * @param asc
+     * @return array list of players sorted by losses
+     */
 
     private ArrayList<Profile> sortLosses(ArrayList<Profile> profileList, boolean asc) {
         for (int i = 1; i < profileList.size(); i++) {
@@ -78,6 +107,13 @@ public class Leaderboard {
         }
     }
 
+    /**
+     * this method sorts players depending on their win ration
+     * @param profileList
+     * @param asc
+     * @return sorted array list of players based on win ratio
+     */
+
     private ArrayList<Profile> sortWinRatio(ArrayList<Profile> profileList, boolean asc) {
         for (int i = 1; i < profileList.size(); i++) {
             Profile key = profileList.get(i);
@@ -97,6 +133,12 @@ public class Leaderboard {
         }
     }
 
+    /**
+     * this method sorts players by the ammount of games they have played
+     * @param profileList
+     * @param asc
+     * @return sorted array list by number of games played
+     */
     private ArrayList<Profile> sortGamesPlayed(ArrayList<Profile> profileList, boolean asc) {
         for (int i = 1; i < profileList.size(); i++) {
             Profile key = profileList.get(i);

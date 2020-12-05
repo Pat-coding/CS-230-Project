@@ -12,6 +12,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ *
+ * @author
+ * @version 1.0
+ */
+
 public class ProfileSelectLoader {
     private Stage primaryStage;
 
