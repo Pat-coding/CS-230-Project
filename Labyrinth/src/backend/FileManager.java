@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package backend;
 
 import Tiles.*;
@@ -209,10 +212,10 @@ public class FileManager {
             SilkBag silkBag = levelArray.get(i).getSilkBag();
             Player[] player = levelArray.get(i).getPlayerData();
 
-            try (FileWriter levelWriter = new FileWriter("SavedLevel.txt", true)) {
+            try (FileWriter levelWriter =
+                         new FileWriter("SavedLevel.txt", true)) {
 
                 //  This is used to write the profile names
-
                 for (int j = 0; j < player.length; j++) {
                     if (j < player.length - 1) {
                         levelWriter.write(player[j].getProfile().getProfileName() + ",");
@@ -220,6 +223,7 @@ public class FileManager {
                         levelWriter.write(player[j].getProfile().getProfileName());
                     }
                 }
+
                 levelWriter.write("\n" + board.getNameOfBoard() + "\n");
                 levelWriter.write(gameTurn + "\n");
                 levelWriter.write(board.getRowSize() + "," + board.getColumnSize() + "\n");
