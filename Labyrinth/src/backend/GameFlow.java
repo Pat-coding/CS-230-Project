@@ -65,10 +65,6 @@ public class GameFlow {
         if (level.drawTileFlag && !hasDrawn) {
             hasDrawn = true;
             drawTile();
-            System.out.println("Player " + this.playerIndex + " has drawn the " +
-                    player[this.playerIndex].getTileHand() + " tile!");
-            System.out.println("Player " + this.playerIndex + " has drawn the " +
-                    player[this.playerIndex].getPlayerInventory());
             level.drawTileFlag = false;
         }
 
@@ -155,7 +151,7 @@ public class GameFlow {
         int y = level.getBoardData().playerLocationOnBoard(level.getPlayerData()[playerIndex])[1];
         if (level.pressUpFlag && !level.playerHasMovedFlag) {
             if (checkPlayerBounds(x, (y - 1)) && checkPlayerMovement(x, (y - 1), this.playerIndex)) {
-                movePlayer(x, (y - 1), this.playerIndex);
+                movePlayer(x, (y - 1));
                 level.pressUpFlag = false;
                 level.getPlayerData()[this.playerIndex].setPlayerCordY((y - 1));
                 level.playerHasMovedFlag = true;
@@ -164,7 +160,7 @@ public class GameFlow {
 
         if (level.pressDownFlag && !level.playerHasMovedFlag) {
             if (checkPlayerBounds(x, (y + 1)) && checkPlayerMovement(x, (y + 1), this.playerIndex)) {
-                movePlayer(x, (y + 1), this.playerIndex);
+                movePlayer(x, (y + 1));
                 level.pressDownFlag = false;
                 level.getPlayerData()[this.playerIndex].setPlayerCordY((y + 1));
                 level.playerHasMovedFlag = true;
@@ -173,7 +169,7 @@ public class GameFlow {
 
         if (level.pressLeftFlag && !level.playerHasMovedFlag) {
             if (checkPlayerBounds((x - 1), y) && checkPlayerMovement((x - 1), y, this.playerIndex)) {
-                movePlayer((x - 1), y, this.playerIndex);
+                movePlayer((x - 1), y);
                 level.pressLeftFlag = false;
                 level.getPlayerData()[this.playerIndex].setPlayerCordX(x - 1);
                 level.playerHasMovedFlag = true;
@@ -182,7 +178,7 @@ public class GameFlow {
 
         if (level.pressRightFlag && !level.playerHasMovedFlag) {
             if (checkPlayerBounds((x + 1), y) && checkPlayerMovement((x + 1), y, this.playerIndex)) {
-                movePlayer((x + 1), y, this.playerIndex);
+                movePlayer((x + 1), y);
                 level.pressRightFlag = false;
                 level.getPlayerData()[this.playerIndex].setPlayerCordX(x + 1);
                 level.playerHasMovedFlag = true;
@@ -317,17 +313,16 @@ public class GameFlow {
      * Moves the player to desired location
      * @param x coordinate
      * @param y coordinate
-     * @param playerI object
      */
-    public void movePlayer(int x, int y, int playerI) {
-        board.movePlayer(player[playerI].getPlayerCordX(), player[playerI].getPlayerCordY(),
-                x, y);
+    public void movePlayer(int x, int y) {
+        int px = level.getBoardData().playerLocationOnBoard(level.getPlayerData()[playerIndex])[0];
+        int py = level.getBoardData().playerLocationOnBoard(level.getPlayerData()[playerIndex])[1];
+        board.movePlayer(px, py, x, y);
         checkWin();
     }
 
     private boolean checkPlayerBounds(int x, int y) {
-        if ((x < 0) || (x > level.getBoardData().getRowSize() - 1)
-                || (y < 0)
+        if ((x < 0) || (x > level.getBoardData().getRowSize() - 1) || (y < 0)
                 || (y > level.getBoardData().getColumnSize() - 1)
                 || (level.getBoardData().getPlayerFromBoard(x, y) != null)) {
             System.out.println("Player out of bounds");
