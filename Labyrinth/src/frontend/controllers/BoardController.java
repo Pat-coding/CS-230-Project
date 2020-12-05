@@ -60,6 +60,7 @@ public class BoardController implements Initializable {
     private Button moveButton;
 
     private Level level;
+    private int playerCounter = 0;
 
     private GameFlow gameFlow;
     private EventHandler<KeyEvent> keyListener = event -> {
@@ -204,6 +205,7 @@ public class BoardController implements Initializable {
     }
 
     private void setupBoard() {
+        playerCounter = 0;
         Board board = level.getBoardData();
         for (int x = 0; x < board.getRowSize(); x++) {
             for (int y = 0; y < board.getColumnSize(); y++) {
@@ -232,7 +234,7 @@ public class BoardController implements Initializable {
     private void checkPlayerNull(int j, int k, ImageView tile) {
         if (level.getBoardData().getPlayerFromBoard(j, k) != null) {
             System.out.println("x: " + j + "y: " + k);
-            ImageView playerIv = new ImageView("/resources/playerImg.png");
+            ImageView playerIv = new ImageView("/resources/Player" + playerCounter + ".png");
             //sets tiles to specified size
             playerIv.setFitHeight(size / 2);
             playerIv.setFitWidth(size / 2);
@@ -240,11 +242,14 @@ public class BoardController implements Initializable {
             pane.getChildren().add(tile);
             pane.getChildren().add(playerIv);
             tileGrid.add(pane, j, k);
+            playerCounter++;
+            System.out.println(playerCounter);
         }
     }
 
 
     public void refreshBoard() {
+        playerCounter = 0;
         tileGrid.getChildren().clear();
         for (int x = 0; x < level.getBoardData().getColumnSize(); x++) {
             for (int y = 0; y < level.getBoardData().getRowSize(); y++) {
