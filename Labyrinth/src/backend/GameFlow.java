@@ -1,8 +1,5 @@
 package backend;
-
 import javafx.scene.control.Alert;
-import javafx.stage.Stage;
-
 import java.util.ArrayList;
 
 /**
@@ -140,6 +137,13 @@ public class GameFlow {
             hasDrawn = false;
             level.endTurnFlag = false;
             incPlayerTurn();
+        }
+
+        if(board.getTileFromBoard(player[playerIndex].getPlayerCordX(),(player[playerIndex].getPlayerCordY())).getType().equals("Goal")) {
+            checkWin();
+            declareWinner(this.playerIndex);
+            winnerAlert();
+            endGame();
         }
 
         if (level.playerHasMovedFlag || level.getTempCardinal() != null) {

@@ -84,6 +84,7 @@ public class BoardController implements Initializable {
             gameFlow.movePlayerOnBoard();
             refreshBoard();
         }
+        gameFlow.flow();
         event.consume();
     };
 
