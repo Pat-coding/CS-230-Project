@@ -6,6 +6,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * this class creates the window for the program to run on and launches main menu
+ * @author
+ * @version 1.0
+ */
+
 public class Main extends Application {
 
     private static final int WINDOW_WIDTH = 1280;

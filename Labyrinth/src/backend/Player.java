@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import Tiles.FloorTile;
 import Tiles.Tile;
 /**
+ * this class Stpres information about they player in the current game
  * @author Kane
  * @version 1.0
  */

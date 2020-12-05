@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
- * Class for the load game
+ * This class lets the user choose which previous saved game they want to load
+ * @author
+ * @version 1.0
  */
 public class LoadGame implements Initializable {
 

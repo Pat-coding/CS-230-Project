@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
+ * this class handles game logic while players are in a game
  * @author Ben Dodd
  * @version 1.0.0
  */

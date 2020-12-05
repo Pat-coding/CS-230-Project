@@ -8,6 +8,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This class reads, writes and edits the game files and leaderboard files.
+ * @author
+ * @version 1.0
+ */
+
 public class FileManager {
 
     private static int counter;

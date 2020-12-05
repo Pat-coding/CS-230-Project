@@ -9,6 +9,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ *
+ * @author
+ * @version 1.0
+ */
+
 public class ProfileSelectLoader {
     private Stage primaryStage;
 

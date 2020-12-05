@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *This method creates leaderboards for the game specified by how the user
+ *This class sorts the leaderboards after a game to make sure they are up to date
  * wants them to be sorted
  * @author
  * @version 1.0.0

@@ -1,9 +1,13 @@
-package backend; /**
- * @author Ryan Humphreys 1903246
- */
+package backend;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+
+/**
+ * this class stores the profile information including results of all their games
+ * @author Ryan Humphreys 1903246
+ * @version 1.0
+ */
 public class Profile {
 
     private String profileName;

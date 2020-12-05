@@ -3,7 +3,9 @@ import java.util.Random;
 import Tiles.*;
 
 /**
+ * this class holds the tiles in the silk bag for the game and can take and give tiles to the user and board
  * @author Diana
+ * @version 1.0
  */
 
 public class SilkBag {

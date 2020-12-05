@@ -9,6 +9,10 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 
+/**
+ * think this can be removed
+ */
+
 public class NewGame {
 
     @FXML

@@ -11,6 +11,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * This class lets the user select which profile they are and also allows profiles to be deleted.
+ * @author
+ * @version 1.0
+ */
+
 public class ProfileSelect implements Initializable {
 
     @FXML private Button newProfileBtn;

@@ -5,6 +5,12 @@ import Tiles.FloorTile;
 
 import java.util.ArrayList;
 
+/**
+ * This class can get the information from a saved game or a new game and input into board to start a game
+ * @author
+ * @version 1.0
+ */
+
 public class Level {
 
 

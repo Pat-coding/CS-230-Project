@@ -9,6 +9,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * this method IDK
+ * @author
+ * @version 1.0
+ */
+
 public class Game {
 
     public Game(Stage stage, Level level){

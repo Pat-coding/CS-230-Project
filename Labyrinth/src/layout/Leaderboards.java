@@ -16,6 +16,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * this class handles the leaderboard UI and allows users to switch between leaderboards
+ * @author
+ * @version 1.0
+ */
 public class Leaderboards implements Initializable {
 
     @FXML private Button backToMenuBtn;

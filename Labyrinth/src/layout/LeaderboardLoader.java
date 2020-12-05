@@ -10,6 +10,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * this method IDK
+ * @author
+ * @version 1.0
+ */
+
 public class LeaderboardLoader {
 
     private Stage stage;

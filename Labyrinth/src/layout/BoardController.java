@@ -20,6 +20,13 @@ import java.awt.event.KeyListener;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * this class creates the UI board,populates it and tracks user inputs for tile slotting and player moves
+ * @author Deniz
+ * @version 1.0
+ *
+ */
+
 public class BoardController implements Initializable {
 
     @FXML private GridPane topGrid;

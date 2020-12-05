@@ -9,6 +9,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * This class creates the menu where users can decide what they want to do
+ * @author
+ * @version 1.0
+ */
+
 public class MainMenu {
 
     private Stage primaryStage;
