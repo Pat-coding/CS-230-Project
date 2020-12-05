@@ -203,8 +203,8 @@ public class GameFlow {
         if (board.getTileFromBoard(player[playerIndex].getPlayerCordX(),
                 (player[playerIndex].getPlayerCordY())).getType().equals("Goal")) {
             for (int i = 0; i < player.length; i++) {
-                if (player[i] == level.getBoardData().getPlayerFromBoard(level.getBoardData().getGoal()[0],
-                        level.getBoardData().getGoal()[1]))
+                if (board.getTileFromBoard(player[playerIndex].getPlayerCordX(),
+                        (player[playerIndex].getPlayerCordY())).getType().equals("Goal"))
                     declareWinner(i);
                 return true;
             }
@@ -314,9 +314,10 @@ public class GameFlow {
     }
 
     /**
-     * @param x
-     * @param y
-     * @param player
+     * Moves the player to desired location
+     * @param x coordinate
+     * @param y coordinate
+     * @param playerI object
      */
     public void movePlayer(int x, int y, int playerI) {
         board.movePlayer(player[playerI].getPlayerCordX(), player[playerI].getPlayerCordY(),

@@ -1,7 +1,11 @@
 package backend;
+
 import Tiles.FloorTile;
 import Tiles.GoalTile;
+
 import java.util.HashMap;
+
+
 /**
  * The board class structures the game board where the methods are operations that directly affects what is going on
  * the game board. This includes tiles and players on the game board.
@@ -175,12 +179,18 @@ public class Board {
      * @param y    The y co-ordinate where the player wants to slide tile in.
      * @param tile The tile that is being slided in.
      */
+
     public FloorTile placeOnNewTile(Cardinals c, int x, int y, FloorTile tile) { //use enum for access cardinals on tiles
-        if (c == Cardinals.TOP) { //shift index down from the second last (animations)
+        if (c == Cardinals.TOP) {//shift index down from the second last (animations)
             FloorTile discardedTile = getTileFromBoard(x, 0);
             for (int row = getRowSize() - 1; row > 0; row--) {
+//                if (getTileFromBoard(x, row - 1).getState().equals("FROZEN") ||
+//                        getTileFromBoard(x, row - 1).getState().equals("FIRE")) {
+//                    updateStatusKey(x, row, getTileFromBoard(x, row - 1));
+//                } else {
                 slidePlayerWithBoard(c, x, row);
                 insertTile(x, row, getTileFromBoard(x, row - 1));
+//                }
             }
             insertTile(x, 0, tile);
             if (tempPlayer != null) {
@@ -191,8 +201,14 @@ public class Board {
         } else if (c == Cardinals.BOTTOM) {//push from bottom to up
             FloorTile discardedTile = getTileFromBoard(x, getRowSize() - 1);
             for (int row = 0; row < getRowSize() - 1; row++) {
+//                if (getTileFromBoard(x, row + 1).getState().equals("FROZEN") ||
+//                        getTileFromBoard(x, row + 1).getState().equals("FIRE")) {
+//                    updateStatusKey(x, row, getTileFromBoard(x, row + 1));
+//                } else {
                 slidePlayerWithBoard(c, x, row);
                 insertTile(x, row, getTileFromBoard(x, row + 1));
+
+//                }
             }
             insertTile(x, getRowSize() - 1, tile);
             if (tempPlayer != null) {
@@ -203,9 +219,14 @@ public class Board {
         } else if (c == Cardinals.LEFT) { //push from left -> right
             FloorTile discardedTile = getTileFromBoard(x, getColumnSize() - 1);
             for (int col = getColumnSize() - 1; col > 0; col--) {
+//                if (getTileFromBoard(col - 1 , y).getState().equals("FROZEN") ||
+//                        getTileFromBoard(col - 1, y).getState().equals("FIRE")) {
+//                    updateStatusKey(col, y, getTileFromBoard(col - 1, y));
+//                } else {
                 slidePlayerWithBoard(c, col, y);
                 insertTile(col, y, getTileFromBoard(col - 1, y));
 
+//                }
             }
             insertTile(0, y, tile);
             if (tempPlayer != null) {
@@ -216,8 +237,14 @@ public class Board {
         } else if (c == Cardinals.RIGHT) { //push from right -> left
             FloorTile discardedTile = getTileFromBoard(getColumnSize() - 1, y);
             for (int col = 0; col < getColumnSize() - 1; col++) {
+//                if (getTileFromBoard(col + 1, y).getState().equals("FROZEN") ||
+//                        getTileFromBoard(col + 1, y).getState().equals("FIRE")) {
+//                    updateStatusKey(col, y, getTileFromBoard(col + 1, y));
+//                } else {
                 slidePlayerWithBoard(c, col, y);
                 insertTile(col, y, getTileFromBoard(col + 1, y));
+
+//                }
             }
             insertTile(getColumnSize() - 1, y, tile);
             if (tempPlayer != null) {
@@ -230,23 +257,12 @@ public class Board {
     }
 
     /**
-     * Search and store the goal co-ordinate on the board.
+     * Slides the player from one side of the board, to the other
      *
-     * @return
+     * @param x The x co-ordinate of the new position of the player.
+     * @param y The y co-ordinate of the new position of the player.
+     * @param c The cardinal place of the tile insertion.
      */
-    public int[] getGoal() {
-        int[] cords = new int[2];
-        for (int x = 0; x < getRowSize(); x++) {
-            for (int y = 0; y < getColumnSize(); y++) {
-                if (getTileFromBoard(x, y) instanceof GoalTile) {
-                    cords[0] = x;
-                    cords[1] = y;
-                    return cords;
-                }
-            }
-        }
-        return null;
-    }
 
     public void slidePlayerWithBoard(Cardinals c, int x, int y) {
         //if there is no player on the next tile or a player at the end of the tile
@@ -269,10 +285,10 @@ public class Board {
     /**
      * Method checks if there is a player at the end of the tile.
      *
-     * @param x
-     * @param y
-     * @param c
-     * @return
+     * @param x The x co-ordinate of the new position of the player.
+     * @param y The y co-ordinate of the new position of the player.
+     * @param c The cardinal place of the tile insertion.
+     * @return true/false boolean value
      */
     private boolean checkIfPlayerEndTile(int x, int y, Cardinals c) {
         if (c == Cardinals.TOP) {
@@ -285,6 +301,7 @@ public class Board {
             return getPlayerFromBoard(0, y) != null;
         }
         return false;
+
     }
 
     /**
@@ -315,14 +332,15 @@ public class Board {
      * @param y      The y co-ordinate of the player.
      * @param player The player at the position.
      */
+
     public void insertPlayer(int x, int y, Player player) {
         playerCoordinates[x][y] = player;
     }
 
     /**
-     * @param x
-     * @param y
-     * @return
+     * @param x      The x co-ordinate of the player.
+     * @param y      The y co-ordinate of the player.
+     * @return the Player object
      */
     public Player getPlayerFromBoard(int x, int y) {
         return playerCoordinates[x][y];
