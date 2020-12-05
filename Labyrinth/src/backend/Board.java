@@ -257,24 +257,12 @@ public class Board {
     }
 
     /**
-     * Search and store the goal co-ordinate on the board.
+     * Slides the player from one side of the board, to the other
      *
-     * @return
+     * @param x The x co-ordinate of the new position of the player.
+     * @param y The y co-ordinate of the new position of the player.
+     * @param c The cardinal place of the tile insertion.
      */
-
-    public int[] getGoal() {
-        int[] cords = new int[2];
-        for (int x = 0; x < getRowSize(); x++) {
-            for (int y = 0; y < getColumnSize(); y++) {
-                if (getTileFromBoard(x, y) instanceof GoalTile) {
-                    cords[0] = x;
-                    cords[1] = y;
-                    return cords;
-                }
-            }
-        }
-        return null;
-    }
 
     public void slidePlayerWithBoard(Cardinals c, int x, int y) {
         //if there is no player on the next tile or a player at the end of the tile
@@ -297,10 +285,10 @@ public class Board {
     /**
      * Method checks if there is a player at the end of the tile.
      *
-     * @param x
-     * @param y
-     * @param c
-     * @return
+     * @param x The x co-ordinate of the new position of the player.
+     * @param y The y co-ordinate of the new position of the player.
+     * @param c The cardinal place of the tile insertion.
+     * @return true/false boolean value
      */
     private boolean checkIfPlayerEndTile(int x, int y, Cardinals c) {
         if (c == Cardinals.TOP) {
@@ -350,9 +338,9 @@ public class Board {
     }
 
     /**
-     * @param x
-     * @param y
-     * @return
+     * @param x      The x co-ordinate of the player.
+     * @param y      The y co-ordinate of the player.
+     * @return the Player object
      */
     public Player getPlayerFromBoard(int x, int y) {
         return playerCoordinates[x][y];

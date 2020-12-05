@@ -6,3 +6,9 @@ Escape!!
 5,4,Straight,90,Normal
 5,5,Straight,90,Normal
 6,6,Goal,0,Normal
+ReasonableSizedBoard
+5,5
+0,0,0,4,4,0,3,3
+100,100,100,0,0,0,0,0
+1
+2,2,Goal,0,Normal
