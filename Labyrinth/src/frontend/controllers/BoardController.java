@@ -44,6 +44,7 @@ public class BoardController implements Initializable {
     @FXML private Pane handTile;
     @FXML private Button moveButton;
     @FXML private Label playerTurn;
+    @FXML private Pane playerColour;
 
     private Level level;
     private int counter;
@@ -112,11 +113,12 @@ public class BoardController implements Initializable {
             invPane.getChildren().clear();
             displayInventory();
             updatePlayerTurn();
+            setPlayerColour();
             event.consume();
         });
 
         moveButton.setOnAction(event -> moveButton.setOnKeyPressed(keyListener));
-
+        setPlayerColour();
         setupBoard();
         setupArrows();
         displayInventory();
@@ -208,6 +210,14 @@ public class BoardController implements Initializable {
         tile.setRotate(level.getBoardData().getTileFromBoard(x, y).getOrientation());
         tileGrid.add(tile, x, y);
         checkPlayerNull(x, y, tile);
+
+    }
+
+    private void setPlayerColour() {
+        ImageView playerIv = new ImageView("/resources/Player" + Level.getPlayerIndex() + ".png");
+        playerIv.setFitHeight(size / 2);
+        playerIv.setFitWidth(size / 2);
+        playerColour.getChildren().add(playerIv);
 
     }
 
