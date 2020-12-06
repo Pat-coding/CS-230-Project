@@ -9,8 +9,20 @@ import frontend.controllers.BoardController;
 
 import java.io.IOException;
 
+/**
+ * The Class creates the Window which the Board is loaded in.
+ * @author Deniz Oral
+ * @version 1.0
+ */
+
 public class BoardLoader {
 
+
+    /**
+     *  Creates a Board window with all relevant information.
+     * @param stage the primary window for this stage
+     * @param level contains all information needed for a board
+     */
     public BoardLoader(Stage stage, Level level){
         Stage primaryStage = stage;
         try {

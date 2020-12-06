@@ -18,6 +18,11 @@ public class Main extends Application {
     private static final int WINDOW_WIDTH = 1280;
     private static final int WINDOW_HEIGHT = 720;
 
+
+    /**
+     *  Creates the primary window for the application
+     * @param primaryStage the primary window
+     */
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Labyrinth");
@@ -35,6 +40,11 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Launches the application extension
+     * @param args a list of parameters
+     */
 
     public static void main(String[] args) {
         launch(args);

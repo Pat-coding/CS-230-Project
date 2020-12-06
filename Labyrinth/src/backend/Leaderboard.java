@@ -7,7 +7,7 @@ import java.util.Collections;
  *This class sorts the leaderboards after a game to
  * make sure they are up to date.
  * wants them to be sorted
- * @author
+ * @author Ryan Humphreys
  * @version 1.0.0
  */
 
@@ -86,12 +86,10 @@ public class Leaderboard {
             }
             profileList.set((j + 1), key);
         }
-        if (asc) {
-            return profileList;
-        } else {
+        if (!asc) {
             Collections.reverse(profileList);
-            return profileList;
         }
+        return profileList;
     }
 
     /**
@@ -112,12 +110,10 @@ public class Leaderboard {
             }
             profileList.set((j + 1), key);
         }
-        if (asc) {
-            return profileList;
-        } else {
+        if (!asc) {
             Collections.reverse(profileList);
-            return profileList;
         }
+        return profileList;
     }
 
     /**
@@ -138,12 +134,10 @@ public class Leaderboard {
             }
             profileList.set((j + 1), key);
         }
-        if (asc) {
-            return profileList;
-        } else {
+        if (!asc) {
             Collections.reverse(profileList);
-            return profileList;
         }
+        return profileList;
     }
 
     /**
@@ -163,11 +157,9 @@ public class Leaderboard {
             }
             profileList.set((j + 1), key);
         }
-        if (asc) {
-            return profileList;
-        } else {
+        if (!asc) {
             Collections.reverse(profileList);
-            return profileList;
         }
+        return profileList;
     }
 }

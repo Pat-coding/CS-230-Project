@@ -2,7 +2,7 @@ package backend;
 
 /**
  * This class stores the profile information including results of all their games.
- * @author Ryan Humphreys 1903246
+ * @author Ryan Humphreys
  * @version 1.0
  */
 
@@ -64,7 +64,7 @@ public class Profile {
         if (profileWinCount == 0 | profileLossCount == 0) {
             return this.winRatio = 0;
         } else {
-            return this.winRatio = profileWinCount / profileLossCount;
+            return this.winRatio = profileWinCount / profileLossCount ;
         }
     }
 

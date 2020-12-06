@@ -115,7 +115,7 @@ public class GameFlow {
      * Go to the next turn of the board.
      *
      */
-    public void incPlayerTurn() {
+    private void incPlayerTurn() {
         player[playerIndex].playerTurn();
         if (playerIndex == player.length - 1) {
             Level.setPlayerIndex(0);
@@ -130,7 +130,7 @@ public class GameFlow {
      * This method finds the player location on board and stores it locally.
      *
      */
-    public void updatePlayer() {
+    private void updatePlayer() {
         for (int i = 0; i < player.length - 1; i++) {
             int x = board.playerLocationOnBoard(player[i])[0];
             int y = board.playerLocationOnBoard(player[i])[1];
@@ -147,7 +147,7 @@ public class GameFlow {
      * @param playerIndex player wanting to move
      * @return true if move is legal
      */
-    public boolean checkPlayerMovement(int x, int y, int playerIndex) {
+    private boolean checkPlayerMovement(int x, int y, int playerIndex) {
         int px = board.playerLocationOnBoard(player[playerIndex])[0];
         int py = board.playerLocationOnBoard(player[playerIndex])[1];
 
@@ -179,7 +179,7 @@ public class GameFlow {
      * @param x coordinate
      * @param y coordinate
      */
-    public void movePlayer(int x, int y) {
+    private void movePlayer(int x, int y) {
         int px = board.playerLocationOnBoard(player[playerIndex])[0];
         int py = board.playerLocationOnBoard(player[playerIndex])[1];
         board.movePlayer(px, py, x, y);
@@ -298,7 +298,7 @@ public class GameFlow {
      *
      * @return True if the game could end
      */
-    public void endGame() {
+    private void endGame() {
         for (int i = 0; i < Level.getSavedLevels().size(); i++) {
             //  If name is equal to a level in saved level.
             if (Level.getSavedLevels().get(i).getBoardData().getNameOfBoard().equals
@@ -339,7 +339,7 @@ public class GameFlow {
      * to current players inventory.
      *
      */
-    public void drawTile() {
+    private void drawTile() {
         level.getSilkBag().giveTile(player[this.playerIndex]);
     }
 
@@ -348,7 +348,7 @@ public class GameFlow {
      *
      * @return True if there is a winning situation.
      */
-    public boolean checkWin() {
+    private boolean checkWin() {
         int px = board.playerLocationOnBoard(player[playerIndex])[0];
         int py = board.playerLocationOnBoard(player[playerIndex])[1];
         if (board.getTileFromBoard(px, py).getType().equals("Goal")) {
@@ -372,7 +372,7 @@ public class GameFlow {
      *
      * @param playerIndex index of winning player
      */
-    public void declareWinner(int playerIndex) {
+    private void declareWinner(int playerIndex) {
         for (int i = 0; i < player.length; i++) {
             if (player[i] == player[playerIndex]) {
                 player[i].incPlayerWin();
@@ -388,7 +388,7 @@ public class GameFlow {
      *
      * @return true if saved correctly
      */
-    public boolean saveGameCheck() {
+    private boolean saveGameCheck() {
         //  In range of amount of levels in saved levels
         for (int i = 0; i < level.getSavedLevels().size(); i++) {
             //  If name is equal to a level in saved level.

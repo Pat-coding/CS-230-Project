@@ -1,13 +1,13 @@
 package backend;
 import java.util.ArrayList;
+
+/**
+ * This class can get the information from a saved game or a new game and input into board to start a game.
+ * @author Ashley Hayre
+ * @version 1.0
+ */
+
 public class Level {
-
-    /**
-     * This class can get the information from a saved game or a new game and input into board to start a game.
-     * @author
-     * @version 1.0
-     */
-
 
     public static ArrayList<Profile> profileArray =
             FileManager.readProfileDataFile("Profiles.txt");
@@ -15,6 +15,7 @@ public class Level {
             FileManager.readLevelDataFile("NewLevel.txt", "New Level");
     public static ArrayList<Level> savedLevels =
             FileManager.readLevelDataFile("SavedLevel.txt", "Saved Level");
+
     private static int playerIndex;
     public boolean saveButtonFlag;
     public boolean pressLeftFlag;
@@ -80,7 +81,7 @@ public class Level {
 
     /**
      * This method sets the player index.
-     * @param playerIndex
+     * @param playerIndex Players index
      */
     public static void setPlayerIndex(int playerIndex) {
         Level.playerIndex = playerIndex;
@@ -120,7 +121,7 @@ public class Level {
 
     /**
      * Sets the current board from saved level.
-     * @param board
+     * @param board board information
      *
      */
     public void setBoardData(Board board) {
@@ -153,7 +154,7 @@ public class Level {
 
     /**
      * This methods sets silk bag to silk bag from the level.
-     * @param silkBag
+     * @param silkBag content of silkbag
      */
     public void setSilkBag(SilkBag silkBag) {
         this.silkBag = silkBag;
@@ -169,7 +170,7 @@ public class Level {
 
     /**
      * Creates an array of players in the level.
-     * @param Players
+     * @param Players creates player array
      */
     public void setPlayerArray(Player[] Players) {
         this.playerData = Players;
@@ -177,7 +178,7 @@ public class Level {
 
     /**
      * Sets the current game turn.
-     * @param gameTurn
+     * @param gameTurn game turn
      */
     public void setGameTurn(int gameTurn) {
         this.gameTurnData = gameTurn;
@@ -193,7 +194,7 @@ public class Level {
 
     /**
      * Sets temporary x.
-     * @param tempX
+     * @param tempX the temp value of x
      */
     public void setTempX(int tempX) {
         this.tempX = tempX;
@@ -209,7 +210,7 @@ public class Level {
 
     /**
      * Sets temporary y.
-     * @param tempY
+     * @param tempY the temp value of y
      */
     public void setTempY(int tempY) {
         this.tempY = tempY;
@@ -217,7 +218,7 @@ public class Level {
 
     /**
      * Gets temporary cardinal.
-     * @return carinal direction
+     * @return cardinal direction
      */
     public Board.Cardinals getTempCardinal() {
         return tempCardinal;
@@ -225,7 +226,7 @@ public class Level {
 
     /**
      * Sets temporary cardinal.
-     * @param tempCardinal
+     * @param tempCardinal cardinal direction
      */
     public void setTempCardinal(Board.Cardinals tempCardinal) {
         this.tempCardinal = tempCardinal;

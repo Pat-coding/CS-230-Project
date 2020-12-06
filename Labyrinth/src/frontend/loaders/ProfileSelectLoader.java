@@ -13,16 +13,23 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- *
- * @author
+ * The Class creates the Window which the NewGame is loaded in.
+ * @author Deniz Oral
  * @version 1.0
  */
 
 public class ProfileSelectLoader {
-    private Stage primaryStage;
 
+    private Stage primaryStage;
     protected ArrayList<Profile> profiles;
     protected ArrayList<Level> newLevel;
+
+    /**
+     * Loads the Profile Select window.
+     * @param stage primary stage
+     * @param profiles list containing all profiles
+     * @param newLevel list containing all levels
+     */
 
     public ProfileSelectLoader(Stage stage, ArrayList<Profile> profiles, ArrayList<Level> newLevel){
 
