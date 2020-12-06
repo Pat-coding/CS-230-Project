@@ -58,6 +58,7 @@ public class ProfileSelectController implements Initializable {
                 profiles.add(new Profile(nameField.getText()));
                 nameField.clear();
                 refreshProfiles();
+                FileManager.createNewProfile(Level.getProfileArray());
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter something inside the box.");
                 alert.showAndWait();

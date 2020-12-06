@@ -57,7 +57,6 @@ public class LoadNewGameController implements Initializable {
         } else {
             //displays the selected level
             selectedIndex = mapList.getSelectionModel().getSelectedIndex();
-            System.out.println(selectedIndex);
 
             for(int i = 0; i < newLevel.get(selectedIndex).getBoardData().getColumnSize(); i++) {
                 for (int j = 0; j < newLevel.get(selectedIndex).getBoardData().getRowSize(); j++) {
