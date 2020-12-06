@@ -1,5 +1,6 @@
 package frontend.controllers;
 
+import backend.FileManager;
 import backend.Level;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,8 +34,8 @@ public class LoadLevelController implements Initializable {
 
     /**
      * Constructor for load game
-     * @param stage
-     * @param level
+     * @param stage takes in primary stage
+     * @param level takes in arraylist of levels
      */
     public LoadLevelController(Stage stage, ArrayList<Level> level) {
         this.level = level;
@@ -44,22 +45,16 @@ public class LoadLevelController implements Initializable {
     /**
      * this will the main method that will develop the actions for
      * the buttons
-     * @param location
-     * @param resources
+     * @param location location of fxml file
+     * @param resources resource
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        backToMenu.setOnAction(e -> {
-            goToMenu();
-        });
+        backToMenu.setOnAction(e -> goToMenu());
 
-        loadGameBtn.setOnAction(actionEvent -> {
-            loadGame();
-        });
+        loadGameBtn.setOnAction(actionEvent -> loadGame());
 
-        deleteGameBtn.setOnAction(e -> {
-            deleteSaveFile();
-        });
+        deleteGameBtn.setOnAction(e -> deleteSaveFile());
 
         refreshSaveList();
     }
@@ -93,6 +88,8 @@ public class LoadLevelController implements Initializable {
         } else {
             //removes save from the list
             savedLevels.getItems().remove(selectedIndex);
+            level.remove(selectedIndex);
+            FileManager.createNewSaveFile(Level.getSavedLevels());
         }
     }
 

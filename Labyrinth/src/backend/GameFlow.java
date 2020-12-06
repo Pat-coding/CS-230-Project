@@ -279,24 +279,17 @@ public class GameFlow {
         }
 
         if (checkWin()) {
-            declareWinner(this.playerIndex);
+            declareWinner();
             endGame();
             winnerAlert();
         }
 
-        if (board.getTileFromBoard(player[playerIndex].getPlayerCordX(),
-                (player[playerIndex].getPlayerCordY())).getType().equals("Goal")) {
-            declareWinner(this.playerIndex);
-            endGame();
-            winnerAlert();
-        }
     }
 
 
     /**
      * Prepare the game to finish, either for saving or at a win.
      *
-     * @return True if the game could end
      */
     private void endGame() {
         for (int i = 0; i < Level.getSavedLevels().size(); i++) {
@@ -318,7 +311,7 @@ public class GameFlow {
         //  Override previous save game
         updatePlayer();
         if (!saveGameCheck()) {
-            level.getSavedLevels().add(this.level);
+            Level.getSavedLevels().add(this.level);
         }
         exportGames();
 
@@ -354,7 +347,6 @@ public class GameFlow {
         if (board.getTileFromBoard(px, py).getType().equals("Goal")) {
             for (int i = 0; i < player.length; i++) {
                 if (board.getTileFromBoard(px, py).getType().equals("Goal"))
-                    declareWinner(i);
                 return true;
             }
         }
@@ -370,14 +362,13 @@ public class GameFlow {
     /**
      * Announces that a player has won the game.
      *
-     * @param playerIndex index of winning player
      */
-    private void declareWinner(int playerIndex) {
-        for (int i = 0; i < player.length; i++) {
-            if (player[i] == player[playerIndex]) {
-                player[i].incPlayerWin();
+    private void declareWinner() {
+        for (Player value : player) {
+            if (value == player[playerIndex]) {
+                value.incPlayerWin();
             } else {
-                player[i].incPlayerLoss();
+                value.incPlayerLoss();
             }
         }
 
@@ -390,12 +381,12 @@ public class GameFlow {
      */
     private boolean saveGameCheck() {
         //  In range of amount of levels in saved levels
-        for (int i = 0; i < level.getSavedLevels().size(); i++) {
+        for (int i = 0; i < Level.getSavedLevels().size(); i++) {
             //  If name is equal to a level in saved level.
-            if (level.getSavedLevels().get(i).getBoardData().getNameOfBoard().equals
+            if (Level.getSavedLevels().get(i).getBoardData().getNameOfBoard().equals
                     (this.board.getNameOfBoard())) {
-                level.getSavedLevels().remove(i);
-                level.getSavedLevels().add(this.level);
+                Level.getSavedLevels().remove(i);
+                Level.getSavedLevels().add(this.level);
                 return true;
             }
         }
