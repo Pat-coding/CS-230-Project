@@ -128,7 +128,6 @@ public class BoardController implements Initializable {
     public void floorTileCommands() {
         if (level.playerHandFlag) {
             endTurnBtn.setVisible(false);
-            System.out.println("this is the boardcontroller player index: " + Level.getPlayerIndex());
             FloorTile tileInHand = level.getPlayerData()[Level.getPlayerIndex()].getTileHand();
             rotateRight.setVisible(true);
             rotateLeft.setVisible(true);

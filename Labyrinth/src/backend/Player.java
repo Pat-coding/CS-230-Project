@@ -134,10 +134,7 @@ public class Player {
     public void incPlayerWin() {
         for (int i = 0; i < Level.getProfileArray().size(); i++) {
             if (Level.getProfileArray().get(i).getProfileName().equals(this.profile.getProfileName())) {
-                System.out.println(Level.getProfileArray().get(i));
                 Level.getProfileArray().get(i).incrementWinCount();
-                System.out.println(Level.getProfileArray().get(i).getProfileName() + " "
-                        + Level.getProfileArray().get(i).getWinCount());
             }
         }
     }
