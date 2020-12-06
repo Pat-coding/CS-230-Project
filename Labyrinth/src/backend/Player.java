@@ -5,7 +5,7 @@ import Tiles.Tile;
 
 /**
  * A model a player. Each player has a profile, coordinates,
- * inventory, coordinate history, history and a turn
+ * inventory, coordinate history, history and a turn.
  * @author Kane
  * @version 1.0
  */
@@ -63,7 +63,7 @@ public class Player {
     }
 
     /**
-     * Sets the location of the Player's current x position
+     * Sets the location of the Player's current x position.
      *
      * @param x position
      */
@@ -73,7 +73,7 @@ public class Player {
     }
 
     /**
-     * Getter for the player's Y coordinate
+     * Getter for the player's Y coordinate.
      *
      * @return Y coordinate
      */
@@ -82,7 +82,7 @@ public class Player {
     }
 
     /**
-     * Sets the location of the Player's current y position
+     * Sets the location of the Player's current y position.
      *
      * @param y position
      */
@@ -92,7 +92,7 @@ public class Player {
     }
 
     /**
-     * Getter for the player's coordinate history
+     * Getter for the player's coordinate history.
      *
      * @return coordinate history
      */
@@ -101,7 +101,7 @@ public class Player {
     }
 
     /**
-     * Getter for the player's inventory
+     * Getter for the player's inventory.
      *
      * @return player's inventory
      */
@@ -110,7 +110,7 @@ public class Player {
     }
 
     /**
-     * Getter the back track check
+     * Getter the back track check.
      *
      * @return back track check
      */
@@ -119,7 +119,7 @@ public class Player {
     }
 
     /**
-     * Gets the player's turn
+     * Gets the player's turn.
      *
      * @return True if it's the player's turn
      */
@@ -129,7 +129,7 @@ public class Player {
 
     /**
      * Checks if player is at win coords and
-     * if so increments that players win stat
+     * if so increments that players win stat.
      */
     public void incPlayerWin() {
         for (int i = 0; i < Level.getProfileArray().size(); i++) {
@@ -144,7 +144,7 @@ public class Player {
 
     /**
      * Increments players loss stat if the
-     * player isn't on win coords
+     * player isn't on win coords.
      */
     public void incPlayerLoss() {
         for (int i = 0; i < Level.getProfileArray().size(); i++) {
@@ -155,7 +155,7 @@ public class Player {
     }
 
     /**
-     * This Method flips player turn after they have finished their turn
+     * This Method flips player turn after they have finished their turn.
      *
      * @return Boolean result
      */
@@ -164,7 +164,7 @@ public class Player {
     }
 
     /**
-     * Getter for the tile's in hand
+     * Getter for the tile's in hand.
      *
      * @return tile's in hand
      */
@@ -173,7 +173,7 @@ public class Player {
     }
 
     /**
-     * Setter for tile hand
+     * Setter for tile hand.
      *
      * @param tileHand
      */

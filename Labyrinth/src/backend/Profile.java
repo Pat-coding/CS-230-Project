@@ -1,8 +1,9 @@
 package backend;
 
 /**
- *
+ * This class stores the profile information including results of all their games.
  * @author Ryan Humphreys 1903246
+ * @version 1.0
  */
 
 public class Profile {
@@ -14,7 +15,7 @@ public class Profile {
     private int profileGamesPlayed;
 
     /**
-     * Constructor for new profiles made during runtime
+     * Constructor for new profiles made during runtime.
      *
      * @param profileName profile name
      */
@@ -26,7 +27,7 @@ public class Profile {
     }
 
     /**
-     * Constructor for importing profiles from file
+     * Constructor for importing profiles from file.
      *
      * @param profileName      profile name
      * @param profileWinCount  number of wins
@@ -40,6 +41,7 @@ public class Profile {
     }
 
     /**
+     * Gets number of win of profile.
      * @return number of wins
      */
     public int getWinCount() {
@@ -47,6 +49,7 @@ public class Profile {
     }
 
     /**
+     * Gets number of losses of profile.
      * @return number of losses
      */
     public int getLoseCount() {
@@ -54,6 +57,7 @@ public class Profile {
     }
 
     /**
+     * Gets win/loss ration of profile.
      * @return ratio of wins/losses
      */
     public double getWinRatio() {
@@ -65,6 +69,7 @@ public class Profile {
     }
 
     /**
+     * Gets name of profile.
      * @return profile name
      */
     public String getProfileName() {
@@ -72,6 +77,7 @@ public class Profile {
     }
 
     /**
+     * Sets name of profile.
      * @param profileName new profile name to be set
      */
     public void setProfileName(String profileName) {
@@ -79,6 +85,7 @@ public class Profile {
     }
 
     /**
+     * Gets number of games played.
      * @return total number of games played
      */
     public int getGamesPlayed() {
@@ -86,7 +93,8 @@ public class Profile {
     }
 
     /**
-     * Adds 1 to profile win count
+     *
+     * Adds 1 to profile win count.
      */
     public void incrementWinCount() {
         this.profileWinCount++;
@@ -95,7 +103,7 @@ public class Profile {
     }
 
     /**
-     * Adds 1 to profile loss count
+     * Adds 1 to profile loss count.
      */
     public void incrementLoseCount() {
         this.profileLossCount++;
