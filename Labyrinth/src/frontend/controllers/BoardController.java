@@ -1,4 +1,5 @@
 package frontend.controllers;
+
 import Tiles.FloorTile;
 import backend.*;
 import javafx.event.EventHandler;
@@ -12,6 +13,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.input.KeyEvent;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -28,11 +30,16 @@ public class BoardController implements Initializable {
     private static final double TILE_LOCATION_SCALING = 2.0;
     private static final int ROTATION = 90;
     private static final int EXIT_GAME = 404;
+    private static final int DEFAULT_PLAYER_INDEX = 0;
 
-    private Image arrowDown = new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
-    private Image arrowUp = new Image(getClass().getResourceAsStream("/resources/arrowUP.png"));
-    private Image arrowLeft = new Image(getClass().getResourceAsStream("/resources/arrowLeft.png"));
-    private Image arrowRight = new Image(getClass().getResourceAsStream("/resources/arrowRight.png"));
+    private Image arrowDown =
+            new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
+    private Image arrowUp =
+            new Image(getClass().getResourceAsStream("/resources/arrowUP.png"));
+    private Image arrowLeft =
+            new Image(getClass().getResourceAsStream("/resources/arrowLeft.png"));
+    private Image arrowRight =
+            new Image(getClass().getResourceAsStream("/resources/arrowRight.png"));
 
     @FXML
     private GridPane topGrid;
@@ -74,6 +81,10 @@ public class BoardController implements Initializable {
     private Level level;
 
     private GameFlow gameFlow;
+
+    /**
+     * Variable for key events when moving players.
+     */
     private EventHandler<KeyEvent> keyListener = event -> {
         if (event.getCode() == KeyCode.UP) {
             level.pressUpFlag = true;
@@ -103,7 +114,7 @@ public class BoardController implements Initializable {
     /**
      * Constructor for the BoardController.
      *
-     * @param level
+     * @param level Pass save game data to the board controller.
      */
     public BoardController(Level level) {
         this.level = level;
@@ -164,7 +175,6 @@ public class BoardController implements Initializable {
 
     /**
      * Rotates the floor tile displayed on screen.
-     *
      */
     private void floorTileCommands() {
         if (level.playerHandFlag) {
@@ -200,7 +210,7 @@ public class BoardController implements Initializable {
     /**
      * set the player index at the start of the game.
      *
-     * @return  The player that is starting the game.
+     * @return The player that is starting the game.
      */
     private int setPlayerIndex() {
         for (int i = 0; i < level.getPlayerData().length; i++) {
@@ -208,12 +218,11 @@ public class BoardController implements Initializable {
                 return i;
             }
         }
-        return 0;
+        return DEFAULT_PLAYER_INDEX;
     }
 
     /**
      * Hide board arrows when action tiles are drawn from the silk bag.
-     *
      */
     private void caseActionTileDrawn() {
         FloorTile tilePresent = level.getPlayerData()[Level.getPlayerIndex()].getTileHand();
@@ -225,7 +234,6 @@ public class BoardController implements Initializable {
 
     /**
      * Display the inventory of the players.
-     *
      */
     private void displayInventory() {
         Player players = level.getPlayerData()[Level.getPlayerIndex()];
@@ -241,7 +249,6 @@ public class BoardController implements Initializable {
 
     /**
      * Setup board on initialization.
-     *
      */
     private void setupBoard() {
         Board board = level.getBoardData();
@@ -263,9 +270,9 @@ public class BoardController implements Initializable {
     /**
      * Set Images to tiles on the board.
      *
-     * @param tile  The image being set to the tile.
-     * @param x     The x co-ordinate of the board.
-     * @param y     The y co-ordinate of the board.
+     * @param tile The image being set to the tile.
+     * @param x    The x co-ordinate of the board.
+     * @param y    The y co-ordinate of the board.
      */
     private void setTiles(ImageView tile, int x, int y) {
         tile.setFitHeight(SIZE);
@@ -278,7 +285,6 @@ public class BoardController implements Initializable {
 
     /**
      * Display player image on game as an indicator.
-     *
      */
     private void setPlayerColour() {
         ImageView playerIv = new ImageView("/resources/Player" + Level.getPlayerIndex() + ".png");
@@ -291,9 +297,9 @@ public class BoardController implements Initializable {
     /**
      * Set player image to board when there is a player on the board.
      *
-     * @param j     The x co-ordinate of the player.
-     * @param k     The y co-ordinate of the player.
-     * @param tile  The tile where the player is on board.
+     * @param j    The x co-ordinate of the player.
+     * @param k    The y co-ordinate of the player.
+     * @param tile The tile where the player is on board.
      */
     private void checkPlayerNull(int j, int k, ImageView tile) {
 
@@ -316,7 +322,6 @@ public class BoardController implements Initializable {
 
     /**
      * Refresh the current tile images on board with newly located tiles.
-     *
      */
     private void refreshBoard() {
         tileGrid.getChildren().clear();
@@ -336,7 +341,6 @@ public class BoardController implements Initializable {
 
     /**
      * Make the arrows around the board hidden.
-     *
      */
     private void hideArrows() {
         for (int i = 1; i < level.getBoardData().getRowSize() + 1; i++) {
@@ -352,7 +356,6 @@ public class BoardController implements Initializable {
 
     /**
      * Make the rotation and tile hand being displayed hidden are the tile has been slotted into the board.
-     *
      */
     private void slottedUnset() {
         rotateRight.setVisible(false);
@@ -365,7 +368,6 @@ public class BoardController implements Initializable {
 
     /**
      * Make the arrows visible again after the tile has been drawn.
-     *
      */
     private void unHideArrows() {
         for (int x = 0; x < level.getBoardData().getRowSize(); x++) {
@@ -384,7 +386,6 @@ public class BoardController implements Initializable {
 
     /**
      * Setup arrows around the board during the initialization phase.
-     *
      */
     private void setupArrows() {
         topGrid.setTranslateX(SIZE);
@@ -473,7 +474,7 @@ public class BoardController implements Initializable {
                         event.consume();
                     });
 
-                } else if (y == level.getBoardData().getColumnSize() - 1) { //4 is the board size, we will get board size from save files, this is just for testing right now.
+                } else if (y == level.getBoardData().getColumnSize() - 1) {
                     ImageView tileImg = new ImageView();
                     tileImg.setFitHeight(SIZE);
                     tileImg.setFitWidth(SIZE);
@@ -504,7 +505,6 @@ public class BoardController implements Initializable {
 
     /**
      * Text showing which player it is as an indicator.
-     *
      */
     private void updatePlayerTurn() {
         playerTurn.setText(level.getPlayerData()[Level.getPlayerIndex()].getProfile().getProfileName() + "'s turn!");

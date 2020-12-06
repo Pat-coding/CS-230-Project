@@ -311,6 +311,7 @@ public class GameFlow {
 
     /**
      * This methods overwrites any old save games of this instance.
+     *
      */
     private void saveGame() {
         //  Override previous save game
@@ -324,6 +325,7 @@ public class GameFlow {
 
     /**
      * This saves the current game state to files.
+     *
      */
 
     private void exportGames() {
@@ -334,6 +336,7 @@ public class GameFlow {
     /**
      * This method draws a random tile from silk bag and adds it
      * to current players inventory.
+     *
      */
     public void drawTile() {
         level.getSilkBag().giveTile(player[this.playerIndex]);
