@@ -1,5 +1,10 @@
 package Tiles;
 
+/**
+ * Used to instantiate a Straight tile.
+ * @author Diana Suankulova
+ * @version 1.0.0
+ */
 public class StraightTile extends FloorTile {
     private boolean accessFromTop = true;
     private boolean accessFromBottom = true;
@@ -10,6 +15,13 @@ public class StraightTile extends FloorTile {
     private String state;
     private String typeOfTile = "Straight";
     private String image = "PATH";
+
+    /**
+     * A constructor which is intended to be used to create a Straight Tile.
+     * @param orientation of tile
+     * @param state of tile
+     * @param isFixed true/false
+     */
 
     public StraightTile(int orientation, String state, Boolean isFixed) {
         super(orientation, state, isFixed);
@@ -90,6 +102,10 @@ public class StraightTile extends FloorTile {
         return state;
     }
 
+    /**
+     * Sets the orientation of a Tile.
+     * @param orientation desired orientation
+     */
     @Override
     public void setOrientation(int orientation) {
         this.orientation = orientation;

@@ -1,6 +1,10 @@
 package Tiles;
 
-
+/**
+ * The parent of the Floor Tile.
+ * @author Diana Suankulova
+ * @version 1.0.0
+ */
 public abstract class FloorTile extends Tile {
 
     protected boolean accessFromTop;
@@ -8,12 +12,17 @@ public abstract class FloorTile extends Tile {
     protected boolean accessFromLeft;
     protected boolean accessFromRight;
     protected String typeOfTile;
-    protected String image = "Path";
     private int orientation;
     protected boolean isFixed;
     protected String state;
 
-
+    /**
+     * A constructor which is intended to be used to create a child of
+     * FloorTile
+     * @param orientation of tile
+     * @param state of tile
+     * @param isFixed true/false
+     */
 
     protected FloorTile(int orientation, String state, Boolean isFixed) {
         this.setOrientation(orientation);
@@ -53,7 +62,7 @@ public abstract class FloorTile extends Tile {
     public abstract boolean isAccessFromRight();
 
     /**
-     * @return the orienation of the tile.
+     * @return the orientation of the tile.
      */
 
     public abstract int getOrientation();
@@ -69,17 +78,22 @@ public abstract class FloorTile extends Tile {
 
     public abstract String getState();
 
+    /**
+     * Sets the state of a String.
+     * @param state desired state
+     */
+
     public void setState(String state) {
         this.state = state;
     }
 
+    /**
+     * Sets the orientation of a Tile.
+     * @param orientation desired orientation
+     */
     public void setOrientation(int orientation) {
         this.orientation = orientation;
     }
-    /**
-     *
-     * @return
-     */
 
 
 

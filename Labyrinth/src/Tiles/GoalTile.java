@@ -4,6 +4,11 @@ import Tiles.FloorTile;
 
 import java.awt.*;
 
+/**
+ * Used to instantiate a Goal tile.
+ * @author Diana Suankulova
+ * @version 1.0.0
+ */
 public class GoalTile extends FloorTile {
 
 
@@ -16,8 +21,12 @@ public class GoalTile extends FloorTile {
     private boolean isFixed;
     private String state;
 
-    private String image = "PATH";
-
+    /**
+     * A constructor which is intended to be used to create a goal Tile.
+     * @param orientation of tile
+     * @param state of tile
+     * @param isFixed true/false
+     */
     public GoalTile(int orientation, String state, Boolean isFixed) {
         super(orientation, state, isFixed);
         this.isFixed = isFixed;
@@ -64,7 +73,7 @@ public class GoalTile extends FloorTile {
     }
 
     /**
-     * @return the orienation of the tile.
+     * @return the orientation of the tile.
      */
     @Override
     public int getOrientation() {
@@ -87,7 +96,10 @@ public class GoalTile extends FloorTile {
         return state;
     }
 
-
+    /**
+     * Sets the orientation of a Tile.
+     * @param orientation desired orientation
+     */
     @Override
     public void setOrientation(int orientation) {
         this.orientation = orientation;
