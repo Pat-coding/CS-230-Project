@@ -12,14 +12,20 @@ import frontend.controllers.LoadLevelController;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 /**
- * this class IDK
- * @author
+ * The Class creates the Window which the Menu is loaded in.
+ * @author Deniz Oral
  * @version 1.0
  */
 
-
 public class LoadMenuLoader {
+
+    /**
+     * Loads the Menu Window
+     * @param stage the primary stage
+     * @param level contains information on all levels
+     */
     public LoadMenuLoader(Stage stage, ArrayList<Level> level){
         Stage primaryStage = stage;
         try {

@@ -10,17 +10,22 @@ import frontend.controllers.LeaderboardController;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 /**
- * this method IDK
- * @author
+ * The Class creates the Window which the Leaderboard is loaded in.
+ * @author Deniz Oral
  * @version 1.0
  */
-
 public class LeaderboardLoader {
 
     private Stage stage;
     private ArrayList<Profile> profiles;
 
+    /**
+     * Creates a leaderboard window with all the relevant information.
+     * @param stage the primary window
+     * @param profiles list of profiles loaded
+     */
     public LeaderboardLoader(Stage stage, ArrayList<Profile> profiles) {
         this.stage = stage;
         this.profiles = profiles;

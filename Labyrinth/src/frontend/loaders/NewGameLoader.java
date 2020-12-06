@@ -11,8 +11,19 @@ import frontend.controllers.LoadNewGameController;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class NewGameLoader {
+/**
+ * The Class creates the Window which the NewGame is loaded in.
+ * @author Deniz Oral
+ * @version 1.0
+ */
 
+public class NewGameLoader {
+    /**
+     *  Loads the New Game Window.
+     * @param stage primary stage
+     * @param profiles containing all profiles
+     * @param newLevel containing all levels
+     */
     public NewGameLoader(Stage stage, ArrayList<Profile> profiles, ArrayList<Level> newLevel){
         Stage primaryStage = stage;
         try {
