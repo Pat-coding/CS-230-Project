@@ -268,6 +268,7 @@ public class GameFlow {
             level.setTempCardinal(null);
             level.setTempX(-1);
             level.setTempY(-1);
+            level.setPlayerHasSlotTile(true);
         }
 
         //  Need to implement constrain to see if the player has moved or not.

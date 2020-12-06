@@ -1,5 +1,4 @@
 package frontend.controllers;
-
 import Tiles.FloorTile;
 import backend.*;
 import javafx.event.EventHandler;
@@ -41,45 +40,109 @@ public class BoardController implements Initializable {
     private Image arrowRight =
             new Image(getClass().getResourceAsStream("/resources/arrowRight.png"));
 
+    /**
+     * Board arrows on the top of the board.
+     */
     @FXML
     private GridPane topGrid;
+
+    /**
+     * Board arrows on the right of the board.
+     */
     @FXML
     private GridPane rightGrid;
+
+    /**
+     * Board arrows on the bottom of the board.
+     */
     @FXML
     private GridPane bottomGrid;
+
+    /**
+     * Board arrows on the left of the board.
+     */
     @FXML
     private GridPane leftGrid;
+
+    /**
+     * The board grid containing the tiles.
+     */
     @FXML
     private GridPane tileGrid;
+
+    /**
+     * The save button.
+     */
     @FXML
     private Button saveGameBtn;
+
+    /**
+     * The quit button.
+     */
     @FXML
     private Button quitBtn;
+
+    /**
+     * The draw button.
+     */
     @FXML
     private Button drawTileBtn;
+
+    /**
+     * The end turn button.
+     */
     @FXML
     private Button endTurnBtn;
-    @FXML
-    private Pane pane;
+
+    /**
+     * The box containing the player inventory.
+     */
     @FXML
     private HBox inventory;
+
+    /**
+     * The individual action tiles in the player inventory.
+     */
     @FXML
     private StackPane invPane;
+
+    /**
+     * The rotate left button rotating the tile in player hand.
+     */
     @FXML
     private Button rotateLeft;
+
+    /**
+     * The rotate Right button rotating the tile in player hand.
+     */
     @FXML
     private Button rotateRight;
+
+    /**
+     * The floor tile in the player hand.
+     */
     @FXML
     private Pane handTile;
+
+    /**
+     * The move button moving the player.
+     */
     @FXML
     private Button moveButton;
+
+    /**
+     * The text for the player turn indicator
+     */
     @FXML
     private Label playerTurn;
+
+    /**
+     * The indicator for the different player colour.
+     */
     @FXML
     private Pane playerColour;
 
     private Level level;
-
     private GameFlow gameFlow;
 
     /**
@@ -189,6 +252,9 @@ public class BoardController implements Initializable {
             handTile.setVisible(true);
             rotateLeft.setOnAction(event -> {
                 tileInHand.setOrientation(tileInHand.getOrientation() + ROTATION);
+                if (tileInHand.getOrientation() > 360) {
+                    tileInHand.setOrientation(0);
+                }
                 tile.setRotate(tileInHand.getOrientation());
                 tile.setFitHeight(SIZE);
                 tile.setFitWidth(SIZE);
@@ -198,6 +264,9 @@ public class BoardController implements Initializable {
 
             rotateRight.setOnAction(event -> {
                 tileInHand.setOrientation(tileInHand.getOrientation() - ROTATION);
+                if (tileInHand.getOrientation() < 0) {
+                    tileInHand.setOrientation(360);
+                }
                 tile.setRotate(tileInHand.getOrientation());
                 tile.setFitHeight(SIZE);
                 tile.setFitWidth(SIZE);
@@ -344,13 +413,14 @@ public class BoardController implements Initializable {
      */
     private void hideArrows() {
         for (int i = 1; i < level.getBoardData().getRowSize() + 1; i++) {
-            if (level.getTempCardinal() == null || level.getPlayerData()[Level.getPlayerIndex()] == null) {
+            if (level.drawTileFlag || level.isPlayerHasSlotTile()) {
                 rightGrid.getChildren().get(i).setVisible(false);
                 leftGrid.getChildren().get(i).setVisible(false);
                 topGrid.getChildren().get(i).setVisible(false);
                 bottomGrid.getChildren().get(i).setVisible(false);
             }
         }
+        level.setPlayerHasSlotTile(false);
         slottedUnset();
     }
 
@@ -416,7 +486,9 @@ public class BoardController implements Initializable {
                         tileGrid.getChildren().clear();
                         refreshBoard();
                         hideArrows();
-                        moveButton.setVisible(true);
+                        if(!level.drawTileFlag) {
+                            moveButton.setVisible(true);
+                        }
                         event.consume();
                     });
 
@@ -442,7 +514,9 @@ public class BoardController implements Initializable {
                         tileGrid.getChildren().clear();
                         refreshBoard();
                         hideArrows();
-                        moveButton.setVisible(true);
+                        if(!level.drawTileFlag) {
+                            moveButton.setVisible(true);
+                        }
                         event.consume();
                     });
 
@@ -470,7 +544,9 @@ public class BoardController implements Initializable {
                         tileGrid.getChildren().clear();
                         refreshBoard();
                         hideArrows();
-                        moveButton.setVisible(true);
+                        if(!level.drawTileFlag) {
+                            moveButton.setVisible(true);
+                        }
                         event.consume();
                     });
 
@@ -495,7 +571,9 @@ public class BoardController implements Initializable {
                         tileGrid.getChildren().clear();
                         refreshBoard();
                         hideArrows();
-                        moveButton.setVisible(true);
+                        if(!level.drawTileFlag) {
+                            moveButton.setVisible(true);
+                        }
                         event.consume();
                     });
                 }

@@ -28,7 +28,7 @@ public class Level {
     private int tempX;
     private int tempY;
     private Board.Cardinals tempCardinal;
-
+    private boolean playerHasSlotTile;
     private Board boardData;
     private int gameTurnData;
     private SilkBag silkBag;
@@ -229,5 +229,13 @@ public class Level {
      */
     public void setTempCardinal(Board.Cardinals tempCardinal) {
         this.tempCardinal = tempCardinal;
+    }
+
+    public boolean isPlayerHasSlotTile() {
+        return playerHasSlotTile;
+    }
+
+    public void setPlayerHasSlotTile(boolean playerHasSlotTile) {
+        this.playerHasSlotTile = playerHasSlotTile;
     }
 }
