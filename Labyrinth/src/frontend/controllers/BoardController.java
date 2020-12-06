@@ -55,41 +55,25 @@ public class BoardController implements Initializable {
             System.out.println("UP");
             gameFlow.movePlayerOnBoard();
 
-            if (level.playerHasMovedFlag) {
-                moveButton.setVisible(false);
-                refreshBoard();
-                gameFlow.flow();
-            }
         } else if (event.getCode() == KeyCode.DOWN) {
             level.pressDownFlag = true;
             System.out.println("DOWN");
             gameFlow.movePlayerOnBoard();
 
-            if (level.playerHasMovedFlag) {
-                moveButton.setVisible(false);
-                refreshBoard();
-                gameFlow.flow();
-            }
         } else if (event.getCode() == KeyCode.LEFT) {
             level.pressLeftFlag = true;
             System.out.println("LEFT");
             gameFlow.movePlayerOnBoard();
 
-            if (level.playerHasMovedFlag) {
-                moveButton.setVisible(false);
-                refreshBoard();
-                gameFlow.flow();
-            }
         } else if (event.getCode() == KeyCode.RIGHT) {
             level.pressRightFlag = true;
             System.out.println("RIGHT");
             gameFlow.movePlayerOnBoard();
-
-            if (level.playerHasMovedFlag) {
-                moveButton.setVisible(false);
-                refreshBoard();
-                gameFlow.flow();
-            }
+        }
+        if (level.playerHasMovedFlag) {
+            moveButton.setVisible(false);
+            refreshBoard();
+            gameFlow.flow();
         }
         event.consume();
     };
@@ -97,7 +81,7 @@ public class BoardController implements Initializable {
     public BoardController(Level level) {
         this.level = level;
         Level.setPlayerIndex(setPlayerIndex());
-        //  Provides gameFlow with the level information as well as the information regarding the who's turn it is.
+
         this.gameFlow = new GameFlow(this.level, Level.getPlayerIndex());
     }
 
@@ -214,7 +198,6 @@ public class BoardController implements Initializable {
                     ImageView tileFixed = new ImageView("resources/" + board.getTileFromBoard(x, y).getType() + "_fixed.png");
                     setTiles(tileFixed, x, y);
                 } else {
-                    System.out.println(level.getBoardData().getTileFromBoard(x, y).getOrientation());
                     ImageView tile = new ImageView("resources/" + board.getTileFromBoard(x, y).getType() + ".png");
                     setTiles(tile, x, y);
 
@@ -256,11 +239,9 @@ public class BoardController implements Initializable {
         for (int x = 0; x < level.getBoardData().getColumnSize(); x++) {
             for (int y = 0; y < level.getBoardData().getRowSize(); y++) {
                 if (level.getBoardData().getTileFromBoard(x, y).isFixed()) {
-                    System.out.println(level.getBoardData().getTileFromBoard(x, y).isFixed());
                     ImageView tileFixed = new ImageView("resources/" + level.getBoardData().getTileFromBoard(x, y).getType() + "_fixed.png");
                     setTiles(tileFixed, x, y);
                 } else {
-                    System.out.println(level.getBoardData().getTileFromBoard(x, y).isFixed());
                     ImageView tile = new ImageView("resources/" + level.getBoardData().getTileFromBoard(x, y).getType() + ".png");
                     setTiles(tile, x, y);
                 }

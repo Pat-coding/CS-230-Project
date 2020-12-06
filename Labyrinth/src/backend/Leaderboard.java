@@ -13,18 +13,19 @@ import java.util.Collections;
 
 public class Leaderboard {
 
-    ArrayList<Profile> profileCopy;
+    private ArrayList<Profile> profileCopy;
     private ArrayList<Profile> profileList;
     private int sortType;
 
     /**
-     * This constructer determines what profiles will be sorted and how.
+     * This constructor determines what profiles will be sorted and how.
      * @param profiles profiles being sorted
      * @param sortType type of sort
-     * @param asc if it is in assending or descending order
+     * @param asc if it is in ascending or descending order
      */
 
     public Leaderboard(ArrayList<Profile> profiles, int sortType, boolean asc) {
+        this.sortType = sortType;
         this.profileCopy = new ArrayList<>(profiles);
         this.profileList = sort(profileCopy, sortType, asc);
     }
