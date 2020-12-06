@@ -33,8 +33,8 @@ public class MainMenuController implements Initializable {
 
     /**
      * Initializes the main menu window.
-     * @param location
-     * @param resources
+     * @param location of fxml
+     * @param resources of resources
      */
     @Override
     public void initialize(URL location, ResourceBundle resources){

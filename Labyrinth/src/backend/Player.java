@@ -25,13 +25,13 @@ public class Player {
     /**
      * Player instance constructor
      *
-     * @param profile
-     * @param playerCordX
-     * @param playerCordY
-     * @param profileCordHistory
-     * @param playerInventory
-     * @param backTrackCheck
-     * @param isPlayerTurn
+     * @param profile profile object
+     * @param playerCordX x coordinate
+     * @param playerCordY y coordinate
+     * @param profileCordHistory history of coordinates
+     * @param playerInventory array of tile objects
+     * @param backTrackCheck array of boolean
+     * @param isPlayerTurn boolean
      */
     public Player(Profile profile, int playerCordX, int playerCordY, int[] profileCordHistory,
                   ArrayList<Tile> playerInventory, boolean backTrackCheck, boolean isPlayerTurn) {
@@ -47,7 +47,7 @@ public class Player {
     /**
      * Getter for the profile
      *
-     * @return profile
+     * @return profile name
      */
     public Profile getProfile() {
         return this.profile;
@@ -154,7 +154,6 @@ public class Player {
     /**
      * This Method flips player turn after they have finished their turn.
      *
-     * @return Boolean result
      */
     public void playerTurn() {
         this.isPlayerTurn = !this.isPlayerTurn;
@@ -172,7 +171,7 @@ public class Player {
     /**
      * Setter for tile hand.
      *
-     * @param tileHand
+     * @param tileHand sets the tile in the hand of the player
      */
     public void setTileHand(FloorTile tileHand) {
         this.tileHand = tileHand;

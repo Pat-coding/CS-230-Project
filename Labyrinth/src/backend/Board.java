@@ -24,11 +24,14 @@ public class Board {
     private FloorTile[][] tileCoordinates;
     private Player[][] playerCoordinates;
     private HashMap<FloorTile, Integer> statusTime = new HashMap<>();
+
+
     /**
      * Constructor for a saved level format.
      *
      * @param nameOfBoard The name of the board.
      * @param sizeOfBoard The size of the board.
+     * @param profileNames takes in profile names array.
      */
     public Board(String nameOfBoard, int[] sizeOfBoard, String[] profileNames) {
         this.rowSize = sizeOfBoard[0];
@@ -178,19 +181,15 @@ public class Board {
      * @param x    The x co-ordinate where the player wants to slide tile in.
      * @param y    The y co-ordinate where the player wants to slide tile in.
      * @param tile The tile that is being slided in.
+     * @return discarded Tile
      */
 
     public FloorTile placeOnNewTile(Cardinals c, int x, int y, FloorTile tile) { //use enum for access cardinals on tiles
         if (c == Cardinals.TOP) {//shift index down from the second last (animations)
             FloorTile discardedTile = getTileFromBoard(x, 0);
             for (int row = getRowSize() - 1; row > 0; row--) {
-//                if (getTileFromBoard(x, row - 1).getState().equals("FROZEN") ||
-//                        getTileFromBoard(x, row - 1).getState().equals("FIRE")) {
-//                    updateStatusKey(x, row, getTileFromBoard(x, row - 1));
-//                } else {
                 slidePlayerWithBoard(c, x, row);
                 insertTile(x, row, getTileFromBoard(x, row - 1));
-//                }
             }
             insertTile(x, 0, tile);
             if (tempPlayer != null) {

@@ -49,8 +49,8 @@ public class LoadNewGameController implements Initializable {
 
     /**
      * Initializer for the class.
-     * @param location
-     * @param resources
+     * @param location of fxml
+     * @param resources of resources
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {

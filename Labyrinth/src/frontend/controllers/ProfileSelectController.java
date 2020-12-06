@@ -48,9 +48,9 @@ public class ProfileSelectController implements Initializable {
 
     /**
      * Constructor for profile selector.
-     * @param stage
-     * @param profiles
-     * @param newLevel
+     * @param stage primary stage
+     * @param profiles array list of profiles
+     * @param newLevel list of newLevels
      */
     public ProfileSelectController(Stage stage, ArrayList<Profile> profiles, ArrayList<Level> newLevel){
         this.profiles = profiles;
@@ -60,8 +60,8 @@ public class ProfileSelectController implements Initializable {
 
     /**
      * Initializer for profile selector, adds functionality to buttons.
-     * @param location
-     * @param resources
+     * @param location of fxml
+     * @param resources list of resources
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {

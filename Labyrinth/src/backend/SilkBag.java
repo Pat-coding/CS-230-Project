@@ -118,7 +118,7 @@ public class SilkBag {
     /**
      *  Getter for SilkBag content.
      *
-     * @return
+     * @return the content of Silk Bag in array
      */
     public int[] getSilkBagContent() {
         return silkBagContent;

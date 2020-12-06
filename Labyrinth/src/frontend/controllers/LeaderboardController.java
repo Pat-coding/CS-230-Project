@@ -54,8 +54,8 @@ public class LeaderboardController implements Initializable {
 
     /**
      * Initializer for Leaderboards class.
-     * @param location
-     * @param resources
+     * @param location location of fxml
+     * @param resources location of resources
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
