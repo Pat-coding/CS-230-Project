@@ -272,6 +272,12 @@ public class GameFlow {
             level.endTurnFlag = false;
             incPlayerTurn();
         }
+        if (checkWin()) {
+            declareWinner(this.playerIndex);
+            endGame();
+            winnerAlert();
+        }
+
         if (board.getTileFromBoard(player[playerIndex].getPlayerCordX(),
                 (player[playerIndex].getPlayerCordY())).getType().equals("Goal")) {
             declareWinner(this.playerIndex);
@@ -279,17 +285,17 @@ public class GameFlow {
             winnerAlert();
         }
 
-        if (level.playerHasMovedFlag) {
-            if (checkWin()) {
-                declareWinner(this.playerIndex);
-                endGame();
-                winnerAlert();
-                //level.playerWinFlag = true;
-            } else {
-                incPlayerTurn();
-                level.playerHasMovedFlag = false;
-            }
-        }
+//        if (level.playerHasMovedFlag) {
+//            if (checkWin()) {
+//                declareWinner(this.playerIndex);
+//                endGame();
+//                winnerAlert();
+//                //level.playerWinFlag = true;
+//            } else {
+//                incPlayerTurn();
+//                level.playerHasMovedFlag = false;
+
+
     }
 
 
