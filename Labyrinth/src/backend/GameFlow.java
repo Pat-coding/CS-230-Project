@@ -1,10 +1,12 @@
 package backend;
-import Tiles.FloorTile;
+
 import javafx.scene.control.Alert;
+
 import java.util.ArrayList;
 
 /**
  * this class handles game logic while players are in a game
+ *
  * @author Ben Dodd
  * @version 1.0.0
  */
@@ -23,7 +25,8 @@ public class GameFlow {
 
     /**
      * This Constructor keeps the game running until it is won or saved.
-     * @param level the current level being played
+     *
+     * @param level       the current level being played
      * @param playerIndex players in current game
      */
 
@@ -39,8 +42,9 @@ public class GameFlow {
 
     /**
      * Gets profiles of users and assigns them to players.
+     *
      * @param profiles profiles of users being played
-     * @param level current game level
+     * @param level    current game level
      */
 
     public static void initiatePlayers(ArrayList<Profile> profiles, Level level) {
@@ -62,13 +66,10 @@ public class GameFlow {
     }
 
 
-
-
     /**
-     * This method handles player movement on board and makes sure
-     * it is legal.
+     * This method handles player movement on board and makes sure it is legal.
+     *
      */
-
     public void movePlayerOnBoard() {
         int x = board.playerLocationOnBoard(player[playerIndex])[0];
         int y = board.playerLocationOnBoard(player[playerIndex])[1];
@@ -110,10 +111,9 @@ public class GameFlow {
 
     }
 
-
-
     /**
      * Go to the next turn of the board.
+     *
      */
     private void incPlayerTurn() {
         player[playerIndex].playerTurn();
@@ -141,8 +141,9 @@ public class GameFlow {
 
     /**
      * This method checks if the player move is legal and returns if they can.
-     * @param x coord player wants to move to
-     * @param y coord player wants to move to
+     *
+     * @param x           coord player wants to move to
+     * @param y           coord player wants to move to
      * @param playerIndex player wanting to move
      * @return true if move is legal
      */
@@ -174,6 +175,7 @@ public class GameFlow {
 
     /**
      * Moves the player to desired location
+     *
      * @param x coordinate
      * @param y coordinate
      */
@@ -200,8 +202,8 @@ public class GameFlow {
 
 
     /**
-     * This method handles drawing and placing a tiles and makes sure game
-     * cant be saved part way through.
+     * This method handles drawing and placing a tiles and makes sure game cant be saved part way through.
+     *
      */
     public void flow() {
         updatePlayer();
@@ -259,9 +261,9 @@ public class GameFlow {
         if (level.getTempCardinal() != null && level.getTempX() != -1
                 && level.getTempY() != -1 && player[this.playerIndex].getTileHand() != null) {
 
-            FloorTile tile = board.placeOnNewTile(level.getTempCardinal(), level.getTempX(), level.getTempY(),
+            board.placeOnNewTile(level.getTempCardinal(), level.getTempX(), level.getTempY(),
                     player[this.playerIndex].getTileHand());
-            level.getSilkBag().insertTileToBag(tile);
+
             System.out.println("Player " + this.playerIndex + " has slotted a tile in the board!");
             level.setTempCardinal(null);
             level.setTempX(-1);
@@ -280,29 +282,14 @@ public class GameFlow {
             endGame();
             winnerAlert();
         }
-        System.out.println(board.getTileFromBoard(player[playerIndex].getPlayerCordX(),
-                (player[playerIndex].getPlayerCordY())).getType());
+
         if (board.getTileFromBoard(player[playerIndex].getPlayerCordX(),
                 (player[playerIndex].getPlayerCordY())).getType().equals("Goal")) {
             declareWinner(this.playerIndex);
             endGame();
             winnerAlert();
         }
-
-//        if (level.playerHasMovedFlag) {
-//            if (checkWin()) {
-//                declareWinner(this.playerIndex);
-//                endGame();
-//                winnerAlert();
-//                //level.playerWinFlag = true;
-//            } else {
-//                incPlayerTurn();
-//                level.playerHasMovedFlag = false;
-
-
     }
-
-
 
 
     /**
@@ -394,6 +381,7 @@ public class GameFlow {
 
     /**
      * This method returns if the game saved correctly.
+     *
      * @return true if saved correctly
      */
     private boolean saveGameCheck() {

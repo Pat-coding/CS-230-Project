@@ -201,14 +201,8 @@ public class Board {
         } else if (c == Cardinals.BOTTOM) {//push from bottom to up
             FloorTile discardedTile = getTileFromBoard(x, getRowSize() - 1);
             for (int row = 0; row < getRowSize() - 1; row++) {
-//                if (getTileFromBoard(x, row + 1).getState().equals("FROZEN") ||
-//                        getTileFromBoard(x, row + 1).getState().equals("FIRE")) {
-//                    updateStatusKey(x, row, getTileFromBoard(x, row + 1));
-//                } else {
                 slidePlayerWithBoard(c, x, row);
                 insertTile(x, row, getTileFromBoard(x, row + 1));
-
-//                }
             }
             insertTile(x, getRowSize() - 1, tile);
             if (tempPlayer != null) {
@@ -219,14 +213,8 @@ public class Board {
         } else if (c == Cardinals.LEFT) { //push from left -> right
             FloorTile discardedTile = getTileFromBoard(x, getColumnSize() - 1);
             for (int col = getColumnSize() - 1; col > 0; col--) {
-//                if (getTileFromBoard(col - 1 , y).getState().equals("FROZEN") ||
-//                        getTileFromBoard(col - 1, y).getState().equals("FIRE")) {
-//                    updateStatusKey(col, y, getTileFromBoard(col - 1, y));
-//                } else {
                 slidePlayerWithBoard(c, col, y);
                 insertTile(col, y, getTileFromBoard(col - 1, y));
-
-//                }
             }
             insertTile(0, y, tile);
             if (tempPlayer != null) {
@@ -237,14 +225,8 @@ public class Board {
         } else if (c == Cardinals.RIGHT) { //push from right -> left
             FloorTile discardedTile = getTileFromBoard(getColumnSize() - 1, y);
             for (int col = 0; col < getColumnSize() - 1; col++) {
-//                if (getTileFromBoard(col + 1, y).getState().equals("FROZEN") ||
-//                        getTileFromBoard(col + 1, y).getState().equals("FIRE")) {
-//                    updateStatusKey(col, y, getTileFromBoard(col + 1, y));
-//                } else {
                 slidePlayerWithBoard(c, col, y);
                 insertTile(col, y, getTileFromBoard(col + 1, y));
-
-//                }
             }
             insertTile(getColumnSize() - 1, y, tile);
             if (tempPlayer != null) {
