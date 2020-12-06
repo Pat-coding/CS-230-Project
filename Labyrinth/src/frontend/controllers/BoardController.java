@@ -46,6 +46,7 @@ public class BoardController implements Initializable {
     @FXML private Label playerTurn;
 
     private Level level;
+    private int counter;
 
     private GameFlow gameFlow;
     private EventHandler<KeyEvent> keyListener = event -> {
@@ -212,16 +213,21 @@ public class BoardController implements Initializable {
     }
 
     private void checkPlayerNull(int j, int k, ImageView tile) {
+
         if (level.getBoardData().getPlayerFromBoard(j, k) != null) {
-            System.out.println("x: " + j + "y: " + k);
-            ImageView playerIv = new ImageView("/resources/Player0" + ".png");
-            //sets tiles to specified size
-            playerIv.setFitHeight(size / 2);
-            playerIv.setFitWidth(size / 2);
-            StackPane pane = new StackPane();
-            pane.getChildren().add(tile);
-            pane.getChildren().add(playerIv);
-            tileGrid.add(pane, j, k);
+            for (int i = 0; i < level.getPlayerData().length; i++) {
+                if (level.getPlayerData()[i].equals(level.getBoardData().getPlayerFromBoard(j, k))) {
+                    ImageView playerIv = new ImageView("/resources/Player" + i + ".png");
+                    //sets tiles to specified size
+                    playerIv.setFitHeight(size / 2);
+                    playerIv.setFitWidth(size / 2);
+                    StackPane pane = new StackPane();
+                    pane.getChildren().add(tile);
+                    pane.getChildren().add(playerIv);
+                    tileGrid.add(pane, j, k);
+                }
+            }
+
         }
     }
 

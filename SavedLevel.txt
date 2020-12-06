@@ -117,7 +117,7 @@ ReasonableSizedBoard
 92,94,90,0,0,0,0,0
 NA;NA;NA;NA
 false,false,false,false
-true,false,false,false
+false,true,false,false
 0,0,Corner,90,Normal,false
 0,1,TShaped,90,Normal,false
 0,2,TShaped,180,Normal,false

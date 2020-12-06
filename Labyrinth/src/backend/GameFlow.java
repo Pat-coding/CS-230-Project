@@ -272,6 +272,7 @@ public class GameFlow {
             level.endTurnFlag = false;
             incPlayerTurn();
         }
+
         if (checkWin()) {
             declareWinner(this.playerIndex);
             endGame();
