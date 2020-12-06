@@ -146,8 +146,8 @@ public class GameFlow {
      * @return true if move is legal
      */
     public boolean checkPlayerMovement(int x, int y, int playerIndex) {
-        int px = player[playerIndex].getPlayerCordX();
-        int py = player[playerIndex].getPlayerCordY();
+        int px = board.playerLocationOnBoard(player[playerIndex])[0];
+        int py = board.playerLocationOnBoard(player[playerIndex])[1];
 
         //  if the tile is out of bounds
         if (board.getTileFromBoard(x, y) == null) {
@@ -180,6 +180,7 @@ public class GameFlow {
         int px = board.playerLocationOnBoard(player[playerIndex])[0];
         int py = board.playerLocationOnBoard(player[playerIndex])[1];
         board.movePlayer(px, py, x, y);
+        updatePlayer();
         checkWin();
     }
 
@@ -382,10 +383,8 @@ public class GameFlow {
         for (int i = 0; i < player.length; i++) {
             if (player[i] == player[playerIndex]) {
                 player[i].incPlayerWin();
-                System.out.println("player " + i + " has won!");
             } else {
                 player[i].incPlayerLoss();
-                System.out.println("player " + i + " has Lost");
             }
         }
 
