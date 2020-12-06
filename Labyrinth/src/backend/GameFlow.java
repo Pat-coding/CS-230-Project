@@ -355,11 +355,11 @@ public class GameFlow {
      * @return True if there is a winning situation.
      */
     public boolean checkWin() {
-        if (board.getTileFromBoard(player[playerIndex].getPlayerCordX(),
-                (player[playerIndex].getPlayerCordY())).getType().equals("Goal")) {
+        int px = board.playerLocationOnBoard(player[playerIndex])[0];
+        int py = board.playerLocationOnBoard(player[playerIndex])[1];
+        if (board.getTileFromBoard(px, py).getType().equals("Goal")) {
             for (int i = 0; i < player.length; i++) {
-                if (board.getTileFromBoard(player[playerIndex].getPlayerCordX(),
-                        (player[playerIndex].getPlayerCordY())).getType().equals("Goal"))
+                if (board.getTileFromBoard(px, py).getType().equals("Goal"))
                     declareWinner(i);
                 return true;
             }
