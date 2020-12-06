@@ -1,5 +1,5 @@
 Reece
-3
+6
 3
 James
 1
@@ -9,7 +9,7 @@ Gorden
 4
 Sarah
 0
-0
+3
 Jennifer
 0
 0

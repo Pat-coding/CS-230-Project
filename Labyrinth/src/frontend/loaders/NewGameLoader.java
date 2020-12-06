@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class NewGameLoader {
     /**
-     *  Loads the New Game Window.
+     * Loads the New Game Window.
      * @param stage primary stage
      * @param profiles containing all profiles
      * @param newLevel containing all levels

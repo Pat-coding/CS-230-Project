@@ -19,7 +19,7 @@ public class BoardLoader {
 
 
     /**
-     *  Creates a Board window with all relevant information.
+     * Creates a Board window with all relevant information.
      * @param stage the primary window for this stage
      * @param level contains all information needed for a board
      */

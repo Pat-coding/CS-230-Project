@@ -12,9 +12,9 @@ For example, fx:controller="sample.MainMenu", as shown below.
 Sample is the package name hence why we use sample.ClassName.
 It will be changed to more sensible name when programs are put together. -->
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.controllers.MainMenuController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="870.0" style="-fx-background-image: url('/resources/MainMenuBackground.png'); -fx-background-size: 100% 100%;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.controllers.MainMenuController">
    <top>
-      <VBox alignment="TOP_CENTER" style="-fx-background-color: #202020;" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="79.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Labyrinth" textFill="WHITE">
                <font>
@@ -26,7 +26,7 @@ It will be changed to more sensible name when programs are put together. -->
       </VBox>
    </top>
    <center>
-      <VBox alignment="TOP_CENTER" prefHeight="234.0" prefWidth="900.0" style="-fx-background-color: #202020;;" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="249.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="newGameBtn" mnemonicParsing="false" onAction="#launchNewGame" text="New Game">
                <VBox.margin>

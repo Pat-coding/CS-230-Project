@@ -15,8 +15,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * Load new game class. Will let user load new games and create users.
+ *
+ * @author Deniz Oral
+ */
 public class LoadNewGameController implements Initializable {
 
+    /**
+     * Initializing the contents of the gui from the LoadNewLevel.fxml file.
+     */
     @FXML private Button selectBtn;
     @FXML private ListView mapList;
 
@@ -26,6 +34,12 @@ public class LoadNewGameController implements Initializable {
     private int selectedIndex;
     private Stage stage;
 
+    /**
+     * Constructor for LoadNewGameController.
+     * @param stage takes in stage.
+     * @param profiles takes in profiles array.
+     * @param newLevel takes in newLevel array.
+     */
     public LoadNewGameController(Stage stage, ArrayList<Profile> profiles, ArrayList<Level> newLevel){
         this.profiles = profiles;
         this.newLevel = newLevel;
@@ -33,6 +47,11 @@ public class LoadNewGameController implements Initializable {
 
     }
 
+    /**
+     * Initializer for the class.
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -40,10 +59,12 @@ public class LoadNewGameController implements Initializable {
             loadGame();
         });
 
-        //refresh the display of save levels
         refreshMapList();
     }
 
+    /**
+     * Loads the selected game.
+     */
     private void loadGame(){
         selectedIndex = mapList.getSelectionModel().getSelectedIndex();
         //checks if the user has selected item
@@ -70,11 +91,12 @@ public class LoadNewGameController implements Initializable {
         }
     }
 
-
+    /**
+     * Populates the board with new data.
+     */
     public void refreshMapList(){
         for (Level i : newLevel){
             mapList.getItems().add(i.getBoardData().getNameOfBoard());
         }
     }
-
 }

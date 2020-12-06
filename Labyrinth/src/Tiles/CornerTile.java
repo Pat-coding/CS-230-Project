@@ -83,7 +83,7 @@ public class CornerTile extends FloorTile {
     }
 
     /**
-     * @return the orienation of the tile.
+     * @return the orientation of the tile.
      */
     @Override
     public int getOrientation() {

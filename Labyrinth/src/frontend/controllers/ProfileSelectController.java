@@ -15,8 +15,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * Profile select controller to create new games and users.
+ *
+ * @author Deniz Oral
+ */
 public class ProfileSelectController implements Initializable {
 
+    /**
+     * Initializing the contents of the gui from the ProfileSelect.fxml file.
+     */
     @FXML private Button newProfileBtn;
     @FXML private Button selectProfileBtn;
     @FXML private Button deleteProfileBtn;
@@ -38,12 +46,23 @@ public class ProfileSelectController implements Initializable {
 
     private Stage stage;
 
+    /**
+     * Constructor for profile selector.
+     * @param stage
+     * @param profiles
+     * @param newLevel
+     */
     public ProfileSelectController(Stage stage, ArrayList<Profile> profiles, ArrayList<Level> newLevel){
         this.profiles = profiles;
         this.newLevel = newLevel;
         this.stage = stage;
     }
 
+    /**
+     * Initializer for profile selector, adds functionality to buttons.
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //sets the toggle group for radio buttons.
@@ -70,13 +89,12 @@ public class ProfileSelectController implements Initializable {
          */
         selectProfileBtn.setOnAction(e -> {
             selectedIndex = profileList.getSelectionModel().getSelectedIndex();
-            //check if theres anything selected in a list
+            /*check if theres anything selected in a list*/
             if (selectedIndex<0){
                 Alert alert = new Alert(Alert.AlertType.ERROR,"Please select a profile");
                 alert.showAndWait();
             } else {
-                if (!counter.contains(selectedIndex)) {
-
+                if (!counter.contains(selectedIndex)) { /*Checks if user is already selected*/
                     getSelectedProfiles().add(profiles.get(selectedIndex));
                     if (twoPlayers.isSelected() && getSelectedProfiles().size() == 2) {
                         selectProfileBtn.setDisable(true);
@@ -120,6 +138,9 @@ public class ProfileSelectController implements Initializable {
         });
 
 
+        /**
+         * Goes back to main menu
+         */
         menuBtn.setOnAction(event -> {
             try {
                 Main main = new Main();
@@ -133,6 +154,9 @@ public class ProfileSelectController implements Initializable {
     }
 
 
+    /**
+     * Populates board with fresh data
+     */
     private void refreshProfiles(){
         profileList.getItems().clear();
         for (Profile i : profiles){
@@ -140,6 +164,10 @@ public class ProfileSelectController implements Initializable {
         }
     }
 
+    /**
+     * Arraylist of profiles
+     * @return selectedprofiles
+     */
     public ArrayList<Profile> getSelectedProfiles() {
         return selectedProfiles;
     }

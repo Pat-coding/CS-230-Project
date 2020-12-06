@@ -14,6 +14,8 @@ import java.net.URLConnection;
 
 public class Motd {
 
+    private static final int LENGTH_OF_CS230 = 6;
+
     /**
      * Getter for message of the day
      * @return decoded message
@@ -45,6 +47,7 @@ public class Motd {
             while ((inputLine = in.readLine()) != null) {
                 motd += inputLine;
             }
+
             //closing the input stream
             in.close();
         } catch (IOException e) {
@@ -63,11 +66,12 @@ public class Motd {
 
         String motd = getMotd("http://cswebcat.swansea.ac.uk/puzzle");
         String decodedMotd = "";
-        int characterCount = motd.length() + 6;
+        int characterCount = motd.length() + LENGTH_OF_CS230;
         int shift = 1;
         int direction = 0;
         char characters;
 
+        //loop through the text and shift characters between specified ascii code
         for (int i = 0; i < motd.length(); i++) {
             if (direction == 0) {
                 characters = (char) (((int) motd.charAt(i) - shift + 26 - 65) % 26 + 65);

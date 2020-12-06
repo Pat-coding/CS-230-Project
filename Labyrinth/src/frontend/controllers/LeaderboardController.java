@@ -12,8 +12,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for leaderboards where user will be able to sort users by wins, losses, win ratios and games played.
+ *
+ * @author Deniz Oral
+ */
 public class LeaderboardController implements Initializable {
 
+    /**
+     * Initializing the contents of the gui from the Leaderboards.fxml file.
+     */
     @FXML private Button backToMenuBtn;
     @FXML private MenuItem sortWins;
     @FXML private MenuItem sortLoss;
@@ -30,6 +38,11 @@ public class LeaderboardController implements Initializable {
     private ArrayList<Profile> sortedGamesPlayed;
     private ArrayList<Profile> sortedWinRatio;
 
+    /**
+     * Constructor for leaderboards.
+     * @param stage takes in stage window.
+     * @param profiles takes in profiles array.
+     */
     public LeaderboardController(Stage stage, ArrayList<Profile> profiles){
         this.profiles = profiles;
         this.stage = stage;
@@ -39,6 +52,11 @@ public class LeaderboardController implements Initializable {
         sortedGamesPlayed = new Leaderboard(profiles, 3, false).getLeaderboard();
     }
 
+    /**
+     * Initializer for Leaderboards class.
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -55,6 +73,9 @@ public class LeaderboardController implements Initializable {
         refreshLeaderboard();
     }
 
+    /**
+     * Populates the board with new data.
+     */
     private void refreshLeaderboard(){
         profileList.getItems().clear();
         for(Profile i : profiles){
@@ -62,7 +83,9 @@ public class LeaderboardController implements Initializable {
         }
     }
 
-
+    /**
+     * Sorts the data by wins.
+     */
     public void sortByWins() {
         profileList.getItems().clear();
         System.out.println("Sorting by wins");
@@ -71,6 +94,9 @@ public class LeaderboardController implements Initializable {
         }
     }
 
+    /**
+     * Sorts the data by games played.
+     */
     private void sortGamesPlayed() {
         profileList.getItems().clear();
         System.out.println("Sorting by games played");
@@ -78,6 +104,9 @@ public class LeaderboardController implements Initializable {
             profileList.getItems().add(i.getProfileName());
     }
 
+    /**
+     * Sorts the data by losses.
+     */
     private void sortByLoss() {
         profileList.getItems().clear();
         System.out.println("Sorting by losses");
@@ -85,6 +114,9 @@ public class LeaderboardController implements Initializable {
             profileList.getItems().add(i.getProfileName());
     }
 
+    /**
+     * Sorts the data by win ratio.
+     */
     private void sortByWinRatio(){
         profileList.getItems().clear();
         System.out.println("Sorting by winratio");
@@ -92,6 +124,9 @@ public class LeaderboardController implements Initializable {
             profileList.getItems().add(i.getProfileName());
     }
 
+    /**
+     * Loads the main menu window.
+     */
     public void goBackToMenu() {
         try {
             Main main = new Main();

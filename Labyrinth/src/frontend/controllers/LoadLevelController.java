@@ -12,15 +12,15 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
- * This class lets the user choose which previous saved game they want to load
- * @author
- * @version 1.0
+ * Load level controller class. This class lets the user choose which previous saved game they want to load
+ * @author Deniz Oral
  */
 public class LoadLevelController implements Initializable {
 
-    //ListView to view all of the save games
+    /**
+     * Initializing the contents of the gui from the LoadLevel.fxml file.
+     */
     @FXML ListView<String> savedLevels;
-
     @FXML Button backToMenu;
     @FXML Button loadGameBtn;
     @FXML Button deleteGameBtn;
@@ -49,10 +49,6 @@ public class LoadLevelController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println(level.size());
-        //savedLevels.getItems().add(level.get(0));
-
-        //setup actions for the buttons
         backToMenu.setOnAction(e -> {
             goToMenu();
         });
@@ -65,7 +61,6 @@ public class LoadLevelController implements Initializable {
             deleteSaveFile();
         });
 
-        //refresh the display of save levels
         refreshSaveList();
     }
 

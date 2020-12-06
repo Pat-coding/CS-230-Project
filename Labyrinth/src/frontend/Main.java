@@ -15,8 +15,8 @@ import frontend.controllers.MainMenuController;
 
 public class Main extends Application {
 
-    private static final int WINDOW_WIDTH = 1280;
-    private static final int WINDOW_HEIGHT = 720;
+    private static final int WINDOW_WIDTH = 840;
+    private static final int WINDOW_HEIGHT = 520;
 
 
     /**
@@ -30,9 +30,9 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getClassLoader().getResource("frontend/fxml/MainMenu.fxml").openStream());
             MainMenuController menu = loader.getController();
-            menu.setStage(primaryStage);
+            menu.setWindow(primaryStage);
             Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-            scene.getStylesheets().add("Style.css");
+            scene.getStylesheets();
             primaryStage.setScene(scene);
             primaryStage.show();
 
