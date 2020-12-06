@@ -180,6 +180,7 @@ public class GameFlow {
         int px = board.playerLocationOnBoard(player[playerIndex])[0];
         int py = board.playerLocationOnBoard(player[playerIndex])[1];
         board.movePlayer(px, py, x, y);
+        updatePlayer();
         checkWin();
     }
 
