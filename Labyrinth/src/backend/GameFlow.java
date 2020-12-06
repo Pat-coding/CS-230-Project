@@ -263,7 +263,7 @@ public class GameFlow {
 
             board.placeOnNewTile(level.getTempCardinal(), level.getTempX(), level.getTempY(),
                     player[this.playerIndex].getTileHand());
-
+            System.out.println("Hand tile rotation: " + player[this.playerIndex].getTileHand().getOrientation());
             System.out.println("Player " + this.playerIndex + " has slotted a tile in the board!");
             level.setTempCardinal(null);
             level.setTempX(-1);
