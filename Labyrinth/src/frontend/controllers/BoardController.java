@@ -251,13 +251,11 @@ public class BoardController implements Initializable {
             handTile.getChildren().add(tile);
             handTile.setVisible(true);
             rotateLeft.setOnAction(event -> {
-                System.out.println("Before pressing: " + tileInHand.getOrientation());
                 tileInHand.setOrientation(tileInHand.getOrientation() + ROTATION);
                 if (tileInHand.getOrientation() > 360) {
                     tileInHand.setOrientation(0);
                 }
-                System.out.println("After pressing: " + tileInHand.getOrientation());
-                tile.setRotate(tileInHand.getOrientation() + ROTATION);
+                tile.setRotate(tileInHand.getOrientation());
                 tile.setFitHeight(SIZE);
                 tile.setFitWidth(SIZE);
                 handTile.getChildren().clear();
@@ -265,13 +263,11 @@ public class BoardController implements Initializable {
             });
 
             rotateRight.setOnAction(event -> {
-                System.out.println("Before pressing: " + tileInHand.getOrientation());
                 tileInHand.setOrientation(tileInHand.getOrientation() - ROTATION);
                 if (tileInHand.getOrientation() < 0) {
                     tileInHand.setOrientation(360);
                 }
-                System.out.println("After pressing: " + tileInHand.getOrientation());
-                tile.setRotate(tileInHand.getOrientation() - ROTATION);
+                tile.setRotate(tileInHand.getOrientation());
                 tile.setFitHeight(SIZE);
                 tile.setFitWidth(SIZE);
                 handTile.getChildren().clear();

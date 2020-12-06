@@ -38,19 +38,19 @@ public class SilkBag {
             silkBagContent[rnd] = silkBagContent[rnd] - 1;
             switch (rnd) {
                 case 0:
-                    FloorTile StraightTile = new StraightTile(randomOrientation(), "NORMAL", false);
+                    FloorTile StraightTile = new StraightTile(0, "NORMAL", false);
                     player.setTileHand(StraightTile);
                     break;
                 case 1:
-                    FloorTile CornerTile = new CornerTile(randomOrientation(), "NORMAL", false);
+                    FloorTile CornerTile = new CornerTile(0, "NORMAL", false);
                     player.setTileHand(CornerTile);
                     break;
                 case 2:
-                    FloorTile TShapedTile = new TShapedTile(randomOrientation(), "NORMAL", false);
+                    FloorTile TShapedTile = new TShapedTile(0, "NORMAL", false);
                     player.setTileHand(TShapedTile);
                     break;
                 case 3:
-                    FloorTile GoalTile = new GoalTile(randomOrientation(), "NORMAL", false);
+                    FloorTile GoalTile = new GoalTile(0, "NORMAL", false);
                     player.setTileHand(GoalTile);
                     break;
                 case 4:
