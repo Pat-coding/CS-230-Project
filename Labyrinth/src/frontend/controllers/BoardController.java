@@ -30,7 +30,7 @@ public class BoardController implements Initializable {
     private static final int ROTATION = 90;
     private static final int EXIT_GAME = 404;
     private static final int DEFAULT_PLAYER_INDEX = 0;
-
+    private static final int MAX_ROTATION = 360;
     private Image arrowDown =
             new Image(getClass().getResourceAsStream("/resources/arrowDOWN.png"));
     private Image arrowUp =
@@ -252,7 +252,7 @@ public class BoardController implements Initializable {
             handTile.setVisible(true);
             rotateLeft.setOnAction(event -> {
                 tileInHand.setOrientation(tileInHand.getOrientation() + ROTATION);
-                if (tileInHand.getOrientation() > 360) {
+                if (tileInHand.getOrientation() > MAX_ROTATION) {
                     tileInHand.setOrientation(0);
                 }
                 tile.setRotate(tileInHand.getOrientation());
@@ -265,7 +265,7 @@ public class BoardController implements Initializable {
             rotateRight.setOnAction(event -> {
                 tileInHand.setOrientation(tileInHand.getOrientation() - ROTATION);
                 if (tileInHand.getOrientation() < 0) {
-                    tileInHand.setOrientation(360);
+                    tileInHand.setOrientation(MAX_ROTATION);
                 }
                 tile.setRotate(tileInHand.getOrientation());
                 tile.setFitHeight(SIZE);
