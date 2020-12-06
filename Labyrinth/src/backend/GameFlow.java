@@ -261,7 +261,6 @@ public class GameFlow {
 
             FloorTile tile = board.placeOnNewTile(level.getTempCardinal(), level.getTempX(), level.getTempY(),
                     player[this.playerIndex].getTileHand());
-            System.out.println(tile.getType());
             level.getSilkBag().insertTileToBag(tile);
             System.out.println("Player " + this.playerIndex + " has slotted a tile in the board!");
             level.setTempCardinal(null);
