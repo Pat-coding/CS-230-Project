@@ -3,10 +3,11 @@ import java.util.ArrayList;
 public class Level {
 
     /**
-     *
+     * This class can get the information from a saved game or a new game and input into board to start a game.
      * @author
-     *
+     * @version 1.0
      */
+
 
     public static ArrayList<Profile> profileArray =
             FileManager.readProfileDataFile("Profiles.txt");
@@ -35,7 +36,7 @@ public class Level {
     private int[] spawnPoints;
 
     /**
-     * Template for a Saved Level
+     * Template for a Saved Level.
      *
      * @param tempBoard contains the Board Object
      * @param gameTurn  contains information regarding what turn it is
@@ -53,7 +54,7 @@ public class Level {
 
 
     /**
-     * Template for a New Level
+     * Template for a New Level.
      *
      * @param tempBoard   contains the Board Object
      * @param gameTurn    contains information regarding what turn it is
@@ -70,15 +71,15 @@ public class Level {
     }
 
     /**
-     *
-     * @return
+     *This method gets the index of the curreent player.
+     * @return player index
      */
     public static int getPlayerIndex() {
         return playerIndex;
     }
 
     /**
-     *
+     * This method sets the player index.
      * @param playerIndex
      */
     public static void setPlayerIndex(int playerIndex) {
@@ -86,71 +87,72 @@ public class Level {
     }
 
     /**
-     *
-     * @return
+     * Gets profile array.
+     * @return array of profiles
      */
     public static ArrayList<Profile> getProfileArray() {
         return profileArray;
     }
 
     /**
-     *
-     * @return
+     * Gets all the preset levels.
+     * @return array
      */
     public static ArrayList<Level> getNewLevels() {
         return newLevels;
     }
 
     /**
-     *
-     * @return
+     * Gets all saved levels.
+     * @return array of saved levels
      */
     public static ArrayList<Level> getSavedLevels() {
         return savedLevels;
     }
 
     /**
-     *
-     * @return
+     * Gets current board data.
+     * @return board data
      */
     public Board getBoardData() {
         return boardData;
     }
 
     /**
-     *
+     * Sets the current board from saved level.
      * @param board
+     *
      */
     public void setBoardData(Board board) {
         this.boardData = board;
     }
 
     /**
-     *
-     * @return
+     * Gets index of current player.
+     * @return player index
      */
     public int getGameTurnData() {
         return gameTurnData;
     }
 
     /**
-     *
-     * @return
+     * Gets all players from current level.
+     * @return array of players
      */
     public Player[] getPlayerData() {
         return playerData;
     }
 
     /**
-     *
-     * @return
+     * Gets current silk bag.
+     * @return silk bag
      */
     public SilkBag getSilkBag() {
         return silkBag;
     }
 
     /**
-     *
+     * This methods sets silk bag to silk bag from the level.
      * @param silkBag
      */
     public void setSilkBag(SilkBag silkBag) {
@@ -158,15 +160,15 @@ public class Level {
     }
 
     /**
-     *
-     * @return
+     * Returns all possible spawn points in the level.
+     * @return array of ints
      */
     public int[] getSpawnPoints() {
         return spawnPoints;
     }
 
     /**
-     *
+     * Creates an array of players in the level.
      * @param Players
      */
     public void setPlayerArray(Player[] Players) {
@@ -174,7 +176,7 @@ public class Level {
     }
 
     /**
-     *
+     * Sets the current game turn.
      * @param gameTurn
      */
     public void setGameTurn(int gameTurn) {
@@ -182,15 +184,15 @@ public class Level {
     }
 
     /**
-     *
-     * @return
+     * Gets temporary X.
+     * @return in of x
      */
     public int getTempX() {
         return tempX;
     }
 
     /**
-     *
+     * Sets temporary x.
      * @param tempX
      */
     public void setTempX(int tempX) {
@@ -198,15 +200,15 @@ public class Level {
     }
 
     /**
-     *
-     * @return
+     * Sets temporary y.
+     * @return tempy
      */
     public int getTempY() {
         return tempY;
     }
 
     /**
-     *
+     * Sets temporary y.
      * @param tempY
      */
     public void setTempY(int tempY) {
@@ -214,15 +216,15 @@ public class Level {
     }
 
     /**
-     *
-     * @return
+     * Gets temporary cardinal.
+     * @return carinal direction
      */
     public Board.Cardinals getTempCardinal() {
         return tempCardinal;
     }
 
     /**
-     *
+     * Sets temporary cardinal.
      * @param tempCardinal
      */
     public void setTempCardinal(Board.Cardinals tempCardinal) {
