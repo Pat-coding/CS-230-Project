@@ -7,7 +7,7 @@ import java.util.Collections;
  *This class sorts the leaderboards after a game to
  * make sure they are up to date.
  * wants them to be sorted
- * @author
+ * @author Ryan Humphreys
  * @version 1.0.0
  */
 
