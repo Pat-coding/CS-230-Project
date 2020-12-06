@@ -9,7 +9,7 @@ import frontend.controllers.MainMenuController;
 
 /**
  * this class creates the window for the program to run on and launches main menu
- * @author
+ * @author Tom
  * @version 1.0
  */
 

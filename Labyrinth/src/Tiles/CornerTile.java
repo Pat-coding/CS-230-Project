@@ -1,5 +1,10 @@
 package Tiles;
 
+/**
+ * Used to instantiate a Corner tile.
+ * @author Diana Suankulova
+ * @version 1.0.0
+ */
 public class CornerTile extends FloorTile {
     private boolean accessFromTop = true;
     private boolean accessFromBottom = true;
@@ -8,7 +13,13 @@ public class CornerTile extends FloorTile {
     private boolean isFixed;
     private int orientation;
     private String typeOfTile = "Corner";
-    private String image = "PATH";
+
+    /**
+     * A constructor which is intended to be used to create a Corner Tile
+     * @param orientation of tile
+     * @param state of tile
+     * @param isFixed true/false
+     */
 
     public CornerTile(int orientation, String state, Boolean isFixed) {
         super(orientation, state, isFixed);
@@ -94,6 +105,11 @@ public class CornerTile extends FloorTile {
     public String getState() {
         return state;
     }
+
+    /**
+     * Sets the orientation of a Tile.
+     * @param orientation desired orientation
+     */
 
     @Override
     public void setOrientation(int orientation) {

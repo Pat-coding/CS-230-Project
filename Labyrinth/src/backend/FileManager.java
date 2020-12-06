@@ -14,8 +14,17 @@ import java.util.*;
 public class FileManager {
     private final static int MAXIMUM_NUMBER_OF_PLAYERS = 4;
     private final static int COORDINATE_HISTORY = 3;
+    private final static int COORDINATE_HISTORY_XY = COORDINATE_HISTORY * 2;
+    private final static int INDEX_ZERO = 0;
+    private final static int INDEX_ONE = 1;
+    private final static int INDEX_TWO = 2;
+    private final static int INDEX_THREE = 3;
+    private final static int INDEX_FOUR = 4;
+    private final static int INDEX_FIVE = 5;
 
     private static int counter;
+
+
 
     /**
      * Creates a Level object for a pre-existing game.
@@ -41,25 +50,34 @@ public class FileManager {
 
             //  Changes the types of some Strings to more useful types.
             String[] profileName = stringToStringArray(stringProfileName);
-            int[] sizeOfBoard = stringToIntArray(stringSizeOfBoard);
-            int[] profileCord = stringToIntArray(stringProfileCord);
-            int[] profileCordHistory = stringToIntArray(stringProfileCordHistory);
-            int[] silkBagContent = stringToIntArray(stringSilkBagContent);
-            Boolean[] backTrackCheck = stringToBooleanArray(stringBackTrackCheck);
-            Boolean[] isPlayerTurn = stringToBooleanArray(stringIsPlayerTurn);
+            int[] sizeOfBoard =
+                    stringToIntArray(stringSizeOfBoard);
+            int[] profileCord =
+                    stringToIntArray(stringProfileCord);
+            int[] profileCordHistory =
+                    stringToIntArray(stringProfileCordHistory);
+            int[] silkBagContent =
+                    stringToIntArray(stringSilkBagContent);
+            Boolean[] backTrackCheck =
+                    stringToBooleanArray(stringBackTrackCheck);
+            Boolean[] isPlayerTurn =
+                    stringToBooleanArray(stringIsPlayerTurn);
 
             //  Reads in Profiles
             ArrayList<Profile> profiles;
             ArrayList<Profile> usedProfile = new ArrayList<>();
 
             //
-            int[] profileCordX = new int[profileName.length];
-            int[] profileCordY = new int[profileName.length];
+            int[] profileCordX =
+                    new int[profileName.length];
+            int[] profileCordY =
+                    new int[profileName.length];
             int[] profileCordHistoryArray =
                     new int[profileName.length * COORDINATE_HISTORY];
 
             //  Creates a Board Object
-            Board tempBoard = new Board(nameOfBoard, sizeOfBoard, profileName);
+            Board tempBoard =
+                    new Board(nameOfBoard, sizeOfBoard, profileName);
 
             String[] playerInventory = stringPlayerInventory.split("[;]");
 
@@ -70,10 +88,10 @@ public class FileManager {
 
             List<Tile>[] arrayOfList =
                     new List[MAXIMUM_NUMBER_OF_PLAYERS];
-            arrayOfList[0] = p0;
-            arrayOfList[1] = p1;
-            arrayOfList[2] = p2;
-            arrayOfList[3] = p3;
+            arrayOfList[INDEX_ZERO] = p0;
+            arrayOfList[INDEX_ONE] = p1;
+            arrayOfList[INDEX_TWO] = p2;
+            arrayOfList[INDEX_THREE] = p3;
 
 
             //  Populates Board with Tiles
@@ -81,17 +99,20 @@ public class FileManager {
                 //  Continues to read lines
                 String stringTile = in.next();
                 String[] sta = stringToStringArray(stringTile);
-                FloorTile tempTile = createTempTile(sta[2], Integer.parseInt(sta[3]),
-                        sta[4], Boolean.parseBoolean(sta[5]));
-                tempBoard.insertTile(stringToInt(sta[0]),
-                        stringToInt(sta[1]), tempTile);
+                FloorTile tempTile =
+                        createTempTile(sta[INDEX_TWO],
+                                Integer.parseInt(sta[INDEX_THREE]),
+                        sta[INDEX_FOUR], Boolean.parseBoolean(sta[INDEX_FIVE]));
+                tempBoard.insertTile(stringToInt(sta[INDEX_ZERO]),
+                        stringToInt(sta[INDEX_ONE]), tempTile);
             }
 
 
             //  Reads in profiles
             profiles = readProfileDataFile("Profiles.txt");
             for (Profile profile : profiles) {
-                if (Arrays.asList(profileName).contains(profile.getProfileName())) {
+                if (Arrays.asList(profileName)
+                        .contains(profile.getProfileName())) {
                     usedProfile.add(profile);
                 }
             }
@@ -111,14 +132,17 @@ public class FileManager {
 
             //  Creates Player Objects
             counter = 0;
-            ArrayList<Tile> playerInventoryArrayListTemp = new ArrayList<>();
-            Player[] players = new Player[profileName.length];
+            ArrayList<Tile>
+                    playerInventoryArrayListTemp = new ArrayList<>();
+            Player[] players =
+                    new Player[profileName.length];
 
-            for (int i = 0; i < profileName.length; i++, counter = counter + 6) {
+            for (int i = 0; i < profileName.length; i++, counter = counter
+                    + COORDINATE_HISTORY_XY) {
 
                 String[] playerInventoryTemp = playerInventory[i].split(",");
                 //  Takes the first 6 numbers in the array
-                for (int j = 0; j < 6; j++) {
+                for (int j = 0; j < COORDINATE_HISTORY_XY; j++) {
                     profileCordHistoryArray[j] = profileCordHistory[j + counter];
                 }
 
@@ -163,9 +187,12 @@ public class FileManager {
             int numOfFixedTiles = in.nextInt();
 
 
-            int[] sizeOfBoard = stringToIntArray(stringSizeOfBoard);
-            int[] spawnPoints = stringToIntArray(stringSpawnPoints);
-            int[] silkBagContent = stringToIntArray(stringSilkBagContent);
+            int[] sizeOfBoard =
+                    stringToIntArray(stringSizeOfBoard);
+            int[] spawnPoints =
+                    stringToIntArray(stringSpawnPoints);
+            int[] silkBagContent =
+                    stringToIntArray(stringSilkBagContent);
 
             //  details of fixed tiles
             Board tempBoard = new Board(nameOfBoard, sizeOfBoard);
@@ -174,8 +201,9 @@ public class FileManager {
                 String stringTile = in.next();
                 String[] sta = stringToStringArray(stringTile);
 
-                FloorTile fixedTile = createTempTile(sta[2],
-                        stringToInt(sta[3]), sta[4], true);
+                FloorTile fixedTile = createTempTile(sta[INDEX_TWO],
+                        stringToInt(sta[INDEX_THREE]),
+                        sta[INDEX_FOUR], true);
 
                 tempBoard.insertTile(stringToInt(sta[0]),
                         stringToInt(sta[1]), fixedTile);
@@ -204,8 +232,10 @@ public class FileManager {
         String stringProfileWinCount = in.next();
         String stringProfileLossCount = in.next();
 
-        int profileWinCount = stringToInt(stringProfileWinCount);
-        int profileLossCount = stringToInt(stringProfileLossCount);
+        int profileWinCount =
+                stringToInt(stringProfileWinCount);
+        int profileLossCount =
+                stringToInt(stringProfileLossCount);
 
         return new Profile(profileName, profileWinCount, profileLossCount);
     }
@@ -218,7 +248,8 @@ public class FileManager {
     public static void createNewSaveFile(ArrayList<Level> levelArray) {
 
         //  Clear the file.
-        try (PrintWriter dumpFile = new PrintWriter("SavedLevel.txt")) {
+        try (PrintWriter dumpFile =
+                     new PrintWriter("SavedLevel.txt")) {
             dumpFile.print("");
         } catch (FileNotFoundException e) {
             System.out.println(e);
@@ -386,7 +417,8 @@ public class FileManager {
      */
     public static void createNewProfile(ArrayList<Profile> profileArray) {
         //  Clear the file
-        try (PrintWriter dumpFile = new PrintWriter("Profiles.txt")) {
+        try (PrintWriter dumpFile =
+                     new PrintWriter("Profiles.txt")) {
             dumpFile.print("");
         } catch (FileNotFoundException e) {
             System.out.println(e);

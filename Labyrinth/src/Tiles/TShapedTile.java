@@ -1,5 +1,10 @@
 package Tiles;
 
+/**
+ * Used to instantiate a TShaped tile.
+ * @author Diana Suankulova
+ * @version 1.0.0
+ */
 public class TShapedTile extends FloorTile {
 
     private boolean accessFromTop = true;
@@ -12,6 +17,13 @@ public class TShapedTile extends FloorTile {
     private boolean isFixed;
     private String state;
 
+    /**
+     * A constructor which is intended to be used to create a TShaped Tile.
+     *
+     * @param orientation of tile
+     * @param state of tile
+     * @param isFixed true/false
+     */
 
     public TShapedTile(int orientation, String state, Boolean isFixed) {
         super(orientation, state, isFixed);
@@ -95,7 +107,10 @@ public class TShapedTile extends FloorTile {
         return state;
     }
 
-
+    /**
+     * Sets the orientation of a Tile.
+     * @param orientation desired orientation
+     */
     @Override
     public void setOrientation(int orientation) {
         this.orientation = orientation;
