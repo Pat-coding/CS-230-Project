@@ -129,30 +129,29 @@ public class SilkBag {
      * @param type
      */
     public void insertTileToBag(Tile type) {
-
         switch (type.getType()) {
-            case "StraightTile":
+            case "Straight":
                 this.silkBagContent[0]++;
                 break;
-            case "CornerTile":
+            case "Corner":
                 this.silkBagContent[1]++;
                 break;
-            case "TShapedTile":
+            case "TShaped":
                 this.silkBagContent[2]++;
                 break;
-            case "GoalTile":
+            case "Goal":
                 this.silkBagContent[3]++;
                 break;
-            case "IceTile":
+            case "Ice":
                 this.silkBagContent[4]++;
                 break;
-            case "BacktrackTile":
+            case "Backtrack":
                 this.silkBagContent[5]++;
                 break;
-            case "DoubleMoveTile":
+            case "DoubleMove":
                 this.silkBagContent[6]++;
                 break;
-            case "FireTile":
+            case "Fire":
                 this.silkBagContent[7]++;
         }
     }

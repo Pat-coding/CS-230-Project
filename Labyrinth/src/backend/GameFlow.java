@@ -1,4 +1,5 @@
 package backend;
+import Tiles.FloorTile;
 import javafx.scene.control.Alert;
 import java.util.ArrayList;
 
@@ -258,9 +259,10 @@ public class GameFlow {
         if (level.getTempCardinal() != null && level.getTempX() != -1
                 && level.getTempY() != -1 && player[this.playerIndex].getTileHand() != null) {
 
-            board.placeOnNewTile(level.getTempCardinal(), level.getTempX(), level.getTempY(),
+            FloorTile tile = board.placeOnNewTile(level.getTempCardinal(), level.getTempX(), level.getTempY(),
                     player[this.playerIndex].getTileHand());
-
+            System.out.println(tile.getType());
+            level.getSilkBag().insertTileToBag(tile);
             System.out.println("Player " + this.playerIndex + " has slotted a tile in the board!");
             level.setTempCardinal(null);
             level.setTempX(-1);
@@ -279,7 +281,8 @@ public class GameFlow {
             endGame();
             winnerAlert();
         }
-
+        System.out.println(board.getTileFromBoard(player[playerIndex].getPlayerCordX(),
+                (player[playerIndex].getPlayerCordY())).getType());
         if (board.getTileFromBoard(player[playerIndex].getPlayerCordX(),
                 (player[playerIndex].getPlayerCordY())).getType().equals("Goal")) {
             declareWinner(this.playerIndex);
